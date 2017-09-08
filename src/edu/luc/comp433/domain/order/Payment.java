@@ -1,4 +1,4 @@
-package edu.luc.comp433.domain;
+package edu.luc.comp433.domain.order;
 
 public class Payment {
 
