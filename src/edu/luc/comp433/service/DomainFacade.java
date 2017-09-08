@@ -1,5 +1,5 @@
 package edu.luc.comp433.service;
 
-public interface API {
+public interface DomainFacade {
 
 }
