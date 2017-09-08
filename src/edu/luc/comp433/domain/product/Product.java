@@ -44,7 +44,7 @@ public class Product {
 	return id;
     }
     
-    public void setCompnay(double company) {
+    public void setCompany(double company) {
 	this.company = company;
     }
     
