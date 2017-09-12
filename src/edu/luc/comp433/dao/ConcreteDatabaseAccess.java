@@ -8,7 +8,10 @@ import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
-
+	
+	public ConcreteDatabaseAccess(){
+		
+	}
 	@Override
 	public boolean insertOrder() {
 		// TODO Auto-generated method stub
