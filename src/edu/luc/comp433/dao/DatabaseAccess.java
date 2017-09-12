@@ -1,5 +1,6 @@
 package edu.luc.comp433.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
@@ -21,10 +22,11 @@ public interface DatabaseAccess {
   
     /**
      * Partner Related Methods
+     * @throws SQLException 
      */
-    public boolean insertPartner(PartnerProfile profile);
+    public boolean insertPartner(PartnerProfile profile) throws SQLException;
     public boolean updatePartner(PartnerProfile profile);
-    public boolean deletePartner(PartnerProfile profile);
+    public boolean deletePartner(PartnerProfile profile) throws SQLException;
     public PartnerProfile getPartnerProfile(double id);
     
     /**
