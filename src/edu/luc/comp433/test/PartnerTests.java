@@ -42,4 +42,10 @@ public class PartnerTests {
   public void testPartnerCreation() {
     assertTrue(manager.register("TestPartner"));
   }
+  
+  //TODO will always fail until method implemented
+  @Test
+  public void testPartnerDeletion() {
+    assertTrue(manager.delete(0));
+  }
 }
