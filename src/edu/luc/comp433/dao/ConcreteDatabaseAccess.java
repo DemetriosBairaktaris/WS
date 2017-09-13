@@ -2,12 +2,14 @@ package edu.luc.comp433.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
+import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.Product;
 
@@ -19,6 +21,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	private final String PASS = "root";
 	private Connection db ;
 	private Statement stmt ; 
+	
 	public ConcreteDatabaseAccess() throws SQLException{
 		db = DriverManager.getConnection(DB_URL,USER,PASS);
 		stmt = db.createStatement();
@@ -58,9 +61,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		String partnerName = profile.getName();
 		String sql = "INSERT INTO PARTNERS (PARTNER_NAME) VALUES ( " +
 				this.wrapSingleQuotes(partnerName) + " );"; 
-		System.out.println(sql);
 		int success = stmt.executeUpdate(sql);
-		System.out.println(success);
 		if (success == 0) {
 			System.out.println("Couln't insert row into Partners");
 			return false ; 
@@ -71,9 +72,19 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 
 	@Override
-	public boolean updatePartner(PartnerProfile profile) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updatePartner(PartnerProfile profile) throws SQLException {
+		String partnerName = profile.getName() ; 
+		int partnerId = (int) profile.getId() ; 
+		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
+				this.wrapSingleQuotes(partnerName) + " WHERE "+
+				"PARTNER_ID = " + partnerId ;
+		int success = stmt.executeUpdate(sql) ;
+		if(success == 0) {
+			return false ; 
+		}
+		else {
+			return true ; 
+		}
 	}
 
 	@Override
@@ -84,7 +95,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		String sql = "DELETE FROM PARTNERS WHERE PARTNER_ID = " + 
 				 partnerId + " OR " +
 				"PARTNER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
-		System.out.println(sql);
 		int success = stmt.executeUpdate(sql);
 		if(success == 0) {
 			System.out.println("Unable to delete partner");
@@ -94,9 +104,39 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 
 	@Override
-	public PartnerProfile getPartnerProfile(double id) {
-		// TODO Auto-generated method stub
-		return null;
+	public PartnerProfile getPartnerProfile(double id) throws Exception,SQLException {
+		int partnerId = (int) id ; 
+		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_ID = " 
+				+ id + " ; " ; 
+		
+		ResultSet rs = stmt.executeQuery(sql);
+		if(!rs.next()) {
+			throw new Exception("Partner does not exist") ;  
+		}
+		else{
+			PartnerProfile p = new ConcretePartnerProfile() ; 
+			p.setId(rs.getInt(1)) ; 
+			p.setName(rs.getString(2));
+			return p ; 
+		}
+	}
+	
+	@Override
+	public PartnerProfile getPartnerProfile(String name) throws Exception,SQLException {
+		String partnerName = name ; 
+		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_NAME = " 
+				+ this.wrapSingleQuotes(name) + " ; " ; 
+		
+		ResultSet rs = stmt.executeQuery(sql);
+		if(!rs.next()) {
+			throw new Exception("Partner does not exist") ;  
+		}
+		else{
+			PartnerProfile p = new ConcretePartnerProfile() ; 
+			p.setId(rs.getInt(1)) ; 
+			p.setName(rs.getString(2));
+			return p ; 
+		}
 	}
 
 	@Override

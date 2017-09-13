@@ -25,15 +25,17 @@ public interface DatabaseAccess {
      * @throws SQLException 
      */
     public boolean insertPartner(PartnerProfile profile) throws SQLException;
-    public boolean updatePartner(PartnerProfile profile);
+    public boolean updatePartner(PartnerProfile profile) throws SQLException;
     public boolean deletePartner(PartnerProfile profile) throws SQLException;
-    public PartnerProfile getPartnerProfile(double id);
+    public PartnerProfile getPartnerProfile(double id) throws SQLException, Exception;
+    public PartnerProfile getPartnerProfile(String name) throws Exception, SQLException;
     
     /**
      * Product Related Methods
      */
     public boolean insertProduct(Product product);
     public boolean updateProduct(Product product);
+	
     
 	
 }

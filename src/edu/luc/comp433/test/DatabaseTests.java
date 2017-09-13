@@ -16,7 +16,7 @@ import java.sql.* ;
 
 public class DatabaseTests {
 	
-	private final String JDBC_DRIVER = "";  
+	//private final String JDBC_DRIVER = "";  
 	private final String DB_URL = "jdbc:postgresql:COMP433";
 
 	   //  Database credentials
@@ -25,7 +25,6 @@ public class DatabaseTests {
 	private Connection db ;
 	private Statement stmt ; 
 	private DatabaseAccess dal ; 
-	private PartnerProfile partner ;
 	private String partnerName1 ;
 	private String partnerName2 ; 
 	
@@ -56,42 +55,51 @@ public class DatabaseTests {
     }
     
     @Test
-    public void testAddPartner() throws SQLException {
-    		partner = new ConcretePartnerProfile();
+    public void testInsertPartner() throws SQLException {
+    		PartnerProfile partner = new ConcretePartnerProfile();
     		partner.setName(partnerName1);
     		stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
     }
-
-    @Test
-    public void testUpdatePartner() throws SQLException{
-    		partner = new ConcretePartnerProfile();
-    		stmt = db.createStatement();
-    		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerName1 + "'";
-    		ResultSet rs = stmt.executeQuery(sql);
-    		
-    		if(rs.next()) {
-    			int id = rs.getInt(1);
-	    		partner.setId(id);
-	    		partner.setName(partnerName2);
-	    		assertTrue(dal.updatePartner(partner));
-    		}
-    		else {
-    			assertTrue(false);
-    		}
-    }
     
     @Test
-    public void testGetPartner() throws SQLException {
-    		partner = new ConcretePartnerProfile();
+    public void testGetPartnerById() throws Exception,SQLException {
+    		String partnerNameNew = "Newbie Co." ; 
+    		PartnerProfile partner = new ConcretePartnerProfile();
+    		partner.setName(partnerNameNew) ; 
 		stmt = db.createStatement();
-		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerName1 +
-				"' or PARTNER_NAME = '"+partnerName2+"'";
+	    String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "';";
+		
+	    dal.insertPartner(partner);
+		
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()) { 
 			int id = rs.getInt(1);
 			partner = dal.getPartnerProfile(id);
-			assertTrue((partner.getName() == partnerName1 || partner.getName() == partnerName2));
+			dal.deletePartner(partner);
+			assertTrue((partner.getName().equals(partnerNameNew)));
+		}
+		else {
+			assertTrue(false);
+		}
+    }
+    
+    @Test
+    public void testGetPartnerByName() throws Exception,SQLException {
+    		String partnerNameNew = "Newbie Co." ; 
+    		PartnerProfile partner = new ConcretePartnerProfile();
+    		partner.setName(partnerNameNew) ; 
+		stmt = db.createStatement();
+	    String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "';";
+		
+	    dal.insertPartner(partner);
+		
+		ResultSet rs = stmt.executeQuery(sql);
+		if(rs.next()) { 
+			int id = rs.getInt(1);
+			partner = dal.getPartnerProfile(partnerNameNew);
+			dal.deletePartner(partner);
+			assertTrue((partner.getName().equals(partnerNameNew)));
 		}
 		else {
 			assertTrue(false);
@@ -99,8 +107,34 @@ public class DatabaseTests {
     }
 
     @Test
+    public void testUpdatePartner() throws SQLException{
+    		String partnerNameNew = "Newbie Co." ; 
+		PartnerProfile partner = new ConcretePartnerProfile();
+		partner.setName(partnerNameNew) ; 
+		stmt = db.createStatement();	
+		dal.insertPartner(partner);
+		
+    		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "'";
+    		
+    		ResultSet rs = stmt.executeQuery(sql);
+    		
+    		if(rs.next()) {
+    			int id = rs.getInt(1);
+	    		partner.setId(id);
+	    		partner.setName(partnerNameNew + " Update");
+	    		assertTrue(dal.updatePartner(partner));
+	    		dal.deletePartner(partner) ; 
+    		}
+    		else {
+    			assertTrue(false);
+    		}
+    }
+    
+
+
+    @Test
     public void testDeletePartner() throws SQLException{
-    		partner = new ConcretePartnerProfile();
+    		PartnerProfile partner = new ConcretePartnerProfile();
 		stmt = db.createStatement();
 		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerName1 +
 				"' or PARTNER_NAME = '"+partnerName2+"'";
