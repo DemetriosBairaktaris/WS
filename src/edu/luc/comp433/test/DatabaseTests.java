@@ -55,11 +55,13 @@ public class DatabaseTests {
     }
     
     @Test
-    public void testInsertPartner() throws SQLException {
+    public void testInsertPartner() throws Exception,SQLException {
     		PartnerProfile partner = new ConcretePartnerProfile();
     		partner.setName(partnerName1);
+    		int defaultId = (int) partner.getId() ;
     		stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
+    		assertFalse(defaultId == partner.getId());
     }
     
     @Test
@@ -107,7 +109,7 @@ public class DatabaseTests {
     }
 
     @Test
-    public void testUpdatePartner() throws SQLException{
+    public void testUpdatePartner() throws Exception,SQLException{
     		String partnerNameNew = "Newbie Co." ; 
 		PartnerProfile partner = new ConcretePartnerProfile();
 		partner.setName(partnerNameNew) ; 

@@ -57,7 +57,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 
 	@Override
-	public boolean insertPartner(PartnerProfile profile) throws SQLException {
+	public boolean insertPartner(PartnerProfile profile) throws Exception,SQLException {
 		String partnerName = profile.getName();
 		String sql = "INSERT INTO PARTNERS (PARTNER_NAME) VALUES ( " +
 				this.wrapSingleQuotes(partnerName) + " );"; 
@@ -67,6 +67,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ; 
 		}
 		else {
+			profile.setId(this.getPartnerProfile(profile.getName()).getId());
 			return true ; 
 		}
 	}
@@ -100,7 +101,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			System.out.println("Unable to delete partner");
 			return false ; 
 		}
-		return true ; 
+		return true ;  
 	}
 
 	@Override

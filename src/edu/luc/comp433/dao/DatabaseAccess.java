@@ -23,8 +23,9 @@ public interface DatabaseAccess {
     /**
      * Partner Related Methods
      * @throws SQLException 
+     * @throws Exception 
      */
-    public boolean insertPartner(PartnerProfile profile) throws SQLException;
+    public boolean insertPartner(PartnerProfile profile) throws SQLException, Exception;
     public boolean updatePartner(PartnerProfile profile) throws SQLException;
     public boolean deletePartner(PartnerProfile profile) throws SQLException;
     public PartnerProfile getPartnerProfile(double id) throws SQLException, Exception;
