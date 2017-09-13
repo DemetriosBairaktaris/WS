@@ -4,14 +4,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="..." class="...">
-        <!-- collaborators and configuration for this bean go here -->
-    </bean>
+    <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype"></bean>
 
-    <bean id="..." class="...">
-        <!-- collaborators and configuration for this bean go here -->
-    </bean>
-
-    <!-- more bean definitions go here -->
+    <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype"></bean>
 
 </beans>
