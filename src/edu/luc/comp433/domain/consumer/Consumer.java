@@ -1,5 +1,7 @@
 package edu.luc.comp433.domain.consumer;
 
+import java.util.List;
+
 public interface Consumer {
   public void setID(int id);
   public int getID();
@@ -7,8 +9,10 @@ public interface Consumer {
   public String getFirstName();
   public void setLastName(String lastName);
   public String getLastName();
-  public void setAddress(Address address);
-  public Address getAddress(String type);
-  public void setPhone(Phone phone);
-  public Phone getPhone(String type);
+  public void setAddresses(List<Address> addresses);
+  public List<Address> getAddresses();
+  public void setPhones(List<Phone> phones);
+  public List<Phone> getPhones();
+  public void setPayments(List<Payment> payments);
+  public List<Payment> getPayments();
 }

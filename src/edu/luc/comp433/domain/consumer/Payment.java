@@ -1,4 +1,4 @@
-package edu.luc.comp433.domain.order;
+package edu.luc.comp433.domain.consumer;
 
 public interface Payment {
     public void setCardNumber(String cardNumber);

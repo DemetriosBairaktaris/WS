@@ -13,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.domain.partner.PartnerManager;
 
-public class PartnerTests {
+public class TestPartnerDomain {
 
   private static ApplicationContext context;
   private PartnerManager manager;

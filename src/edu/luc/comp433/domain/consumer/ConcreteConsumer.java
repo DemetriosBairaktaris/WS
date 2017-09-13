@@ -1,65 +1,76 @@
 package edu.luc.comp433.domain.consumer;
 
+import java.util.List;
+
 public class ConcreteConsumer implements Consumer {
 
+  private int id;
+  private String firstName;
+  private String lastName;
+  private List<Address> addresses;
+  private List<Phone> phones;
+  private List<Payment> payments;
+  
+  
+  public ConcreteConsumer() {};
+  
   @Override
   public void setID(int id) {
-    // TODO Auto-generated method stub
-    
+    this.id = id;
   }
 
   @Override
   public int getID() {
-    // TODO Auto-generated method stub
-    return 0;
+    return id;
   }
 
   @Override
   public void setFirstName(String firstName) {
-    // TODO Auto-generated method stub
-    
+    this.firstName = firstName;
   }
 
   @Override
   public String getFirstName() {
-    // TODO Auto-generated method stub
-    return null;
+    return firstName;
   }
 
   @Override
   public void setLastName(String lastName) {
-    // TODO Auto-generated method stub
-    
+    this.lastName = lastName;
   }
 
   @Override
   public String getLastName() {
-    // TODO Auto-generated method stub
-    return null;
+    return lastName;
   }
 
   @Override
-  public void setAddress(Address address) {
-    // TODO Auto-generated method stub
-    
+  public void setAddresses(List<Address> addresses) {
+    this.addresses = addresses;
   }
 
   @Override
-  public Address getAddress(String type) {
-    // TODO Auto-generated method stub
-    return null;
+  public List<Address> getAddresses() {
+    return addresses;
   }
 
   @Override
-  public void setPhone(Phone phone) {
-    // TODO Auto-generated method stub
-    
+  public void setPhones(List<Phone> phones) {
+    this.phones = phones;
   }
 
   @Override
-  public Phone getPhone(String type) {
-    // TODO Auto-generated method stub
-    return null;
+  public List<Phone> getPhones() {
+    return phones;
   }
 
+  @Override
+  public void setPayments(List<Payment> payments) {
+    this.payments = payments;
+  }
+
+  @Override
+  public List<Payment> getPayments() {
+    return payments;
+  }
 }

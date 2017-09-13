@@ -1,4 +1,4 @@
-package edu.luc.comp433.domain.order;
+package edu.luc.comp433.domain.consumer;
 
 public class ConcretePayment implements Payment {
 
