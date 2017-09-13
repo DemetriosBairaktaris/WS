@@ -4,8 +4,31 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!-- partner manager class -->
     <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype"></bean>
 
+    <!-- partner class -->
     <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype"></bean>
+    
+    <!-- database access object class TODO needs to be instantiated properly
+    <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" scope="singleton"></bean> -->
+
+    <!-- order manager class -->
+    <bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager" scope="prototype"></bean>
+
+    <!-- order class -->
+    <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype"></bean>
+
+    <!-- order detail class -->
+    <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype"></bean>
+
+    <!-- product manager class -->
+    <bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager" scope="prototype"></bean>
+    
+    <!-- product class -->
+    <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype"></bean>
+    
+    <!-- domain facade class -->
+    <bean id="domain" class="edu.luc.comp433.service.ConcreteDomainFacade" scope="singleton"></bean>
 
 </beans>
