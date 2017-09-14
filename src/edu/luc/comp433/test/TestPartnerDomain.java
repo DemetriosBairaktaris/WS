@@ -39,13 +39,12 @@ public class TestPartnerDomain {
   }
   
   @Test
-  public void testPartnerCreation() {
+  public void testPartnerActions() { 
     assertTrue(manager.register("TestPartner"));
   }
   
-  //TODO will always fail until method implemented
   @Test
   public void testPartnerDeletion() {
-    assertTrue(manager.delete(0));
+    assertTrue(manager.delete("TestPartner"));
   }
 }

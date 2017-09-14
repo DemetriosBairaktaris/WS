@@ -110,7 +110,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	@Override
 	public PartnerProfile getPartnerProfile(double id) throws Exception,SQLException {
-		int partnerId = (int) id ; 
+		//int partnerId = (int) id ; 
 		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_ID = " 
 				+ id + " ; " ; 
 		
@@ -128,7 +128,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	
 	@Override
 	public PartnerProfile getPartnerProfile(String name) throws Exception,SQLException {
-		String partnerName = name ; 
+		//String partnerName = name ; 
 		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_NAME = " 
 				+ this.wrapSingleQuotes(name) + " ; " ; 
 		
