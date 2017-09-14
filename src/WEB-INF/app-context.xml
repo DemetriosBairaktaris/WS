@@ -5,13 +5,15 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- partner manager class -->
-    <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype"></bean>
+    <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype">
+        <property name="database" ref="dao" />
+    </bean>
 
     <!-- partner class -->
     <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype"></bean>
     
-    <!-- database access object class TODO needs to be instantiated properly -->
-    <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" scope="singleton"></bean>
+    <!-- database access object class -->
+    <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" ></bean>
 
     <!-- order manager class -->
     <bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager" scope="prototype"></bean>
