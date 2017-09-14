@@ -29,18 +29,10 @@ public class ConcretePartnerManager implements PartnerManager {
       profile.setId(0);
       profile.setName(name);
       try {
-        database.insertPartner(profile);
-        System.out.println(database.getPartnerProfile(name).getName());
-        System.out.println(name);
-        if (database.getPartnerProfile(name).getName() == profile.getName()) {
-          System.out.println("MATCHES");
-        }
-        
-        if (database.getPartnerProfile(name).getName() == name) {
-          return true;
+        if((database.insertPartner(profile)) && (profile.getId() > 0)) {
+        		return true ; 
         }
         else {
-          System.out.println("FAILED");
           return false;
         }
       } catch (SQLException e) {
@@ -58,8 +50,8 @@ public class ConcretePartnerManager implements PartnerManager {
       //TODO use ID to call table deletion method in DAO here
       try {
         PartnerProfile profile = database.getPartnerProfile(name);
-        database.deletePartner(profile);
-        if (database.getPartnerProfile(name) == null) {
+       
+        if (database.deletePartner(profile)) {
           return true;
         }
         else {
