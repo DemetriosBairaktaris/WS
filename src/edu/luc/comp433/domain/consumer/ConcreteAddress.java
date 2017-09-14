@@ -2,28 +2,29 @@ package edu.luc.comp433.domain.consumer;
 
 public class ConcreteAddress implements Address {
 
+  private String type;
+  private String address;
+  
+  public ConcreteAddress() {}
+  
   @Override
-  public void setAddressType() {
-    // TODO Auto-generated method stub
-    
+  public void setAddressType(String type) {
+    this.type = type;
   }
 
   @Override
-  public void setAddress() {
-    // TODO Auto-generated method stub
-    
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   @Override
   public String getAddressType() {
-    // TODO Auto-generated method stub
-    return null;
+    return type;
   }
 
   @Override
   public String getAddress() {
-    // TODO Auto-generated method stub
-    return null;
+    return address;
   }
 
 }

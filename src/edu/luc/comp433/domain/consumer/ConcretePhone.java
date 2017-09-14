@@ -2,28 +2,28 @@ package edu.luc.comp433.domain.consumer;
 
 public class ConcretePhone implements Phone {
 
+  private String number;
+  private String type;
+  
+  public ConcretePhone() {}
+  
   @Override
   public void setNumber(String number) {
-    // TODO Auto-generated method stub
-    
+    this.number = number;
   }
 
   @Override
   public void setType(String type) {
-    // TODO Auto-generated method stub
-    
+    this.type = type;
   }
 
   @Override
   public String getNumber() {
-    // TODO Auto-generated method stub
-    return null;
+    return number;
   }
 
   @Override
   public String getType() {
-    // TODO Auto-generated method stub
-    return null;
+    return type;
   }
-
 }

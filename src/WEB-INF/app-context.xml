@@ -32,13 +32,10 @@
     <bean id="domain" class="edu.luc.comp433.service.ConcreteDomainFacade" scope="singleton"></bean>
 
     <!-- consumer manager class -->
-    <bean id="consumerDomain" class="edu.luc.comp433.domain.consumer.ConcreteConsumerManager" scope="prototype"></bean>
+    <bean id="consumerManager" class="edu.luc.comp433.domain.consumer.ConcreteConsumerManager" scope="prototype"></bean>
     
     <!-- consumer class -->
-    <bean id="consumer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype">
-        <property name="addresses" ref="java.util.List"></property>
-        <property name="phones" ref="java.util.List"></property>
-    </bean>
+    <bean id="consumer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
     
     <!-- address class -->
     <bean id="address" class="edu.luc.comp433.domain.consumer.ConcreteAddress" scope="prototype"></bean>

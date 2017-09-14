@@ -7,6 +7,4 @@ public interface Payment {
     public String getCardName();
     public void setCVV(double CVV);
     public double getCVV();
-    public void setBillingAddress(String billingAddress);
-    public String getBillingAddress();
 }
