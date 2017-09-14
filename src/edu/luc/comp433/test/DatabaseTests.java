@@ -2,7 +2,6 @@ package edu.luc.comp433.test;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.luc.comp433.dao.ConcreteDatabaseAccess;
@@ -103,7 +102,7 @@ public class DatabaseTests {
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()) { 
-			int id = rs.getInt(1);
+			//int id = rs.getInt(1);
 			partner = dal.getPartnerProfile(partnerNameNew);
 			dal.deletePartner(partner);
 			assertTrue((partner.getName().equals(partnerNameNew)));
