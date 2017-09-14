@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class OrderTests {
+public class TestOrderDomain {
 
     @Test
     public void test() {
