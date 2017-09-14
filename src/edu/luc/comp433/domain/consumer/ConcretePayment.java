@@ -1,11 +1,10 @@
-package edu.luc.comp433.domain.order;
+package edu.luc.comp433.domain.consumer;
 
 public class ConcretePayment implements Payment {
 
     private String cardNumber;
     private String cardName;
     private double CVV;
-    private String billingAddress;
     
     public ConcretePayment() {}
     
@@ -37,15 +36,5 @@ public class ConcretePayment implements Payment {
     @Override
     public double getCVV() {
 	return CVV;
-    }
-    
-    @Override
-    public void setBillingAddress(String billingAddress) {
-	this.billingAddress = billingAddress;
-    }
-    
-    @Override
-    public String getBillingAddress() {
-	return billingAddress;
     }
 }

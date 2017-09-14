@@ -1,5 +1,5 @@
 package edu.luc.comp433.test;
 
-public class TestCompany {
+public class TestCompanyDomain {
 
 }

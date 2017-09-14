@@ -1,4 +1,4 @@
-package edu.luc.comp433.domain.order;
+package edu.luc.comp433.domain.consumer;
 
 public interface Payment {
     public void setCardNumber(String cardNumber);
@@ -7,6 +7,4 @@ public interface Payment {
     public String getCardName();
     public void setCVV(double CVV);
     public double getCVV();
-    public void setBillingAddress(String billingAddress);
-    public String getBillingAddress();
 }
