@@ -15,14 +15,18 @@ import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
 	//private final String JDBC_DRIVER = "";  
-	private final String DB_URL = "jdbc:postgresql:COMP433";
+	private String DB_URL = "jdbc:postgresql:COMP433";
 	//  Database credentials
-	private final String USER = "postgres";
-	private final String PASS = "root";
+	private String USER = "postgres";
+	private String PASS = "root";
 	private Connection db ;
 	private Statement stmt ; 
 	
 	public ConcreteDatabaseAccess() throws SQLException{
+		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"+
+				"?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory" ;
+		USER = "evtgoojkjfryzn" ;
+		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 		db = DriverManager.getConnection(DB_URL,USER,PASS);
 		stmt = db.createStatement();
 	}
