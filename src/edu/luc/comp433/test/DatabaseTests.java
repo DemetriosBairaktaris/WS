@@ -37,8 +37,8 @@ public class DatabaseTests {
 		db = DriverManager.getConnection(DB_URL, USER, PASS);
 	    stmt = db.createStatement();
 	    dal = new ConcreteDatabaseAccess();
-	    partnerName1 = "Johnson and Sons" ; 
-	    partnerName2 = "Johnson and Daughters and Sons";
+	    partnerName1 = "JSHARP@GMAIL.COM" ; 
+	    partnerName2 = "JSHARP7@GMAIL.COM";
 	}
 	
 	@After
@@ -61,27 +61,30 @@ public class DatabaseTests {
     @Test
     public void testInsertPartner() throws Exception,SQLException {
     		PartnerProfile partner = new ConcretePartnerProfile();
-    		partner.setName(partnerName1);
-    		stmt = db.createStatement();
+    		partner.setUserName(partnerName1);
+    		partner.setName("Johnson and sons");
+    		partner.setAddress("1232 Lolly Way");
+    		partner.setPhone("219-292-1111");
+    		//stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
     }
 
     @Test
     public void testGetPartnerByName() throws Exception,SQLException {
-    		String partnerNameNew = "Newbie Co." ; 
+    		String partnerUserName = "Newbie@Gmail.com"; 
+    		String partnerName = "Newbie Co"; 
     		PartnerProfile partner = new ConcretePartnerProfile();
-    		partner.setName(partnerNameNew) ; 
+    		partner.setName(partnerName); 
+    		partner.setUserName(partnerUserName);
+    		partner.setAddress("kjadsf");
+    		partner.setPhone("lldkfjal"); 
 		stmt = db.createStatement();
-	    String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "';";
-		
 	    dal.insertPartner(partner);
-		
-		ResultSet rs = stmt.executeQuery(sql);
-		if(rs.next()) { 
-			//int id = rs.getInt(1);
-			partner = dal.getPartnerProfile(partnerNameNew);
+	    //String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '"  + partnerUserName + "';";
+		//ResultSet rs = stmt.executeQuery(sql);
+	    if(dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
 			dal.deletePartner(partner);
-			assertTrue((partner.getName().equals(partnerNameNew)));
+			assertTrue((partner.getUserName().equals(partnerUserName)));
 		}
 		else {
 			assertTrue(false);
@@ -90,24 +93,29 @@ public class DatabaseTests {
 
     @Test
     public void testUpdatePartner() throws Exception,SQLException{
-    		String partnerNameNew = "Newbie Co." ; 
+    		String partnerUserName = "Newbie@gmail.com" ;
+    		String partnerName = "Newbie Co" ; 
+    		String address = "funky brats" ;
+    		String phone = "219-222-2222"; 
+    		String newPhone = "219-333-3333" ; 
 		PartnerProfile partner = new ConcretePartnerProfile();
-		partner.setName(partnerNameNew) ; 
+		
+		partner.setName(partnerName) ; 
+		partner.setUserName(partnerUserName);
+		partner.setAddress(address);
+		partner.setPhone(phone);
+		
 		stmt = db.createStatement();	
 		dal.insertPartner(partner);
 		
-    		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "'";
+    		String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '"  + partnerUserName +
+    				" ; '";
     		
-    		ResultSet rs = stmt.executeQuery(sql);
+    		//ResultSet rs = stmt.executeQuery(sql);
+    		partner.setPhone(newPhone);
+	    	assertTrue(dal.updatePartner(partner));
+	    	dal.deletePartner(partner) ; 
     		
-    		if(rs.next()) {
-	    		partner.setName(partnerNameNew + " Update");
-	    		assertTrue(dal.updatePartner(partner));
-	    		dal.deletePartner(partner) ; 
-    		}
-    		else {
-    			assertTrue(false);
-    		}
     }
     
 
@@ -116,10 +124,12 @@ public class DatabaseTests {
     public void testDeletePartner() throws SQLException{
     		PartnerProfile partner = new ConcretePartnerProfile();
 		stmt = db.createStatement();
-		String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerName1 +
-				"' or PARTNER_NAME = '"+partnerName2+"'";
+		String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '"  + partnerName1 +
+				"' or PARTNER_USER_NAME = '"+partnerName2+"'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()) {
+			String partnerUserName = rs.getString(1);
+			partner.setUserName(partnerUserName);
 			assertTrue(dal.deletePartner(partner));
 		}
 		else {

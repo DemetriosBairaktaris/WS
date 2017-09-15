@@ -63,9 +63,12 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	//TODO add more table values to SQL code
 	@Override
 	public boolean insertPartner(PartnerProfile profile) throws Exception,SQLException {
-		String partnerName = profile.getUserName();
-		String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME) VALUES ( " +
-				this.wrapSingleQuotes(partnerName) + " );"; 
+		
+		String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE) VALUES ( " +
+				this.wrapSingleQuotes(profile.getUserName()) + "," +
+				this.wrapSingleQuotes(profile.getName()) + "," +
+				this.wrapSingleQuotes(profile.getAddress())+ "," +
+				this.wrapSingleQuotes(profile.getPhone())+ " );"; 
 		int success = stmt.executeUpdate(sql);
 		if (success == 0) {
 			System.out.println("Couln't insert row into Partners");
@@ -79,9 +82,17 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	//TODO add more table values to SQL code
 	@Override
 	public boolean updatePartner(PartnerProfile profile) throws SQLException {
-		String partnerName = profile.getUserName() ; 
-		String sql = "UPDATE PARTNERS SET PARTNER_USER_NAME = " +
-				this.wrapSingleQuotes(partnerName) ;
+		String partnerName = profile.getName();
+		String partnerAddress = profile.getAddress() ; 
+		String partnerPhone = profile.getPhone() ;
+		String partnerUserName = profile.getUserName() ; 
+		
+		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
+				this.wrapSingleQuotes(partnerName) + " , " +
+				"PARTNER_ADDRESS = " + this.wrapSingleQuotes(partnerAddress) + " , "+
+				"PARTNER_PHONE = " + this.wrapSingleQuotes(partnerPhone) +
+				" WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerUserName) ; 
+		
 		int success = stmt.executeUpdate(sql) ;
 		if(success == 0) {
 			return false ; 
