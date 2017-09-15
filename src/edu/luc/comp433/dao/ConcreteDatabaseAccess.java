@@ -60,10 +60,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return null;
 	}
 
+	//TODO add more table values to SQL code
 	@Override
 	public boolean insertPartner(PartnerProfile profile) throws Exception,SQLException {
 		String partnerName = profile.getUserName();
-		String sql = "INSERT INTO PARTNERS (USER_NAME) VALUES ( " +
+		String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME) VALUES ( " +
 				this.wrapSingleQuotes(partnerName) + " );"; 
 		int success = stmt.executeUpdate(sql);
 		if (success == 0) {
@@ -75,10 +76,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 	}
 
+	//TODO add more table values to SQL code
 	@Override
 	public boolean updatePartner(PartnerProfile profile) throws SQLException {
 		String partnerName = profile.getUserName() ; 
-		String sql = "UPDATE PARTNERS SET USER_NAME = " +
+		String sql = "UPDATE PARTNERS SET PARTNER_USER_NAME = " +
 				this.wrapSingleQuotes(partnerName) ;
 		int success = stmt.executeUpdate(sql) ;
 		if(success == 0) {
@@ -89,11 +91,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 	}
 
+	//TODO check this code
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
 		String partnerName = profile.getUserName();
-	
-		String sql = "DELETE FROM PARTNERS WHERE USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
+		String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
 		int success = stmt.executeUpdate(sql);
 		if(success == 0) {
 			System.out.println("Unable to delete partner");
@@ -102,9 +104,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return true ;  
 	}
 
+	//TODO map additional attributes
 	@Override
 	public PartnerProfile getPartnerProfile(String userName) throws Exception,SQLException {
-		String sql = "SELECT * FROM PARTNERS WHERE USER_NAME = " 
+		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = " 
 				+ this.wrapSingleQuotes(userName) + " ; " ; 
 		
 		ResultSet rs = stmt.executeQuery(sql);
