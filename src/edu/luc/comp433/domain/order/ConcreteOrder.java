@@ -1,12 +1,14 @@
 package edu.luc.comp433.domain.order;
 
 import java.util.Date;
+import java.util.List;
 
 public class ConcreteOrder implements Order {
 
     private double id;
     private double customerID;
     private Date timestamp;
+    private List<OrderDetail> details;
     
     public ConcreteOrder() {}
     
@@ -38,5 +40,17 @@ public class ConcreteOrder implements Order {
     @Override
     public Date getTimestamp() {
 	return timestamp;
+    }
+
+    @Override
+    public void setDetails(List<OrderDetail> details) {
+      // TODO Auto-generated method stub
+      
+    }
+
+    @Override
+    public List<OrderDetail> getDetails() {
+      // TODO Auto-generated method stub
+      return null;
     }
 }

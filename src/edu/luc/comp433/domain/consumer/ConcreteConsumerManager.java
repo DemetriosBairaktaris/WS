@@ -1,12 +1,11 @@
 package edu.luc.comp433.domain.consumer;
 
-import java.sql.SQLException;
+//import java.sql.SQLException;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.dao.DatabaseAccess;
-import edu.luc.comp433.domain.partner.PartnerProfile;
 
 public class ConcreteConsumerManager implements ConsumerManager {
 
@@ -89,5 +88,20 @@ public class ConcreteConsumerManager implements ConsumerManager {
   public boolean delete(String userName) {
     // TODO call to DAL to drop the consumer object using the ID here
     return false;
+  }
+
+  @Override
+  public Consumer getConsumer(String userName) {
+    /**try {
+      Consumer consumer = database.getConsumer(userName);
+      return consumer;
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }**/
+    return null;
   }
 }

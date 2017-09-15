@@ -26,4 +26,16 @@ public class ConcreteOrderManager implements OrderManager {
 	return false;
     }
 
+    @Override
+    public Order getConsumerOrders(String userName) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public Order getPartnerOrders(String userName) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
 }

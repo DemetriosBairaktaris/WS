@@ -10,4 +10,5 @@ public interface ConsumerManager {
   public boolean updatePhone(String userName, Phone phone);
   public boolean updatePayment(String userName, Payment payment);
   public boolean delete(String userName);
+  public Consumer getConsumer(String userName);
 }
