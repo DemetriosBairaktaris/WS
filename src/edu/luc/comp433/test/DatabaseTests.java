@@ -62,10 +62,8 @@ public class DatabaseTests {
     public void testInsertPartner() throws Exception,SQLException {
     		PartnerProfile partner = new ConcretePartnerProfile();
     		partner.setName(partnerName1);
-    		int defaultId = (int) partner.getId() ;
     		stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
-    		assertFalse(defaultId == partner.getId());
     }
     
     @Test
@@ -125,8 +123,6 @@ public class DatabaseTests {
     		ResultSet rs = stmt.executeQuery(sql);
     		
     		if(rs.next()) {
-    			int id = rs.getInt(1);
-	    		partner.setId(id);
 	    		partner.setName(partnerNameNew + " Update");
 	    		assertTrue(dal.updatePartner(partner));
 	    		dal.deletePartner(partner) ; 
@@ -146,8 +142,6 @@ public class DatabaseTests {
 				"' or PARTNER_NAME = '"+partnerName2+"'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()) {
-			int id = rs.getInt(1);
-			partner.setId(id);
 			assertTrue(dal.deletePartner(partner));
 		}
 		else {

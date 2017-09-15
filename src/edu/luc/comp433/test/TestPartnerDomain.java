@@ -40,11 +40,11 @@ public class TestPartnerDomain {
   
   @Test
   public void testPartnerActions() { 
-    assertTrue(manager.register("TestPartner"));
+    assertTrue(manager.create("user@email.com", "TestPartner", "312 Test St", "555-555-5555"));
   }
   
   @Test
   public void testPartnerDeletion() {
-    assertTrue(manager.delete("TestPartner"));
+    assertTrue(manager.delete("user@email.com"));
   }
 }

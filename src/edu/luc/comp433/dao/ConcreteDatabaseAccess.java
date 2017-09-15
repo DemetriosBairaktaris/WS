@@ -62,8 +62,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	@Override
 	public boolean insertPartner(PartnerProfile profile) throws Exception,SQLException {
-		String partnerName = profile.getName();
-		String sql = "INSERT INTO PARTNERS (PARTNER_NAME) VALUES ( " +
+		String partnerName = profile.getUserName();
+		String sql = "INSERT INTO PARTNERS (USER_NAME) VALUES ( " +
 				this.wrapSingleQuotes(partnerName) + " );"; 
 		int success = stmt.executeUpdate(sql);
 		if (success == 0) {
@@ -71,7 +71,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ; 
 		}
 		else {
-			profile.setId(this.getPartnerProfile(profile.getName()).getId());
 			return true ; 
 		}
 	}
@@ -92,12 +91,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
-		String partnerName = profile.getName();
-		int partnerId = (int) profile.getId();
+		String partnerName = profile.getUserName();
 	
-		String sql = "DELETE FROM PARTNERS WHERE PARTNER_ID = " + 
-				 partnerId + " OR " +
-				"PARTNER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
+		String sql = "DELETE FROM PARTNERS WHERE USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
 		int success = stmt.executeUpdate(sql);
 		if(success == 0) {
 			System.out.println("Unable to delete partner");
@@ -106,24 +102,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return true ;  
 	}
 
-	@Override
-	public PartnerProfile getPartnerProfile(double id) throws Exception,SQLException {
-		//int partnerId = (int) id ; 
-		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_ID = " 
-				+ id + " ; " ; 
-		
-		ResultSet rs = stmt.executeQuery(sql);
-		if(!rs.next()) {
-			throw new Exception("Partner does not exist") ;  
-		}
-		else{
-			PartnerProfile p = new ConcretePartnerProfile() ; 
-			p.setId(rs.getInt(1)) ; 
-			p.setName(rs.getString(2));
-			return p ; 
-		}
-	}
-	
 	@Override
 	public PartnerProfile getPartnerProfile(String userName) throws Exception,SQLException {
 		String sql = "SELECT * FROM PARTNERS WHERE USER_NAME = " 
@@ -135,7 +113,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 		else{
 			PartnerProfile p = new ConcretePartnerProfile() ; 
-			p.setUserName(rs.getString(2));
+			p.setUserName(rs.getString(1));
 			return p ; 
 		}
 	}
