@@ -78,11 +78,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	@Override
 	public boolean updatePartner(PartnerProfile profile) throws SQLException {
-		String partnerName = profile.getName() ; 
-		int partnerId = (int) profile.getId() ; 
-		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
-				this.wrapSingleQuotes(partnerName) + " WHERE "+
-				"PARTNER_ID = " + partnerId ;
+		String partnerName = profile.getUserName() ; 
+		String sql = "UPDATE PARTNERS SET USER_NAME = " +
+				this.wrapSingleQuotes(partnerName) ;
 		int success = stmt.executeUpdate(sql) ;
 		if(success == 0) {
 			return false ; 
@@ -127,10 +125,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override
-	public PartnerProfile getPartnerProfile(String name) throws Exception,SQLException {
-		//String partnerName = name ; 
-		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_NAME = " 
-				+ this.wrapSingleQuotes(name) + " ; " ; 
+	public PartnerProfile getPartnerProfile(String userName) throws Exception,SQLException {
+		String sql = "SELECT * FROM PARTNERS WHERE USER_NAME = " 
+				+ this.wrapSingleQuotes(userName) + " ; " ; 
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		if(!rs.next()) {
@@ -138,8 +135,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 		else{
 			PartnerProfile p = new ConcretePartnerProfile() ; 
-			p.setId(rs.getInt(1)) ; 
-			p.setName(rs.getString(2));
+			p.setUserName(rs.getString(2));
 			return p ; 
 		}
 	}
