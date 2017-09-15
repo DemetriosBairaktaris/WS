@@ -71,13 +71,13 @@ public class DatabaseTests {
 
     @Test
     public void testGetPartnerByName() throws Exception,SQLException {
-    		String partnerUserName = "Newbie@Gmail.com" ; 
-    		String partnerName = "Newbie Co" ; 
+    		String partnerUserName = "Newbie@Gmail.com"; 
+    		String partnerName = "Newbie Co"; 
     		PartnerProfile partner = new ConcretePartnerProfile();
-    		partner.setName(partnerName) ; 
+    		partner.setName(partnerName); 
     		partner.setUserName(partnerUserName);
     		partner.setAddress("kjadsf");
-    		partner.setPhone("lldkfjal") ; 
+    		partner.setPhone("lldkfjal"); 
 		stmt = db.createStatement();
 	    dal.insertPartner(partner);
 	    //String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '"  + partnerUserName + "';";
