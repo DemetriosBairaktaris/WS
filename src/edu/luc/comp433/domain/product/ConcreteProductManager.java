@@ -47,4 +47,10 @@ public class ConcreteProductManager implements ProductManager {
       return false;
     }
 
+    @Override
+    public Product getProduct(String name, String userName) {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
 }

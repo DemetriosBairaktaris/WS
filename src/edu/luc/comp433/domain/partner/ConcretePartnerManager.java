@@ -15,10 +15,12 @@ public class ConcretePartnerManager implements PartnerManager {
   
     public ConcretePartnerManager() {}
     
+    @Override
     public void setDatabase(DatabaseAccess database) {
       this.database = database;
     }
     
+    @Override
     public DatabaseAccess getDatabase() {
       return database;
     }
@@ -128,5 +130,20 @@ public class ConcretePartnerManager implements PartnerManager {
         e.printStackTrace();
       }
       return false;
+    }
+    
+    @Override
+    public PartnerProfile getPartnerProfile(String userName) {
+      try {
+        PartnerProfile profile = database.getPartnerProfile(userName);
+        return profile;
+      } catch (SQLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      return null;
     }
 }

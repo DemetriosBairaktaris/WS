@@ -40,6 +40,6 @@ public class TestConsumerDomain {
   
   @Test
   public void testPartnerCreation() {
-    assertTrue(manager.createConsumer("john@doemail.com", "John", "Doe"));
+    assertTrue(manager.create("john@doemail.com", "John", "Doe"));
   }
 }

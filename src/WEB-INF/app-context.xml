@@ -34,7 +34,9 @@
     <bean id="domain" class="edu.luc.comp433.service.ConcreteDomainFacade" scope="singleton"></bean>
 
     <!-- consumer manager class -->
-    <bean id="consumerManager" class="edu.luc.comp433.domain.consumer.ConcreteConsumerManager" scope="prototype"></bean>
+    <bean id="consumerManager" class="edu.luc.comp433.domain.consumer.ConcreteConsumerManager" scope="prototype">
+        <property name="database" ref="dao" />
+    </bean>
     
     <!-- consumer class -->
     <bean id="consumer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
