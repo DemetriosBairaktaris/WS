@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ConcreteConsumer implements Consumer {
 
-  private int id;
+  private String userName;
   private String firstName;
   private String lastName;
   private List<Address> addresses;
@@ -15,13 +15,13 @@ public class ConcreteConsumer implements Consumer {
   public ConcreteConsumer() {};
   
   @Override
-  public void setID(int id) {
-    this.id = id;
+  public void setUserName(String userName) {
+    this.userName = userName;
   }
 
   @Override
-  public int getID() {
-    return id;
+  public String getUserName() {
+    return userName;
   }
 
   @Override

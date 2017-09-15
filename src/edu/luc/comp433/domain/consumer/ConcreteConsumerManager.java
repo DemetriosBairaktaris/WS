@@ -11,7 +11,7 @@ public class ConcreteConsumerManager implements ConsumerManager {
   public ConcreteConsumerManager() {}
   
   @Override
-  public boolean createConsumer(String firstName, String lastName) {
+  public boolean createConsumer(String userName, String firstName, String lastName) {
     //TODO add method calls to persist consumer in DAL
     Consumer consumer = (Consumer) context.getBean("consumer");
     consumer.setFirstName(firstName);
@@ -44,7 +44,7 @@ public class ConcreteConsumerManager implements ConsumerManager {
   }
 
   @Override
-  public boolean deleteConsumer(int id) {
+  public boolean deleteConsumer(String userName) {
     // TODO call to DAL to drop the consumer object using the ID here
     return false;
   }

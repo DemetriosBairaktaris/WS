@@ -3,8 +3,8 @@ package edu.luc.comp433.domain.consumer;
 import java.util.List;
 
 public interface Consumer {
-  public void setID(int id);
-  public int getID();
+  public void setUserName(String userName);
+  public String getUserName();
   public void setFirstName(String firstName);
   public String getFirstName();
   public void setLastName(String lastName);
