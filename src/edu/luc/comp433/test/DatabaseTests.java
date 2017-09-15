@@ -65,29 +65,7 @@ public class DatabaseTests {
     		stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
     }
-    
-    @Test
-    public void testGetPartnerById() throws Exception,SQLException {
-    		String partnerNameNew = "Newbie Co." ; 
-    		PartnerProfile partner = new ConcretePartnerProfile();
-    		partner.setName(partnerNameNew) ; 
-		stmt = db.createStatement();
-	    String sql = "SELECT PARTNER_ID FROM PARTNERS WHERE PARTNER_NAME = '"  + partnerNameNew + "';";
-		
-	    dal.insertPartner(partner);
-		
-		ResultSet rs = stmt.executeQuery(sql);
-		if(rs.next()) { 
-			int id = rs.getInt(1);
-			partner = dal.getPartnerProfile(id);
-			dal.deletePartner(partner);
-			assertTrue((partner.getName().equals(partnerNameNew)));
-		}
-		else {
-			assertTrue(false);
-		}
-    }
-    
+
     @Test
     public void testGetPartnerByName() throws Exception,SQLException {
     		String partnerNameNew = "Newbie Co." ; 
