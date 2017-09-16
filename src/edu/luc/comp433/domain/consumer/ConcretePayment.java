@@ -4,7 +4,7 @@ public class ConcretePayment implements Payment {
 
     private String cardNumber;
     private String cardName;
-    private double CVV;
+    private String CVV;
     
     public ConcretePayment() {}
     
@@ -29,12 +29,12 @@ public class ConcretePayment implements Payment {
     }
     
     @Override
-    public void setCVV(double CVV) {
+    public void setCVV(String CVV) {
 	this.CVV = CVV;
     }
     
     @Override
-    public double getCVV() {
+    public String getCVV() {
 	return CVV;
     }
 }
