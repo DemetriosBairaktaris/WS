@@ -37,13 +37,31 @@ public class DatabaseTests {
 	private String partnerName1 ;
 	private String partnerName2 ; 
 	
-	@Before
-	public void setUp() throws SQLException {
+	public DatabaseTests(){
 		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"+
 				"?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory" ;
 		USER = "evtgoojkjfryzn" ;
 		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
-		db = DriverManager.getConnection(DB_URL, USER, PASS);
+		
+		try {
+			db = DriverManager.getConnection(DB_URL, USER, PASS);
+		} catch (SQLException e) {
+			//
+		}
+	}
+	
+	@Override
+	public void finalize() {
+		try {
+			db.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Could not close db connection");
+		}
+	}
+	
+	@Before
+	public void setUp() throws SQLException {
 	    stmt = db.createStatement();
 	    dal = new ConcreteDatabaseAccess();
 	    partnerName1 = "JSHARP@GMAIL.COM" ; 
@@ -51,8 +69,7 @@ public class DatabaseTests {
 	}
 	
 	@After
-	public void tearDown() {
-		db = null ; 
+	public void tearDown() throws SQLException {
 		stmt = null ; 
 		dal = null ;
 		partnerName1 = null ; 
@@ -130,7 +147,7 @@ public class DatabaseTests {
     		PartnerProfile partner = new ConcretePartnerProfile();
 		stmt = db.createStatement();
 		String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '"  + partnerName1 +
-				"' or PARTNER_USER_NAME = '"+partnerName2+"'";
+				"' or PARTNER_USER_NAME = '"+partnerName2+"' ; ";
 		ResultSet rs = stmt.executeQuery(sql);
 		if(rs.next()) {
 			String partnerUserName = rs.getString(1);
@@ -148,6 +165,9 @@ public class DatabaseTests {
     		String username = "MHM@gmail.com" ; 
     		String firstName = "Doug" ; 
     		String lastName = "Frankenstein" ; 
+    		
+    		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ;";
+    		int b = stmt.executeUpdate(delete_sql);
     		
     		Address address = new ConcreteAddress();
     		address.setAddress("232 dslakj st");
@@ -171,16 +191,16 @@ public class DatabaseTests {
     		c.setPayments(Arrays.asList(payment));
     		
     		assertTrue(dal.insertConsumer(c)) ; 
-    		String delete_sql = "Delete from consumers where consumer_user_name = '"+username+"'";
-    		stmt.execute(delete_sql);
+    		b = stmt.executeUpdate(delete_sql);
     }
     
-    //@Test 
+    @Test 
     public void testGetConsumer() throws SQLException {
     		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
 		String lastName = "Frankenstein" ; 
 		
+		String delete_sql = "Delete from consumers where consumer_user_name = '" +username + "' ; ";
 		Address address = new ConcreteAddress();
 		address.setAddress("232 dslakj st");
 		address.setAddressType("home");
@@ -204,11 +224,10 @@ public class DatabaseTests {
 		dal.insertConsumer(c);
 		
 		assertTrue(c.getUserName().equals(dal.getConsumer(username).getUserName()));
-		String delete_sql = "Delete from consumers where consumer_user_name = '"+username+"'";
-		stmt.execute(delete_sql);
+	     stmt.executeUpdate(delete_sql);
     }
     
-   // @Test
+    @Test
     public void testUpdateConsumer() throws SQLException {
     		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
@@ -243,7 +262,7 @@ public class DatabaseTests {
     		assertTrue(newFirstName.equals(dal.getConsumer(username).getFirstName())) ;
     }
     
-   // @Test
+    @Test
     public void testDeleteConsumer() throws SQLException {
     		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
@@ -270,8 +289,7 @@ public class DatabaseTests {
 		c.setPhones(Arrays.asList(phone));
 		c.setPayments(Arrays.asList(payment));
 		
-		dal.insertConsumer(c);
-		
+		assertTrue(dal.insertConsumer(c));
     	 	assertTrue(dal.deleteConsumer(c)) ; 
     }
 }
