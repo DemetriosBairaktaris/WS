@@ -234,7 +234,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	public boolean deleteConsumer(Consumer consumer) throws SQLException {
 		String sql = "DELETE FROM CONSUMERS WHERE CONSUMER_USER_NAME = " +
 		this.wrapSingleQuotes(consumer.getUserName()) + " ;" ; 
-		System.out.println(sql);
 		if(stmt.executeUpdate(sql) > 0) {
 			return true ; 
 		}
@@ -263,7 +262,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 				+ this.wrapSingleQuotes(userName) + " ;" ;
 		
 		
-		System.out.println("postion 1");
+		
 		ResultSet rs = stmt.executeQuery(getConsumerCredSql);
 		Consumer c = new ConcreteConsumer();
 		List<Address> addresses ;
@@ -280,7 +279,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		else {
 			return null ;
 		}
-		System.out.println("postion 2");
+		
 		rs = stmt.executeQuery(getAddressSql);
 		while(rs.next()) {
 			Address a = new ConcreteAddress();
@@ -289,7 +288,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			addresses.add(a);
 		}
 		c.setAddresses(addresses);
-		System.out.println("postion 3");
 		rs = stmt.executeQuery(getPhoneSql);
 		while(rs.next()) {
 			Phone p = new ConcretePhone();
@@ -298,7 +296,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			phones.add(p);
 		}
 		c.setPhones(phones);
-		System.out.println("postion 4");
 		rs = stmt.executeQuery(getPaymentSql);
 		while(rs.next()) {
 			c.setUserName(rs.getString(1));
@@ -310,7 +307,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			p.setCVV(rs.getString(6));
 			payments.add(p);
 		}
-		System.out.println("postion 5");
 		c.setPayments(payments);
 		return c ; 
 	}

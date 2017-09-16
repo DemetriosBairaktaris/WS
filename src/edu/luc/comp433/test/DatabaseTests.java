@@ -201,9 +201,6 @@ public class DatabaseTests {
 		String lastName = "Frankenstein" ; 
 		
 		String delete_sql = "Delete from consumers where consumer_user_name = '" +username + "' ; ";
-		System.out.println("postion 0");
-		//stmt.executeUpdate(delete_sql);
-		System.out.println("postion 0.5");
 		Address address = new ConcreteAddress();
 		address.setAddress("232 dslakj st");
 		address.setAddressType("home");
