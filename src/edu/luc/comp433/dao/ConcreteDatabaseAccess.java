@@ -5,9 +5,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.List;
+import java.util.* ; 
 
 import edu.luc.comp433.domain.consumer.Address;
+import edu.luc.comp433.domain.consumer.ConcreteAddress;
+import edu.luc.comp433.domain.consumer.ConcreteConsumer;
+import edu.luc.comp433.domain.consumer.ConcretePayment;
+import edu.luc.comp433.domain.consumer.ConcretePhone;
 import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.consumer.Payment;
 import edu.luc.comp433.domain.consumer.Phone;
@@ -221,9 +227,75 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return false;
 	}
 	@Override
-	public Consumer getConsumer(String userName) {
-		return null;
-		//todo big join
+	public Consumer getConsumer(String userName) throws SQLException {
+		
+		String getConsumerCredSql = "Select * from consumers where consumer_user_name = " + this.wrapSingleQuotes(userName) +";";
+		String getAddressSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
+				+ "CONSUMER_ADDRESSES.ADDRESS,CONSUMER_ADDRESSES.ADDRESS_TYPE FROM CONSUMERS, CONSUMER_ADDRESSES WHERE"
+				+ " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_ADDRESSES.CONSUMER_USER_NAME 	AND CONSUMERS.CONSUMER_USER_NAME = "
+				+ this.wrapSingleQuotes(userName) + " ;" ;
+		
+		
+		String getPhoneSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
+				+ "CONSUMER_PHONES.PHONE_NUMBER,CONSUMER_PHONES.PHONE_TYPE FROM CONSUMERS, CONSUMER_PHONES WHERE"
+				+ " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_PHONES.CONSUMER_USER_NAME AND CONSUMERS.CONSUMER_USER_NAME = "
+				+ this.wrapSingleQuotes(userName) + " ;" ;
+		
+		String getPaymentSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
+				+ "CONSUMER_PAYMENTS.CARD_NAME,CONSUMER_PAYMENTS.CARD_NUMBER, CONSUMER_PAYMENTS.CVV FROM CONSUMERS, CONSUMER_PAYMENTS WHERE"
+				+ " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_PAYMENTS.CONSUMER_USER_NAME 	AND CONSUMERS.CONSUMER_USER_NAME = "
+				+ this.wrapSingleQuotes(userName) + " ;" ;
+		
+		
+		
+		ResultSet rs = stmt.executeQuery(getConsumerCredSql);
+		Consumer c = new ConcreteConsumer();
+		List<Address> addresses ;
+		List<Phone> phones ;
+		List<Payment> payments ;
+		if(rs.next()) {
+			c.setUserName(rs.getString(1));
+			c.setFirstName(rs.getString(2));
+			c.setLastName(rs.getString(3));
+			addresses = new LinkedList<>();
+			phones = new LinkedList<>();
+			payments = new LinkedList<>();
+		}
+		else {
+			return null ;
+		}
+
+		rs = stmt.executeQuery(getAddressSql);
+		while(rs.next()) {
+			Address a = new ConcreteAddress();
+			a.setAddress(rs.getString(4));
+			a.setAddressType(rs.getString(5));
+			addresses.add(a);
+		}
+		c.setAddresses(addresses);
+		
+		rs = stmt.executeQuery(getPhoneSql);
+		while(rs.next()) {
+			Phone p = new ConcretePhone();
+			p.setNumber(rs.getString(4));
+			p.setType(rs.getString(5));
+			phones.add(p);
+		}
+		c.setPhones(phones);
+		
+		rs = stmt.executeQuery(getPaymentSql);
+		while(rs.next()) {
+			c.setUserName(rs.getString(1));
+			c.setFirstName(rs.getString(2));
+			c.setLastName(rs.getString(3));
+			Payment p = new ConcretePayment();
+			p.setCardName(rs.getString(4));
+			p.setCardNumber(rs.getString(5));
+			p.setCVV(rs.getString(6));
+			payments.add(p);
+		}
+		c.setPayments(payments);
+		return c ; 
 	}
 
 }

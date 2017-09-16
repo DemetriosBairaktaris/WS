@@ -149,6 +149,9 @@ public class DatabaseTests {
     		String firstName = "Doug" ; 
     		String lastName = "Frankenstein" ; 
     		
+    		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "'";
+    		boolean b = stmt.execute(delete_sql);
+    		
     		Address address = new ConcreteAddress();
     		address.setAddress("232 dslakj st");
     		address.setAddressType("home");
@@ -171,15 +174,17 @@ public class DatabaseTests {
     		c.setPayments(Arrays.asList(payment));
     		
     		assertTrue(dal.insertConsumer(c)) ; 
-    		String delete_sql = "Delete from consumers where consumer_user_name = '"+username+"'";
-    		stmt.execute(delete_sql);
+    		b = stmt.execute(delete_sql);
     }
     
-    //@Test 
+    @Test 
     public void testGetConsumer() throws SQLException {
     		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
 		String lastName = "Frankenstein" ; 
+		
+		String delete_sql = "Delete from consumers where consumer_user_name = '"+username+"'";
+		boolean s = stmt.execute(delete_sql);
 		
 		Address address = new ConcreteAddress();
 		address.setAddress("232 dslakj st");
@@ -204,8 +209,8 @@ public class DatabaseTests {
 		dal.insertConsumer(c);
 		
 		assertTrue(c.getUserName().equals(dal.getConsumer(username).getUserName()));
-		String delete_sql = "Delete from consumers where consumer_user_name = '"+username+"'";
-		stmt.execute(delete_sql);
+	     s = stmt.execute(delete_sql);
+		
     }
     
    // @Test

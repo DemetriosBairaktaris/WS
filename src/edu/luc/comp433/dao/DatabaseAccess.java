@@ -44,5 +44,5 @@ public interface DatabaseAccess {
 	public boolean insertConsumer(Consumer consumer) throws SQLException;
 	public boolean updateConsumer(Consumer consumer);
 	public boolean deleteConsumer(Consumer consumer);
-	public Consumer getConsumer(String userName);
+	public Consumer getConsumer(String userName) throws SQLException;
 }
