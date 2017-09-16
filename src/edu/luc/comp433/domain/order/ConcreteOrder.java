@@ -44,13 +44,11 @@ public class ConcreteOrder implements Order {
 
     @Override
     public void setDetails(List<OrderDetail> details) {
-      // TODO Auto-generated method stub
-      
+      this.details = details;
     }
 
     @Override
     public List<OrderDetail> getDetails() {
-      // TODO Auto-generated method stub
-      return null;
+      return details;
     }
 }
