@@ -3,6 +3,7 @@ package edu.luc.comp433.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.PartnerProfile;
@@ -36,6 +37,12 @@ public interface DatabaseAccess {
     public boolean insertProduct(Product product);
     public boolean updateProduct(Product product);
 	
-    
-	
+    /**
+     * Consumer Methods
+     * @throws SQLException 
+     */
+	public boolean insertConsumer(Consumer consumer) throws SQLException;
+	public boolean updateConsumer(Consumer consumer);
+	public boolean deleteConsumer(Consumer consumer);
+	public Consumer getConsumer(String userName);
 }

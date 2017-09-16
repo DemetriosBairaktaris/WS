@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import edu.luc.comp433.domain.consumer.Address;
+import edu.luc.comp433.domain.consumer.Consumer;
+import edu.luc.comp433.domain.consumer.Payment;
+import edu.luc.comp433.domain.consumer.Phone;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
@@ -147,6 +151,79 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	private String wrapSingleQuotes(String s) {
 		String wrappedResult = "'" + s + "'" ;
 		return wrappedResult;
+	}
+	@Override
+	public boolean insertConsumer(Consumer consumer) throws SQLException {
+		db.setAutoCommit(false);
+		/**Steps
+		 * insert into consumer
+		 * insert into address
+		 * insert into phone
+		 * insert into payment
+		 */
+		String sql = "INSERT INTO CONSUMERS (CONSUMER_USER_NAME,CONSUMER_FIRST_NAME,CONSUMER_LAST_NAME)"
+				+ " VALUES ( "+ this.wrapSingleQuotes(consumer.getUserName()) + ", "  + 
+				this.wrapSingleQuotes(consumer.getFirstName()) + ", " +
+				this.wrapSingleQuotes(consumer.getLastName()) + ") ; " ;
+				
+		if(stmt.executeUpdate(sql) == 0) {
+			db.rollback();
+			db.setAutoCommit(true);
+			return false ;
+		}; 
+		
+		for (Address a : consumer.getAddresses()) {
+			sql = "INSERT INTO CONSUMER_ADDRESSES (CONSUMER_USER_NAME,ADDRESS,ADDRESS_TYPE) VALUES"+
+					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
+					 this.wrapSingleQuotes(a.getAddress()) + " ," +
+					 this.wrapSingleQuotes(a.getAddressType()) + ") ; ";
+			if(stmt.executeUpdate(sql) == 0) {
+				db.rollback();
+				db.setAutoCommit(true);
+				return false ;
+			}
+		}
+		for (Phone p : consumer.getPhones()) {
+			sql = "INSERT INTO CONSUMER_PHONES (CONSUMER_USER_NAME,PHONE_NUMBER,PHONE_TYPE) VALUES"+
+					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
+					 this.wrapSingleQuotes(p.getNumber()) + " ," +
+					 this.wrapSingleQuotes(p.getType()) + ") ; ";
+			if(stmt.executeUpdate(sql) == 0) {
+				db.rollback();
+				db.setAutoCommit(true);
+				return false ;
+			}
+		}
+		for(Payment p : consumer.getPayments()) {
+			sql = "INSERT INTO CONSUMER_PAYMENTS (CONSUMER_USER_NAME,CARD_NAME,CARD_NUMBER,CVV) VALUES"+
+					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
+					 this.wrapSingleQuotes(p.getCardName()) + " ," +
+					 this.wrapSingleQuotes(p.getCardNumber()) + " , " +
+					 this.wrapSingleQuotes(p.getCVV()) + ") ; ";
+			
+			if(stmt.executeUpdate(sql) == 0) {
+				db.rollback();
+				db.setAutoCommit(true);
+				return false ;
+			}
+		}
+		db.commit();
+		return true;
+	}
+	@Override
+	public boolean updateConsumer(Consumer consumer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean deleteConsumer(Consumer consumer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public Consumer getConsumer(String userName) {
+		return null;
+		//todo big join
 	}
 
 }
