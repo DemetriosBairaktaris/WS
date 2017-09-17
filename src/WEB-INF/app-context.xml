@@ -25,7 +25,9 @@
     <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype"></bean>
 
     <!-- product manager class -->
-    <bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager" scope="prototype"></bean>
+    <bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager" scope="prototype">
+        <property name="database" ref="dao" />
+    </bean>
     
     <!-- product class -->
     <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype"></bean>

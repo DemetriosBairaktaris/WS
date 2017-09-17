@@ -5,8 +5,7 @@ public class ConcreteProduct implements Product {
     private String name;
     private String desc;
     private double cost;
-    private double id;
-    private double company;
+    private String company;
     private long stock;
 
     public ConcreteProduct() {}
@@ -40,24 +39,14 @@ public class ConcreteProduct implements Product {
     public double getCost() {
 	return cost;
     }
-    
+
     @Override
-    public void setID(double id) {
-	this.id = id;
-    }
-    
-    @Override
-    public double getID() {
-	return id;
-    }
-    
-    @Override
-    public void setCompany(double company) {
+    public void setCompany(String company) {
 	this.company = company;
     }
     
     @Override
-    public double getCompany() {
+    public String getCompany() {
 	return company;
     }
     
