@@ -5,9 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
-import java.util.* ; 
 
 import edu.luc.comp433.domain.consumer.ConcreteConsumer;
 import edu.luc.comp433.domain.consumer.ConcretePayment;

@@ -54,7 +54,7 @@ public class TestConsumerDomain {
   
   @After
   public void tearDown() throws Exception {
-    manager.delete(userName);
+    //manager.delete(userName);
     manager = null;
     userName = null;
     firstName = null;
@@ -75,12 +75,13 @@ public class TestConsumerDomain {
     manager.create(userName, firstName, lastName, address, phone, payment);
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertTrue(manager.getConsumer(userName).getAddress().equals("123 Second St"));
-    assertTrue(manager.updatePhone(userName, "555 555-555"));
+    assertTrue(manager.updatePhone(userName, "555 555-5555"));
     assertTrue(manager.getConsumer(userName).getPhone().equals("555 555-5555"));
     payment.setCardName("John Doe");
     payment.setCardNumber("1111 1111 1111 1111");
     payment.setCVV("555");
     assertTrue(manager.updatePayment(userName, payment));
-    assertTrue(manager.getConsumer(userName).getPayment().equals(payment));
+    assertTrue(manager.getConsumer(userName).getPayment().getCardNumber().equals(payment.getCardNumber()));
+    assertTrue(manager.delete(userName));
   }
 }
