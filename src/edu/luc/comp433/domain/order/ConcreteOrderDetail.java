@@ -1,10 +1,11 @@
 package edu.luc.comp433.domain.order;
 
+import edu.luc.comp433.domain.product.Product;
+
 public class ConcreteOrderDetail implements OrderDetail {
 
     private double id;
-    private double orderID;
-    private double itemID;
+    private Product product;
     private long quantity;
     private String status;
     
@@ -21,23 +22,13 @@ public class ConcreteOrderDetail implements OrderDetail {
     }
 
     @Override
-    public double getOrderID() {
-        return orderID;
+    public Product getProduct() {
+        return product;
     }
 
     @Override
-    public void setOrderID(double orderID) {
-        this.orderID = orderID;
-    }
-
-    @Override
-    public double getItemID() {
-        return itemID;
-    }
-
-    @Override
-    public void setItemID(double itemID) {
-        this.itemID = itemID;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

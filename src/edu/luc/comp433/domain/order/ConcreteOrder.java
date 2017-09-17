@@ -6,8 +6,8 @@ import java.util.List;
 public class ConcreteOrder implements Order {
 
     private double id;
-    private double customerID;
     private Date timestamp;
+    private String status;
     private List<OrderDetail> details;
     
     public ConcreteOrder() {}
@@ -23,16 +23,6 @@ public class ConcreteOrder implements Order {
     }
     
     @Override
-    public void setCustomerID(double customerID) {
-	this.customerID = customerID;
-    }
-    
-    @Override
-    public double getCustomerID() {
-	return customerID;
-    }
-    
-    @Override
     public void setTimestamp(Date timestamp) {
 	this.timestamp = timestamp;
     }
@@ -40,6 +30,16 @@ public class ConcreteOrder implements Order {
     @Override
     public Date getTimestamp() {
 	return timestamp;
+    }
+    
+    @Override
+    public void setStatus(String status) {
+      this.status = status;
+    }
+    
+    @Override
+    public String getStatus() {
+      return status;
     }
 
     @Override
@@ -50,5 +50,15 @@ public class ConcreteOrder implements Order {
     @Override
     public List<OrderDetail> getDetails() {
       return details;
+    }
+
+    @Override
+    public void addOrderDetail(OrderDetail detail) {
+      details.add(detail);
+    }
+
+    @Override
+    public void removeOrderDetail(OrderDetail detail) {
+      details.remove(detail);
     }
 }

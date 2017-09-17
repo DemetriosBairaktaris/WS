@@ -16,7 +16,9 @@
     <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" ></bean>
 
     <!-- order manager class -->
-    <bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager" scope="prototype"></bean>
+    <bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager" scope="prototype">
+        <property name="database" ref="dao" />
+    </bean>
 
     <!-- order class -->
     <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype"></bean>
