@@ -91,30 +91,37 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	//TODO add more table values to SQL code
 	@Override
-	public boolean updatePartner(PartnerProfile profile) throws SQLException {
-		String partnerName = profile.getName();
-		String partnerAddress = profile.getAddress() ; 
-		String partnerPhone = profile.getPhone() ;
-		String partnerUserName = profile.getUserName() ; 
-		
-		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
-				this.wrapSingleQuotes(partnerName) + " , " +
-				"PARTNER_ADDRESS = " + this.wrapSingleQuotes(partnerAddress) + " , "+
-				"PARTNER_PHONE = " + this.wrapSingleQuotes(partnerPhone) +
-				" WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerUserName) ; 
-		
-		int success = stmt.executeUpdate(sql) ;
-		if(success == 0) {
-			return false ; 
+	public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException {
+		if(this.deletePartner(profile)) {
+			return this.insertPartner(profile);
 		}
 		else {
-			return true ; 
+			return false ;
 		}
+//		String partnerName = profile.getName();
+//		String partnerAddress = profile.getAddress() ; 
+//		String partnerPhone = profile.getPhone() ;
+//		String partnerUserName = profile.getUserName() ; 
+//		
+//		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
+//				this.wrapSingleQuotes(partnerName) + " , " +
+//				"PARTNER_ADDRESS = " + this.wrapSingleQuotes(partnerAddress) + " , "+
+//				"PARTNER_PHONE = " + this.wrapSingleQuotes(partnerPhone) +
+//				" WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerUserName) ; 
+//		
+//		int success = stmt.executeUpdate(sql) ;
+//		if(success == 0) {
+//			return false ; 
+//		}
+//		else {
+//			return true ; 
+//		}
 	}
 
 	//TODO check this code
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
+		
 		String partnerName = profile.getUserName();
 		String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; "; 
 		int success = stmt.executeUpdate(sql);
@@ -138,6 +145,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		else{
 			PartnerProfile p = new ConcretePartnerProfile() ; 
 			p.setUserName(rs.getString(1));
+			p.setName(rs.getString(2));
+			p.setAddress(rs.getString(3));
+			p.setPhone(rs.getString(4));
 			return p ; 
 		}
 	}

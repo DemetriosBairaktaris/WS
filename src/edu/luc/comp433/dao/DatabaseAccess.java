@@ -27,7 +27,7 @@ public interface DatabaseAccess {
      * @throws Exception 
      */
     public boolean insertPartner(PartnerProfile profile) throws SQLException, Exception;
-    public boolean updatePartner(PartnerProfile profile) throws SQLException;
+    public boolean updatePartner(PartnerProfile profile) throws SQLException, Exception;
     public boolean deletePartner(PartnerProfile profile) throws SQLException;
     public PartnerProfile getPartnerProfile(String name) throws Exception, SQLException;
     
