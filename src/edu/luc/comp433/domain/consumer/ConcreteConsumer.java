@@ -1,15 +1,13 @@
 package edu.luc.comp433.domain.consumer;
 
-import java.util.List;
-
 public class ConcreteConsumer implements Consumer {
 
   private String userName;
   private String firstName;
   private String lastName;
-  private List<Address> addresses;
-  private List<Phone> phones;
-  private List<Payment> payments;
+  private String address;
+  private String phone;
+  private Payment payment;
   
   
   public ConcreteConsumer() {};
@@ -45,32 +43,32 @@ public class ConcreteConsumer implements Consumer {
   }
 
   @Override
-  public void setAddresses(List<Address> addresses) {
-    this.addresses = addresses;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   @Override
-  public List<Address> getAddresses() {
-    return addresses;
+  public String getAddress() {
+    return address;
   }
 
   @Override
-  public void setPhones(List<Phone> phones) {
-    this.phones = phones;
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   @Override
-  public List<Phone> getPhones() {
-    return phones;
+  public String getPhone() {
+    return phone;
   }
 
   @Override
-  public void setPayments(List<Payment> payments) {
-    this.payments = payments;
+  public void setPayment(Payment payment) {
+    this.payment = payment;
   }
 
   @Override
-  public List<Payment> getPayments() {
-    return payments;
+  public Payment getPayment() {
+    return payment;
   }
 }
