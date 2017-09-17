@@ -9,14 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.* ; 
 
-import edu.luc.comp433.domain.consumer.Address;
-import edu.luc.comp433.domain.consumer.ConcreteAddress;
 import edu.luc.comp433.domain.consumer.ConcreteConsumer;
 import edu.luc.comp433.domain.consumer.ConcretePayment;
-import edu.luc.comp433.domain.consumer.ConcretePhone;
 import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.consumer.Payment;
-import edu.luc.comp433.domain.consumer.Phone;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
@@ -98,24 +94,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		else {
 			return false ;
 		}
-//		String partnerName = profile.getName();
-//		String partnerAddress = profile.getAddress() ; 
-//		String partnerPhone = profile.getPhone() ;
-//		String partnerUserName = profile.getUserName() ; 
-//		
-//		String sql = "UPDATE PARTNERS SET PARTNER_NAME = " +
-//				this.wrapSingleQuotes(partnerName) + " , " +
-//				"PARTNER_ADDRESS = " + this.wrapSingleQuotes(partnerAddress) + " , "+
-//				"PARTNER_PHONE = " + this.wrapSingleQuotes(partnerPhone) +
-//				" WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerUserName) ; 
-//		
-//		int success = stmt.executeUpdate(sql) ;
-//		if(success == 0) {
-//			return false ; 
-//		}
-//		else {
-//			return true ; 
-//		}
 	}
 
 	//TODO check this code
@@ -173,14 +151,15 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		db.setAutoCommit(false);
 		/**Steps
 		 * insert into consumer
-		 * insert into address
-		 * insert into phone
 		 * insert into payment
 		 */
-		String sql = "INSERT INTO CONSUMERS (CONSUMER_USER_NAME,CONSUMER_FIRST_NAME,CONSUMER_LAST_NAME)"
-				+ " VALUES ( "+ this.wrapSingleQuotes(consumer.getUserName()) + ", "  + 
+		String sql = "INSERT INTO CONSUMERS (CONSUMER_USER_NAME,CONSUMER_FIRST_NAME,CONSUMER_LAST_NAME,"+
+					"CONSUMER_ADDRESS, CONSUMER_PHONE)"+
+				 " VALUES ( "+ this.wrapSingleQuotes(consumer.getUserName()) + ", "  + 
 				this.wrapSingleQuotes(consumer.getFirstName()) + ", " +
-				this.wrapSingleQuotes(consumer.getLastName()) + ") ; " ;
+				this.wrapSingleQuotes(consumer.getLastName()) + "," +
+				this.wrapSingleQuotes(consumer.getAddress()) + "," +
+				this.wrapSingleQuotes(consumer.getPhone())+") ; " ;
 				
 		if(stmt.executeUpdate(sql) == 0) {
 			db.rollback();
@@ -188,45 +167,24 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ;
 		}; 
 		
-		for (Address a : consumer.getAddresses()) {
-			sql = "INSERT INTO CONSUMER_ADDRESSES (CONSUMER_USER_NAME,ADDRESS,ADDRESS_TYPE) VALUES"+
-					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
-					 this.wrapSingleQuotes(a.getAddress()) + " ," +
-					 this.wrapSingleQuotes(a.getAddressType()) + ") ; ";
-			if(stmt.executeUpdate(sql) == 0) {
-				db.rollback();
-				db.setAutoCommit(true);
-				return false ;
-			}
+		Payment p = consumer.getPayment() ;
+		sql = "INSERT INTO CONSUMER_PAYMENTS (CONSUMER_USER_NAME,CARD_NAME,CARD_NUMBER,CVV) VALUES"+
+				"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
+				 this.wrapSingleQuotes(p.getCardName()) + " ," +
+				 this.wrapSingleQuotes(p.getCardNumber()) + " , " +
+				 this.wrapSingleQuotes(p.getCVV()) + ") ; ";
+		
+		if(stmt.executeUpdate(sql) == 0) {
+			db.rollback();
+			db.setAutoCommit(true);
+			return false ;
 		}
-		for (Phone p : consumer.getPhones()) {
-			sql = "INSERT INTO CONSUMER_PHONES (CONSUMER_USER_NAME,PHONE_NUMBER,PHONE_TYPE) VALUES"+
-					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
-					 this.wrapSingleQuotes(p.getNumber()) + " ," +
-					 this.wrapSingleQuotes(p.getType()) + ") ; ";
-			if(stmt.executeUpdate(sql) == 0) {
-				db.rollback();
-				db.setAutoCommit(true);
-				return false ;
-			}
-		}
-		for(Payment p : consumer.getPayments()) {
-			sql = "INSERT INTO CONSUMER_PAYMENTS (CONSUMER_USER_NAME,CARD_NAME,CARD_NUMBER,CVV) VALUES"+
-					"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
-					 this.wrapSingleQuotes(p.getCardName()) + " ," +
-					 this.wrapSingleQuotes(p.getCardNumber()) + " , " +
-					 this.wrapSingleQuotes(p.getCVV()) + ") ; ";
-			
-			if(stmt.executeUpdate(sql) == 0) {
-				db.rollback();
-				db.setAutoCommit(true);
-				return false ;
-			}
-		}
+		
 		db.commit();
 		db.setAutoCommit(true);
 		return true;
 	}
+	
 	@Override
 	public boolean updateConsumer(Consumer consumer) throws SQLException {
 		if(this.getConsumer(consumer.getUserName()).getUserName().equals(consumer.getUserName())) {
@@ -255,16 +213,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	public Consumer getConsumer(String userName) throws SQLException {
 		
 		String getConsumerCredSql = "Select * from consumers where consumer_user_name = " + this.wrapSingleQuotes(userName) +";";
-		String getAddressSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
-				+ "CONSUMER_ADDRESSES.ADDRESS,CONSUMER_ADDRESSES.ADDRESS_TYPE FROM CONSUMERS, CONSUMER_ADDRESSES WHERE"
-				+ " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_ADDRESSES.CONSUMER_USER_NAME 	AND CONSUMERS.CONSUMER_USER_NAME = "
-				+ this.wrapSingleQuotes(userName) + " ;" ;
-		
-		
-		String getPhoneSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
-				+ "CONSUMER_PHONES.PHONE_NUMBER,CONSUMER_PHONES.PHONE_TYPE FROM CONSUMERS, CONSUMER_PHONES WHERE"
-				+ " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_PHONES.CONSUMER_USER_NAME AND CONSUMERS.CONSUMER_USER_NAME = "
-				+ this.wrapSingleQuotes(userName) + " ;" ;
 		
 		String getPaymentSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
 				+ "CONSUMER_PAYMENTS.CARD_NAME,CONSUMER_PAYMENTS.CARD_NUMBER, CONSUMER_PAYMENTS.CVV FROM CONSUMERS, CONSUMER_PAYMENTS WHERE"
@@ -275,49 +223,34 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		
 		ResultSet rs = stmt.executeQuery(getConsumerCredSql);
 		Consumer c = new ConcreteConsumer();
-		List<Address> addresses ;
-		List<Phone> phones ;
-		List<Payment> payments ;
+		
 		if(rs.next()) {
 			c.setUserName(rs.getString(1));
 			c.setFirstName(rs.getString(2));
 			c.setLastName(rs.getString(3));
-			addresses = new LinkedList<>();
-			phones = new LinkedList<>();
-			payments = new LinkedList<>();
+			c.setAddress(rs.getString(4));
+			c.setPhone(rs.getString(5));
 		}
 		else {
 			return null ;
 		}
 		
-		rs = stmt.executeQuery(getAddressSql);
-		while(rs.next()) {
-			Address a = new ConcreteAddress();
-			a.setAddress(rs.getString(4));
-			a.setAddressType(rs.getString(5));
-			addresses.add(a);
-		}
-		c.setAddresses(addresses);
-		rs = stmt.executeQuery(getPhoneSql);
-		while(rs.next()) {
-			Phone p = new ConcretePhone();
-			p.setNumber(rs.getString(4));
-			p.setType(rs.getString(5));
-			phones.add(p);
-		}
-		c.setPhones(phones);
+		Payment p = new ConcretePayment();
 		rs = stmt.executeQuery(getPaymentSql);
-		while(rs.next()) {
-			c.setUserName(rs.getString(1));
-			c.setFirstName(rs.getString(2));
-			c.setLastName(rs.getString(3));
-			Payment p = new ConcretePayment();
+		if(rs.next()) {
+			//c.setUserName(rs.getString(1));
+			//c.setFirstName(rs.getString(2));
+			//c.setLastName(rs.getString(3));
+			 p = new ConcretePayment();
 			p.setCardName(rs.getString(4));
 			p.setCardNumber(rs.getString(5));
 			p.setCVV(rs.getString(6));
-			payments.add(p);
+			c.setPayment(p);
 		}
-		c.setPayments(payments);
+		else {
+			c.setPayment(null);
+		}
+		
 		return c ; 
 	}
 

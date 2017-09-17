@@ -40,10 +40,8 @@ public class ConcretePartnerManager implements PartnerManager {
           return false;
         }
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return false;
@@ -60,10 +58,8 @@ public class ConcretePartnerManager implements PartnerManager {
           return false;
         }
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return false;
@@ -81,10 +77,8 @@ public class ConcretePartnerManager implements PartnerManager {
           return false;
         }
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return false;
@@ -102,10 +96,8 @@ public class ConcretePartnerManager implements PartnerManager {
           return false;
         }
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return false;
@@ -123,10 +115,8 @@ public class ConcretePartnerManager implements PartnerManager {
           return false;
         }
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return false;
@@ -138,10 +128,8 @@ public class ConcretePartnerManager implements PartnerManager {
         PartnerProfile profile = database.getPartnerProfile(userName);
         return profile;
       } catch (SQLException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       } catch (Exception e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       return null;

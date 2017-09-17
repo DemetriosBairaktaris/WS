@@ -6,14 +6,10 @@ import org.junit.Test;
 
 import edu.luc.comp433.dao.ConcreteDatabaseAccess;
 import edu.luc.comp433.dao.DatabaseAccess;
-import edu.luc.comp433.domain.consumer.Address;
-import edu.luc.comp433.domain.consumer.ConcreteAddress;
 import edu.luc.comp433.domain.consumer.ConcreteConsumer;
 import edu.luc.comp433.domain.consumer.ConcretePayment;
-import edu.luc.comp433.domain.consumer.ConcretePhone;
 import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.consumer.Payment;
-import edu.luc.comp433.domain.consumer.Phone;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 
@@ -91,7 +87,6 @@ public class DatabaseTests {
     		partner.setName("Johnson and sons");
     		partner.setAddress("1232 Lolly Way");
     		partner.setPhone("219-292-1111");
-    		//stmt = db.createStatement();
     		assertTrue(dal.insertPartner(partner));	
     }
 
@@ -161,86 +156,69 @@ public class DatabaseTests {
     }
     
     
-    //@Test 
+    @Test 
     public void testInsertConsumer() throws SQLException {
-    		String username = "MHM@gmail.com" ; 
-    		String firstName = "Doug" ; 
-    		String lastName = "Frankenstein" ; 
-    		
+		String username = "MHM@gmail.com" ; 
+		String firstName = "Doug" ; 
+		String lastName = "Frankenstein" ; 
+		String address = "232 dslakj st" ; 
+		String phone = "219-202-2222" ; 
+	
+		
+		Payment payment = new ConcretePayment();
+		payment.setCardName("visa");
+		payment.setCardNumber("2233333333334444");
+		payment.setCVV("822");
+	
+		Consumer c = new ConcreteConsumer();
+		c.setUserName(username);
+		c.setFirstName(firstName);
+		c.setLastName(lastName);
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
+		
     		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ;";
     		int b = stmt.executeUpdate(delete_sql);
-    		
-    		Address address = new ConcreteAddress();
-    		address.setAddress("232 dslakj st");
-    		address.setAddressType("home");
-    		
-    		Phone phone = new ConcretePhone() ;
-    		phone.setNumber("219-202-2222");
-    		phone.setType("home");
-    		
-    		Payment payment = new ConcretePayment();
-    		payment.setCardName("visa");
-    		payment.setCardNumber("2233333333334444");
-    		payment.setCVV("822");
-  
-    		Consumer c = new ConcreteConsumer();
-    		c.setUserName(username);
-    		c.setFirstName(firstName);
-    		c.setLastName(lastName);
-    		c.setAddresses(Arrays.asList(address));
-    		c.setPhones(Arrays.asList(phone));
-    		c.setPayments(Arrays.asList(payment));
-    		
     		assertTrue(dal.insertConsumer(c)) ; 
     		b = stmt.executeUpdate(delete_sql);
     }
     
-    //@Test 
+    @Test 
     public void testGetConsumer() throws SQLException {
-    		String username = "MHM@gmail.com" ; 
+		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
 		String lastName = "Frankenstein" ; 
-		
-		String delete_sql = "Delete from consumers where consumer_user_name = '" +username + "' ; ";
-		Address address = new ConcreteAddress();
-		address.setAddress("232 dslakj st");
-		address.setAddressType("home");
-		
-		Phone phone = new ConcretePhone() ;
-		phone.setNumber("219-202-2222");
-		phone.setType("home");
+		String address = "232 dslakj st" ; 
+		String phone = "219-202-2222" ; 
 		
 		Payment payment = new ConcretePayment();
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
-
+	
 		Consumer c = new ConcreteConsumer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
-		c.setAddresses(Arrays.asList(address));
-		c.setPhones(Arrays.asList(phone));
-		c.setPayments(Arrays.asList(payment));
-		dal.insertConsumer(c);
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
 		
+		String delete_sql = "Delete from consumers where consumer_user_name = '" +username + "' ; ";
+		dal.insertConsumer(c);
 		assertTrue(c.getUserName().equals(dal.getConsumer(username).getUserName()));
-	     stmt.executeUpdate(delete_sql);
+	    stmt.executeUpdate(delete_sql);
     }
     
-   // @Test
+   @Test
     public void testUpdateConsumer() throws SQLException {
     		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
 		String lastName = "Frankenstein" ; 
-		
-		Address address = new ConcreteAddress();
-		address.setAddress("232 dslakj st");
-		address.setAddressType("home");
-		
-		Phone phone = new ConcretePhone() ;
-		phone.setNumber("219-202-2222");
-		phone.setType("home");
+		String address = "232 dslakj st" ; 
+		String phone = "219-202-2222" ; 
+	
 		
 		Payment payment = new ConcretePayment();
 		payment.setCardName("visa");
@@ -251,9 +229,9 @@ public class DatabaseTests {
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
-		c.setAddresses(Arrays.asList(address));
-		c.setPhones(Arrays.asList(phone));
-		c.setPayments(Arrays.asList(payment));
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
 		
 		dal.insertConsumer(c);
 		String newFirstName = "Tee" ; 
@@ -263,32 +241,27 @@ public class DatabaseTests {
     		assertTrue(newFirstName.equals(dal.getConsumer(username).getFirstName())) ;
     }
     
-    //@Test
+    @Test
     public void testDeleteConsumer() throws SQLException {
-    		String username = "MHM@gmail.com" ; 
+		String username = "MHM@gmail.com" ; 
 		String firstName = "Doug" ; 
 		String lastName = "Frankenstein" ; 
-		
-		Address address = new ConcreteAddress();
-		address.setAddress("232 dslakj st");
-		address.setAddressType("home");
-		
-		Phone phone = new ConcretePhone() ;
-		phone.setNumber("219-202-2222");
-		phone.setType("home");
+		String address = "232 dslakj st" ; 
+		String phone = "219-202-2222" ; 
+	
 		
 		Payment payment = new ConcretePayment();
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
-
+	
 		Consumer c = new ConcreteConsumer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
-		c.setAddresses(Arrays.asList(address));
-		c.setPhones(Arrays.asList(phone));
-		c.setPayments(Arrays.asList(payment));
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
 		
 		assertTrue(dal.insertConsumer(c));
     	 	assertTrue(dal.deleteConsumer(c)) ; 
