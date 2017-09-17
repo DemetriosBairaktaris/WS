@@ -22,7 +22,9 @@
     <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype"></bean>
 
     <!-- order detail class -->
-    <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype"></bean>
+    <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype">
+        <property name="database" ref="dao" />
+    </bean>
 
     <!-- product manager class -->
     <bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager" scope="prototype">
@@ -42,13 +44,7 @@
     
     <!-- consumer class -->
     <bean id="consumer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
-    
-    <!-- address class -->
-    <bean id="address" class="edu.luc.comp433.domain.consumer.ConcreteAddress" scope="prototype"></bean>
-    
-    <!-- phone class -->
-    <bean id="phone" class="edu.luc.comp433.domain.consumer.ConcretePhone" scope="prototype"></bean>
-    
+
     <!-- payment class -->
     <bean id="payment" class="edu.luc.com433.domain.consumer.ConcretePayment" scope="prototype"></bean>
 
