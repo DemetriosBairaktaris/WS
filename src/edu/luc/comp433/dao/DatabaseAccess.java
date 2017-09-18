@@ -36,6 +36,8 @@ public interface DatabaseAccess {
      */
     public boolean insertProduct(Product product);
     public boolean updateProduct(Product product);
+    public List<Product> getProduct(String productName);
+    boolean deleteProduct(Product product);
 	
     /**
      * Consumer Methods
@@ -45,4 +47,5 @@ public interface DatabaseAccess {
 	public boolean updateConsumer(Consumer consumer) throws SQLException;
 	public boolean deleteConsumer(Consumer consumer) throws SQLException;
 	public Consumer getConsumer(String userName) throws SQLException;
+	
 }

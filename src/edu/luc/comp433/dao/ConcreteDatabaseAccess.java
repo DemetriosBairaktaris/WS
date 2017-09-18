@@ -133,8 +133,26 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
 	@Override
 	public boolean updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(this.deleteProduct(product)) {
+			return insertProduct(product);
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@Override 
+	public List<Product> getProduct(String productName){
+		List<Product> products = null ; 
+		return products ;
+		
+	}
+	
+	@Override
+	public boolean deleteProduct(Product product) {
+		if()
+		return false ; 
 	}
 	
 	private String wrapSingleQuotes(String s) {
@@ -204,6 +222,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ;
 		}
 	}
+	//todo retrieve the orders/details ??
 	@Override
 	public Consumer getConsumer(String userName) throws SQLException {
 		
