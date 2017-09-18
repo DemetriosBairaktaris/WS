@@ -26,13 +26,18 @@ public class ConcreteConsumerManager implements ConsumerManager {
   }
   
   @Override
-  public boolean create(String userName, String firstName, String lastName, String address, String phone, Payment payment) throws SQLException {
+  public boolean create(String userName, String firstName, String lastName, String address, String phone, 
+      String cardName, String cardNumber, String CVV) throws SQLException {
     Consumer consumer = (Consumer) context.getBean("consumer");
     consumer.setUserName(userName);
     consumer.setFirstName(firstName);
     consumer.setLastName(lastName);
     consumer.setAddress(address);
     consumer.setPhone(phone);
+    Payment payment = (Payment) context.getBean("payment");
+    payment.setCardName(cardName);
+    payment.setCardNumber(cardNumber);
+    payment.setCVV(CVV);
     consumer.setPayment(payment);
     if((database.insertConsumer(consumer))) {
         return true ; 
@@ -56,8 +61,12 @@ public class ConcreteConsumerManager implements ConsumerManager {
   
 
   @Override
-  public boolean updatePayment(String userName, Payment payment) throws SQLException {
+  public boolean updatePayment(String userName, String cardName, String cardNumber, String CVV) throws SQLException {
     Consumer consumer = database.getConsumer(userName);
+    Payment payment = consumer.getPayment();
+    payment.setCardName(cardName);
+    payment.setCardNumber(cardNumber);
+    payment.setCVV(CVV);
     consumer.setPayment(payment);
     if((database.updateConsumer(consumer))) {
       return true ; 
