@@ -83,7 +83,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 	}
 
-	//TODO add more table values to SQL code
 	@Override
 	public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException {
 		if(this.deletePartner(profile)) {
@@ -94,7 +93,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 	}
 
-	//TODO check this code
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
 		
@@ -108,7 +106,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return true ;  
 	}
 
-	//TODO map additional attributes
 	@Override
 	public PartnerProfile getPartnerProfile(String userName) throws Exception,SQLException {
 		String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = " 
@@ -239,7 +236,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			//c.setUserName(rs.getString(1));
 			//c.setFirstName(rs.getString(2));
 			//c.setLastName(rs.getString(3));
-			 p = new ConcretePayment();
+			p = new ConcretePayment();
 			p.setCardName(rs.getString(4));
 			p.setCardNumber(rs.getString(5));
 			p.setCVV(rs.getString(6));
