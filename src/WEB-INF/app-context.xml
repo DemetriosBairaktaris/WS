@@ -37,7 +37,7 @@
     <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype"></bean>
     
     <!-- domain facade class -->
-    <bean id="domain" class="edu.luc.comp433.service.ConcreteDomainFacade" scope="singleton"></bean>
+    <bean id="domain" class="edu.luc.comp433.domain.facade.ConcreteDomainFacade" scope="singleton"></bean>
 
     <!-- consumer manager class -->
     <bean id="consumerManager" class="edu.luc.comp433.domain.consumer.ConcreteConsumerManager" scope="prototype">

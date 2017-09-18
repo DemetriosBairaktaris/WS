@@ -1,5 +1,14 @@
 package edu.luc.comp433.test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +21,6 @@ import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.consumer.Payment;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
-
-import static org.junit.Assert.*;
-
-import java.sql.* ;
-import java.util.Arrays;
 
 public class DatabaseTests {
 	

@@ -1,6 +1,6 @@
 package edu.luc.comp433.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
