@@ -25,7 +25,9 @@ public class TestConsumerDomain {
   private String lastName;
   private String address;
   private String phone;
-  private Payment payment;
+  private String cardName;
+  private String cardNumber;
+  private String CVV;
   
   @BeforeClass
   public static void setUpClass() {
@@ -46,42 +48,39 @@ public class TestConsumerDomain {
     address = "123 First St";
     phone = "123 456-7891";
     Payment test = (Payment) context.getBean("payment");
-    test.setCardName("Jane Doe");
-    test.setCardNumber("1234 4321 1234 4321");
-    test.setCVV("123");
-    payment = test;
+    cardName = "Jane Doe";
+    cardNumber = "1234 4321 1234 4321";
+    CVV = "123";
   }
   
   @After
   public void tearDown() throws Exception {
-    //manager.delete(userName);
     manager = null;
     userName = null;
     firstName = null;
     lastName = null;
     address = null;
     phone = null;
-    payment = null;
+    cardName = null;
+    cardNumber = null;
+    CVV = null;
   }
   
   @Test
   public void testPartnerActions() throws SQLException {
-    assertTrue(manager.create(userName, firstName, lastName, address, phone, payment));
+    assertTrue(manager.create(userName, firstName, lastName, address, phone, cardName, cardNumber, CVV));
     assertTrue(manager.delete(userName));
   }
   
   @Test
   public void testPartnerUpdate() throws SQLException {
-    manager.create(userName, firstName, lastName, address, phone, payment);
+    manager.create(userName, firstName, lastName, address, phone, cardName, cardNumber, CVV);
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertTrue(manager.getConsumer(userName).getAddress().equals("123 Second St"));
     assertTrue(manager.updatePhone(userName, "555 555-5555"));
     assertTrue(manager.getConsumer(userName).getPhone().equals("555 555-5555"));
-    payment.setCardName("John Doe");
-    payment.setCardNumber("1111 1111 1111 1111");
-    payment.setCVV("555");
-    assertTrue(manager.updatePayment(userName, payment));
-    assertTrue(manager.getConsumer(userName).getPayment().getCardNumber().equals(payment.getCardNumber()));
+    assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000"));
+    assertTrue(manager.getConsumer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
     assertTrue(manager.delete(userName));
   }
 }
