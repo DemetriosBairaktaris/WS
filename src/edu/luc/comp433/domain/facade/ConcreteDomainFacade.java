@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.domain.consumer.ConsumerManager;
+import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
@@ -15,7 +15,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   private ApplicationContext context = 
       new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private OrderManager orders = (OrderManager) context.getBean("orderManager");
-  private ConsumerManager consumers = (ConsumerManager) context.getBean("consumerManager");
+  private CustomerManager consumers = (CustomerManager) context.getBean("consumerManager");
   private ProductManager products = (ProductManager) context.getBean("productManager");
   private PartnerManager partners = (PartnerManager) context.getBean("partnerManager");
   
@@ -44,8 +44,8 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean shipOrder(String userName, String orderID) throws NumberFormatException, SQLException {
-    consumers.getConsumer(userName).getOrders().get(Integer.parseInt(orderID)).setStatus("shipped");
-    if (consumers.getConsumer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus().equals("shipped")) {
+    consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).setStatus("shipped");
+    if (consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus().equals("shipped")) {
       return true;
     } else {
       return false;
@@ -54,13 +54,13 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public String getOrderStatus(String userName, String orderID) throws NumberFormatException, SQLException {
-    return consumers.getConsumer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus();
+    return consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus();
   }
 
   //TODO fix this
   @Override
   public boolean cancelOrder(String userName, String orderID) {
-    if (consumers.getConsumer(userName).removeOrder(orderID)) {
+    if (consumers.getCustomer(userName).removeOrder(orderID)) {
       return true;
     } else {
       return false;

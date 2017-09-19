@@ -6,7 +6,7 @@ import java.util.List;
 public interface Order {
     public void setID(double id);
     public double getID();
-    public void setTimestamp(Date timestamp);
+    public void setTimestamp();
     public Date getTimestamp();
     public void setStatus(String status);
     public String getStatus();

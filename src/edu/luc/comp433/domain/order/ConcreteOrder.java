@@ -23,8 +23,8 @@ public class ConcreteOrder implements Order {
     }
     
     @Override
-    public void setTimestamp(Date timestamp) {
-	this.timestamp = timestamp;
+    public void setTimestamp() {
+      timestamp = new Date(System.currentTimeMillis());
     }
     
     @Override

@@ -7,10 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import edu.luc.comp433.domain.consumer.ConcreteConsumer;
-import edu.luc.comp433.domain.consumer.ConcretePayment;
-import edu.luc.comp433.domain.consumer.Consumer;
-import edu.luc.comp433.domain.consumer.Payment;
+import edu.luc.comp433.domain.customer.ConcreteCustomer;
+import edu.luc.comp433.domain.customer.ConcretePayment;
+import edu.luc.comp433.domain.customer.Customer;
+import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
@@ -145,7 +145,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return wrappedResult;
 	}
 	@Override
-	public boolean insertConsumer(Consumer consumer) throws SQLException {
+	public boolean insertConsumer(Customer consumer) throws SQLException {
 		db.setAutoCommit(false);
 		/**Steps
 		 * insert into consumer
@@ -184,7 +184,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override
-	public boolean updateConsumer(Consumer consumer) throws SQLException {
+	public boolean updateConsumer(Customer consumer) throws SQLException {
 		if(this.getConsumer(consumer.getUserName()).getUserName().equals(consumer.getUserName())) {
 			db.setAutoCommit(false);
 			this.deleteConsumer(consumer);
@@ -197,7 +197,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return false;
 	}
 	@Override
-	public boolean deleteConsumer(Consumer consumer) throws SQLException {
+	public boolean deleteConsumer(Customer consumer) throws SQLException {
 		String sql = "DELETE FROM CONSUMERS WHERE CONSUMER_USER_NAME = " +
 		this.wrapSingleQuotes(consumer.getUserName()) + " ;" ; 
 		if(stmt.executeUpdate(sql) > 0) {
@@ -208,7 +208,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 	}
 	@Override
-	public Consumer getConsumer(String userName) throws SQLException {
+	public Customer getConsumer(String userName) throws SQLException {
 		
 		String getConsumerCredSql = "Select * from consumers where consumer_user_name = " + this.wrapSingleQuotes(userName) +";";
 		
@@ -220,7 +220,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		
 		
 		ResultSet rs = stmt.executeQuery(getConsumerCredSql);
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		
 		if(rs.next()) {
 			c.setUserName(rs.getString(1));

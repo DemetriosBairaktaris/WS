@@ -3,7 +3,7 @@ package edu.luc.comp433.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import edu.luc.comp433.domain.consumer.Consumer;
+import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.PartnerProfile;
@@ -41,8 +41,8 @@ public interface DatabaseAccess {
      * Consumer Methods
      * @throws SQLException 
      */
-	public boolean insertConsumer(Consumer consumer) throws SQLException;
-	public boolean updateConsumer(Consumer consumer) throws SQLException;
-	public boolean deleteConsumer(Consumer consumer) throws SQLException;
-	public Consumer getConsumer(String userName) throws SQLException;
+	public boolean insertConsumer(Customer consumer) throws SQLException;
+	public boolean updateConsumer(Customer consumer) throws SQLException;
+	public boolean deleteConsumer(Customer consumer) throws SQLException;
+	public Customer getConsumer(String userName) throws SQLException;
 }

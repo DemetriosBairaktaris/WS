@@ -1,10 +1,10 @@
-package edu.luc.comp433.domain.consumer;
+package edu.luc.comp433.domain.customer;
 
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
 
-public interface Consumer {
+public interface Customer {
   public void setUserName(String userName);
   public String getUserName();
   public void setFirstName(String firstName);

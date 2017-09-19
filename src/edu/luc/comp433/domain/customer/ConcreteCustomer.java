@@ -1,10 +1,10 @@
-package edu.luc.comp433.domain.consumer;
+package edu.luc.comp433.domain.customer;
 
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
 
-public class ConcreteConsumer implements Consumer {
+public class ConcreteCustomer implements Customer {
 
   private String userName;
   private String firstName;
@@ -15,7 +15,7 @@ public class ConcreteConsumer implements Consumer {
   private List<Order> orders;
   
   
-  public ConcreteConsumer() {};
+  public ConcreteCustomer() {};
   
   @Override
   public void setUserName(String userName) {

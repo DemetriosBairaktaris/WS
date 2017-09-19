@@ -45,7 +45,7 @@
     </bean>
     
     <!-- consumer class -->
-    <bean id="consumer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
+    <bean id="customer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
 
     <!-- payment class -->
     <bean id="payment" class="edu.luc.comp433.domain.consumer.ConcretePayment" scope="prototype" />

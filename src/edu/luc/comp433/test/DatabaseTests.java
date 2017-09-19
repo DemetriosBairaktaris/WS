@@ -15,10 +15,10 @@ import org.junit.Test;
 
 import edu.luc.comp433.dao.ConcreteDatabaseAccess;
 import edu.luc.comp433.dao.DatabaseAccess;
-import edu.luc.comp433.domain.consumer.ConcreteConsumer;
-import edu.luc.comp433.domain.consumer.ConcretePayment;
-import edu.luc.comp433.domain.consumer.Consumer;
-import edu.luc.comp433.domain.consumer.Payment;
+import edu.luc.comp433.domain.customer.ConcreteCustomer;
+import edu.luc.comp433.domain.customer.ConcretePayment;
+import edu.luc.comp433.domain.customer.Customer;
+import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 
@@ -174,7 +174,7 @@ public class DatabaseTests {
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
 	
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
@@ -201,7 +201,7 @@ public class DatabaseTests {
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
 	
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
@@ -229,7 +229,7 @@ public class DatabaseTests {
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
 
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);
@@ -259,7 +259,7 @@ public class DatabaseTests {
 		payment.setCardNumber("2233333333334444");
 		payment.setCVV("822");
 	
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
 		c.setLastName(lastName);

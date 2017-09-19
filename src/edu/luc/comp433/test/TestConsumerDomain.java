@@ -13,13 +13,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.domain.consumer.ConsumerManager;
-import edu.luc.comp433.domain.consumer.Payment;
+import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.domain.customer.Payment;
 
 public class TestConsumerDomain {
   
   private static ApplicationContext context;
-  private ConsumerManager manager;
+  private CustomerManager manager;
   private String userName;
   private String firstName;
   private String lastName;
@@ -41,7 +41,7 @@ public class TestConsumerDomain {
   
   @Before
   public void setUp() throws Exception {
-    manager = (ConsumerManager) context.getBean("consumerManager");
+    manager = (CustomerManager) context.getBean("consumerManager");
     userName = "user@email.com";
     firstName = "Jane";
     lastName = "Doe";
@@ -76,11 +76,11 @@ public class TestConsumerDomain {
   public void testPartnerUpdate() throws SQLException {
     manager.create(userName, firstName, lastName, address, phone, cardName, cardNumber, CVV);
     assertTrue(manager.updateAddress(userName, "123 Second St"));
-    assertTrue(manager.getConsumer(userName).getAddress().equals("123 Second St"));
+    assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));
     assertTrue(manager.updatePhone(userName, "555 555-5555"));
-    assertTrue(manager.getConsumer(userName).getPhone().equals("555 555-5555"));
+    assertTrue(manager.getCustomer(userName).getPhone().equals("555 555-5555"));
     assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000"));
-    assertTrue(manager.getConsumer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
+    assertTrue(manager.getCustomer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
     assertTrue(manager.delete(userName));
   }
 }
