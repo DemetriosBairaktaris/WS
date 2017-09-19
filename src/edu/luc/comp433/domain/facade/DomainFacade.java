@@ -2,7 +2,14 @@ package edu.luc.comp433.domain.facade;
 
 import java.sql.SQLException;
 
+import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.domain.partner.PartnerManager;
+
 public interface DomainFacade {
+  public void setCustomerManager(CustomerManager customer);
+  public CustomerManager getCustomerManager();
+  public void setPartnerManager(PartnerManager partners);
+  public PartnerManager getPartnerManager();
   public String getProduct(String productName) throws SQLException;
   public boolean acceptBuyOrder(String userName, double orderID) throws SQLException;
   public boolean acceptPayment(String userName, double orderID) throws SQLException;

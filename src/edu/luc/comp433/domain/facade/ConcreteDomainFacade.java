@@ -2,20 +2,35 @@ package edu.luc.comp433.domain.facade;
 
 import java.sql.SQLException;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 
 public class ConcreteDomainFacade implements DomainFacade {
 
-  private ApplicationContext context = 
-      new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private CustomerManager consumers = (CustomerManager) context.getBean("consumerManager");
-  private PartnerManager partners = (PartnerManager) context.getBean("partnerManager");
+  private CustomerManager customers;
+  private PartnerManager partners;
   
   public ConcreteDomainFacade() {}
+  
+  @Override
+  public void setCustomerManager(CustomerManager customers) {
+    this.customers = customers;
+  }
+  
+  @Override
+  public CustomerManager getCustomerManager() {
+    return customers;
+  }
+  
+  @Override
+  public void setPartnerManager(PartnerManager partners) {
+    this.partners = partners;
+  }
+  
+  @Override
+  public PartnerManager getPartnerManager() {
+    return partners;
+  }
   
   @Override
   public String getProduct(String productName) {
@@ -36,8 +51,8 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean shipOrder(String userName, double orderID) throws NumberFormatException, SQLException {
-    consumers.getCustomer(userName).getOrders().get((int) orderID).setStatus("shipped");
-    if (consumers.getCustomer(userName).getOrders().get((int) orderID).getStatus().equals("shipped")) {
+    customers.getCustomer(userName).getOrders().get((int) orderID).setStatus("shipped");
+    if (customers.getCustomer(userName).getOrders().get((int) orderID).getStatus().equals("shipped")) {
       return true;
     } else {
       return false;
@@ -46,15 +61,15 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public String getOrderStatus(String userName, double orderID) throws NumberFormatException, SQLException {
-    return consumers.getCustomer(userName).getOrders().get((int) orderID).getStatus();
+    return customers.getCustomer(userName).getOrders().get((int) orderID).getStatus();
   }
 
   //TODO fix this
   @Override
   public boolean cancelOrder(String userName, double orderID) throws SQLException {
-    for (int i = 0; i < consumers.getCustomer(userName).getOrders().size(); i++) {
-      if (consumers.getCustomer(userName).getOrders().get(i).getID() == orderID) {
-        consumers.getCustomer(userName).removeOrder(consumers.getCustomer(userName).getOrders().get(i));
+    for (int i = 0; i < customers.getCustomer(userName).getOrders().size(); i++) {
+      if (customers.getCustomer(userName).getOrders().get(i).getID() == orderID) {
+        customers.getCustomer(userName).removeOrder(customers.getCustomer(userName).getOrders().get(i));
         return true;
       }
     }
@@ -112,7 +127,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public boolean registerConsumer(String userName, String firstName, String lastName,
       String address, String phone, String cardName, String cardNumber, String CVV) throws SQLException {
-    if (consumers.create(userName, firstName, lastName, address, phone, cardName, cardNumber, CVV)) {
+    if (customers.create(userName, firstName, lastName, address, phone, cardName, cardNumber, CVV)) {
       return true;
     } else {
       return false;
@@ -121,7 +136,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean updateConsumerName(String userName, String firstName, String lastName) throws SQLException {
-    if (consumers.updateName(userName, firstName, lastName)) {
+    if (customers.updateName(userName, firstName, lastName)) {
       return true;
     } else {
       return false;
@@ -130,7 +145,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean updateConsumerAddress(String userName, String address) throws SQLException {
-    if (consumers.updateAddress(userName, address)) {
+    if (customers.updateAddress(userName, address)) {
       return true;
     } else {
       return false;
@@ -139,7 +154,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean updateConsumerPhone(String userName, String phone) throws SQLException {
-    if (consumers.updatePhone(userName, phone)) {
+    if (customers.updatePhone(userName, phone)) {
       return true;
     } else {
       return false;
@@ -148,7 +163,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean updatePayment(String userName, String cardName, String cardNumber, String CVV) throws SQLException {
-    if (consumers.updatePayment(userName, cardName, cardNumber, CVV)) {
+    if (customers.updatePayment(userName, cardName, cardNumber, CVV)) {
       return true;
     } else {
       return false;
