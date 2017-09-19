@@ -1,9 +1,11 @@
 package edu.luc.comp433.domain.partner;
 
 import edu.luc.comp433.dal.DatabaseAccess;
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.product.Product;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -75,6 +77,11 @@ public class ConcretePartnerManager implements PartnerManager {
   @Override
   public DatabaseAccess getDatabase() {
     return database;
+  }
+
+  @Override
+  public List<Order> getOrders(String userName) throws Exception {
+    return database.getPartnerProfile(userName).getOrders();
   }
 
   @Override
@@ -184,6 +191,19 @@ public class ConcretePartnerManager implements PartnerManager {
       e.printStackTrace();
     }
     return false;
+  }
+
+  @Override
+  public boolean updateOrders(String userName, List<Order> orders) throws Exception {
+    PartnerProfile partner = database.getPartnerProfile(userName);
+    for (int i = 0; i < orders.size(); i++) {
+      partner.addOrder(orders.get(i));
+    }
+    if (database.updatePartner(partner)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

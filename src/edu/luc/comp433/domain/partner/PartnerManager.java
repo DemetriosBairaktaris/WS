@@ -1,6 +1,9 @@
 package edu.luc.comp433.domain.partner;
 
+import java.util.List;
+
 import edu.luc.comp433.dal.DatabaseAccess;
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.product.Product;
 
 /**
@@ -63,6 +66,17 @@ public interface PartnerManager {
   public DatabaseAccess getDatabase();
 
   /**
+   * Retrieves a list of orders for a partner profile.
+   * 
+   * @param userName
+   *          String
+   * @return List of type Order
+   * @throws Exception
+   *           errors if database not ready
+   */
+  public List<Order> getOrders(String userName) throws Exception;
+
+  /**
    * Retrieves a specific partner profile.
    * 
    * @param userName
@@ -122,8 +136,8 @@ public interface PartnerManager {
    * @param name
    *          String
    * @return true if successful
-   * @throws Exception errors
-   *           if database not ready
+   * @throws Exception
+   *           errors if database not ready
    */
   public boolean updateCost(String userName, double cost, String name) throws Exception;
 
@@ -152,6 +166,19 @@ public interface PartnerManager {
    * @return true if successful
    */
   public boolean updateName(String userName, String name);
+
+  /**
+   * Updates the list of orders in a partner profile.
+   * 
+   * @param userName
+   *          String
+   * @param orders
+   *          List of type order
+   * @return true if successful
+   * @throws Exception
+   *           errors if database not ready
+   */
+  public boolean updateOrders(String userName, List<Order> orders) throws Exception;
 
   /**
    * Updates a partner's phone number.
