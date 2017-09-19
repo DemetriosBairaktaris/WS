@@ -9,6 +9,7 @@ public interface ConsumerManager {
   public DatabaseAccess getDatabase();
   public boolean create(String userName, String firstName, String lastName, String address, String phone,
       String cardName, String cardNumber, String CVV) throws SQLException;
+  public boolean updateName(String userName, String firstName, String lastName) throws SQLException;
   public boolean updateAddress(String userName, String address) throws SQLException;
   public boolean updatePhone(String userName, String phone) throws SQLException;
   public boolean updatePayment(String userName, String cardName, String cardNumber, String CVV) throws SQLException;

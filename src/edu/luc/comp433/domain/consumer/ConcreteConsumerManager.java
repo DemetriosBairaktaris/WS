@@ -46,12 +46,24 @@ public class ConcreteConsumerManager implements ConsumerManager {
       return false;
     }
   }
+  
+  @Override
+  public boolean updateName(String userName, String firstName, String lastName) throws SQLException {
+    Consumer consumer = database.getConsumer(userName);
+    consumer.setFirstName(firstName);
+    consumer.setLastName(lastName);
+    if (database.updateConsumer(consumer)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @Override
   public boolean updateAddress(String userName, String address) throws SQLException {
     Consumer consumer = database.getConsumer(userName);
     consumer.setAddress(address);
-    if((database.updateConsumer(consumer))) {
+    if (database.updateConsumer(consumer)) {
       return true ; 
     }
     else {
