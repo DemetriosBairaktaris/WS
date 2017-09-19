@@ -2,9 +2,8 @@ package edu.luc.comp433.domain.customer;
 
 import java.sql.SQLException;
 
-import edu.luc.comp433.dao.DatabaseAccess;
+import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.order.Order;
-import edu.luc.comp433.domain.product.Product;
 
 public interface CustomerManager {
   public void setDatabase(DatabaseAccess database);

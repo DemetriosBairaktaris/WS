@@ -1,4 +1,4 @@
-package edu.luc.comp433.dao;
+package edu.luc.comp433.dal;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -250,6 +250,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		}
 		
 		return c ; 
+	}
+	
+	public Product getProduct(String productName) {
+	  //TODO complete this stub
+	  return null;
 	}
 
 }

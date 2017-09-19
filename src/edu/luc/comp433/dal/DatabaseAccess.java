@@ -1,4 +1,4 @@
-package edu.luc.comp433.dao;
+package edu.luc.comp433.dal;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -36,6 +36,7 @@ public interface DatabaseAccess {
      */
     public boolean insertProduct(Product product);
     public boolean updateProduct(Product product);
+    public Product getProduct(String productName);
 	
     /**
      * Consumer Methods

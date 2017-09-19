@@ -2,7 +2,7 @@ package edu.luc.comp433.domain.partner;
 
 import java.sql.SQLException;
 
-import edu.luc.comp433.dao.DatabaseAccess;
+import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.product.Product;
 
 public interface PartnerManager {

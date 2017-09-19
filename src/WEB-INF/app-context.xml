@@ -4,43 +4,32 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- partner manager class -->
-    <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype">
-        <property name="database" ref="dao" />
-    </bean>
-
-    <!-- partner class -->
-    <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype"></bean>
-    
     <!-- database access object class -->
-    <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" ></bean>
+    <bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess" />
 
-    <!-- order class -->
-    <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype"></bean>
-
-    <!-- order detail class -->
-    <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype">
-        <property name="database" ref="dao" />
+    <!-- customer classes -->
+    <bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager" scope="prototype">
+        <property name="database" ref="database" />
     </bean>
-    
-    <!-- product class -->
-    <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype"></bean>
-    
-    <!-- domain facade class -->
-    <bean id="domain" class="edu.luc.comp433.domain.facade.ConcreteDomainFacade" scope="singleton">
+    <bean id="customer" class="edu.luc.comp433.domain.customer.ConcreteCustomer" scope="prototype" />
+    <bean id="payment" class="edu.luc.comp433.domain.customer.ConcretePayment" scope="prototype" />
+
+    <!-- facade class -->
+    <bean id="domain" class="edu.luc.comp433.domain.facade.ConcreteDomainFacade" scope="prototype">
         <property name="customers" ref="customerManager" />
         <property name="partners" ref="partnerManager" />
     </bean>
 
-    <!-- consumer manager class -->
-    <bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager" scope="prototype">
-        <property name="database" ref="dao" />
+    <!-- order classes -->
+    <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype" />
+    <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype" />
+
+    <!-- partner classes -->
+    <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype">
+        <property name="database" ref="database" />
     </bean>
+    <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype" />
     
-    <!-- consumer class -->
-    <bean id="customer" class="edu.luc.comp433.domain.consumer.ConcreteConsumer" scope="prototype"></bean>
-
-    <!-- payment class -->
-    <bean id="payment" class="edu.luc.comp433.domain.consumer.ConcretePayment" scope="prototype" />
-
+    <!-- product class -->
+    <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype" />
 </beans>

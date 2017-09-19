@@ -16,7 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.customer.Payment;
 
-public class TestConsumerDomain {
+public class TestCustomerDomain {
   
   private static ApplicationContext context;
   private CustomerManager manager;
@@ -41,7 +41,7 @@ public class TestConsumerDomain {
   
   @Before
   public void setUp() throws Exception {
-    manager = (CustomerManager) context.getBean("consumerManager");
+    manager = (CustomerManager) context.getBean("customerManager");
     userName = "user@email.com";
     firstName = "Jane";
     lastName = "Doe";

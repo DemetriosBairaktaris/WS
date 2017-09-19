@@ -13,8 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.luc.comp433.dao.ConcreteDatabaseAccess;
-import edu.luc.comp433.dao.DatabaseAccess;
+import edu.luc.comp433.dal.ConcreteDatabaseAccess;
+import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.customer.ConcreteCustomer;
 import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
