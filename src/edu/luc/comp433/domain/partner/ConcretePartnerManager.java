@@ -19,7 +19,7 @@ public class ConcretePartnerManager implements PartnerManager {
 
   @Override
   public boolean addProduct(String userName, String name, String desc, double cost, long stock)
-      throws SQLException, Exception {
+      throws Exception {
     Product product = (Product) context.getBean("product");
     product.setName(name);
     product.setDesc(desc);
@@ -96,7 +96,7 @@ public class ConcretePartnerManager implements PartnerManager {
   }
 
   @Override
-  public boolean removeProduct(String userName, String name) throws SQLException, Exception {
+  public boolean removeProduct(String userName, String name) throws Exception {
     PartnerProfile partner = database.getPartnerProfile(userName);
     for (int i = 0; i < partner.getProducts().size(); i++) {
       if (partner.getProducts().get(i).getName().equals(name)) {

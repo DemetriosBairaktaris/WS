@@ -14,7 +14,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean acceptBuyOrder(String userName, double orderId) {
+  public boolean acceptBuyOrder(String userName, String productName, long quantity) {
     // TODO Auto-generated method stub
     return false;
   }
@@ -26,8 +26,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean addProduct(String userName, String name, String desc, double cost, String company,
-      long stock) throws SQLException {
+  public boolean addProduct(String userName, String name, String desc, double cost, long stock)
+      throws SQLException {
     // TODO Auto-generated method stub
     return false;
   }
@@ -51,7 +51,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean getOrderFulfillment(String userName, String orderId) {
+  public boolean getOrderFulfillment(String userName, double orderId) {
     // TODO add user name checks here
     return false;
   }
@@ -79,7 +79,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean registerConsumer(String userName, String firstName, String lastName,
+  public boolean registerCustomer(String userName, String firstName, String lastName,
       String address, String phone, String cardName, String cardNumber, String cvv)
       throws SQLException {
     if (customers.create(userName, firstName, lastName, address, phone, cardName, cardNumber,
@@ -123,7 +123,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updateConsumerAddress(String userName, String address) throws SQLException {
+  public boolean updateCustomerAddress(String userName, String address) throws SQLException {
     if (customers.updateAddress(userName, address)) {
       return true;
     } else {
@@ -132,7 +132,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updateConsumerName(String userName, String firstName, String lastName)
+  public boolean updateCustomerName(String userName, String firstName, String lastName)
       throws SQLException {
     if (customers.updateName(userName, firstName, lastName)) {
       return true;
