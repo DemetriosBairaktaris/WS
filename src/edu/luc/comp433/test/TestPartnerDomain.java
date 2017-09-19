@@ -2,6 +2,8 @@ package edu.luc.comp433.test;
 
 import static org.junit.Assert.assertTrue;
 
+import edu.luc.comp433.domain.partner.PartnerManager;
+
 import java.sql.SQLException;
 
 import org.junit.After;
@@ -13,27 +15,34 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.domain.partner.PartnerManager;
-
 public class TestPartnerDomain {
 
   private static ApplicationContext context;
-  private PartnerManager manager;
-  private String userName;
-  private String name;
-  private String address;
-  private String phone;
-  
+
+  @AfterClass
+  public static void afterClass() {
+    ((ConfigurableApplicationContext) context).close();
+  }
+
   @BeforeClass
   public static void setUpClass() {
     context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   }
-  
-  @AfterClass
-  public static void afterClass() {
-    ((ConfigurableApplicationContext)context).close();
-  }
-  
+
+  private PartnerManager manager;
+  private String userName;
+  private String name;
+
+  private String address;
+
+  private String phone;
+
+  /**
+   * Sets up the manager and populates the attributes for the partner.
+   * 
+   * @throws Exception
+   *           thrown if Spring or SQL do not work.
+   */
   @Before
   public void setUp() throws Exception {
     manager = (PartnerManager) context.getBean("partnerManager");
@@ -42,7 +51,13 @@ public class TestPartnerDomain {
     address = "312 Test St";
     phone = "555-555-5555";
   }
-  
+
+  /**
+   * Removes all items.
+   * 
+   * @throws Exception
+   *           thrown if Spring or SQL do not work.
+   */
   @After
   public void tearDown() throws Exception {
     manager.delete(userName);
@@ -52,13 +67,20 @@ public class TestPartnerDomain {
     address = null;
     phone = null;
   }
-  
+
   @Test
-  public void testPartnerActions() { 
+  public void testPartnerActions() {
     assertTrue(manager.create(userName, name, address, phone));
     assertTrue(manager.delete(userName));
   }
-  
+
+  @Test
+  public void testPartnerProducts() throws SQLException, Exception {
+    manager.create(userName, name, address, phone);
+    assertTrue(manager.addProduct(userName, "product", "it's great", 20d, 2L));
+    assertTrue(manager.getProduct("product").getName().equals("product"));
+  }
+
   @Test
   public void testPartnerUpdate() {
     manager.create(userName, name, address, phone);
@@ -67,13 +89,6 @@ public class TestPartnerDomain {
     assertTrue(manager.updateName(userName, "Test"));
     assertTrue(manager.getPartnerProfile(userName).getName().equals("Test"));
     assertTrue(manager.updatePhone(userName, "444-444-4444"));
-    assertTrue(manager.getPartnerProfile(userName).getPhone().equals("444-444-4444") );
-  }
-  
-  @Test
-  public void testPartnerProducts() throws SQLException, Exception {
-    manager.create(userName, name, address, phone);
-    assertTrue(manager.addProduct(userName, "product", "it's great", 20d, 2l));
-    assertTrue(manager.getProduct("product").getName().equals("product"));
+    assertTrue(manager.getPartnerProfile(userName).getPhone().equals("444-444-4444"));
   }
 }

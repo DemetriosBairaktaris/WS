@@ -1,10 +1,15 @@
 package edu.luc.comp433.domain.customer;
 
 public interface Payment {
-    public void setCardNumber(String cardNumber);
-    public String getCardNumber();
-    public void setCardName(String cardName);
-    public String getCardName();
-    public void setCVV(String CVV);
-    public String getCVV();
+  public String getCardName();
+
+  public String getCardNumber();
+
+  public String getCvv();
+
+  public void setCardName(String cardName);
+
+  public void setCardNumber(String cardNumber);
+
+  public void setCvv(String cvv);
 }

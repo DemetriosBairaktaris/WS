@@ -4,14 +4,23 @@ import java.util.Date;
 import java.util.List;
 
 public interface Order {
-    public void setID(double id);
-    public double getID();
-    public void setTimestamp();
-    public Date getTimestamp();
-    public void setStatus(String status);
-    public String getStatus();
-    public void setDetails(List<OrderDetail> details);
-    public List<OrderDetail> getDetails();
-    public void addOrderDetail(OrderDetail detail);
-    public void removeOrderDetail(OrderDetail detail);
+  public void addOrderDetail(OrderDetail detail);
+
+  public List<OrderDetail> getDetails();
+
+  public double getId();
+
+  public String getStatus();
+
+  public Date getTimestamp();
+
+  public void removeOrderDetail(OrderDetail detail);
+
+  public void setDetails(List<OrderDetail> details);
+
+  public void setId(double id);
+
+  public void setStatus(String status);
+
+  public void setTimestamp();
 }
