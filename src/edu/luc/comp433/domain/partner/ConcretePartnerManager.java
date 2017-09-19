@@ -35,8 +35,6 @@ public class ConcretePartnerManager implements PartnerManager {
       profile.setName(name);
       profile.setAddress(address);
       profile.setPhone(phone);
-      profile.setOrders(new LinkedList<Order>());
-      profile.setProducts(new LinkedList<Product>());
       try {
         if((database.insertPartner(profile))) {
         		return true ; 

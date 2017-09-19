@@ -2,6 +2,8 @@ package edu.luc.comp433.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -66,5 +68,12 @@ public class TestPartnerDomain {
     assertTrue(manager.getPartnerProfile(userName).getName().equals("Test"));
     assertTrue(manager.updatePhone(userName, "444-444-4444"));
     assertTrue(manager.getPartnerProfile(userName).getPhone().equals("444-444-4444") );
+  }
+  
+  @Test
+  public void testPartnerProducts() throws SQLException, Exception {
+    manager.create(userName, name, address, phone);
+    assertTrue(manager.addProduct(userName, "product", "it's great", 20d, 2l));
+    assertTrue(manager.getProduct("product").getName().equals("product"));
   }
 }

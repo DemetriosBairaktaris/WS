@@ -28,7 +28,12 @@
     <bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager" scope="prototype">
         <property name="database" ref="database" />
     </bean>
-    <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype" />
+    <bean id="products" class="java.util.LinkedList" />
+    <bean id="orders" class="java.util.LinkedList" />
+    <bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile" scope="prototype" > 
+        <property name="products" ref="products" />
+        <property name="orders" ref="orders" />
+    </bean>
     
     <!-- product class -->
     <bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct" scope="prototype" />
