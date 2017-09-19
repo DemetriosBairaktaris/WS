@@ -7,8 +7,6 @@ public interface Product {
   public String getDesc();
   public void setCost(double cost);
   public double getCost();
-  public void setCompany(String company);
-  public String getCompany();
   public void setStock(long stock);
   public long getStock();
 }

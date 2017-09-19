@@ -14,7 +14,6 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   private ApplicationContext context = 
       new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private OrderManager orders = (OrderManager) context.getBean("orderManager");
   private CustomerManager consumers = (CustomerManager) context.getBean("consumerManager");
   private ProductManager products = (ProductManager) context.getBean("productManager");
   private PartnerManager partners = (PartnerManager) context.getBean("partnerManager");

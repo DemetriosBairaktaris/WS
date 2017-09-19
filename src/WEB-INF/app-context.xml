@@ -15,21 +15,11 @@
     <!-- database access object class -->
     <bean id="dao" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" ></bean>
 
-    <!-- order manager class -->
-    <bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager" scope="prototype">
-        <property name="database" ref="dao" />
-    </bean>
-
     <!-- order class -->
     <bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder" scope="prototype"></bean>
 
     <!-- order detail class -->
     <bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail" scope="prototype">
-        <property name="database" ref="dao" />
-    </bean>
-
-    <!-- product manager class -->
-    <bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager" scope="prototype">
         <property name="database" ref="dao" />
     </bean>
     

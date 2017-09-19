@@ -3,6 +3,7 @@ package edu.luc.comp433.domain.partner;
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
+import edu.luc.comp433.domain.product.Product;
 
 public class ConcretePartnerProfile implements PartnerProfile {
 
@@ -11,6 +12,7 @@ public class ConcretePartnerProfile implements PartnerProfile {
   private String address;
   private String phone;
   private List<Order> orders;
+  private List<Product> products;
 
   public ConcretePartnerProfile() {}
 
@@ -72,5 +74,25 @@ public class ConcretePartnerProfile implements PartnerProfile {
     @Override
     public void removeOrder(Order order) {
       orders.remove(order);
+    }
+
+    @Override
+    public void setProducts(List<Product> products) {
+      this.products = products;
+    }
+    
+    @Override
+    public List<Product> getProducts() {
+      return products;
+    }
+
+    @Override
+    public void addProduct(Product product) {
+      products.add(product);
+    }
+
+    @Override
+    public void removeProduct(Product product) {
+      products.remove(product);
     }
 }
