@@ -1,62 +1,54 @@
 package edu.luc.comp433.domain.order;
 
+import edu.luc.comp433.domain.product.Product;
+
 public class ConcreteOrderDetail implements OrderDetail {
 
-    private double id;
-    private double orderID;
-    private double itemID;
-    private long quantity;
-    private String status;
-    
-    public ConcreteOrderDetail() {}
-    
-    @Override
-    public void setID(double id) {
-	this.id = id;
-    }
+  private double id;
+  private Product product;
+  private long quantity;
+  private String status;
 
-    @Override
-    public double getId() {
-        return id;
-    }
+  public ConcreteOrderDetail() {
+  }
 
-    @Override
-    public double getOrderID() {
-        return orderID;
-    }
+  @Override
+  public double getId() {
+    return id;
+  }
 
-    @Override
-    public void setOrderID(double orderID) {
-        this.orderID = orderID;
-    }
+  @Override
+  public Product getProduct() {
+    return product;
+  }
 
-    @Override
-    public double getItemID() {
-        return itemID;
-    }
+  @Override
+  public long getQuantity() {
+    return quantity;
+  }
 
-    @Override
-    public void setItemID(double itemID) {
-        this.itemID = itemID;
-    }
+  @Override
+  public String getStatus() {
+    return status;
+  }
 
-    @Override
-    public long getQuantity() {
-        return quantity;
-    }
+  @Override
+  public void setId(double id) {
+    this.id = id;
+  }
 
-    @Override
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
+  @Override
+  public void setProduct(Product product) {
+    this.product = product;
+  }
 
-    @Override
-    public String getStatus() {
-        return status;
-    }
+  @Override
+  public void setQuantity(long quantity) {
+    this.quantity = quantity;
+  }
 
-    @Override
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  @Override
+  public void setStatus(String status) {
+    this.status = status;
+  }
 }
