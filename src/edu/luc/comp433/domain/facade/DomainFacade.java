@@ -4,11 +4,11 @@ import java.sql.SQLException;
 
 public interface DomainFacade {
   public String getProduct(String productName) throws SQLException;
-  public boolean acceptBuyOrder(String userName, String orderID) throws SQLException;
-  public boolean acceptPayment(String userName, String orderID) throws SQLException;
-  public boolean shipOrder(String userName, String orderID) throws SQLException;
-  public String getOrderStatus(String userName, String orderID) throws SQLException;
-  public boolean cancelOrder(String userName, String orderID) throws SQLException;
+  public boolean acceptBuyOrder(String userName, double orderID) throws SQLException;
+  public boolean acceptPayment(String userName, double orderID) throws SQLException;
+  public boolean shipOrder(String userName, double orderID) throws SQLException;
+  public String getOrderStatus(String userName, double orderID) throws SQLException;
+  public boolean cancelOrder(String userName, double orderID) throws SQLException;
   public boolean registerPartner(String userName, String name, String address, String phone) throws SQLException;
   public boolean updatePartnerName(String userName, String name) throws SQLException;
   public boolean updatePartnerAddress(String userName, String address) throws SQLException;

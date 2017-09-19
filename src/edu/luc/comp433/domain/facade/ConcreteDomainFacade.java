@@ -6,45 +6,38 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
-import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
-import edu.luc.comp433.domain.product.ProductManager;
 
 public class ConcreteDomainFacade implements DomainFacade {
 
   private ApplicationContext context = 
       new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private CustomerManager consumers = (CustomerManager) context.getBean("consumerManager");
-  private ProductManager products = (ProductManager) context.getBean("productManager");
   private PartnerManager partners = (PartnerManager) context.getBean("partnerManager");
   
   public ConcreteDomainFacade() {}
   
   @Override
   public String getProduct(String productName) {
-    return products.getProduct(productName).getName() + "\n" + 
-  products.getProduct(productName).getDesc() + "\n" + 
-        products.getProduct(productName).getCost() + "\n" + 
-  products.getProduct(productName).getCompany() + "\n" + 
-        products.getProduct(productName).getStock();
+    return partners.getProduct(productName).getName();
   }
 
   @Override
-  public boolean acceptBuyOrder(String userName, String orderID) {
+  public boolean acceptBuyOrder(String userName, double orderID) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean acceptPayment(String userName, String orderID) {
+  public boolean acceptPayment(String userName, double orderID) {
     // TODO Auto-generated method stub
     return false;
   }
 
   @Override
-  public boolean shipOrder(String userName, String orderID) throws NumberFormatException, SQLException {
-    consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).setStatus("shipped");
-    if (consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus().equals("shipped")) {
+  public boolean shipOrder(String userName, double orderID) throws NumberFormatException, SQLException {
+    consumers.getCustomer(userName).getOrders().get((int) orderID).setStatus("shipped");
+    if (consumers.getCustomer(userName).getOrders().get((int) orderID).getStatus().equals("shipped")) {
       return true;
     } else {
       return false;
@@ -52,18 +45,20 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public String getOrderStatus(String userName, String orderID) throws NumberFormatException, SQLException {
-    return consumers.getCustomer(userName).getOrders().get(Integer.parseInt(orderID)).getStatus();
+  public String getOrderStatus(String userName, double orderID) throws NumberFormatException, SQLException {
+    return consumers.getCustomer(userName).getOrders().get((int) orderID).getStatus();
   }
 
   //TODO fix this
   @Override
-  public boolean cancelOrder(String userName, String orderID) {
-    if (consumers.getCustomer(userName).removeOrder(orderID)) {
-      return true;
-    } else {
-      return false;
+  public boolean cancelOrder(String userName, double orderID) throws SQLException {
+    for (int i = 0; i < consumers.getCustomer(userName).getOrders().size(); i++) {
+      if (consumers.getCustomer(userName).getOrders().get(i).getID() == orderID) {
+        consumers.getCustomer(userName).removeOrder(consumers.getCustomer(userName).getOrders().get(i));
+        return true;
+      }
     }
+    return false;
   }
 
   @Override
@@ -100,17 +95,6 @@ public class ConcreteDomainFacade implements DomainFacade {
    } else {
      return false;
    }
-  }
-
-  //TODO add user name checks
-  @Override
-  public boolean addProduct(String userName, String name, String desc, double cost, String company,
-      long stock) {
-    if (products.addProduct(name, desc, cost, company, stock)) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @Override
@@ -169,5 +153,12 @@ public class ConcreteDomainFacade implements DomainFacade {
     } else {
       return false;
     }
+  }
+
+  @Override
+  public boolean addProduct(String userName, String name, String desc, double cost, String company,
+      long stock) throws SQLException {
+    // TODO Auto-generated method stub
+    return false;
   }
 }
