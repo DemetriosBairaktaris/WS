@@ -1,7 +1,7 @@
 package edu.luc.comp433.domain.customer;
 
 /**
- * Customer Payment Profile
+ * Customer Payment Profile.
  * 
  * @author Thaddeus and Demetrios
  *

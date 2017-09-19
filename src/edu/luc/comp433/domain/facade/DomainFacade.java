@@ -107,7 +107,7 @@ public interface DomainFacade {
   public String getOrders(String userName) throws SQLException;
 
   /**
-   * Retrieves the status of a specific order
+   * Retrieves the status of a specific order.
    * 
    * @param userName
    *          String
@@ -138,7 +138,7 @@ public interface DomainFacade {
   public String getProduct(String productName) throws SQLException;
 
   /**
-   * Creates a new customer
+   * Creates a new customer.
    * 
    * @param userName
    *          String

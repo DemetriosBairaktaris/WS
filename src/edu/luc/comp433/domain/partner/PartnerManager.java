@@ -3,8 +3,6 @@ package edu.luc.comp433.domain.partner;
 import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.product.Product;
 
-import java.sql.SQLException;
-
 /**
  * Lays out the needs of the partner manager.
  * 
@@ -104,7 +102,7 @@ public interface PartnerManager {
   public void setDatabase(DatabaseAccess database);
 
   /**
-   * Updates a partner's address
+   * Updates a partner's address.
    * 
    * @param userName
    *          String
