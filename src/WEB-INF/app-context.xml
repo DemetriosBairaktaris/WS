@@ -35,12 +35,11 @@
 		scope="prototype">
 		<property name="database" ref="database" />
 	</bean>
-	<bean id="products" class="java.util.ArrayList" />
-	<bean id="orders" class="java.util.ArrayList" />
+	<bean id="list" class="java.util.ArrayList" />
 	<bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile"
 		scope="prototype">
-		<property name="products" ref="products" />
-		<property name="orders" ref="orders" />
+		<property name="products" ref="list" />
+		<property name="orders" ref="list" />
 	</bean>
 
 	<!-- product class -->
