@@ -65,7 +65,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return null;
   }
 
-  // TODO add more table values to SQL code
+  // TODO add order list and product list to this method
   @Override
   public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException {
 
@@ -108,7 +108,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return true;
   }
 
-  // TODO map additional attributes
+  // TODO return order list and product list here
   @Override
   public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException {
     String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = "
