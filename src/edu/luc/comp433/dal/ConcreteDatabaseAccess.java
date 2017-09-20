@@ -144,6 +144,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return wrappedResult;
   }
 
+  //TODO add order list to this method
   @Override
   public boolean insertConsumer(Customer consumer) throws SQLException {
     db.setAutoCommit(false);
@@ -207,6 +208,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
   }
 
+  //TODO add order list to this method
   @Override
   public Customer getConsumer(String userName) throws SQLException {
 
