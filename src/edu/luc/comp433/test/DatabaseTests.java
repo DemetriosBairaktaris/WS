@@ -1,7 +1,6 @@
 package edu.luc.comp433.test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -21,6 +20,8 @@ import edu.luc.comp433.domain.consumer.Consumer;
 import edu.luc.comp433.domain.consumer.Payment;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
+import edu.luc.comp433.domain.product.ConcreteProduct;
+import edu.luc.comp433.domain.product.Product;
 
 public class DatabaseTests {
 	
@@ -45,6 +46,8 @@ public class DatabaseTests {
 		
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
+			stmt = db.createStatement();
+		    dal = new ConcreteDatabaseAccess();
 		} catch (SQLException e) {
 			//
 		}
@@ -54,6 +57,8 @@ public class DatabaseTests {
 	public void finalize() {
 		try {
 			db.close();
+			stmt.close();
+			dal = null ;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Could not close db connection");
@@ -62,16 +67,13 @@ public class DatabaseTests {
 	
 	@Before
 	public void setUp() throws SQLException {
-	    stmt = db.createStatement();
-	    dal = new ConcreteDatabaseAccess();
+	    
 	    partnerName1 = "JSHARP@GMAIL.COM" ; 
 	    partnerName2 = "JSHARP7@GMAIL.COM";
 	}
 	
 	@After
 	public void tearDown() throws SQLException {
-		stmt = null ; 
-		dal = null ;
 		partnerName1 = null ; 
 		partnerName2 = null ;
 	}
@@ -79,7 +81,6 @@ public class DatabaseTests {
     @Test
     public void testConnection() throws SQLException {
     		//test our connection to our lovely database <3
-    		stmt = db.createStatement();
     		String sql = "Select * from Products;";
     		assertTrue(stmt.execute(sql)); // should be able to query 
     }
@@ -269,5 +270,45 @@ public class DatabaseTests {
 		
 		assertTrue(dal.insertConsumer(c));
     	 	assertTrue(dal.deleteConsumer(c)) ; 
+    }
+    
+    @Test 
+    public void testInsertProduct() throws SQLException {
+    		String productName = "WaxOn-WaxOff" ;
+    		String desc = "Everyones favorite wax" ; //todo fix for apostraphe 
+    		String partnerUserName = "wonderbread@gmail.com";
+    		double cost = 500000.00 ;
+    		int stock = 30 ; 
+    		Product product = new ConcreteProduct() ; 
+    		product.setName(productName);
+    		product.setDesc(desc);
+    		product.setCompany(partnerUserName);
+    		product.setCost(cost);
+    		product.setStock(stock);
+    		
+    		assertFalse(dal.insertProduct(product)); //should fail/ partner doesn't exist...
+    		product.setCompany("BIGDADDY@GMAIL.COM"); //change to one that does exist 
+    		assertTrue(dal.insertProduct(product)); //should pass :)
+    		assertTrue(dal.deleteProduct(product)) ; 
+    		
+    }
+    
+    @Test
+    public void testDeleteProduct() throws SQLException {
+    		String productName = "WaxOn-WaxOff" ;
+		String desc = "Everyone's favorite wax" ; 
+		String partnerUserName = "BIGDADDY@GMAIL.COM";
+		double cost = 500000.00 ;
+		int stock = 30 ; 
+		Product product = new ConcreteProduct() ; 
+		product.setName(productName);
+		product.setDesc(desc);
+		product.setCompany(partnerUserName);
+		product.setCost(cost);
+		product.setStock(stock);
+		
+		assertTrue(dal.insertProduct(product)); //should pass :)
+		assertTrue(dal.deleteProduct(product)); 
+		
     }
 }

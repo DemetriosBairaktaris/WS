@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
 import java.util.List;
+
+import org.postgresql.util.PSQLException;
 
 import edu.luc.comp433.domain.consumer.ConcreteConsumer;
 import edu.luc.comp433.domain.consumer.ConcretePayment;
@@ -15,6 +18,7 @@ import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
+import edu.luc.comp433.domain.product.ConcreteProduct;
 import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
@@ -92,7 +96,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ;
 		}
 	}
-
+	// todo make a dal to return every product boj no matter what
+	// and make one to get all partners obj
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
 		
@@ -122,17 +127,36 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			p.setAddress(rs.getString(3));
 			p.setPhone(rs.getString(4));
 			return p ; 
+			 
+			//todo get products list and add to partner here
+			//update get partner test to check .
+			////get orders too
 		}
 	}
 
 	@Override
-	public boolean insertProduct(Product product) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertProduct(Product product) throws SQLException {
+		String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION,PARTNER_USER_NAME,"
+				+ "COST,STOCK) VALUES ("+
+				this.wrapSingleQuotes(product.getName()) + ","+
+				this.wrapSingleQuotes(product.getDesc()) + "," + 
+				this.wrapSingleQuotes(product.getCompany()) + ","+
+				product.getCost() + ", "+
+				product.getStock() + ") ; ";
+		int success ; 
+		try {
+			success = stmt.executeUpdate(sql) ; 
+		}catch(PSQLException e) {
+			success = 0 ;
+		}
+		if(success == 0) {
+			return false; 
+		}
+		return true ; 
 	}
 
 	@Override
-	public boolean updateProduct(Product product) {
+	public boolean updateProduct(Product product) throws SQLException {
 		
 		if(this.deleteProduct(product)) {
 			return insertProduct(product);
@@ -143,16 +167,36 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override 
-	public List<Product> getProduct(String productName){
-		List<Product> products = null ; 
-		return products ;
+	public List<Product> getProduct(String productName) throws SQLException{
+		List<Product> products = new LinkedList<>() ; 
+		String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = "+
+		this.wrapSingleQuotes(productName) + " ;"; 
 		
+		ResultSet rs = stmt.executeQuery(sql);
+		while(rs.next()) {
+			Product p = new ConcreteProduct();
+			//skip column 1, we don't need id in the domain
+			p.setName(rs.getString(2)) ; 
+			p.setDesc(rs.getString(3));
+			p.setCompany(rs.getString(4));
+			p.setCost(rs.getDouble(5));
+			p.setStock(rs.getInt(6));
+			products.add(p);
+		}
+		return products ;
 	}
 	
 	@Override
-	public boolean deleteProduct(Product product) {
-		if()
-		return false ; 
+	public boolean deleteProduct(Product product) throws SQLException {
+		//String.format("Hello %s, %d", "world", 42);
+		String sql = "DELETE FROM PRODUCTS WHERE PARTNER_USER_NAME = %s AND PRODUCT_NAME = %s" ; 
+		sql = String.format(sql, product.getCompany(),product.getName());
+		if(stmt.executeUpdate(sql) == 0) {
+			return false ;
+		}
+		else {
+			return true ;
+		}	
 	}
 	
 	private String wrapSingleQuotes(String s) {
