@@ -16,7 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.domain.product.Review;
 
-public class testProductDomain {
+public class TestProductDomain {
 
   private static ApplicationContext context;
   private ProductManager products;
@@ -48,6 +48,7 @@ public class testProductDomain {
 
   @After
   public void tearDown() throws Exception {
+    products.deleteProduct(name);
     products = null;
     name = null;
     desc = null;

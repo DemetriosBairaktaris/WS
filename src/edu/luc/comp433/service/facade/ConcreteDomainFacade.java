@@ -1,7 +1,9 @@
 package edu.luc.comp433.service.facade;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
+import edu.luc.comp433.domain.product.ProductManager;
 
 //TODO uses professor's flow diagram to fix this
 //TODO move to service level package

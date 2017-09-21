@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
@@ -20,7 +19,6 @@ import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
-import edu.luc.comp433.domain.product.ConcreteProduct;
 import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
@@ -83,15 +81,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + this.wrapSingleQuotes(profile.getAddress()) + ","
         + this.wrapSingleQuotes(profile.getPhone()) + " );";
     int success = stmt.executeUpdate(sql);
-    boolean is_ok = true;
     if (success == 0) {
       System.out.println("Couln't insert row into Partners");
       return false;
     } else {
-      for (Product p : profile.getProducts()) {
-        is_ok = this.insertProduct(p, profile);
-      }
-      return is_ok;
+      return true;
     }
   }
 
@@ -132,13 +126,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       p.setName(rs.getString(2));
       p.setAddress(rs.getString(3));
       p.setPhone(rs.getString(4));
-      p.setOrders(new LinkedList()); // todo this is not correct but tests and stuff need it
-      p.setProducts(getProducts(null, p));
       return p;
-
-      // todo get products list and add to partner here
-      // update get partner test to check .
-      //// get orders too
     }
   }
 
@@ -164,7 +152,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updateProduct(Product product) throws SQLException {
-    if (this.deleteProduct(product)) {
+    if (this.deleteProduct(product.getName())) {
       return insertProduct(product);
     } else {
       return false;

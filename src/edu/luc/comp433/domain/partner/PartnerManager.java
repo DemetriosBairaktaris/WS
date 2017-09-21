@@ -1,11 +1,8 @@
 package edu.luc.comp433.domain.partner;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.dal.DatabaseAccess;
-import edu.luc.comp433.domain.product.Product;
 
 /**
  * Lays out the needs of the partner manager.
@@ -14,26 +11,6 @@ import edu.luc.comp433.domain.product.Product;
  *
  */
 public interface PartnerManager {
-
-  /**
-   * Adds a product to a partner.
-   * 
-   * @param userName
-   *          String
-   * @param name
-   *          String
-   * @param desc
-   *          String
-   * @param cost
-   *          double
-   * @param stock
-   *          long
-   * @return true if successful
-   * @throws Exception
-   *           errors if database not ready
-   */
-  public boolean addProduct(String userName, String name, String desc, double cost, long stock)
-      throws Exception;
 
   /**
    * Creates a partner profile.
@@ -47,8 +24,11 @@ public interface PartnerManager {
    * @param phone
    *          String
    * @return true if successful
+   * @throws Exception
+   * @throws SQLException
    */
-  public boolean create(String userName, String name, String address, String phone);
+  public boolean createPartner(String userName, String name, String address, String phone)
+      throws SQLException, Exception;
 
   /**
    * Deletes a partner profile.
@@ -56,8 +36,10 @@ public interface PartnerManager {
    * @param userName
    *          String
    * @return true if successful
+   * @throws SQLException
+   * @throws Exception
    */
-  public boolean delete(String userName);
+  public boolean deletePartner(String userName) throws SQLException, Exception;
 
   /**
    * Retrieves the database access object.
@@ -67,47 +49,15 @@ public interface PartnerManager {
   public DatabaseAccess getDatabase();
 
   /**
-   * Retrieves a list of orders for a partner profile.
-   * 
-   * @param userName
-   *          String
-   * @return List of type Order
-   * @throws Exception
-   *           errors if database not ready
-   */
-  public List<Order> getOrders(String userName) throws Exception;
-
-  /**
    * Retrieves a specific partner profile.
    * 
    * @param userName
    *          String
    * @return PartnerProfile
-   */
-  public PartnerProfile getPartnerProfile(String userName);
-
-  /**
-   * Searches for a specific product among all partners.
-   * 
-   * @param name
-   *          String
-   * @return Product
- * @throws SQLException 
-   */
-  public Product getProduct(String name,String partnerUserName) throws SQLException;
-
-  /**
-   * Removes a product from a partner profile.
-   * 
-   * @param userName
-   *          String
-   * @param name
-   *          String
-   * @return true if successful
    * @throws Exception
-   *           errors if database not ready
+   * @throws SQLException
    */
-  public boolean removeProduct(String userName, String name) throws Exception;
+  public PartnerProfile getPartnerProfile(String userName) throws SQLException, Exception;
 
   /**
    * Sets the database.
@@ -125,38 +75,10 @@ public interface PartnerManager {
    * @param address
    *          String
    * @return true if successful
-   */
-  public boolean updateAddress(String userName, String address);
-
-  /**
-   * Updates a partner's product's cost.
-   * 
-   * @param userName
-   *          String
-   * @param cost
-   *          double
-   * @param name
-   *          String
-   * @return true if successful
    * @throws Exception
-   *           errors if database not ready
+   * @throws SQLException
    */
-  public boolean updateCost(String userName, double cost, String name) throws Exception;
-
-  /**
-   * Updates a partner's product's description.
-   * 
-   * @param userName
-   *          String
-   * @param desc
-   *          String
-   * @param name
-   *          String
-   * @return true if successful
-   * @throws Exception
-   *           errors if database not ready
-   */
-  public boolean updateDescription(String userName, String desc, String name) throws Exception;
+  public boolean updateAddress(String userName, String address) throws SQLException, Exception;
 
   /**
    * Updates a partner's name.
@@ -166,21 +88,10 @@ public interface PartnerManager {
    * @param name
    *          String
    * @return true if successful
-   */
-  public boolean updateName(String userName, String name);
-
-  /**
-   * Updates the list of orders in a partner profile.
-   * 
-   * @param userName
-   *          String
-   * @param orders
-   *          List of type order
-   * @return true if successful
    * @throws Exception
-   *           errors if database not ready
+   * @throws SQLException
    */
-  public boolean updateOrders(String userName, List<Order> orders) throws Exception;
+  public boolean updateName(String userName, String name) throws SQLException, Exception;
 
   /**
    * Updates a partner's phone number.
@@ -190,21 +101,8 @@ public interface PartnerManager {
    * @param phone
    *          String
    * @return true if successful
-   */
-  public boolean updatePhone(String userName, String phone);
-
-  /**
-   * Updates a partner's product's available stock number.
-   * 
-   * @param userName
-   *          String
-   * @param stock
-   *          long
-   * @param name
-   *          String
-   * @return true if successful
    * @throws Exception
-   *           errors if database not ready
+   * @throws SQLException
    */
-  public boolean updateStock(String userName, long stock, String name) throws Exception;
+  public boolean updatePhone(String userName, String phone) throws SQLException, Exception;
 }
