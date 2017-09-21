@@ -10,7 +10,6 @@ import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.Product;
 
 public interface DatabaseAccess {
-  // define methods that the various domain managers will need to access
 
   /**
    * Order Related Methods
@@ -41,12 +40,16 @@ public interface DatabaseAccess {
 
   /**
    * Product Related Methods
+   * 
+   * @throws SQLException
    */
-  public boolean insertProduct(Product product);
+  public boolean insertProduct(Product product, PartnerProfile profile) throws SQLException;
 
-  public boolean updateProduct(Product product);
+  public boolean updateProduct(Product product, PartnerProfile profile) throws SQLException;
 
-  public Product getProduct(String productName);
+  public List<Product> getProducts(String productName, PartnerProfile profile) throws SQLException;
+
+  boolean deleteProduct(Product product, PartnerProfile profile) throws SQLException;
 
   /**
    * Consumer Methods
@@ -60,4 +63,5 @@ public interface DatabaseAccess {
   public boolean deleteConsumer(Customer consumer) throws SQLException;
 
   public Customer getConsumer(String userName) throws SQLException;
+
 }

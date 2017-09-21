@@ -98,24 +98,18 @@ public class ConcretePartnerManager implements PartnerManager {
   }
 
   @Override
-  public Product getProduct(String name) {
-    return database.getProduct(name); // TODO implement this method in the DAL
+  public Product getProduct(String name, String partnerUserName) throws SQLException {
+    return database.getProducts(name,this.getPartnerProfile(partnerUserName)).get(0); // TODO implement this method in the DAL
   }
 
   @Override
   public boolean removeProduct(String userName, String name) throws Exception {
+	  
     PartnerProfile partner = database.getPartnerProfile(userName);
-    for (int i = 0; i < partner.getProducts().size(); i++) {
-      if (partner.getProducts().get(i).getName().equals(name)) {
-        partner.getProducts().remove(i);
-        if (database.updatePartner(partner)) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
-    return false;
+    Product product = (Product) context.getBean("product");
+    product.setName(name);
+    return database.deleteProduct(product, partner);
+    
   }
 
   @Override

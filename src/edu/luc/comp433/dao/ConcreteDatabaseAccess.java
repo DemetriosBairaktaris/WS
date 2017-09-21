@@ -1,4 +1,4 @@
-package edu.luc.comp433.dal;
+package edu.luc.comp433.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
