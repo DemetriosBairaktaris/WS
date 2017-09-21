@@ -100,8 +100,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			return false ;
 		}
 	}
-	// todo make a dal to return every product boj no matter what
-	// and make one to get all partners obj
+	
 	@Override
 	public boolean deletePartner(PartnerProfile profile) throws SQLException {
 		
@@ -131,7 +130,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			p.setAddress(rs.getString(3));
 			p.setPhone(rs.getString(4));
 			p.setOrders(new LinkedList()); //todo this is not correct but tests and stuff need it
-			p.setProducts(getProduct(null,p));
+			p.setProducts(getProducts(null,p));
 			return p ; 
 			 
 			//todo get products list and add to partner here
@@ -175,7 +174,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override 
-	public List<Product> getProduct(String productName,PartnerProfile profile) throws SQLException{
+	public List<Product> getProducts(String productName,PartnerProfile profile) throws SQLException{
 		List<Product> products = new LinkedList<>() ; 
 		String sql ;
 		if (productName == null) {

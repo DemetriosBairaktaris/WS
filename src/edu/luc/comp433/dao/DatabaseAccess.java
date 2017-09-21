@@ -47,7 +47,7 @@ public interface DatabaseAccess {
 
 	public boolean updateProduct(Product product, PartnerProfile profile) throws SQLException;
 
-	public List<Product> getProduct(String productName, PartnerProfile profile) throws SQLException;
+	public List<Product> getProducts(String productName, PartnerProfile profile) throws SQLException;
 
 	boolean deleteProduct(Product product, PartnerProfile profile) throws SQLException;
 

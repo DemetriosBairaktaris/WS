@@ -1,6 +1,6 @@
 package edu.luc.comp433.domain.partner;
 
-import edu.luc.comp433.dal.DatabaseAccess;
+import edu.luc.comp433.dao.DatabaseAccess;
 import edu.luc.comp433.domain.product.Product;
 
 import java.sql.SQLException;
@@ -79,8 +79,9 @@ public interface PartnerManager {
    * @param name
    *          String
    * @return Product
+ * @throws SQLException 
    */
-  public Product getProduct(String name);
+  public Product getProduct(String name,String partnerUserName) throws SQLException;
 
   /**
    * Removes a product from a partner profile.
