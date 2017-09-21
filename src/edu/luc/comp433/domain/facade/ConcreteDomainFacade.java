@@ -13,9 +13,14 @@ public class ConcreteDomainFacade implements DomainFacade {
   public ConcreteDomainFacade() {
   }
 
+  //TODO fix this method
   @Override
-  public boolean acceptBuyOrder(String userName, String productName, long quantity) {
-    // TODO Auto-generated method stub
+  public boolean purchaseProduct(String userName, String productName, long quantity) throws SQLException {
+    if (partners.getProduct(productName).getStock() >= quantity) {
+      customers.createOrder(userName);
+      customers.addOrderDetail(userName, 0, productName, quantity);
+      partners.getProduct(productName).setStock(partners.getProduct(productName).getStock() - quantity);
+    }
     return false;
   }
 
@@ -27,9 +32,12 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean addProduct(String userName, String name, String desc, double cost, long stock)
-      throws SQLException {
-    // TODO Auto-generated method stub
-    return false;
+      throws Exception {
+    if (partners.addProduct(userName, name, desc, cost, stock)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // TODO fix this

@@ -26,7 +26,7 @@ public interface DomainFacade {
    * @throws SQLException
    *           errors if database not ready
    */
-  public boolean acceptBuyOrder(String userName, String productName, long quantity)
+  public boolean purchaseProduct(String userName, String productName, long quantity)
       throws SQLException;
 
   /**
@@ -58,9 +58,10 @@ public interface DomainFacade {
    * @return true if successful
    * @throws SQLException
    *           errors if database not ready
+   * @throws Exception 
    */
   public boolean addProduct(String userName, String name, String desc, double cost, long stock)
-      throws SQLException;
+      throws SQLException, Exception;
 
   /**
    * Cancels a customer's order.
