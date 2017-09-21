@@ -1,5 +1,7 @@
 package edu.luc.comp433.domain.product;
 
+
+//TODO add list for reviews
 public class ConcreteProduct implements Product {
 
   private String name;

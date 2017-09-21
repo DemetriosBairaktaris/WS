@@ -5,6 +5,7 @@ import edu.luc.comp433.domain.product.Product;
 
 import java.util.List;
 
+//TODO possibly remove list of orders and just provide a reporting function somewhere else
 public class ConcretePartnerProfile implements PartnerProfile {
 
   private String userName;

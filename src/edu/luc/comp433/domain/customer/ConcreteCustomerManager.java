@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+//TODO need to add order ID information for searching orders and order details
 public class ConcreteCustomerManager implements CustomerManager {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext(

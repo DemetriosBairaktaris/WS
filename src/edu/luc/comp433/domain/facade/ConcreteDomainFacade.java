@@ -5,6 +5,9 @@ import edu.luc.comp433.domain.partner.PartnerManager;
 
 import java.sql.SQLException;
 
+
+//TODO uses professor's flow diagram to fix this
+//TODO move to service level package
 public class ConcreteDomainFacade implements DomainFacade {
 
   private CustomerManager customers;

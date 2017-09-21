@@ -2,6 +2,7 @@ package edu.luc.comp433.domain.customer;
 
 public class ConcretePayment implements Payment {
 
+  //TODO add expiration date attribute and methods
   private String cardNumber;
   private String cardName;
   private String cvv;
