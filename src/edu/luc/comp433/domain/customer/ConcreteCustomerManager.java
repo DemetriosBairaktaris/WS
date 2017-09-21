@@ -1,6 +1,6 @@
 package edu.luc.comp433.domain.customer;
 
-import edu.luc.comp433.dal.DatabaseAccess;
+import edu.luc.comp433.dao.DatabaseAccess;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.product.Product;

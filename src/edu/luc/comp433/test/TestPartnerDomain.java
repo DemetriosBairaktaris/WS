@@ -77,8 +77,8 @@ public class TestPartnerDomain {
   @Test
   public void testPartnerProducts() throws SQLException, Exception {
     manager.create(userName, name, address, phone);
-    assertTrue(manager.addProduct(userName, "product", "it's great", 20d, 2L));
-    assertTrue(manager.getProduct("product").getName().equals("product"));
+    assertTrue(manager.addProduct(userName, "product", "its great", 20.00, 2));
+    assertTrue(manager.getProduct("product",userName).getName().equals("product"));
   }
 
   @Test
