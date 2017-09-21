@@ -1,14 +1,70 @@
 package edu.luc.comp433.domain.product;
 
+/**
+ * Lays out the needs of the Product class.
+ * 
+ * @author Thaddeus and Demetrios
+ *
+ */
 public interface Product {
-  public void setName(String name);
-  public String getName();
-  public void setDesc(String desc);
-  public String getDesc();
-  public void setCost(double cost);
+
+  /**
+   * Retrieves product cost.
+   * 
+   * @return double
+   */
   public double getCost();
-  public void setCompany(String company);
-  public String getCompany();
-  public void setStock(long stock);
+
+  /**
+   * Retrieves the product description.
+   * 
+   * @return String
+   */
+  public String getDesc();
+
+  /**
+   * Retrieves the product name.
+   * 
+   * @return String
+   */
+  public String getName();
+
+  /**
+   * Retrieves the amount of available products.
+   * 
+   * @return long
+   */
   public long getStock();
+
+  /**
+   * Sets the product's cost.
+   * 
+   * @param cost
+   *          double
+   */
+  public void setCost(double cost);
+
+  /**
+   * Sets the product's description.
+   * 
+   * @param desc
+   *          String
+   */
+  public void setDesc(String desc);
+
+  /**
+   * Sets the products name.
+   * 
+   * @param name
+   *          String
+   */
+  public void setName(String name);
+
+  /**
+   * Sets the number of available stock for a product.
+   * 
+   * @param stock
+   *          long
+   */
+  public void setStock(long stock);
 }

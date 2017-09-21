@@ -10,10 +10,10 @@ import java.util.List;
 
 import org.postgresql.util.PSQLException;
 
-import edu.luc.comp433.domain.consumer.ConcreteConsumer;
-import edu.luc.comp433.domain.consumer.ConcretePayment;
-import edu.luc.comp433.domain.consumer.Consumer;
-import edu.luc.comp433.domain.consumer.Payment;
+import edu.luc.comp433.domain.customer.ConcreteCustomer;
+import edu.luc.comp433.domain.customer.ConcretePayment;
+import edu.luc.comp433.domain.customer.Customer;
+import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
@@ -78,12 +78,16 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 				this.wrapSingleQuotes(profile.getAddress())+ "," +
 				this.wrapSingleQuotes(profile.getPhone())+ " );"; 
 		int success = stmt.executeUpdate(sql);
+		boolean is_ok = true  ; 
 		if (success == 0) {
 			System.out.println("Couln't insert row into Partners");
 			return false ; 
 		}
 		else {
-			return true ; 
+			for(Product p : profile.getProducts()) {
+				is_ok = this.insertProduct(p, profile);
+			}
+			return is_ok ; 
 		}
 	}
 
@@ -118,7 +122,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		if(!rs.next()) {
-			throw new Exception("Partner does not exist") ;  
+			throw new Exception("Partner does not exist");
 		}
 		else{
 			PartnerProfile p = new ConcretePartnerProfile() ; 
@@ -126,6 +130,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			p.setName(rs.getString(2));
 			p.setAddress(rs.getString(3));
 			p.setPhone(rs.getString(4));
+			p.setOrders(new LinkedList()); //todo this is not correct but tests and stuff need it
+			p.setProducts(getProduct(null,p));
 			return p ; 
 			 
 			//todo get products list and add to partner here
@@ -135,18 +141,20 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 
 	@Override
-	public boolean insertProduct(Product product) throws SQLException {
+	public boolean insertProduct(Product product,PartnerProfile profile) throws SQLException {
 		String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION,PARTNER_USER_NAME,"
 				+ "COST,STOCK) VALUES ("+
 				this.wrapSingleQuotes(product.getName()) + ","+
 				this.wrapSingleQuotes(product.getDesc()) + "," + 
-				this.wrapSingleQuotes(product.getCompany()) + ","+
+				this.wrapSingleQuotes(profile.getUserName()) + ","+
 				product.getCost() + ", "+
 				product.getStock() + ") ; ";
+		System.out.println(sql);
 		int success ; 
 		try {
 			success = stmt.executeUpdate(sql) ; 
 		}catch(PSQLException e) {
+			System.out.println(e.getStackTrace());
 			success = 0 ;
 		}
 		if(success == 0) {
@@ -156,10 +164,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 
 	@Override
-	public boolean updateProduct(Product product) throws SQLException {
+	public boolean updateProduct(Product product, PartnerProfile profile) throws SQLException {
 		
-		if(this.deleteProduct(product)) {
-			return insertProduct(product);
+		if(this.deleteProduct(product,profile)) {
+			return insertProduct(product,profile);
 		}
 		else {
 			return false;
@@ -167,10 +175,19 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override 
-	public List<Product> getProduct(String productName) throws SQLException{
+	public List<Product> getProduct(String productName,PartnerProfile profile) throws SQLException{
 		List<Product> products = new LinkedList<>() ; 
-		String sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = "+
-		this.wrapSingleQuotes(productName) + " ;"; 
+		String sql ;
+		if (productName == null) {
+			 sql = "SELECT * FROM PRODUCTS WHERE PARTNER_USER_NAME = "+
+					this.wrapSingleQuotes(profile.getUserName()) + " ;"; 
+			
+		}
+		else {
+			 sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = "+
+					this.wrapSingleQuotes(productName) + " ;";
+		}
+		
 		
 		ResultSet rs = stmt.executeQuery(sql);
 		while(rs.next()) {
@@ -178,7 +195,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			//skip column 1, we don't need id in the domain
 			p.setName(rs.getString(2)) ; 
 			p.setDesc(rs.getString(3));
-			p.setCompany(rs.getString(4));
 			p.setCost(rs.getDouble(5));
 			p.setStock(rs.getInt(6));
 			products.add(p);
@@ -187,10 +203,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override
-	public boolean deleteProduct(Product product) throws SQLException {
+	public boolean deleteProduct(Product product, PartnerProfile profile) throws SQLException {
 		//String.format("Hello %s, %d", "world", 42);
-		String sql = "DELETE FROM PRODUCTS WHERE PARTNER_USER_NAME = %s AND PRODUCT_NAME = %s" ; 
-		sql = String.format(sql, product.getCompany(),product.getName());
+		String sql = "DELETE FROM PRODUCTS WHERE PARTNER_USER_NAME = '%s' AND PRODUCT_NAME = '%s'" ;
+		System.out.println(sql);
+		sql = String.format(sql, profile.getUserName(),product.getName());
 		if(stmt.executeUpdate(sql) == 0) {
 			return false ;
 		}
@@ -204,7 +221,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return wrappedResult;
 	}
 	@Override
-	public boolean insertConsumer(Consumer consumer) throws SQLException {
+	public boolean insertConsumer(Customer consumer) throws SQLException {
 		db.setAutoCommit(false);
 		/**Steps
 		 * insert into consumer
@@ -229,7 +246,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 				"("+ this.wrapSingleQuotes(consumer.getUserName()) + "," +
 				 this.wrapSingleQuotes(p.getCardName()) + " ," +
 				 this.wrapSingleQuotes(p.getCardNumber()) + " , " +
-				 this.wrapSingleQuotes(p.getCVV()) + ") ; ";
+				 this.wrapSingleQuotes(p.getCvv()) + ") ; ";
 		
 		if(stmt.executeUpdate(sql) == 0) {
 			db.rollback();
@@ -243,7 +260,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override
-	public boolean updateConsumer(Consumer consumer) throws SQLException {
+	public boolean updateConsumer(Customer consumer) throws SQLException {
 		if(this.getConsumer(consumer.getUserName()).getUserName().equals(consumer.getUserName())) {
 			db.setAutoCommit(false);
 			this.deleteConsumer(consumer);
@@ -256,7 +273,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		return false;
 	}
 	@Override
-	public boolean deleteConsumer(Consumer consumer) throws SQLException {
+	public boolean deleteConsumer(Customer consumer) throws SQLException {
 		String sql = "DELETE FROM CONSUMERS WHERE CONSUMER_USER_NAME = " +
 		this.wrapSingleQuotes(consumer.getUserName()) + " ;" ; 
 		if(stmt.executeUpdate(sql) > 0) {
@@ -268,7 +285,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	//todo retrieve the orders/details ??
 	@Override
-	public Consumer getConsumer(String userName) throws SQLException {
+	public Customer getConsumer(String userName) throws SQLException {
 		
 		String getConsumerCredSql = "Select * from consumers where consumer_user_name = " + this.wrapSingleQuotes(userName) +";";
 		
@@ -280,7 +297,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		
 		
 		ResultSet rs = stmt.executeQuery(getConsumerCredSql);
-		Consumer c = new ConcreteConsumer();
+		Customer c = new ConcreteCustomer();
 		
 		if(rs.next()) {
 			c.setUserName(rs.getString(1));
@@ -302,7 +319,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 			p = new ConcretePayment();
 			p.setCardName(rs.getString(4));
 			p.setCardNumber(rs.getString(5));
-			p.setCVV(rs.getString(6));
+			p.setCvv(rs.getString(6));
 			c.setPayment(p);
 		}
 		else {
