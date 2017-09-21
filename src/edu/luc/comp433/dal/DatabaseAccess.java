@@ -43,13 +43,13 @@ public interface DatabaseAccess {
    * 
    * @throws SQLException
    */
-  public boolean insertProduct(Product product, PartnerProfile profile) throws SQLException;
+  public boolean insertProduct(Product product) throws SQLException;
 
-  public boolean updateProduct(Product product, PartnerProfile profile) throws SQLException;
+  public boolean updateProduct(Product product) throws SQLException;
 
-  public List<Product> getProducts(String productName, PartnerProfile profile) throws SQLException;
+  public Product getProduct(String productName) throws SQLException;
 
-  boolean deleteProduct(Product product, PartnerProfile profile) throws SQLException;
+  boolean deleteProduct(Product product) throws SQLException;
 
   /**
    * Consumer Methods

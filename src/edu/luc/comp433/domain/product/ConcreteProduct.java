@@ -1,13 +1,15 @@
 package edu.luc.comp433.domain.product;
 
+import java.util.List;
 
-//TODO add list for reviews
 public class ConcreteProduct implements Product {
 
   private String name;
   private String desc;
   private double cost;
   private long stock;
+  private String companyName;
+  private List<Review> reviews;
 
   public ConcreteProduct() {
   }
@@ -50,5 +52,25 @@ public class ConcreteProduct implements Product {
   @Override
   public void setStock(long stock) {
     this.stock = stock;
+  }
+  
+  @Override
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
+  
+  @Override
+  public String getCompanyName() {
+    return companyName;
+  }
+  
+  @Override
+  public void setReviews(List<Review> reviews) {
+    this.reviews = reviews;
+  }
+  
+  @Override
+  public List<Review> getReviews() {
+    return reviews;
   }
 }

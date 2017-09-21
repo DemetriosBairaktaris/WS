@@ -1,5 +1,7 @@
 package edu.luc.comp433.domain.product;
 
+import java.util.List;
+
 /**
  * Lays out the needs of the Product class.
  * 
@@ -67,4 +69,9 @@ public interface Product {
    *          long
    */
   public void setStock(long stock);
+  
+  public void setReviews(List<Review> reviews);
+  public List<Review> getReviews();
+  public void setCompanyName(String companyName);
+  public String getCompanyName();
 }
