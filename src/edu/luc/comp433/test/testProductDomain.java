@@ -2,6 +2,8 @@ package edu.luc.comp433.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,18 +56,18 @@ public class testProductDomain {
   }
 
   @Test
-  public void testProductCreate() {
+  public void testProductCreate() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
   }
 
   @Test
-  public void testProductDelete() {
+  public void testProductDelete() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
     assertTrue(products.deleteProduct(name));
   }
 
   @Test
-  public void testProductUpdates() {
+  public void testProductUpdates() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
     assertTrue(products.updateCost(name, 50d));
     assertTrue(products.getProduct(name).getCost() == 50d);
@@ -74,7 +76,7 @@ public class testProductDomain {
   }
 
   @Test
-  public void testProductReview() {
+  public void testProductReview() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
     Review review = (Review) context.getBean("review");
     review.setRating(5);

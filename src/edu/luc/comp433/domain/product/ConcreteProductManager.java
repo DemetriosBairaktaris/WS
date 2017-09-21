@@ -1,5 +1,6 @@
 package edu.luc.comp433.domain.product;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class ConcreteProductManager implements ProductManager {
   private ApplicationContext context = new ClassPathXmlApplicationContext(
       "/WEB-INF/app-context.xml");
   private DatabaseAccess database;
-  
+
   public ConcreteProductManager() {
   }
 
@@ -26,8 +27,9 @@ public class ConcreteProductManager implements ProductManager {
   public void setDatabase(DatabaseAccess database) {
     this.database = database;
   }
-  
-  public boolean addProduct(String name, String desc, double cost, long stock, String companyName) {
+
+  public boolean addProduct(String name, String desc, double cost, long stock, String companyName)
+      throws SQLException {
     Product product = (Product) context.getBean("product");
     List<Review> reviews = new ArrayList<>();
     product.setName(name);
@@ -38,42 +40,42 @@ public class ConcreteProductManager implements ProductManager {
     product.setReviews(reviews);
     return database.insertProduct(product);
   }
-  
-  public boolean deleteProduct(String name) {
+
+  public boolean deleteProduct(String name) throws SQLException {
     return database.deleteProduct(name);
   }
-  
-  public boolean updateStock(String name, long stock) {
+
+  public boolean updateStock(String name, long stock) throws SQLException {
     Product product = database.getProduct(name);
     product.setStock(stock);
     return database.updateProduct(product);
   }
-  
-  public boolean updateCost(String name, double cost) {
+
+  public boolean updateCost(String name, double cost) throws SQLException {
     Product product = database.getProduct(name);
     product.setCost(cost);
     return database.updateProduct(product);
   }
-  
-  public Product getProduct(String name) {
+
+  public Product getProduct(String name) throws SQLException {
     return database.getProduct(name);
   }
-  
-  public boolean addReview(String name, Review review) {
+
+  public boolean addReview(String name, Review review) throws SQLException {
     Product product = database.getProduct(name);
     List<Review> reviews = product.getReviews();
     reviews.add(review);
     return database.updateProduct(product);
   }
-  
-  public List<Review> getReviews(String name) {
+
+  public List<Review> getReviews(String name) throws SQLException {
     return database.getProduct(name).getReviews();
   }
-  
+
   public List<Product> getCompanyProducts(String companyName) {
     List<Product> products = new ArrayList<>();
-    //TODO figure out this logic
+    // TODO figure out this logic
     return products;
   }
-  
+
 }

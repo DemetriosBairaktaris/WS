@@ -190,11 +190,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean deleteProduct(Product product) throws SQLException {
+  public boolean deleteProduct(String productName) throws SQLException {
     // String.format("Hello %s, %d", "world", 42);
     String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_NAME = '%s'";
     System.out.println(sql);
-    sql = String.format(sql, product.getName());
+    sql = String.format(sql, productName);
     if (stmt.executeUpdate(sql) == 0) {
       return false;
     } else {

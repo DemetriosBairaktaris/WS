@@ -49,7 +49,7 @@ public interface DatabaseAccess {
 
   public Product getProduct(String productName) throws SQLException;
 
-  boolean deleteProduct(Product product) throws SQLException;
+  boolean deleteProduct(String productName) throws SQLException;
 
   /**
    * Consumer Methods
