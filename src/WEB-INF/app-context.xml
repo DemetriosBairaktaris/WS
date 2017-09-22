@@ -13,18 +13,26 @@
 		<property name="database" ref="database" />
 	</bean>
 	<bean id="customer" class="edu.luc.comp433.domain.customer.ConcreteCustomer"
-		scope="prototype" />
+		scope="prototype">
+		<property name="payment" ref="payment" />
+	</bean>
 	<bean id="payment" class="edu.luc.comp433.domain.customer.ConcretePayment"
 		scope="prototype" />
 
 	<!-- facade class -->
-	<bean id="domain" class="edu.luc.comp433.domain.facade.ConcreteDomainFacade"
+	<bean id="domain" class="edu.luc.comp433.service.facade.ConcreteDomainFacade"
 		scope="prototype">
 		<property name="customers" ref="customerManager" />
 		<property name="partners" ref="partnerManager" />
+		<property name="orders" ref="orderManager" />
+		<property name="products" ref="productManager" />
 	</bean>
 
 	<!-- order classes -->
+	<bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager"
+		scope="protoype">
+		<property name="database" ref="database" />
+	</bean>
 	<bean id="order" class="edu.luc.comp433.domain.order.ConcreteOrder"
 		scope="prototype" />
 	<bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail"
@@ -35,14 +43,16 @@
 		scope="prototype">
 		<property name="database" ref="database" />
 	</bean>
-	<bean id="list" class="java.util.ArrayList" />
 	<bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile"
-		scope="prototype">
-		<property name="products" ref="list" />
-		<property name="orders" ref="list" />
-	</bean>
+		scope="prototype" />
 
 	<!-- product class -->
+	<bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager"
+		scope="prototype">
+		<property name="database" ref="database" />
+	</bean>
 	<bean id="product" class="edu.luc.comp433.domain.product.ConcreteProduct"
+		scope="prototype" />
+	<bean id="review" class="edu.luc.comp433.domain.product.ConcreteReview"
 		scope="prototype" />
 </beans>

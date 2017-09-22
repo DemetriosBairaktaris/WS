@@ -38,7 +38,7 @@ public class ConcreteCustomerManager implements CustomerManager {
 
   @Override
   public boolean deleteCustomer(String userName) throws SQLException {
-    return database.deleteCustomer(userName);
+    return database.deleteCustomer(database.getCustomer(userName));
   }
 
   @Override
