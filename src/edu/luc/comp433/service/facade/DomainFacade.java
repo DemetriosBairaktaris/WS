@@ -1,6 +1,7 @@
 package edu.luc.comp433.service.facade;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 /**
  * This class sets up the facade between the domain layer and the service layer.
@@ -27,27 +28,27 @@ public interface DomainFacade {
   public String getOrderStatus(int orderId);
 
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, String expiration);
+      String phone, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
   
-  public boolean checkCustomerStatus(String userName);
+  public boolean checkCustomerStatus(String userName) throws SQLException;
   
-  public boolean deleteCustomer(String userName);
+  public boolean deleteCustomer(String userName) throws SQLException;
   
-  public boolean updateCustomerName(String userName, String firstName, String lastName);
+  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException;
   
-  public boolean updateCustomerAddress(String userName, String address);
+  public boolean updateCustomerAddress(String userName, String address) throws SQLException;
   
-  public boolean updateCustomerPhone(String userName, String phone);
+  public boolean updateCustomerPhone(String userName, String phone) throws SQLException;
   
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration);
+  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
   
   public boolean addReview(String userName, String productName, String review, int rating);
   
-  public boolean addPartner(String userName, String companyName, String address, String phone);
+  public boolean addPartner(String userName, String companyName, String address, String phone) throws SQLException, Exception;
   
-  public boolean deletePartner(String userName);
+  public boolean deletePartner(String userName) throws SQLException, Exception;
   
-  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock);
+  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock) throws SQLException, Exception;
   
   public String getPartnerSales(String userName);
   
