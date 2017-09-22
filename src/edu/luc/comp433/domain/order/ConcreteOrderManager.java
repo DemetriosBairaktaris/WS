@@ -31,7 +31,7 @@ public class ConcreteOrderManager implements OrderManager {
   }
 
   @Override
-  public int createOrderDetail(int orderId, Product product, long quantity) {
+  public boolean createOrderDetail(int orderId, Product product, long quantity) {
     Order order = database.getOrder(orderId);
     OrderDetail orderDetail = (OrderDetail) context.getBean("orderDetail");
     orderDetail.setCompany(product.getCompanyName());
