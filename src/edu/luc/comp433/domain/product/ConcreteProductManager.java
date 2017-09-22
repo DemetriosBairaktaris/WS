@@ -28,6 +28,7 @@ public class ConcreteProductManager implements ProductManager {
     this.database = database;
   }
 
+  @Override
   public boolean addProduct(String name, String desc, double cost, long stock, String companyName)
       throws SQLException {
     Product product = (Product) context.getBean("product");
@@ -41,37 +42,93 @@ public class ConcreteProductManager implements ProductManager {
     return database.insertProduct(product);
   }
 
-  public boolean deleteProduct(String name) throws SQLException {
-    return database.deleteProduct(name);
+  @Override
+  public boolean deleteProduct(String companyName, String name) throws SQLException {
+    List<Product> products = database.getProduct(name);
+    Product product = (Product) context.getBean("product");
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getCompanyName().equals(companyName)
+          && products.get(i).getName().equals(name)) {
+        product = products.get(i);
+      } else {
+        product = null;
+      }
+    }
+    return database.deleteProduct(product);
   }
 
-  public boolean updateStock(String name, long stock) throws SQLException {
-    Product product = database.getProduct(name);
-    product.setStock(stock);
+  @Override
+  public boolean updateStock(String companyName, String name, long stock) throws SQLException {
+    List<Product> products = database.getProduct(name);
+    Product product = (Product) context.getBean("product");
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getCompanyName().equals(companyName)
+          && products.get(i).getName().equals(name)) {
+        product = products.get(i);
+        product.setStock(stock);
+      } else {
+        product = null;
+      }
+    }
     return database.updateProduct(product);
   }
 
-  public boolean updateCost(String name, double cost) throws SQLException {
-    Product product = database.getProduct(name);
-    product.setCost(cost);
+  @Override
+  public boolean updateCost(String companyName, String name, double cost) throws SQLException {
+    List<Product> products = database.getProduct(name);
+    Product product = (Product) context.getBean("product");
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getCompanyName().equals(companyName)
+          && products.get(i).getName().equals(name)) {
+        product = products.get(i);
+        product.setCost(cost);
+      } else {
+        product = null;
+      }
+    }
     return database.updateProduct(product);
   }
 
-  public Product getProduct(String name) throws SQLException {
+  @Override
+  public List<Product> getProducts(String name) throws SQLException {
     return database.getProduct(name);
   }
 
-  public boolean addReview(String name, Review review) throws SQLException {
-    Product product = database.getProduct(name);
-    List<Review> reviews = product.getReviews();
-    reviews.add(review);
+  @Override
+  public boolean addReview(String companyName, String name, Review review) throws SQLException {
+    List<Product> products = database.getProduct(name);
+    Product product = (Product) context.getBean("product");
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getCompanyName().equals(companyName)
+          && products.get(i).getName().equals(name)) {
+        product = products.get(i);
+        List<Review> reviews = product.getReviews();
+        reviews.add(review);
+      } else {
+        product = null;
+      }
+    }
     return database.updateProduct(product);
   }
 
-  public List<Review> getReviews(String name) throws SQLException {
-    return database.getProduct(name).getReviews();
+  @Override
+  public List<Review> getReviews(String companyName, String name) throws SQLException {
+    List<Product> products = database.getProduct(name);
+    Product product = (Product) context.getBean("product");
+    List<Review> reviews = new ArrayList<>();
+    for (int i = 0; i < products.size(); i++) {
+      if (products.get(i).getCompanyName().equals(companyName)
+          && products.get(i).getName().equals(name)) {
+        product = products.get(i);
+        reviews = product.getReviews();
+      } else {
+        product = null;
+      }
+    }
+    return reviews;
   }
 
+  @Override
   public List<Product> getCompanyProducts(String companyName) {
     List<Product> products = new ArrayList<>();
     // TODO figure out this logic

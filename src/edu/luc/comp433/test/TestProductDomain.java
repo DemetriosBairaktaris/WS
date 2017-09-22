@@ -48,7 +48,7 @@ public class TestProductDomain {
 
   @After
   public void tearDown() throws Exception {
-    products.deleteProduct(name);
+    products.deleteProduct(companyName, name);
     products = null;
     name = null;
     desc = null;
@@ -64,16 +64,16 @@ public class TestProductDomain {
   @Test
   public void testProductDelete() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
-    assertTrue(products.deleteProduct(name));
+    assertTrue(products.deleteProduct(companyName, name));
   }
 
   @Test
   public void testProductUpdates() throws SQLException {
     assertTrue(products.addProduct(name, desc, cost, stock, companyName));
-    assertTrue(products.updateCost(name, 50d));
-    assertTrue(products.getProduct(name).getCost() == 50d);
-    assertTrue(products.updateStock(name, 2L));
-    assertTrue(products.getProduct(name).getStock() == 2L);
+    assertTrue(products.updateCost(companyName, name, 50d));
+    assertTrue(products.getProducts(name).get(0).getCost() == 50d);
+    assertTrue(products.updateStock(companyName, name, 2L));
+    assertTrue(products.getProducts(name).get(0).getStock() == 2L);
   }
 
   @Test
@@ -82,8 +82,8 @@ public class TestProductDomain {
     Review review = (Review) context.getBean("review");
     review.setRating(5);
     review.setReview("Awesome");
-    assertTrue(products.addReview(name, review));
-    assertTrue(products.getReviews(name).get(0).equals(review));
+    assertTrue(products.addReview(companyName, name, review));
+    assertTrue(products.getReviews(companyName, name).get(0).equals(review));
   }
   
   @Test

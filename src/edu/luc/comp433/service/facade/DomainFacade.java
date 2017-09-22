@@ -2,6 +2,7 @@ package edu.luc.comp433.service.facade;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * This class sets up the facade between the domain layer and the service layer.
@@ -11,7 +12,7 @@ import java.text.ParseException;
  */
 public interface DomainFacade {
 
-  public String searchProduct(String productName) throws SQLException;
+  public List<String> searchProduct(String productName) throws SQLException;
 
   public boolean checkAvailability(String productName) throws SQLException;
 

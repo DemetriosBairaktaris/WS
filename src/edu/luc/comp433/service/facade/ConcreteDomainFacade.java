@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
@@ -22,51 +24,68 @@ public class ConcreteDomainFacade implements DomainFacade {
   public ConcreteDomainFacade() {
   }
 
+  // TODO make this return more info for the product
   @Override
-  public String searchProduct(String productName) throws SQLException {
-    return products.getProduct(productName).toString();
+  public List<String> searchProduct(String productName) throws SQLException {
+    List<String> list = new ArrayList<>();
+    for (int i = 0; i < products.getProducts(productName).size(); i++) {
+      list.add(products.getProducts(productName).get(i).getName());
+    }
+    return list;
   }
 
   @Override
   public boolean checkAvailability(String productName) throws SQLException {
-    long stock = products.getProduct(productName).getStock();
-    if (stock >= 1) {
-      return true;
-    } else {
-      return false;
+    long stock = 0;
+    for (int i = 0; i < products.getProducts(productName).size(); i++) {
+      stock = products.getProducts(productName).get(i).getStock();
+      if (stock >= 1) {
+        return true;
+      }
     }
+    return false;
   }
 
   @Override
   public boolean buyProduct(String customerName, String productName, long quantity, int orderId)
       throws SQLException {
+    long newStock = 0;
     if (this.checkAvailability(productName)) {
-      long newStock = products.getProduct(productName).getStock() - quantity;
-      products.updateStock(productName, newStock);
-      return acceptPayment(customerName, productName, quantity, orderId);
-    } else {
-      return false;
+      for (int i = 0; i < products.getProducts(productName).size(); i++) {
+        if (products.getProducts(productName).get(i).getStock() > quantity) {
+          newStock = products.getProducts(productName).get(i).getStock() - quantity;
+          String companyName = products.getProducts(productName).get(i).getCompanyName();
+          products.updateStock(companyName, productName, newStock);
+          return this.acceptPayment(companyName, customerName, productName, quantity, orderId);
+        }
+      }
     }
+    return false;
   }
 
-  private boolean acceptPayment(String customerName, String productName, long quantity, int orderId)
-      throws SQLException {
+  private boolean acceptPayment(String companyName, String customerName, String productName,
+      long quantity, int orderId) throws SQLException {
     if (customers.getCustomer(customerName).getPayment().getExpiration()
         .compareTo(currentTime) > 0) {
-      this.createOrder(customerName, productName, quantity, orderId);
+      this.createOrder(companyName, customerName, productName, quantity, orderId);
       return true;
     }
     return false;
   }
 
-  private boolean createOrder(String customerName, String productName, long quantity, int orderId)
-      throws SQLException {
+  //TODO this needs to be fixed
+  private boolean createOrder(String companyName, String customerName, String productName,
+      long quantity, int orderId) throws SQLException {
     if (orderId > 0) {
       orderId = orders.createOrder(customerName);
-      return orders.createOrderDetail(orderId, products.getProduct(productName), quantity);
-    } else {
-      return orders.createOrderDetail(orderId, products.getProduct(productName), quantity);
+      for (int i = 0; i < products.getProducts(productName).size(); i++) {
+        if (products.getProducts(productName).get(i).getName().equals(productName)
+            && products.getProducts(productName).get(i).getCompanyName().equals(companyName)) {
+          return orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
+        }
+      }
     }
+    return false;
   }
 
   @Override
@@ -125,7 +144,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException {
+  public boolean updateCustomerName(String userName, String firstName, String lastName)
+      throws SQLException {
     return customers.updateName(userName, firstName, lastName);
   }
 
@@ -154,7 +174,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean addPartner(String userName, String companyName, String address, String phone) throws SQLException, Exception {
+  public boolean addPartner(String userName, String companyName, String address, String phone)
+      throws SQLException, Exception {
     return partners.createPartner(userName, companyName, address, phone);
   }
 
@@ -166,12 +187,13 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
       double cost, long stock) throws SQLException, Exception {
-    return products.addProduct(productName, productDesc, cost, stock, partners.getPartnerProfile(userName).getName());
+    return products.addProduct(productName, productDesc, cost, stock,
+        partners.getPartnerProfile(userName).getName());
   }
 
   @Override
   public String getPartnerSales(String userName) {
-    //TODO needs to be able to iterate through all orders.
+    // TODO needs to be able to iterate through all orders.
     return null;
   }
 
