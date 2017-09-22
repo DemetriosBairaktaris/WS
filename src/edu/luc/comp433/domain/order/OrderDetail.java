@@ -11,13 +11,6 @@ import edu.luc.comp433.domain.product.Product;
 public interface OrderDetail {
 
   /**
-   * Retrieves the detail's id.
-   * 
-   * @return double
-   */
-  public double getId();
-
-  /**
    * Retrieves the product.
    * 
    * @return Product
@@ -37,14 +30,6 @@ public interface OrderDetail {
    * @return String
    */
   public String getStatus();
-
-  /**
-   * Sets the id for the detail.
-   * 
-   * @param id
-   *          double
-   */
-  public void setId(double id);
 
   /**
    * Sets the product for the detail.
@@ -69,4 +54,8 @@ public interface OrderDetail {
    *          String
    */
   public void setStatus(String status);
+  
+  public void setCompany(String company);
+  
+  public String getCompany();
 }

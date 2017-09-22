@@ -4,17 +4,12 @@ import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteOrderDetail implements OrderDetail {
 
-  private double id;
   private Product product;
   private long quantity;
   private String status;
+  private String company;
 
   public ConcreteOrderDetail() {
-  }
-
-  @Override
-  public double getId() {
-    return id;
   }
 
   @Override
@@ -33,11 +28,6 @@ public class ConcreteOrderDetail implements OrderDetail {
   }
 
   @Override
-  public void setId(double id) {
-    this.id = id;
-  }
-
-  @Override
   public void setProduct(Product product) {
     this.product = product;
   }
@@ -50,5 +40,15 @@ public class ConcreteOrderDetail implements OrderDetail {
   @Override
   public void setStatus(String status) {
     this.status = status;
+  }
+  
+  @Override
+  public void setCompany(String company) {
+    this.company = company;
+  }
+  
+  @Override
+  public String getCompany() {
+    return company;
   }
 }
