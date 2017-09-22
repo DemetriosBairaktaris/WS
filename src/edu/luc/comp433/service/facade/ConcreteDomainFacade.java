@@ -1,48 +1,57 @@
 package edu.luc.comp433.service.facade;
 
+import java.sql.SQLException;
+import java.util.Date;
+
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
+import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
 
-//TODO uses professor's flow diagram to fix this
-//TODO move to service level package
 public class ConcreteDomainFacade implements DomainFacade {
 
   private CustomerManager customers;
   private PartnerManager partners;
   private OrderManager orders;
   private ProductManager products;
+  private Date currentTime;
 
   public ConcreteDomainFacade() {
   }
 
   @Override
-  public String searchProduct(String productName) {
-    // TODO Auto-generated method stub
-    return null;
+  public String searchProduct(String productName) throws SQLException {
+    return products.getProduct(productName).toString();
   }
 
   @Override
-  public boolean checkAvailability(String productName) {
-    // TODO Auto-generated method stub
+  public boolean checkAvailability(String productName) throws SQLException {
+    long stock = products.getProduct(productName).getStock();
+    if (stock >= 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean buyProduct(String customerName, String productName, long quantity) throws SQLException {
+    if (this.checkAvailability(productName)) {
+      long newStock = products.getProduct(productName).getStock() - quantity;
+      products.updateStock(productName, newStock);
+      return acceptPayment(customerName, productName);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean acceptPayment(String customerName, String productName) throws SQLException {
+    //if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo());
     return false;
   }
 
-  @Override
-  public boolean buyProduct(String customerName, String productName) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean acceptPayment(String customerName, String productName) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  @Override
-  public boolean createOrder(String customerName, String productName) {
+  private boolean createOrder(String customerName, String productName, long quantity) {
     // TODO Auto-generated method stub
     return false;
   }

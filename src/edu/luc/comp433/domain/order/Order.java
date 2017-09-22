@@ -27,13 +27,6 @@ public interface Order {
   public List<OrderDetail> getDetails();
 
   /**
-   * Retrieves the order's id.
-   * 
-   * @return double
-   */
-  public double getId();
-
-  /**
    * Retrieves the status of this order.
    * 
    * @return String
@@ -64,14 +57,6 @@ public interface Order {
   public void setDetails(List<OrderDetail> details);
 
   /**
-   * Sets the order's id.
-   * 
-   * @param id
-   *          double
-   */
-  public void setId(double id);
-
-  /**
    * Sets the order's status. Only can be changed once all OrderDetails are fulfilled.
    * 
    * @param status
@@ -83,4 +68,12 @@ public interface Order {
    * Sets the time stamp when the order is created.
    */
   public void setTimestamp();
+
+  public void setCustomer(String userName);
+
+  public String getCustomer();
+  
+  public void setOrderId(int orderId);
+  
+  public int getOrderId();
 }

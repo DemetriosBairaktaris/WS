@@ -1,5 +1,7 @@
 package edu.luc.comp433.service.facade;
 
+import java.sql.SQLException;
+
 /**
  * This class sets up the facade between the domain layer and the service layer.
  * 
@@ -8,15 +10,11 @@ package edu.luc.comp433.service.facade;
  */
 public interface DomainFacade {
 
-  public String searchProduct(String productName);
+  public String searchProduct(String productName) throws SQLException;
 
-  public boolean checkAvailability(String productName);
+  public boolean checkAvailability(String productName) throws SQLException;
 
-  public boolean buyProduct(String customerName, String productName);
-
-  public boolean acceptPayment(String customerName, String productName);
-
-  public boolean createOrder(String customerName, String productName);
+  public boolean buyProduct(String customerName, String productName, long quantity) throws SQLException;
 
   public boolean fulfillOrder(double orderId);
 
