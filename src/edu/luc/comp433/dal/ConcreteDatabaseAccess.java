@@ -155,7 +155,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + "," + product.getCost() + ", " + product.getStock() + ", " 
         + this.wrapSingleQuotes(product.getCompanyName())
         + ") ; ";
-    System.out.println(sql);
     int success;
     try {
       success = stmt.executeUpdate(sql);
@@ -226,7 +225,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean deleteProduct(Product product ) throws SQLException { //good{
     // String.format("Hello %s, %d", "world", 42);
     String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_NAME = '%s' and 	PARTNER_USER_NAME = '%s'";
-    System.out.println(sql);
     sql = String.format(sql, product.getName(),product.getCompanyName());
     if (stmt.executeUpdate(sql) == 0) {
       return false;
@@ -253,7 +251,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + this.wrapSingleQuotes(customer.getLastName()) + ","
         + this.wrapSingleQuotes(customer.getAddress()) + ","
         + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
-    System.out.println(sql);
     System.out.println("Here2");
     if (stmt.executeUpdate(sql) == 0) {
     		System.out.println("here4");
@@ -318,7 +315,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + " CUSTOMERS.USER_NAME = CUSTOMER_PAYMENTS.USER_NAME AND CUSTOMERS.USER_NAME = "
         + this.wrapSingleQuotes(userName) + " ;";
 
-    System.out.println(getPaymentSql);
     ResultSet rs = stmt.executeQuery(getConsumerCredSql);
     Customer c = new ConcreteCustomer();
 

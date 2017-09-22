@@ -49,7 +49,6 @@ public class TestDatabaseLayer {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = db.createStatement();
 			dal = new ConcreteDatabaseAccess();
-			System.out.println("Dumbfoundeds");
 		} catch (SQLException e) {
 			//
 		}
