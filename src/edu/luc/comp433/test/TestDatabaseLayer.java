@@ -3,6 +3,7 @@ package edu.luc.comp433.test;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,15 +40,16 @@ public class TestDatabaseLayer {
 	private String partnerName2;
 
 	public TestDatabaseLayer() {
-		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-		USER = "evtgoojkjfryzn";
-		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+//		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+//				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+//		USER = "evtgoojkjfryzn";
+//		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = db.createStatement();
 			dal = new ConcreteDatabaseAccess();
+			System.out.println("Dumbfoundeds");
 		} catch (SQLException e) {
 			//
 		}
@@ -93,7 +95,6 @@ public class TestDatabaseLayer {
 		partner.setAddress("1232 Lolly Way");
 		partner.setPhone("219-292-1111");
 		assertTrue(dal.insertPartner(partner));
-		// assertNotNull(dal.getPartnerProfile(partnerUserName).getOrders());
 	}
 
 	@Test
@@ -170,12 +171,14 @@ public class TestDatabaseLayer {
 		product.setStock(stock);
 
 		PartnerProfile profile = new ConcretePartnerProfile();
-
+     
 		profile.setUserName(partnerUserName);
+		product.setCompanyName(partnerUserName);
 		assertFalse(dal.insertProduct(product)); // should fail/ partner doesn't exist...
 		profile.setUserName("BIGDADDY@GMAIL.COM"); // change to one that does exist
+		product.setCompanyName(profile.getUserName());
 		assertTrue(dal.insertProduct(product)); // should pass :)
-		assertTrue(dal.deleteProduct(product.getName()));
+		assertTrue(dal.deleteProduct(product));
 
 	}
 
@@ -194,9 +197,10 @@ public class TestDatabaseLayer {
 
 		PartnerProfile profile = new ConcretePartnerProfile();
 		profile.setUserName(partnerUserName);
+		product.setCompanyName(profile.getUserName());
 
 		assertTrue(dal.insertProduct(product)); // should pass :)
-		assertTrue(dal.deleteProduct(product.getName()));
+		assertTrue(dal.deleteProduct(product));
 
 	}
 
@@ -212,6 +216,7 @@ public class TestDatabaseLayer {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2011-2-4"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -221,7 +226,7 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ;";
+		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ;";
 		stmt.executeUpdate(delete_sql);
 		assertTrue(dal.insertCustomer(c));
 		stmt.executeUpdate(delete_sql);
@@ -239,6 +244,7 @@ public class TestDatabaseLayer {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2018-02-02"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -248,9 +254,15 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ; ";
-		dal.insertCustomer(c);
-		assertTrue(c.getUserName().equals(dal.getCustomer(username).getUserName()));
+		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ; ";
+		assertTrue(dal.insertCustomer(c));
+		Customer gotten = dal.getCustomer(username) ; 
+		assertNotNull(gotten) ; 
+		assertTrue(c.getUserName().equals(gotten.getUserName()));
+		assertEquals(payment.getCardName(),gotten.getPayment().getCardName());
+		assertEquals(payment.getCardNumber(),gotten.getPayment().getCardNumber());
+		assertEquals(payment.getCvv(),gotten.getPayment().getCvv());
+		assertEquals(payment.getExpiration(),gotten.getPayment().getExpiration());
 		stmt.executeUpdate(delete_sql);
 	}
 
@@ -266,7 +278,8 @@ public class TestDatabaseLayer {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
-
+		payment.setExpiration(Date.valueOf("1980-2-2"));
+        
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
@@ -274,13 +287,14 @@ public class TestDatabaseLayer {
 		c.setAddress(address);
 		c.setPhone(phone);
 		c.setPayment(payment);
-
-		dal.insertCustomer(c);
+		assertTrue(dal.insertCustomer(c));
 		String newFirstName = "Tee";
 		c.setFirstName(newFirstName);
-		dal.updateCustomer(c);
+		assertTrue(dal.updateCustomer(c));
+		
 
 		assertTrue(newFirstName.equals(dal.getCustomer(username).getFirstName()));
+		dal.deleteCustomer(c);
 	}
 
 	@Test
@@ -295,6 +309,7 @@ public class TestDatabaseLayer {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2019-2-2"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -305,7 +320,7 @@ public class TestDatabaseLayer {
 		c.setPayment(payment);
 
 		assertTrue(dal.insertCustomer(c));
-		assertTrue(dal.deleteCustomer(c.getUserName()));
+		assertTrue(dal.deleteCustomer(c));
 	}
 
 }

@@ -5,7 +5,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- database access object class -->
-	<bean id="database" class="edu.luc.comp433.dao.ConcreteDatabaseAccess" />
+	<bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess" />
 
 	<!-- customer classes -->
 	<bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager"
