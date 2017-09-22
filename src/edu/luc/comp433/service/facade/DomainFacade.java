@@ -14,17 +14,17 @@ public interface DomainFacade {
 
   public boolean checkAvailability(String productName) throws SQLException;
 
-  public boolean buyProduct(String customerName, String productName, long quantity) throws SQLException;
+  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException;
 
-  public boolean fulfillOrder(double orderId);
+  public boolean fulfillOrder(int orderId);
 
-  public boolean cancelOrder(double orderId);
+  public boolean cancelOrder(int orderId);
 
-  public boolean refund(double orderId);
+  public boolean refund(int orderId);
 
-  public boolean shipOrder(double orderId);
+  public boolean shipOrder(int orderId);
 
-  public String getOrderStatus(double orderId);
+  public String getOrderStatus(int orderId);
 
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
       String phone, String cardName, String cardNumber, String cvv, String expiration);
