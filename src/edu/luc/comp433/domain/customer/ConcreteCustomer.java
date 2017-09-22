@@ -1,9 +1,5 @@
 package edu.luc.comp433.domain.customer;
 
-import edu.luc.comp433.domain.order.Order;
-
-import java.util.List;
-
 public class ConcreteCustomer implements Customer {
 
   private String userName;
@@ -12,14 +8,8 @@ public class ConcreteCustomer implements Customer {
   private String address;
   private String phone;
   private Payment payment;
-  private List<Order> orders;
 
   public ConcreteCustomer() {
-  }
-
-  @Override
-  public void addOrder(Order order) {
-    orders.add(order);
   }
 
   @Override
@@ -38,11 +28,6 @@ public class ConcreteCustomer implements Customer {
   }
 
   @Override
-  public List<Order> getOrders() {
-    return orders;
-  }
-
-  @Override
   public Payment getPayment() {
     return payment;
   }
@@ -58,11 +43,6 @@ public class ConcreteCustomer implements Customer {
   }
 
   @Override
-  public void removeOrder(Order order) {
-    orders.remove(order);
-  }
-
-  @Override
   public void setAddress(String address) {
     this.address = address;
   }
@@ -75,11 +55,6 @@ public class ConcreteCustomer implements Customer {
   @Override
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  @Override
-  public void setOrders(List<Order> orders) {
-    this.orders = orders;
   }
 
   @Override

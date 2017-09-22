@@ -3,18 +3,18 @@ package edu.luc.comp433.test;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.luc.comp433.dao.ConcreteDatabaseAccess;
-import edu.luc.comp433.dao.DatabaseAccess;
+import edu.luc.comp433.dal.ConcreteDatabaseAccess;
+import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.customer.ConcreteCustomer;
 import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
@@ -24,7 +24,7 @@ import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.ConcreteProduct;
 import edu.luc.comp433.domain.product.Product;
 
-public class DatabaseTests {
+public class TestDatabaseLayer {
 
 	// private final String JDBC_DRIVER = "";
 	// format : jdbc:postgresql://host:port/database
@@ -39,11 +39,11 @@ public class DatabaseTests {
 	private String partnerName1;
 	private String partnerName2;
 
-	public DatabaseTests() {
-		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-		USER = "evtgoojkjfryzn";
-		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+	public TestDatabaseLayer() {
+//		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+//				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+//		USER = "evtgoojkjfryzn";
+//		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -93,10 +93,7 @@ public class DatabaseTests {
 		partner.setName("Johnson and sons");
 		partner.setAddress("1232 Lolly Way");
 		partner.setPhone("219-292-1111");
-		partner.setProducts(new LinkedList());
 		assertTrue(dal.insertPartner(partner));
-		assertNotNull(dal.getPartnerProfile(partnerName1).getProducts());
-		// assertNotNull(dal.getPartnerProfile(partnerUserName).getOrders());
 	}
 
 	@Test
@@ -108,15 +105,12 @@ public class DatabaseTests {
 		partner.setUserName(partnerUserName);
 		partner.setAddress("kjadsf");
 		partner.setPhone("lldkfjal");
-		partner.setProducts(new LinkedList());
 		stmt = db.createStatement();
 		assertTrue(dal.insertPartner(partner));
 
 		if (dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
 			assertTrue((partner.getUserName().equals(partnerUserName)));
-			assertNotNull(dal.getPartnerProfile(partnerUserName).getProducts());
-			// assertNotNull(dal.getPartnerProfile(partnerUserName).getOrders());
-			dal.deletePartner(partner);
+			dal.deletePartner(partner.getUserName());
 		} else {
 			assertTrue(false);
 		}
@@ -135,7 +129,6 @@ public class DatabaseTests {
 		partner.setUserName(partnerUserName);
 		partner.setAddress(address);
 		partner.setPhone(phone);
-		partner.setProducts(new LinkedList());
 
 		stmt = db.createStatement();
 		dal.insertPartner(partner);
@@ -143,9 +136,7 @@ public class DatabaseTests {
 		partner.setPhone(newPhone);
 		assertTrue(dal.updatePartner(partner));
 		assertTrue(dal.getPartnerProfile(partnerUserName).getPhone().equals(newPhone));
-		assertNotNull(dal.getPartnerProfile(partnerUserName).getProducts());
-		// assertNotNull(dal.getPartnerProfile(partnerUserName).getOrders());
-		assertTrue(dal.deletePartner(partner));
+		assertTrue(dal.deletePartner(partner.getUserName()));
 
 	}
 
@@ -159,7 +150,7 @@ public class DatabaseTests {
 		if (rs.next()) {
 			String partnerUserName = rs.getString(1);
 			partner.setUserName(partnerUserName);
-			assertTrue(dal.deletePartner(partner));
+			assertTrue(dal.deletePartner(partner.getUserName()));
 		} else {
 			assertTrue(false);
 		}
@@ -179,12 +170,14 @@ public class DatabaseTests {
 		product.setStock(stock);
 
 		PartnerProfile profile = new ConcretePartnerProfile();
-
+     
 		profile.setUserName(partnerUserName);
-		assertFalse(dal.insertProduct(product, profile)); // should fail/ partner doesn't exist...
+		product.setCompanyName(partnerUserName);
+		assertFalse(dal.insertProduct(product)); // should fail/ partner doesn't exist...
 		profile.setUserName("BIGDADDY@GMAIL.COM"); // change to one that does exist
-		assertTrue(dal.insertProduct(product, profile)); // should pass :)
-		assertTrue(dal.deleteProduct(product, profile));
+		product.setCompanyName(profile.getUserName());
+		assertTrue(dal.insertProduct(product)); // should pass :)
+		assertTrue(dal.deleteProduct(product));
 
 	}
 
@@ -203,9 +196,10 @@ public class DatabaseTests {
 
 		PartnerProfile profile = new ConcretePartnerProfile();
 		profile.setUserName(partnerUserName);
+		product.setCompanyName(profile.getUserName());
 
-		assertTrue(dal.insertProduct(product, profile)); // should pass :)
-		assertTrue(dal.deleteProduct(product, profile));
+		assertTrue(dal.insertProduct(product)); // should pass :)
+		assertTrue(dal.deleteProduct(product));
 
 	}
 
@@ -221,6 +215,7 @@ public class DatabaseTests {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2011-2-4"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -230,10 +225,10 @@ public class DatabaseTests {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ;";
-		int b = stmt.executeUpdate(delete_sql);
-		assertTrue(dal.insertConsumer(c));
-		b = stmt.executeUpdate(delete_sql);
+		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ;";
+		stmt.executeUpdate(delete_sql);
+		assertTrue(dal.insertCustomer(c));
+		stmt.executeUpdate(delete_sql);
 	}
 
 	@Test
@@ -248,6 +243,7 @@ public class DatabaseTests {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2018-02-02"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -257,9 +253,15 @@ public class DatabaseTests {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ; ";
-		dal.insertConsumer(c);
-		assertTrue(c.getUserName().equals(dal.getConsumer(username).getUserName()));
+		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ; ";
+		assertTrue(dal.insertCustomer(c));
+		Customer gotten = dal.getCustomer(username) ; 
+		assertNotNull(gotten) ; 
+		assertTrue(c.getUserName().equals(gotten.getUserName()));
+		assertEquals(payment.getCardName(),gotten.getPayment().getCardName());
+		assertEquals(payment.getCardNumber(),gotten.getPayment().getCardNumber());
+		assertEquals(payment.getCvv(),gotten.getPayment().getCvv());
+		assertEquals(payment.getExpiration(),gotten.getPayment().getExpiration());
 		stmt.executeUpdate(delete_sql);
 	}
 
@@ -275,7 +277,8 @@ public class DatabaseTests {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
-
+		payment.setExpiration(Date.valueOf("1980-2-2"));
+        
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
 		c.setFirstName(firstName);
@@ -283,13 +286,14 @@ public class DatabaseTests {
 		c.setAddress(address);
 		c.setPhone(phone);
 		c.setPayment(payment);
-
-		dal.insertConsumer(c);
+		assertTrue(dal.insertCustomer(c));
 		String newFirstName = "Tee";
 		c.setFirstName(newFirstName);
-		dal.updateConsumer(c);
+		assertTrue(dal.updateCustomer(c));
+		
 
-		assertTrue(newFirstName.equals(dal.getConsumer(username).getFirstName()));
+		assertTrue(newFirstName.equals(dal.getCustomer(username).getFirstName()));
+		dal.deleteCustomer(c);
 	}
 
 	@Test
@@ -304,6 +308,7 @@ public class DatabaseTests {
 		payment.setCardName("visa");
 		payment.setCardNumber("2233333333334444");
 		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("2019-2-2"));
 
 		Customer c = new ConcreteCustomer();
 		c.setUserName(username);
@@ -313,8 +318,8 @@ public class DatabaseTests {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		assertTrue(dal.insertConsumer(c));
-		assertTrue(dal.deleteConsumer(c));
+		assertTrue(dal.insertCustomer(c));
+		assertTrue(dal.deleteCustomer(c));
 	}
 
 }

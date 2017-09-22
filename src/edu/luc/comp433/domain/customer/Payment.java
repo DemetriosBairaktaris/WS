@@ -1,7 +1,9 @@
 package edu.luc.comp433.domain.customer;
 
+import java.util.Date;
+
 /**
- * Customer Payment Profile
+ * Customer Payment Profile.
  * 
  * @author Thaddeus and Demetrios
  *
@@ -52,4 +54,8 @@ public interface Payment {
    *          String
    */
   public void setCvv(String cvv);
+  
+  public void setExpiration(Date expiration);
+  
+  public Date getExpiration();
 }

@@ -1,10 +1,13 @@
 package edu.luc.comp433.domain.customer;
 
+import java.util.Date;
+
 public class ConcretePayment implements Payment {
 
   private String cardNumber;
   private String cardName;
   private String cvv;
+  private Date expiration;
 
   public ConcretePayment() {
   }
@@ -37,5 +40,15 @@ public class ConcretePayment implements Payment {
   @Override
   public void setCvv(String cvv) {
     this.cvv = cvv;
+  }
+
+  @Override
+  public void setExpiration(Date expiration) {
+    this.expiration = expiration;
+  }
+
+  @Override
+  public Date getExpiration() {
+    return expiration;
   }
 }

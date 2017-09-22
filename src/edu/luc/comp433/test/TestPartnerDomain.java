@@ -60,7 +60,7 @@ public class TestPartnerDomain {
    */
   @After
   public void tearDown() throws Exception {
-    manager.delete(userName);
+    manager.deletePartner(userName);
     manager = null;
     userName = null;
     name = null;
@@ -69,21 +69,19 @@ public class TestPartnerDomain {
   }
 
   @Test
-  public void testPartnerActions() {
-    assertTrue(manager.create(userName, name, address, phone));
-    assertTrue(manager.delete(userName));
+  public void testPartnerCreate() throws SQLException, Exception {
+    assertTrue(manager.createPartner(userName, name, address, phone));
+  }
+  
+  @Test
+  public void testPartnerDelete() throws SQLException, Exception {
+    assertTrue(manager.createPartner(userName, name, address, phone));
+    assertTrue(manager.deletePartner(userName));
   }
 
   @Test
-  public void testPartnerProducts() throws SQLException, Exception {
-    manager.create(userName, name, address, phone);
-    assertTrue(manager.addProduct(userName, "product", "its great", 20.00, 2));
-    assertTrue(manager.getProduct("product",userName).getName().equals("product"));
-  }
-
-  @Test
-  public void testPartnerUpdate() {
-    manager.create(userName, name, address, phone);
+  public void testPartnerUpdate() throws SQLException, Exception {
+    assertTrue(manager.createPartner(userName, name, address, phone));
     assertTrue(manager.updateAddress(userName, "123 Test Rd"));
     assertTrue(manager.getPartnerProfile(userName).getAddress().equals("123 Test Rd"));
     assertTrue(manager.updateName(userName, "Test"));

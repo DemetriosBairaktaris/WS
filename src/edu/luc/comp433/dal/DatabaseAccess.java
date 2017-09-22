@@ -1,0 +1,73 @@
+package edu.luc.comp433.dal;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import edu.luc.comp433.domain.customer.Customer;
+import edu.luc.comp433.domain.order.Order;
+import edu.luc.comp433.domain.order.OrderDetail;
+import edu.luc.comp433.domain.partner.PartnerProfile;
+import edu.luc.comp433.domain.product.Product;
+
+public interface DatabaseAccess {
+
+  /**
+   * Order Related Methods
+   */
+  public int insertOrder(); // don't know what params or return will be, yet
+  
+  public boolean updateOrder(Order order) ; 
+
+  public boolean updateOrderDetail(OrderDetail detail);
+
+  public Order getOrder(double orderId);
+  
+  public boolean deleteOrder(Order order) ;
+
+  public List<OrderDetail> getOrderDetails(Order order);
+
+  public List<OrderDetail> getOrderDetails(double id);
+
+  /**
+   * Partner Related Methods
+   * 
+   * @throws SQLException
+   * @throws Exception
+   */
+  public boolean insertPartner(PartnerProfile profile) throws SQLException, Exception;
+
+  public boolean updatePartner(PartnerProfile profile) throws SQLException, Exception;
+
+  public boolean deletePartner(String userName) throws SQLException;
+
+  public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException;
+
+  /**
+   * Product Related Methods
+   * 
+   * @throws SQLException
+   */
+  public boolean insertProduct(Product product) throws SQLException;
+
+  public boolean updateProduct(Product product) throws SQLException;
+
+  public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException;
+  
+  public List<Product> getProduct(String productName) throws SQLException ; 
+  
+  boolean deleteProduct(Product product) throws SQLException;
+
+  /**
+   * Consumer Methods
+   * 
+   * @throws SQLException
+   */
+  public boolean insertCustomer(Customer customer) throws SQLException;
+
+  public boolean updateCustomer(Customer customer) throws SQLException;
+
+  public boolean deleteCustomer(Customer customer) throws SQLException;
+
+  public Customer getCustomer(String userName) throws SQLException;
+
+}

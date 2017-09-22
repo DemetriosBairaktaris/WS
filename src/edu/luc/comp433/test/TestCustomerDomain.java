@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import edu.luc.comp433.domain.customer.CustomerManager;
 
 import java.sql.SQLException;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,6 +28,7 @@ public class TestCustomerDomain {
   private String cardName;
   private String cardNumber;
   private String cvv;
+  private Date expiration;
 
   @BeforeClass
   public static void setUpClass() {
@@ -40,7 +42,9 @@ public class TestCustomerDomain {
 
   /**
    * Creates the manager and populates the info for a customer.
-   * @throws Exception thrown if Spring or SQL have errors.
+   * 
+   * @throws Exception
+   *           thrown if Spring or SQL have errors.
    */
   @Before
   public void setUp() throws Exception {
@@ -53,14 +57,18 @@ public class TestCustomerDomain {
     cardName = "Jane Doe";
     cardNumber = "1234 4321 1234 4321";
     cvv = "123";
+    expiration = new Date(1589518800000L);
   }
 
   /**
    * Removes all configurations.
-   * @throws Exception thrown if Spring or SQL have errors.
+   * 
+   * @throws Exception
+   *           thrown if Spring or SQL have errors.
    */
   @After
   public void tearDown() throws Exception {
+    manager.deleteCustomer(userName);
     manager = null;
     userName = null;
     firstName = null;
@@ -70,25 +78,34 @@ public class TestCustomerDomain {
     cardName = null;
     cardNumber = null;
     cvv = null;
+    expiration = null;
   }
 
   @Test
-  public void testPartnerActions() throws SQLException {
-    assertTrue(
-        manager.create(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv));
-    assertTrue(manager.delete(userName));
+  public void testPartnerCreate() throws SQLException {
+    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, expiration));
+    assertTrue(manager.deleteCustomer(userName));
+  }
+
+  @Test
+  public void testPartnerDelete() throws SQLException {
+    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, expiration));
+    assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
   public void testPartnerUpdate() throws SQLException {
-    manager.create(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv);
+    manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+        expiration);
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));
     assertTrue(manager.updatePhone(userName, "555 555-5555"));
     assertTrue(manager.getCustomer(userName).getPhone().equals("555 555-5555"));
-    assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000"));
+    assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000",
+        new Date(1747285200000L)));
     assertTrue(
         manager.getCustomer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
-    assertTrue(manager.delete(userName));
   }
 }
