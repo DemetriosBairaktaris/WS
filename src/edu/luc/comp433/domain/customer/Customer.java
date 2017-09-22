@@ -1,9 +1,5 @@
 package edu.luc.comp433.domain.customer;
 
-import edu.luc.comp433.domain.order.Order;
-
-import java.util.List;
-
 /**
  * Details the set up of a customer object.
  * 
@@ -11,13 +7,6 @@ import java.util.List;
  *
  */
 public interface Customer {
-  /**
-   * Adds an order to the customers list of orders.
-   * 
-   * @param order
-   *          created order object
-   */
-  public void addOrder(Order order);
 
   /**
    * Retrieves the customer's address.
@@ -40,12 +29,6 @@ public interface Customer {
    */
   public String getLastName();
 
-  /**
-   * Retrieves all the customer's orders.
-   * 
-   * @return A list of type Order
-   */
-  public List<Order> getOrders();
 
   /**
    * Retrieves the customer's payment information.
@@ -67,14 +50,6 @@ public interface Customer {
    * @return String
    */
   public String getUserName();
-
-  /**
-   * Removes a canceled order from the customer's order list.
-   * 
-   * @param order
-   *          canceled Order
-   */
-  public void removeOrder(Order order);
 
   /**
    * Sets the customer's address.
@@ -99,14 +74,6 @@ public interface Customer {
    *          String
    */
   public void setLastName(String lastName);
-
-  /**
-   * Sets the customer's list of orders.
-   * 
-   * @param orders
-   *          List of type Order
-   */
-  public void setOrders(List<Order> orders);
 
   /**
    * Sets the customer's payment information.

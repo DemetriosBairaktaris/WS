@@ -34,9 +34,9 @@ public interface DatabaseAccess {
 
   public boolean updatePartner(PartnerProfile profile) throws SQLException, Exception;
 
-  public boolean deletePartner(PartnerProfile profile) throws SQLException;
+  public boolean deletePartner(String userName) throws SQLException;
 
-  public PartnerProfile getPartnerProfile(String name) throws Exception, SQLException;
+  public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException;
 
   /**
    * Product Related Methods
@@ -56,12 +56,12 @@ public interface DatabaseAccess {
    * 
    * @throws SQLException
    */
-  public boolean insertConsumer(Customer consumer) throws SQLException;
+  public boolean insertCustomer(Customer customer) throws SQLException;
 
-  public boolean updateConsumer(Customer consumer) throws SQLException;
+  public boolean updateCustomer(Customer customer) throws SQLException;
 
-  public boolean deleteConsumer(Customer consumer) throws SQLException;
+  public boolean deleteCustomer(String userName) throws SQLException;
 
-  public Customer getConsumer(String userName) throws SQLException;
+  public Customer getCustomer(String userName) throws SQLException;
 
 }

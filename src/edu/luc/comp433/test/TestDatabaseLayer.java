@@ -110,7 +110,7 @@ public class TestDatabaseLayer {
 
 		if (dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
 			assertTrue((partner.getUserName().equals(partnerUserName)));
-			dal.deletePartner(partner);
+			dal.deletePartner(partner.getUserName());
 		} else {
 			assertTrue(false);
 		}
@@ -136,7 +136,7 @@ public class TestDatabaseLayer {
 		partner.setPhone(newPhone);
 		assertTrue(dal.updatePartner(partner));
 		assertTrue(dal.getPartnerProfile(partnerUserName).getPhone().equals(newPhone));
-		assertTrue(dal.deletePartner(partner));
+		assertTrue(dal.deletePartner(partner.getUserName()));
 
 	}
 
@@ -150,7 +150,7 @@ public class TestDatabaseLayer {
 		if (rs.next()) {
 			String partnerUserName = rs.getString(1);
 			partner.setUserName(partnerUserName);
-			assertTrue(dal.deletePartner(partner));
+			assertTrue(dal.deletePartner(partner.getUserName()));
 		} else {
 			assertTrue(false);
 		}
@@ -223,7 +223,7 @@ public class TestDatabaseLayer {
 
 		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ;";
 		stmt.executeUpdate(delete_sql);
-		assertTrue(dal.insertConsumer(c));
+		assertTrue(dal.insertCustomer(c));
 		stmt.executeUpdate(delete_sql);
 	}
 
@@ -249,8 +249,8 @@ public class TestDatabaseLayer {
 		c.setPayment(payment);
 
 		String delete_sql = "Delete from consumers where consumer_user_name = '" + username + "' ; ";
-		dal.insertConsumer(c);
-		assertTrue(c.getUserName().equals(dal.getConsumer(username).getUserName()));
+		dal.insertCustomer(c);
+		assertTrue(c.getUserName().equals(dal.getCustomer(username).getUserName()));
 		stmt.executeUpdate(delete_sql);
 	}
 
@@ -275,12 +275,12 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		dal.insertConsumer(c);
+		dal.insertCustomer(c);
 		String newFirstName = "Tee";
 		c.setFirstName(newFirstName);
-		dal.updateConsumer(c);
+		dal.updateCustomer(c);
 
-		assertTrue(newFirstName.equals(dal.getConsumer(username).getFirstName()));
+		assertTrue(newFirstName.equals(dal.getCustomer(username).getFirstName()));
 	}
 
 	@Test
@@ -304,8 +304,8 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		assertTrue(dal.insertConsumer(c));
-		assertTrue(dal.deleteConsumer(c));
+		assertTrue(dal.insertCustomer(c));
+		assertTrue(dal.deleteCustomer(c.getUserName()));
 	}
 
 }

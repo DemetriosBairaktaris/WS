@@ -29,8 +29,7 @@ public class ConcretePartnerManager implements PartnerManager {
 
   @Override
   public boolean deletePartner(String userName) throws SQLException, Exception {
-    PartnerProfile profile = database.getPartnerProfile(userName);
-    return database.deletePartner(profile);
+    return database.deletePartner(userName);
   }
 
   @Override

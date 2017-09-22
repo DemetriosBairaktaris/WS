@@ -1,6 +1,7 @@
 package edu.luc.comp433.dal;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -71,7 +72,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return null;
   }
 
-  // TODO add more table values to SQL code
   @Override
   public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException {
 
@@ -91,7 +91,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException {
-    if (this.deletePartner(profile)) {
+    if (this.deletePartner(profile.getUserName())) {
       return this.insertPartner(profile);
     } else {
       return false;
@@ -99,9 +99,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean deletePartner(PartnerProfile profile) throws SQLException {
+  public boolean deletePartner(String userName) throws SQLException {
 
-    String partnerName = profile.getUserName();
+    String partnerName = userName;
     String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = "
         + this.wrapSingleQuotes(partnerName) + " ; ";
     int success = stmt.executeUpdate(sql);
@@ -196,18 +196,18 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean insertConsumer(Customer consumer) throws SQLException {
+  public boolean insertCustomer(Customer customer) throws SQLException {
     db.setAutoCommit(false);
     /**
      * Steps insert into consumer insert into payment
      */
-    String sql = "INSERT INTO CONSUMERS (CONSUMER_USER_NAME,CONSUMER_FIRST_NAME,CONSUMER_LAST_NAME,"
-        + "CONSUMER_ADDRESS, CONSUMER_PHONE)" + " VALUES ( "
-        + this.wrapSingleQuotes(consumer.getUserName()) + ", "
-        + this.wrapSingleQuotes(consumer.getFirstName()) + ", "
-        + this.wrapSingleQuotes(consumer.getLastName()) + ","
-        + this.wrapSingleQuotes(consumer.getAddress()) + ","
-        + this.wrapSingleQuotes(consumer.getPhone()) + ") ; ";
+    String sql = "INSERT INTO CUSTOMERS (CUSTOMER_USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
+        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE)" + " VALUES ( "
+        + this.wrapSingleQuotes(customer.getUserName()) + ", "
+        + this.wrapSingleQuotes(customer.getFirstName()) + ", "
+        + this.wrapSingleQuotes(customer.getLastName()) + ","
+        + this.wrapSingleQuotes(customer.getAddress()) + ","
+        + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
 
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
@@ -216,11 +216,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
     ;
 
-    Payment p = consumer.getPayment();
-    sql = "INSERT INTO CONSUMER_PAYMENTS (CONSUMER_USER_NAME,CARD_NAME,CARD_NUMBER,CVV) VALUES"
-        + "(" + this.wrapSingleQuotes(consumer.getUserName()) + ","
+    Payment p = customer.getPayment();
+    sql = "INSERT INTO CUSTOMER_PAYMENTS (CUSTOMER_USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES"
+        + "(" + this.wrapSingleQuotes(customer.getUserName()) + ","
         + this.wrapSingleQuotes(p.getCardName()) + " ," + this.wrapSingleQuotes(p.getCardNumber())
-        + " , " + this.wrapSingleQuotes(p.getCvv()) + ") ; ";
+        + " , " + this.wrapSingleQuotes(p.getCvv()) + ", " + this.wrapSingleQuotes(p.getExpiration().toString()) + ") ; ";
 
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
@@ -234,12 +234,12 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean updateConsumer(Customer consumer) throws SQLException {
-    if (this.getConsumer(consumer.getUserName()).getUserName().equals(consumer.getUserName())) {
+  public boolean updateCustomer(Customer customer) throws SQLException {
+    if (this.getCustomer(customer.getUserName()).getUserName().equals(customer.getUserName())) {
       db.setAutoCommit(false);
-      this.deleteConsumer(consumer);
+      this.deleteCustomer(customer.getUserName());
       db.commit();
-      if (this.insertConsumer(consumer)) {
+      if (this.insertCustomer(customer)) {
         return true;
       }
     }
@@ -248,9 +248,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean deleteConsumer(Customer consumer) throws SQLException {
-    String sql = "DELETE FROM CONSUMERS WHERE CONSUMER_USER_NAME = "
-        + this.wrapSingleQuotes(consumer.getUserName()) + " ;";
+  public boolean deleteCustomer(String userName) throws SQLException {
+    String sql = "DELETE FROM CUSTOMERS WHERE CUSTOMER_USER_NAME = "
+        + this.wrapSingleQuotes(userName) + " ;";
     if (stmt.executeUpdate(sql) > 0) {
       return true;
     } else {
@@ -258,16 +258,15 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
   }
 
-  // todo retrieve the orders/details ??
   @Override
-  public Customer getConsumer(String userName) throws SQLException {
+  public Customer getCustomer(String userName) throws SQLException {
 
-    String getConsumerCredSql = "Select * from consumers where consumer_user_name = "
+    String getConsumerCredSql = "Select * from customers where customer_user_name = "
         + this.wrapSingleQuotes(userName) + ";";
 
-    String getPaymentSql = "SELECT CONSUMERS.CONSUMER_USER_NAME,CONSUMERS.CONSUMER_FIRST_NAME,CONSUMERS.CONSUMER_LAST_NAME,"
-        + "CONSUMER_PAYMENTS.CARD_NAME,CONSUMER_PAYMENTS.CARD_NUMBER, CONSUMER_PAYMENTS.CVV FROM CONSUMERS, CONSUMER_PAYMENTS WHERE"
-        + " CONSUMERS.CONSUMER_USER_NAME = CONSUMER_PAYMENTS.CONSUMER_USER_NAME 	AND CONSUMERS.CONSUMER_USER_NAME = "
+    String getPaymentSql = "SELECT CUSTOMERS.CUSTOMER_USER_NAME,CUSTOMERS.CUSTOMER_FIRST_NAME,CUSTOMERS.CUSTOMER_LAST_NAME,"
+        + "CUSTOMER_PAYMENTS.CARD_NAME,CUSTOMER_PAYMENTS.CARD_NUMBER, CUSTOMER_PAYMENTS.CVV FROM CUSTOMERS, CUSTOMER_PAYMENTS WHERE"
+        + " CUSTOMERS.CUSTOMER_USER_NAME = CUSTOMER_PAYMENTS.CUSTOMER_USER_NAME 	AND CUSTOMERS.CUSTOMER_USER_NAME = "
         + this.wrapSingleQuotes(userName) + " ;";
 
     ResultSet rs = stmt.executeQuery(getConsumerCredSql);
@@ -293,6 +292,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       p.setCardName(rs.getString(4));
       p.setCardNumber(rs.getString(5));
       p.setCvv(rs.getString(6));
+      p.setExpiration(Date.valueOf((rs.getString(7))));
       c.setPayment(p);
     } else {
       c.setPayment(null);
