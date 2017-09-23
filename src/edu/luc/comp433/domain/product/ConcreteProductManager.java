@@ -43,18 +43,8 @@ public class ConcreteProductManager implements ProductManager {
   }
 
   @Override
-  public boolean deleteProduct(String companyUserName, String name) throws SQLException {
-    List<Product> products = database.getProduct(name);
-    Product product = (Product) context.getBean("product");
-    for (int i = 0; i < products.size(); i++) {
-      if (products.get(i).getCompanyUserName().equals(companyUserName)
-          && products.get(i).getName().equals(name)) {
-        product = products.get(i);
-      } else {
-        product = null;
-      }
-    }
-    return database.deleteProduct(product);
+  public boolean deleteProduct(String companyUserName, String name) throws Exception {
+	  return database.deleteProduct(database.getProductFromPartner(name, database.getPartnerProfile(companyUserName)));
   }
 
   @Override
@@ -97,8 +87,9 @@ public class ConcreteProductManager implements ProductManager {
   }
 
   @Override
-  public List<Product> getCompanyProducts(String companyUserName) {
+  public List<Product> getCompanyProducts(String companyUserName) throws SQLException, Exception {
     List<Product> products = new ArrayList<>();
+    database.getAllProductsFromPartner(companyUserName);
     return products;
   }
 

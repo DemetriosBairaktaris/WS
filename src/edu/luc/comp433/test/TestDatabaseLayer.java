@@ -22,7 +22,9 @@ import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.order.ConcreteOrder;
+import edu.luc.comp433.domain.order.ConcreteOrderDetail;
 import edu.luc.comp433.domain.order.Order;
+import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.ConcreteProduct;
@@ -46,10 +48,10 @@ public class TestDatabaseLayer {
 	private String partnerName2;
 
 	public TestDatabaseLayer() {
-//		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-//				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-//		USER = "evtgoojkjfryzn";
-//		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+		USER = "evtgoojkjfryzn";
+		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -413,6 +415,81 @@ public class TestDatabaseLayer {
 		
 		assertEquals(order.getOrderId(),dal.getOrder(order.getOrderId()).getOrderId());
 		assertEquals(order.getCustomer(),dal.getOrder(order.getOrderId()).getCustomer());
+	}
+	
+	@Test 
+	public void testUpdateOrder() throws Exception {
+		Order order = new ConcreteOrder();
+		order.setDetails(new LinkedList<>());
+		order.setStatus("open");
+		
+		String username = "MHM@gmail.com";
+		String firstName = "Doug";
+		String lastName = "Frankenstein";
+		String address = "232 dslakj st";
+		String phone = "219-202-2222";
+		
+		order.setCustomer(username);
+
+		Payment payment = new ConcretePayment();
+		payment.setCardName("visa");
+		payment.setCardNumber("2233333333334444");
+		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("1980-2-2"));
+        
+		Customer c = new ConcreteCustomer();
+		c.setUserName(username);
+		c.setFirstName(firstName);
+		c.setLastName(lastName);
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
+		dal.deleteCustomer(c);
+		try {
+			assertTrue(dal.insertCustomer(c));
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			assertTrue(false) ; 
+		}
+		
+		order.setOrderId(dal.insertOrder(order));
+		order = dal.getOrder(order.getOrderId());
+		OrderDetail d = new ConcreteOrderDetail();
+		int quantity = 500 ; 
+	
+		
+		String productName = "WaxOn-WaxOff";
+		String desc = "Everyones favorite wax"; // todo fix for apostraphe
+		String partnerUserName = "BIGDADDY@GMAIL.COM";
+		double cost = 500000.00;
+		int stock = 30;
+		Product product = new ConcreteProduct();
+		product.setName(productName);
+		product.setDesc(desc);
+		product.setCost(cost);
+		product.setStock(stock);
+		product.setCompanyUserName(partnerUserName);
+		
+		Review r = new ConcreteReview() ; 
+		r.setRating(5);
+		r.setReview("The best wax evaaaaarr");
+		product.setReviews(Arrays.asList(r));
+		assertTrue(dal.insertProduct(product));
+		
+		d.setCompany(partnerUserName);
+		d.setProduct(product);
+		d.setQuantity(quantity);
+		d.setStatus("open");
+		order.setDetails(Arrays.asList(d));
+		
+		assertTrue(dal.updateOrder(order)); 
+		order = dal.getOrder(order.getOrderId()) ; 
+		assertEquals(order.getDetails().get(0).getProduct().getName(),d.getProduct().getName()) ;
+		assertEquals(order.getDetails().get(0).getStatus(),d.getStatus()) ;
+		assertEquals(order.getDetails().get(0).getCompany(),d.getCompany()) ;
+		assertEquals(order.getDetails().get(0).getQuantity(),d.getQuantity()) ;
+
+		
 	}
 
 }

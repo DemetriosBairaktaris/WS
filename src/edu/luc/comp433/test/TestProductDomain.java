@@ -3,6 +3,7 @@ package edu.luc.comp433.test;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.domain.product.Review;
 
@@ -62,9 +64,10 @@ public class TestProductDomain {
   }
 
   @Test
-  public void testProductDelete() throws SQLException {
+  public void testProductDelete() throws Exception {
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     assertTrue(products.deleteProduct(companyUserName, name));
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); //so the teardown don't complain
   }
 
   @Test
@@ -87,8 +90,23 @@ public class TestProductDomain {
   }
   
   @Test
-  public void testGetProductsForCompany() {
-    fail("Not Yet Implemented");
+  public void testGetProductsForCompany() throws NumberFormatException, Exception {
+	 HashMap<Integer, Boolean> map = new HashMap<>();
+     int i = 0 ;
+     while(i < 30) {
+    	 	products.addProduct(String.valueOf(i), "empty", i, i, "plainoldcompany@gmail.com");
+    	 	map.put(i++, true);
+    	 	
+     }
+     
+     for(Product p : products.getCompanyProducts(companyUserName)) {
+    	 	assertTrue(map.get(Integer.parseInt(p.getName()))) ;
+    	 	assertNotNull(p.getCompanyUserName()) ; 
+    	 	assertNotNull(p.getName()) ; 
+    	 	assertTrue(products.deleteProduct(p.getCompanyUserName(),p.getName()));
+    	 
+     }
+     
+     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));  //so the teardown don't complain
   }
-
 }

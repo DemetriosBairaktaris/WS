@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,10 +42,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   private ApplicationContext context ;
 
   public ConcreteDatabaseAccess() throws SQLException {
-//    DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-//        + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-//    USER = "evtgoojkjfryzn";
-//    PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+    DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+        + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+    USER = "evtgoojkjfryzn";
+    PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
     db = DriverManager.getConnection(DB_URL, USER, PASS);
     stmt = db.createStatement();
 //    context = new ClassPathXmlApplicationContext(
@@ -64,7 +65,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public int insertOrder(Order order) throws SQLException {
 	  if (order.getOrderId() > 0) {
-		  System.out.println("don't update an order through here, ");
+		  System.out.println("don't update an order through here, call updateOrder().... ");
+		  //This method does not insert the orderDetails!!!! pass those in through updateOrder()
 		  return -1 ; 
 		  
 	  }
@@ -86,11 +88,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     	  }
   }
 
-  @Override
-  public boolean updateOrderDetail(OrderDetail detail) {
-    // TODO Auto-generated method stub
-    return false;
-  }
+
 
   @Override
   public Order getOrder(double orderId) throws Exception {
@@ -98,13 +96,14 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String sql = "SELECT * FROM ORDERS WHERE ORDER_ID = %d" ;
     sql = String.format(sql, oId) ;
     Order o = new ConcreteOrder();
-    ResultSet rs = stmt.executeQuery(sql); 
+    Statement newStatement = db.createStatement();
+    ResultSet rs = newStatement.executeQuery(sql); 
     if(rs.next()) {
     		o.setOrderId(rs.getInt(1));
     		o.setCustomer(rs.getString(2));
     		o.setTimestamp(Date.valueOf(rs.getDate(3).toLocalDate()));
-    		o.setStatus("open");
-    		//o.setStatus(rs.getString(4));
+    		//o.setStatus("open");
+    		o.setStatus(rs.getString(4));
     		//status needs to be added to tables
     }
     else {
@@ -113,17 +112,20 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     sql = "SELECT * FROM ORDER_DETAILS WHERE ORDER_ID = %d" ; 
     sql = String.format(sql, oId) ;
     List<OrderDetail> orderDetails = new LinkedList<>() ; 
-    rs = stmt.executeQuery(sql);
+    
+    rs = newStatement.executeQuery(sql);
     while(rs.next()) {
     		OrderDetail od = new ConcreteOrderDetail();
     		Product p = new ConcreteProduct() ; 
-    	    String partnerUserName = this.getProductOwnerAndProductName(rs.getInt(4))[0] ;
-    	    String productName = this.getProductOwnerAndProductName(rs.getInt(4))[1];
+    		int productId = rs.getInt(4);
+    		od.setQuantity(rs.getInt(5));
+    		od.setStatus(rs.getString(6));
+    		String [] owner_product = this.getProductOwnerAndProductName(productId) ; 
+    	    String partnerUserName = owner_product[0] ;
+    	    String productName = owner_product[1];
     		p = this.getProductFromPartner(productName, this.getPartnerProfile(partnerUserName));
     		od.setProduct(p);
     		od.setCompany(partnerUserName);
-    		od.setQuantity(rs.getInt(5));
-    		od.setStatus(rs.getString(6));
     		orderDetails.add(od);
     		
     }
@@ -131,22 +133,45 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	return o;
   }
 
-  @Override
-  public List<OrderDetail> getOrderDetails(Order order) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public List<OrderDetail> getOrderDetails(double id) {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
 	@Override
-	public boolean updateOrder(Order order) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateOrder(Order order) throws SQLException {
+		
+		//It looks as if the only logical thing to change in an order is the status
+		// all others (order_id, customers_user_name, order_date) are immutable.
+		/**
+		 * Steps
+		 * 1. update (SQL) the order by updating all but primary key
+		 * 2. delete all orderdetails with ^ pkey
+		 * 3. insert all order details as new ones
+		 */
+		String sql = "UPDATE ORDERS SET ORDER_STATUS = '%s' WHERE ORDER_ID = %d ; ";
+		sql = String.format(sql, order.getStatus(),(int)order.getOrderId());
+		if(stmt.executeUpdate(sql) == 0) {
+			return false ;
+		}
+		
+		String deleteOrderDetailsSql = "DELETE FROM ORDER_DETAILS WHERE ORDER_ID = %d" ; 
+		deleteOrderDetailsSql = String.format(deleteOrderDetailsSql, order.getOrderId());
+		
+		stmt.executeUpdate(deleteOrderDetailsSql);
+		
+		int orderId = order.getOrderId();
+		String userName = order.getCustomer() ;
+		int productId ;
+		
+		for(OrderDetail od : order.getDetails()) {
+			System.out.println(od.getProduct().getCompanyUserName());
+			System.out.println(od.getProduct().getName());
+			productId = this.getProductId(od.getProduct().getName(), od.getProduct().getCompanyUserName());
+			
+			String reinsertOrderDetailsSql = "INSERT INTO ORDER_DETAILS (ORDER_ID,USER_NAME,PRODUCT_ID,QUANTITY, STATUS) VALUES ("+
+					"%d,'%s',%d,%d,'%s');";
+			reinsertOrderDetailsSql = String.format(reinsertOrderDetailsSql,orderId,userName,productId,od.getQuantity(),od.getStatus()) ;
+			System.out.println(reinsertOrderDetailsSql);
+			stmt.executeUpdate(reinsertOrderDetailsSql) ; 
+		}
+		return true;
 	}
 	
 	@Override
@@ -271,6 +296,28 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
     return true ;
   }
+  
+  @Override
+  public List<Product> getAllProductsFromPartner(String companyUserName) throws Exception {
+	
+	
+	String sql = "select * from products where products.partner_user_name = '%s' order by products.product_name asc;";
+	
+	sql = String.format(sql, companyUserName) ; 
+	List<Product> products = new LinkedList<>();
+	Statement newStatement = db.createStatement();
+	
+	 ResultSet rs = newStatement.executeQuery(sql);
+	 Product p ; 
+	 	
+		 while(rs.next()) {
+			 p = this.getProductFromPartner(rs.getString(2), this.getPartnerProfile(rs.getString(6)));
+			 products.add(p);
+		 }
+		 
+	return products;
+	  
+  }
 
   @Override
   public boolean updateProduct(Product product) throws SQLException { //good
@@ -290,7 +337,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	    sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName)
 	        + " AND PARTNER_USER_NAME = "+ 
 	    		this.wrapSingleQuotes(profile.getUserName())+" ;";
-	    ResultSet rs = stmt.executeQuery(sql);
+	    Statement newStatment = db.createStatement();
+	    ResultSet rs = newStatment.executeQuery(sql);
 	    int productId  ;
 	    if (rs.next()) {
 			  //p = (Product) context.getBean("product");
@@ -304,12 +352,13 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		
 	    }
 	    else {
+	    		newStatment.close();
 	    		return null ; 
 	    }
 	    
 	    String get_review_sql = "Select * from reviews where product_id = %d" ;
 	    get_review_sql = String.format(get_review_sql, productId);
-	    rs = stmt.executeQuery(get_review_sql);
+	    rs = newStatment.executeQuery(get_review_sql);
 	    List<Review> reviews = new LinkedList<>();
 	    while(rs.next()) {
 	    		Review r = new ConcreteReview();
@@ -318,14 +367,16 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	    		reviews.add(r);
 	    }
 	    p.setReviews(reviews);
+	    newStatment.close();
 	    return p;
 	    
   }
   private String[] getProductOwnerAndProductName(int id) throws SQLException {
 	  String sql = "Select partners.partner_user_name, products.product_id,products.product_name from partners, products where"+
-			  "partners.partner_user_name = products.partner_user_name and products.product_id = %d" ; 
+			  " partners.partner_user_name = products.partner_user_name and products.product_id = %d" ; 
 	  sql = String.format(sql, id) ; 
-	  ResultSet rs = stmt.executeQuery(sql) ;
+	  Statement newStatement = db.createStatement();
+	  ResultSet rs = newStatement.executeQuery(sql) ;
 	  if (rs.next()) {
 		  if(rs.getInt(2) == id) {
 			  String [] owner_product = {rs.getString(1),rs.getString(3) } ;
@@ -493,6 +544,24 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
 
     return c;
+  }
+  
+  private int getProductId(String name, String companyUserName) throws SQLException {
+	String sql = "Select product_id from products where product_name = '%s' and partner_user_name = '%s' ;" ;
+			sql = String.format(sql, name, companyUserName);
+			System.out.println(sql);
+			Statement newStatement = db.createStatement();
+			ResultSet rs = newStatement.executeQuery(sql);
+			
+			if(rs.next()) {
+				int id = rs.getInt(1);
+				newStatement.close();
+				return id; 
+				
+			}
+			newStatement.close();
+			return 0;
+	  
   }
 
 }

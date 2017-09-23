@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -19,12 +20,14 @@ import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.product.Product;
+import edu.luc.comp433.domain.product.ProductManager;
 
 public class testOrderDomain {
 
   private static ApplicationContext context;
   private OrderManager orders;
-  private CustomerManager customerManager ; 
+  private CustomerManager customerManager ;
+  private ProductManager productManager ;
   private String status;
   private String customerUserName;
   private Customer customer ; 
@@ -47,6 +50,7 @@ public class testOrderDomain {
     context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
     orders = (OrderManager) context.getBean("orderManager");
     customerManager = (CustomerManager) context.getBean("customerManager");
+    productManager = (ProductManager) context.getBean("productManager") ;
     status = "fulfilled";
     
     customerUserName = "user@test.com";
@@ -68,6 +72,11 @@ public class testOrderDomain {
     product.setDesc("awesome");
     product.setName("Thing");
     product.setStock(2L);
+    productManager.addProduct(product.getName(),
+    		product.getDesc(),
+    		product.getCost(),
+    		product.getStock(),
+    		product.getCompanyUserName()) ; 
     quantity = 1L;
     
     customerManager.createCustomer(customer.getUserName(),
@@ -83,19 +92,23 @@ public class testOrderDomain {
 
   @After
   public void tearDown() throws Exception {
+	customerManager.deleteCustomer(customer.getUserName());
+	productManager.deleteProduct(product.getCompanyUserName(), product.getName());
     orders = null;
     status = null;
     customer = null;
     product = null;
     quantity = 0;
-    customerManager.deleteCustomer(customer.getUserName());
+    
   }
 
   @Test
   public void testCreateAndCancelOrder() throws Exception {
     int orderId = orders.createOrder(customer.getUserName());
     assertTrue(orderId > 0) ; 
-    //assertNotNull(orders.getOrder(orderId));
+    assertNotNull(orders.getOrder(orderId));
+    assertTrue(orders.getOrder(orderId).getOrderId()>0) ; 
+    assertEquals(orders.getOrder(orderId).getDetails(),Arrays.asList()) ; 
     assertTrue(orders.cancelOrder(orderId));
   }
 
@@ -111,11 +124,11 @@ public class testOrderDomain {
         .equals(product.getCompanyUserName()));
 
     assertTrue(orders.fulfillOrder(orderId));
-    assertTrue(orders.getOrder(orderId).getStatus().equals(status));
+    assertEquals(orders.getOrder(orderId).getStatus(),"fulfilled");
     assertTrue(orders.shipOrder(orderId));
     assertTrue(orders.getOrder(orderId).getStatus().equals("shipped"));
     assertTrue(orders.cancelOrder(orderId));
-    assertTrue(orders.getOrder(orderId).equals(null));
+    assertNull(orders.getOrder(orderId));
   }
 
 }
