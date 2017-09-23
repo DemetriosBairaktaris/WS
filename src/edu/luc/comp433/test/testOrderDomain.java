@@ -40,7 +40,7 @@ public class testOrderDomain {
     status = "fulfilled";
     customer = "user@test.com";
     product = (Product) context.getBean("product");
-    product.setCompanyName("company");
+    product.setCompanyUserName("company");
     product.setCost(50);
     product.setDesc("awesome");
     product.setName("Thing");
@@ -69,7 +69,7 @@ public class testOrderDomain {
     int orderId = orders.createOrder(customer);
     assertTrue(orders.createOrderDetail(orderId, product, quantity));
     assertTrue(
-        orders.getOrder(orderId).getDetails().get(0).getCompany().equals(product.getCompanyName()));
+        orders.getOrder(orderId).getDetails().get(0).getCompany().equals(product.getCompanyUserName()));
     assertTrue(orders.fulfillOrder(orderId));
     assertTrue(orders.getOrder(orderId).getStatus().equals(status));
     assertTrue(orders.shipOrder(orderId));
