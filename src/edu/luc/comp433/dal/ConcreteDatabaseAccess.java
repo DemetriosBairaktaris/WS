@@ -390,12 +390,13 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	  
   }
   @Override
-  public List<Product> getProduct(String productName) throws SQLException {//good{
+  public List<Product> getProduct(String productName) throws Exception {//good{
     String sql;
     Product p = null;
     sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName)
         + " ;";
-    ResultSet rs = stmt.executeQuery(sql);
+    Statement newStatement = db.createStatement();
+    ResultSet rs = newStatement.executeQuery(sql);
     List<Product> products = new LinkedList();
     while (rs.next()) {
       //p = (Product) context.getBean("product");
@@ -405,6 +406,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       p.setCost(rs.getDouble(4));
       p.setStock(rs.getInt(5));
       p.setCompanyUserName(rs.getString(6));
+      p = this.getProductFromPartner(p.getName(), this.getPartnerProfile(p.getCompanyUserName()));
       products.add(p) ; 
     }
     return products;

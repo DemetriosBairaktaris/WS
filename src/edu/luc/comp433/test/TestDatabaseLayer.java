@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import org.junit.After;
@@ -193,6 +194,34 @@ public class TestDatabaseLayer {
 		assertEquals(dal.getProductFromPartner(productName, dal.getPartnerProfile(profile.getUserName())).getReviews().get(0).getReview(),r.getReview());
 		assertTrue(dal.deleteProduct(product));
 
+	}
+	
+	@Test
+	public void testGetProductList() throws Exception {
+		String []partners = {"BIGDADDY@GMAIL.COM","plainoldcompany@gmail.com" } ; 
+		int i = 0 ;
+		while (i< 2) {
+			Product p = new ConcreteProduct();
+			p.setReviews(Arrays.asList());
+			p.setCompanyUserName(partners[i++]);
+			p.setCost(3);
+			p.setDesc(String.valueOf(3));
+			p.setName(String.valueOf(3));
+			p.setStock(3);
+			assertTrue(dal.insertProduct(p));
+		}
+		
+		i = 0 ;
+		for (Product p: dal.getProduct(String.valueOf(3))) {
+			assertEquals(partners[i++],p.getCompanyUserName());
+			assertEquals(String.valueOf(3),p.getName()) ; 
+			assertEquals(Arrays.asList(),p.getReviews());
+			assertEquals(3,p.getCost(),2);
+			assertEquals(3,p.getStock());
+			assertEquals(String.valueOf(3),p.getDesc());
+			assertTrue(dal.deleteProduct(p));
+		}
+		
 	}
 
 	@Test

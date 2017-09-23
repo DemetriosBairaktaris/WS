@@ -47,7 +47,7 @@ public interface DatabaseAccess {
 
   public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException;
   
-  public List<Product> getProduct(String productName) throws SQLException ; 
+  public List<Product> getProduct(String productName) throws SQLException, Exception ; 
   
   boolean deleteProduct(Product product) throws SQLException;
   
