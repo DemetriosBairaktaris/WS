@@ -24,7 +24,7 @@ public class TestProductDomain {
   private String desc;
   private double cost;
   private long stock;
-  private String companyName;
+  private String companyUserName;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -43,12 +43,12 @@ public class TestProductDomain {
     desc = "Awesome Test Product";
     cost = 99d;
     stock = 5L;
-    companyName ="MyCompany";
+    companyUserName ="BIGDADDY@GMAIL.COM";
   }
 
   @After
   public void tearDown() throws Exception {
-    products.deleteProduct(companyName, name);
+    products.deleteProduct(companyUserName, name);
     products = null;
     name = null;
     desc = null;
@@ -58,32 +58,32 @@ public class TestProductDomain {
 
   @Test
   public void testProductCreate() throws SQLException {
-    assertTrue(products.addProduct(name, desc, cost, stock, companyName));
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
   }
 
   @Test
   public void testProductDelete() throws SQLException {
-    assertTrue(products.addProduct(name, desc, cost, stock, companyName));
-    assertTrue(products.deleteProduct(companyName, name));
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
+    assertTrue(products.deleteProduct(companyUserName, name));
   }
 
   @Test
-  public void testProductUpdates() throws SQLException {
-    assertTrue(products.addProduct(name, desc, cost, stock, companyName));
-    assertTrue(products.updateCost(companyName, name, 50d));
-    assertTrue(products.getProducts(name).get(0).getCost() == 50d);
-    assertTrue(products.updateStock(companyName, name, 2L));
+  public void testProductUpdates() throws Exception {
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
+    assertTrue(products.updateCost(companyUserName, name, 50d));
+    assertTrue(products.getProductFromPartner(name,companyUserName).getCost() == 50d);
+    assertTrue(products.updateStock(companyUserName, name, 2L));
     assertTrue(products.getProducts(name).get(0).getStock() == 2L);
   }
 
   @Test
-  public void testProductReview() throws SQLException {
-    assertTrue(products.addProduct(name, desc, cost, stock, companyName));
+  public void testProductReview() throws Exception {
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     Review review = (Review) context.getBean("review");
     review.setRating(5);
     review.setReview("Awesome");
-    assertTrue(products.addReview(companyName, name, review));
-    assertTrue(products.getReviews(companyName, name).get(0).equals(review));
+    assertTrue(products.addReview(companyUserName, name, review));
+    assertTrue(products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
   }
   
   @Test

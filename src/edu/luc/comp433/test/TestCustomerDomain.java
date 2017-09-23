@@ -1,8 +1,8 @@
 package edu.luc.comp433.test;
 
-import static org.junit.Assert.assertTrue;
-
 import edu.luc.comp433.domain.customer.CustomerManager;
+
+import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -68,7 +68,7 @@ public class TestCustomerDomain {
    */
   @After
   public void tearDown() throws Exception {
-    manager.deleteCustomer(userName);
+   // manager.deleteCustomer(userName);
     manager = null;
     userName = null;
     firstName = null;
@@ -82,24 +82,25 @@ public class TestCustomerDomain {
   }
 
   @Test
-  public void testPartnerCreate() throws SQLException {
+  public void testCustomerCreate() throws SQLException {
     assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
         cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
-  public void testPartnerDelete() throws SQLException {
+  public void testCustomerDelete() throws SQLException {
     assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
         cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
-  public void testPartnerUpdate() throws SQLException {
-    manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
-        expiration);
+  public void testCustomerUpdate() throws SQLException {
+   assertTrue( manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+        expiration));
     assertTrue(manager.updateAddress(userName, "123 Second St"));
+    assertNotNull(manager.getCustomer(userName));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));
     assertTrue(manager.updatePhone(userName, "555 555-5555"));
     assertTrue(manager.getCustomer(userName).getPhone().equals("555 555-5555"));
@@ -107,5 +108,6 @@ public class TestCustomerDomain {
         new Date(1747285200000L)));
     assertTrue(
         manager.getCustomer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
+    assertTrue(manager.deleteCustomer(userName));
   }
 }

@@ -18,7 +18,7 @@ public interface DomainFacade {
 
   public boolean checkAvailability(String productName) throws SQLException;
 
-  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException;
+  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException, Exception;
 
   public boolean fulfillOrder(int orderId);
 

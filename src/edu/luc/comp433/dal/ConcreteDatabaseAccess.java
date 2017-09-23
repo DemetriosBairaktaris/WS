@@ -3,6 +3,7 @@ package edu.luc.comp433.dal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +23,9 @@ import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.ConcreteProduct;
+import edu.luc.comp433.domain.product.ConcreteReview;
 import edu.luc.comp433.domain.product.Product;
+import edu.luc.comp433.domain.product.Review;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
   // private final String JDBC_DRIVER = "";
@@ -48,7 +51,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public int insertOrder() {
+  public int insertOrder(Order order) {
     // TODO Auto-generated method stub
     return -1;
   }
@@ -153,26 +156,56 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION," + "COST,STOCK,PARTNER_USER_NAME) VALUES ("
         + this.wrapSingleQuotes(product.getName()) + "," + this.wrapSingleQuotes(product.getDesc())
         + "," + product.getCost() + ", " + product.getStock() + ", " 
-        + this.wrapSingleQuotes(product.getCompanyName())
+        + this.wrapSingleQuotes(product.getCompanyUserName())
         + ") ; ";
+	  
+	  PreparedStatement statementWithKeys = db.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	  
+    		
+    
     int success;
     try {
-      success = stmt.executeUpdate(sql);
+      success = statementWithKeys.executeUpdate();
     } catch (PSQLException e) {
-      System.out.println(e.getStackTrace());
+      System.out.println(e.getMessage());
       success = 0;
     }
     if (success == 0) {
       return false;
     }
-    return true;
+    
+    /*
+     * Continue on to insert reviews
+     */
+    String reviewSql ; 
+    int productId ; 
+    ResultSet keys = statementWithKeys.getGeneratedKeys() ; 
+    if(keys.next()) {
+    		productId = keys.getInt(1);
+    		reviewSql = "Insert into reviews (Product_id,review_rating,review_content) values ("+
+    				"%d, %d, '%s') ; " ;
+    }
+    else {
+    		return false ;
+    }
+    
+    for (Review r : product.getReviews()) {
+    		reviewSql = String.format(reviewSql,productId,r.getRating(),r.getReview());
+    		success = stmt.executeUpdate(reviewSql);
+    		if(success == 0) {
+    			return false ; 
+    		}
+    }
+    return true ;
   }
 
   @Override
   public boolean updateProduct(Product product) throws SQLException { //good
     if (this.deleteProduct(product)) {
+    	  System.out.println("here2343");
       return insertProduct(product);
     } else {
+    	System.out.println("here33939");
       return false;
     }
   }
@@ -185,19 +218,35 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	        + " AND PARTNER_USER_NAME = "+ 
 	    		this.wrapSingleQuotes(profile.getUserName())+" ;";
 	    ResultSet rs = stmt.executeQuery(sql);
+	    int productId  ;
 	    if (rs.next()) {
 			  //p = (Product) context.getBean("product");
 	    		  p = new ConcreteProduct();
-			  p.setName(rs.getString(1));
-			  p.setDesc(rs.getString(2));
-			  p.setCost(rs.getDouble(3));
-			  p.setStock(rs.getInt(4));
-			  p.setCompanyName(rs.getString(5));
-			  return p ; 
+	    		  productId = rs.getInt(1);
+			  p.setName(rs.getString(2));
+			  p.setDesc(rs.getString(3));
+			  p.setCost(rs.getDouble(4));
+			  p.setStock(rs.getInt(5));
+			  p.setCompanyUserName(rs.getString(6));
+		
 	    }
 	    else {
 	    		return null ; 
 	    }
+	    
+	    String get_review_sql = "Select * from reviews where product_id = %d" ;
+	    get_review_sql = String.format(get_review_sql, productId);
+	    rs = stmt.executeQuery(get_review_sql);
+	    List<Review> reviews = new LinkedList<>();
+	    while(rs.next()) {
+	    		Review r = new ConcreteReview();
+	    		r.setRating(rs.getInt(3));
+	    		r.setReview(rs.getString(4));
+	    		reviews.add(r);
+	    }
+	    p.setReviews(reviews);
+	    return p;
+	    
   }
 
   @Override
@@ -211,11 +260,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     while (rs.next()) {
       //p = (Product) context.getBean("product");
     	  p = new ConcreteProduct();
-      p.setName(rs.getString(1));
-      p.setDesc(rs.getString(2));
-      p.setCost(rs.getDouble(3));
-      p.setStock(rs.getInt(4));
-      p.setCompanyName(rs.getString(5));
+      p.setName(rs.getString(2));
+      p.setDesc(rs.getString(3));
+      p.setCost(rs.getDouble(4));
+      p.setStock(rs.getInt(5));
+      p.setCompanyUserName(rs.getString(6));
       products.add(p) ; 
     }
     return products;
@@ -225,7 +274,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean deleteProduct(Product product ) throws SQLException { //good{
     // String.format("Hello %s, %d", "world", 42);
     String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_NAME = '%s' and 	PARTNER_USER_NAME = '%s'";
-    sql = String.format(sql, product.getName(),product.getCompanyName());
+    sql = String.format(sql, product.getName(),product.getCompanyUserName());
+    System.out.println(sql);
     if (stmt.executeUpdate(sql) == 0) {
       return false;
     } else {
@@ -281,18 +331,26 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updateCustomer(Customer customer) throws SQLException {
-    if (this.getCustomer(customer.getUserName()).getUserName().equals(customer.getUserName())) {
-      db.setAutoCommit(false);
-      this.deleteCustomer(customer);
-      db.commit();
-      if (this.insertCustomer(customer)) {
-        return true;
-      }
-    }
-
-    return false;
+	  if(this.deleteCustomer(customer.getUserName())) {
+		  return this.insertCustomer(customer) ; 
+	  }
+	  else {
+		  return false ;
+	  }
   }
 
+  @Override
+  public boolean deleteCustomer(String username) throws SQLException {
+    String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = "
+        + this.wrapSingleQuotes(username) + " ;";
+    if (stmt.executeUpdate(sql) > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  
   @Override
   public boolean deleteCustomer(Customer customer) throws SQLException {
     String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = "

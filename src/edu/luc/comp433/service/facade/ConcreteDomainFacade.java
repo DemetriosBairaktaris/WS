@@ -48,13 +48,13 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean buyProduct(String customerName, String productName, long quantity, int orderId)
-      throws SQLException {
+      throws Exception {
     long newStock = 0;
     if (this.checkAvailability(productName)) {
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
         if (products.getProducts(productName).get(i).getStock() > quantity) {
           newStock = products.getProducts(productName).get(i).getStock() - quantity;
-          String companyName = products.getProducts(productName).get(i).getCompanyName();
+          String companyName = products.getProducts(productName).get(i).getCompanyUserName();
           products.updateStock(companyName, productName, newStock);
           return this.acceptPayment(companyName, customerName, productName, quantity, orderId);
         }
@@ -80,7 +80,7 @@ public class ConcreteDomainFacade implements DomainFacade {
       orderId = orders.createOrder(customerName);
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
         if (products.getProducts(productName).get(i).getName().equals(productName)
-            && products.getProducts(productName).get(i).getCompanyName().equals(companyName)) {
+            && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
           return orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
         }
       }

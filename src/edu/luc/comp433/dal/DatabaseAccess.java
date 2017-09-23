@@ -14,7 +14,7 @@ public interface DatabaseAccess {
   /**
    * Order Related Methods
    */
-  public int insertOrder(); // don't know what params or return will be, yet
+  public int insertOrder(Order order); // don't know what params or return will be, yet
   
   public boolean updateOrder(Order order) ; 
 
@@ -69,5 +69,7 @@ public interface DatabaseAccess {
   public boolean deleteCustomer(Customer customer) throws SQLException;
 
   public Customer getCustomer(String userName) throws SQLException;
+
+  boolean deleteCustomer(String username) throws SQLException;
 
 }
