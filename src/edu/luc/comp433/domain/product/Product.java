@@ -72,6 +72,6 @@ public interface Product {
   
   public void setReviews(List<Review> reviews);
   public List<Review> getReviews();
-  public void setCompanyName(String companyName);
-  public String getCompanyName();
+  public void setCompanyUserName(String companyUserName);
+  public String getCompanyUserName();
 }

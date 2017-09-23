@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +23,9 @@ import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.ConcreteProduct;
+import edu.luc.comp433.domain.product.ConcreteReview;
 import edu.luc.comp433.domain.product.Product;
+import edu.luc.comp433.domain.product.Review;
 
 public class TestDatabaseLayer {
 
@@ -157,7 +160,7 @@ public class TestDatabaseLayer {
 	}
 
 	@Test
-	public void testInsertProduct() throws SQLException {
+	public void testInsertProduct() throws Exception {
 		String productName = "WaxOn-WaxOff";
 		String desc = "Everyones favorite wax"; // todo fix for apostraphe
 		String partnerUserName = "wonderbread@gmail.com";
@@ -168,15 +171,21 @@ public class TestDatabaseLayer {
 		product.setDesc(desc);
 		product.setCost(cost);
 		product.setStock(stock);
+		
+		Review r = new ConcreteReview() ; 
+		r.setRating(5);
+		r.setReview("The best wax evaaaaarr");
+		product.setReviews(Arrays.asList(r));
 
 		PartnerProfile profile = new ConcretePartnerProfile();
      
 		profile.setUserName(partnerUserName);
-		product.setCompanyName(partnerUserName);
+		product.setCompanyUserName(partnerUserName);
 		assertFalse(dal.insertProduct(product)); // should fail/ partner doesn't exist...
 		profile.setUserName("BIGDADDY@GMAIL.COM"); // change to one that does exist
-		product.setCompanyName(profile.getUserName());
+		product.setCompanyUserName(profile.getUserName());
 		assertTrue(dal.insertProduct(product)); // should pass :)
+		assertEquals(dal.getProductFromPartner(productName, dal.getPartnerProfile(profile.getUserName())).getReviews().get(0).getReview(),r.getReview());
 		assertTrue(dal.deleteProduct(product));
 
 	}
@@ -193,10 +202,11 @@ public class TestDatabaseLayer {
 		product.setDesc(desc);
 		product.setCost(cost);
 		product.setStock(stock);
+		product.setReviews(Arrays.asList(new ConcreteReview()));
 
 		PartnerProfile profile = new ConcretePartnerProfile();
 		profile.setUserName(partnerUserName);
-		product.setCompanyName(profile.getUserName());
+		product.setCompanyUserName(profile.getUserName());
 
 		assertTrue(dal.insertProduct(product)); // should pass :)
 		assertTrue(dal.deleteProduct(product));

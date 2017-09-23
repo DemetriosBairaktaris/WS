@@ -8,7 +8,7 @@ public class ConcreteProduct implements Product {
   private String desc;
   private double cost;
   private long stock;
-  private String companyName;
+  private String companyUserName;
   private List<Review> reviews;
 
   public ConcreteProduct() {
@@ -55,13 +55,13 @@ public class ConcreteProduct implements Product {
   }
   
   @Override
-  public void setCompanyName(String companyName) {
-    this.companyName = companyName;
+  public void setCompanyUserName(String companyUserName) {
+    this.companyUserName = companyUserName;
   }
   
   @Override
-  public String getCompanyName() {
-    return companyName;
+  public String getCompanyUserName() {
+    return companyUserName;
   }
   
   @Override

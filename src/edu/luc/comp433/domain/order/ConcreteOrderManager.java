@@ -34,7 +34,7 @@ public class ConcreteOrderManager implements OrderManager {
   public boolean createOrderDetail(int orderId, Product product, long quantity) {
     Order order = database.getOrder(orderId);
     OrderDetail orderDetail = (OrderDetail) context.getBean("orderDetail");
-    orderDetail.setCompany(product.getCompanyName());
+    orderDetail.setCompany(product.getCompanyUserName());
     orderDetail.setProduct(product);
     orderDetail.setQuantity(quantity);
     orderDetail.setStatus("open");
