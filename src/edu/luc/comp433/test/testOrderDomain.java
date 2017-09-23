@@ -34,6 +34,7 @@ public class testOrderDomain {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   }
 
   @AfterClass
@@ -61,7 +62,6 @@ public class testOrderDomain {
     payment.setCardNumber("222222222222");
     payment.setExpiration(Date.valueOf("2018-2-3"));
     customer.setPayment(payment);
-    
     product = (Product) context.getBean("product");
     product.setCompanyUserName("BIGDADDY@GMAIL.COM");
     product.setCost(50);
@@ -92,7 +92,7 @@ public class testOrderDomain {
   }
 
   @Test
-  public void testCreateAndCancelOrder() throws SQLException {
+  public void testCreateAndCancelOrder() throws Exception {
     int orderId = orders.createOrder(customer.getUserName());
     assertTrue(orderId > 0) ; 
     //assertNotNull(orders.getOrder(orderId));
@@ -100,7 +100,7 @@ public class testOrderDomain {
   }
 
   @Test
-  public void testOrderActions() throws SQLException {
+  public void testOrderActions() throws Exception {
     int orderId = orders.createOrder(customerUserName);
     assertTrue(orders.createOrderDetail(orderId, product, quantity));
     assertTrue(
@@ -109,6 +109,7 @@ public class testOrderDomain {
         .get(0)
         .getCompany()
         .equals(product.getCompanyUserName()));
+
     assertTrue(orders.fulfillOrder(orderId));
     assertTrue(orders.getOrder(orderId).getStatus().equals(status));
     assertTrue(orders.shipOrder(orderId));
