@@ -18,6 +18,8 @@ import edu.luc.comp433.domain.customer.ConcreteCustomer;
 import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.Payment;
+import edu.luc.comp433.domain.order.ConcreteOrder;
+import edu.luc.comp433.domain.order.ConcreteOrderDetail;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
@@ -49,11 +51,39 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 //    	      "/WEB-INF/app-context.xml");
   
   }
+  @Override
+  public void finalize() {
+	 try {
+		 stmt.close();
+		 db.close();
+	 }catch(SQLException e) {
+		 System.out.println(e.getMessage());
+	 }
+  }
 
   @Override
-  public int insertOrder(Order order) {
-    // TODO Auto-generated method stub
-    return -1;
+  public int insertOrder(Order order) throws SQLException {
+	  if (order.getOrderId() > 0) {
+		  System.out.println("don't update an order through here, ");
+		  return -1 ; 
+		  
+	  }
+	  String sql = "INSERT INTO ORDERS (USER_NAME) VALUES ('%s') ;" ; 
+	  sql = String.format(sql, order.getCustomer()) ; 
+	  
+	  PreparedStatement statementWithKey = db.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+	  int success = statementWithKey.executeUpdate();
+    	  if (success == 0) {
+    		  return -1 ; 
+    	  }
+	 
+    	  ResultSet rs = statementWithKey.getGeneratedKeys() ; 
+    	  if(rs.next()) {
+    		  return rs.getInt(1) ;  
+    	  }
+    	  else {
+    		  return -1 ;
+    	  }
   }
 
   @Override
@@ -63,9 +93,42 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public Order getOrder(double orderId) {
-    // TODO Auto-generated method stub
-    return null;
+  public Order getOrder(double orderId) throws Exception {
+	int oId = (int) orderId ; 
+    String sql = "SELECT * FROM ORDERS WHERE ORDER_ID = %d" ;
+    sql = String.format(sql, oId) ;
+    Order o = new ConcreteOrder();
+    ResultSet rs = stmt.executeQuery(sql); 
+    if(rs.next()) {
+    		o.setOrderId(rs.getInt(1));
+    		o.setCustomer(rs.getString(2));
+    		o.setTimestamp(Date.valueOf(rs.getDate(3).toLocalDate()));
+    		o.setStatus("open");
+    		//o.setStatus(rs.getString(4));
+    		//status needs to be added to tables
+    }
+    else {
+    		return null ; 
+    }
+    sql = "SELECT * FROM ORDER_DETAILS WHERE ORDER_ID = %d" ; 
+    sql = String.format(sql, oId) ;
+    List<OrderDetail> orderDetails = new LinkedList<>() ; 
+    rs = stmt.executeQuery(sql);
+    while(rs.next()) {
+    		OrderDetail od = new ConcreteOrderDetail();
+    		Product p = new ConcreteProduct() ; 
+    	    String partnerUserName = this.getProductOwnerAndProductName(rs.getInt(4))[0] ;
+    	    String productName = this.getProductOwnerAndProductName(rs.getInt(4))[1];
+    		p = this.getProductFromPartner(productName, this.getPartnerProfile(partnerUserName));
+    		od.setProduct(p);
+    		od.setCompany(partnerUserName);
+    		od.setQuantity(rs.getInt(5));
+    		od.setStatus(rs.getString(6));
+    		orderDetails.add(od);
+    		
+    }
+    o.setDetails(orderDetails);
+	return o;
   }
 
   @Override
@@ -87,9 +150,19 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	}
 	
 	@Override
-	public boolean deleteOrder(Order order) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteOrder(Order order) throws SQLException {
+		if(order.getOrderId() < 1) {
+			System.out.println("Error:  could not delete the order because your order id is invalid");
+			System.out.println("Did you forget to setOrderId?");
+			return false ;
+		}
+		
+		String sql = "DELETE FROM ORDERS WHERE ORDER_ID = %d ; " ;
+		sql = String.format(sql, order.getOrderId()) ; 
+		if(stmt.executeUpdate(sql) == 0) {
+			return false ;
+		}
+		return true ;
 	}
 
   @Override
@@ -248,7 +321,23 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 	    return p;
 	    
   }
-
+  private String[] getProductOwnerAndProductName(int id) throws SQLException {
+	  String sql = "Select partners.partner_user_name, products.product_id,products.product_name from partners, products where"+
+			  "partners.partner_user_name = products.partner_user_name and products.product_id = %d" ; 
+	  sql = String.format(sql, id) ; 
+	  ResultSet rs = stmt.executeQuery(sql) ;
+	  if (rs.next()) {
+		  if(rs.getInt(2) == id) {
+			  String [] owner_product = {rs.getString(1),rs.getString(3) } ;
+			  return owner_product ;
+		  }
+		  else {return null ; }
+	  }
+	  else {
+		  return null ; 
+	  }
+	  
+  }
   @Override
   public List<Product> getProduct(String productName) throws SQLException {//good{
     String sql;

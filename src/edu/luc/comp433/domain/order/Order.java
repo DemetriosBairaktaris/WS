@@ -1,6 +1,6 @@
 package edu.luc.comp433.domain.order;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -67,7 +67,7 @@ public interface Order {
   /**
    * Sets the time stamp when the order is created.
    */
-  public void setTimestamp();
+  public void setTimestamp(Date date);
 
   public void setCustomer(String userName);
 

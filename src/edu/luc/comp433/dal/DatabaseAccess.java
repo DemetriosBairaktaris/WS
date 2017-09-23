@@ -14,15 +14,15 @@ public interface DatabaseAccess {
   /**
    * Order Related Methods
    */
-  public int insertOrder(Order order); // don't know what params or return will be, yet
+  public int insertOrder(Order order) throws SQLException; // don't know what params or return will be, yet
   
   public boolean updateOrder(Order order) ; 
 
   public boolean updateOrderDetail(OrderDetail detail);
 
-  public Order getOrder(double orderId);
+  public Order getOrder(double orderId) throws SQLException, Exception;
   
-  public boolean deleteOrder(Order order) ;
+  public boolean deleteOrder(Order order) throws SQLException ;
 
   public List<OrderDetail> getOrderDetails(Order order);
 

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,6 +21,8 @@ import edu.luc.comp433.domain.customer.ConcreteCustomer;
 import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.Payment;
+import edu.luc.comp433.domain.order.ConcreteOrder;
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.ConcreteProduct;
@@ -296,6 +299,7 @@ public class TestDatabaseLayer {
 		c.setAddress(address);
 		c.setPhone(phone);
 		c.setPayment(payment);
+		dal.deleteCustomer(c);
 		assertTrue(dal.insertCustomer(c));
 		String newFirstName = "Tee";
 		c.setFirstName(newFirstName);
@@ -330,6 +334,85 @@ public class TestDatabaseLayer {
 
 		assertTrue(dal.insertCustomer(c));
 		assertTrue(dal.deleteCustomer(c));
+	}
+	
+	
+	@Test
+	public void testCreateOrderDelete() throws SQLException {
+		Order order = new ConcreteOrder();
+		order.setDetails(new LinkedList<>());
+		order.setStatus("open");
+		
+		String username = "MHM@gmail.com";
+		String firstName = "Doug";
+		String lastName = "Frankenstein";
+		String address = "232 dslakj st";
+		String phone = "219-202-2222";
+		
+		order.setCustomer(username);
+
+		Payment payment = new ConcretePayment();
+		payment.setCardName("visa");
+		payment.setCardNumber("2233333333334444");
+		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("1980-2-2"));
+        
+		Customer c = new ConcreteCustomer();
+		c.setUserName(username);
+		c.setFirstName(firstName);
+		c.setLastName(lastName);
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
+		try {
+			assertTrue(dal.insertCustomer(c));
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			assertTrue(false) ; 
+		}
+		order.setOrderId(dal.insertOrder(order));
+		assertTrue(order.getOrderId() > 0) ; 
+		assertTrue(dal.deleteOrder(order)) ; 
+		dal.deleteCustomer(c);
+	}
+	
+	@Test
+	public void testGetOrder() throws Exception {
+		Order order = new ConcreteOrder();
+		order.setDetails(new LinkedList<>());
+		order.setStatus("open");
+		
+		String username = "MHM@gmail.com";
+		String firstName = "Doug";
+		String lastName = "Frankenstein";
+		String address = "232 dslakj st";
+		String phone = "219-202-2222";
+		
+		order.setCustomer(username);
+
+		Payment payment = new ConcretePayment();
+		payment.setCardName("visa");
+		payment.setCardNumber("2233333333334444");
+		payment.setCvv("822");
+		payment.setExpiration(Date.valueOf("1980-2-2"));
+        
+		Customer c = new ConcreteCustomer();
+		c.setUserName(username);
+		c.setFirstName(firstName);
+		c.setLastName(lastName);
+		c.setAddress(address);
+		c.setPhone(phone);
+		c.setPayment(payment);
+		try {
+			assertTrue(dal.insertCustomer(c));
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			assertTrue(false) ; 
+		}
+		order.setOrderId(dal.insertOrder(order));
+		
+		assertEquals(order.getOrderId(),dal.getOrder(order.getOrderId()).getOrderId());
+		assertEquals(order.getCustomer(),dal.getOrder(order.getOrderId()).getCustomer());
 	}
 
 }
