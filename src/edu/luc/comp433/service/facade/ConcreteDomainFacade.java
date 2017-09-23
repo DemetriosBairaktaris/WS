@@ -191,6 +191,8 @@ public class ConcreteDomainFacade implements DomainFacade {
         partners.getPartnerProfile(userName).getName());
   }
 
+  //TODO add partner update methods here
+  
   @Override
   public String getPartnerSales(String userName) {
     // TODO needs to be able to iterate through all orders.

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+//TODO add partner update methods
+
 /**
  * This class sets up the facade between the domain layer and the service layer.
  * 

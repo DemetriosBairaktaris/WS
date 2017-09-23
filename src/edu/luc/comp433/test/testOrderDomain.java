@@ -25,6 +25,7 @@ public class testOrderDomain {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
+    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   }
 
   @AfterClass
