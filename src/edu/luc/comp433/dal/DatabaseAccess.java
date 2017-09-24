@@ -14,19 +14,13 @@ public interface DatabaseAccess {
   /**
    * Order Related Methods
    */
-  public int insertOrder(); // don't know what params or return will be, yet
+  public int insertOrder(Order order) throws SQLException; // don't know what params or return will be, yet
   
-  public boolean updateOrder(Order order) ; 
-
-  public boolean updateOrderDetail(OrderDetail detail);
-
-  public Order getOrder(double orderId);
+  public boolean updateOrder(Order order) throws SQLException ; 
   
-  public boolean deleteOrder(Order order) ;
-
-  public List<OrderDetail> getOrderDetails(Order order);
-
-  public List<OrderDetail> getOrderDetails(double id);
+  public Order getOrder(double orderId) throws SQLException, Exception;
+  
+  public boolean deleteOrder(Order order) throws SQLException ;
 
   /**
    * Partner Related Methods
@@ -53,9 +47,11 @@ public interface DatabaseAccess {
 
   public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException;
   
-  public List<Product> getProduct(String productName) throws SQLException ; 
+  public List<Product> getProduct(String productName) throws SQLException, Exception ; 
   
   boolean deleteProduct(Product product) throws SQLException;
+  
+  public List<Product> getAllProductsFromPartner(String companyUserName) throws SQLException, Exception;
 
   /**
    * Consumer Methods
@@ -69,5 +65,9 @@ public interface DatabaseAccess {
   public boolean deleteCustomer(Customer customer) throws SQLException;
 
   public Customer getCustomer(String userName) throws SQLException;
+
+  boolean deleteCustomer(String username) throws SQLException;
+
+
 
 }

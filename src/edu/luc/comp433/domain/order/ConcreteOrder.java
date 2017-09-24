@@ -1,6 +1,6 @@
 package edu.luc.comp433.domain.order;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class ConcreteOrder implements Order {
@@ -60,8 +60,8 @@ public class ConcreteOrder implements Order {
   }
 
   @Override
-  public void setTimestamp() {
-    timestamp = new Date(System.currentTimeMillis());
+  public void setTimestamp(Date date) {
+    
   }
 
   @Override

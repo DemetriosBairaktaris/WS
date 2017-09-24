@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+//TODO add partner update methods
+
 /**
  * This class sets up the facade between the domain layer and the service layer.
  * 
@@ -16,7 +18,7 @@ public interface DomainFacade {
 
   public boolean checkAvailability(String productName) throws SQLException;
 
-  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException;
+  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException, Exception;
 
   public boolean fulfillOrder(int orderId);
 
