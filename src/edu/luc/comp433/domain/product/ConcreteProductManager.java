@@ -62,7 +62,7 @@ public class ConcreteProductManager implements ProductManager {
   }
 
   @Override
-  public List<Product> getProducts(String name) throws SQLException {
+  public List<Product> getProducts(String name) throws Exception {
     return database.getProduct(name);
   }
   

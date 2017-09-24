@@ -20,7 +20,7 @@ public interface ProductManager {
 
   public boolean updateCost(String companyName, String name, double cost) throws SQLException, Exception;
 
-  public List<Product> getProducts(String name) throws SQLException;
+  public List<Product> getProducts(String name) throws SQLException, Exception;
 
   public boolean addReview(String companyName, String name, Review review) throws SQLException, Exception;
 

@@ -49,10 +49,10 @@ public class TestDatabaseLayer {
 	private String partnerName2;
 
 	public TestDatabaseLayer() {
-		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-		USER = "evtgoojkjfryzn";
-		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+//		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+//				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+//		USER = "evtgoojkjfryzn";
+//		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -206,18 +206,19 @@ public class TestDatabaseLayer {
 			p.setCompanyUserName(partners[i++]);
 			p.setCost(3);
 			p.setDesc(String.valueOf(3));
-			p.setName(String.valueOf(3));
+			p.setName(String.valueOf(3340304));
 			p.setStock(3);
 			assertTrue(dal.insertProduct(p));
 		}
 		
-		i = 0 ;
+		
 		for (Product p: dal.getProduct(String.valueOf(3))) {
-			assertEquals(partners[i++],p.getCompanyUserName());
+			assertTrue(partners[0].equals(p.getCompanyUserName()) || partners[1].equals(p.getCompanyUserName()));
 			assertEquals(String.valueOf(3),p.getName()) ; 
 			assertEquals(Arrays.asList(),p.getReviews());
 			assertEquals(3,p.getCost(),2);
 			assertEquals(3,p.getStock());
+			System.out.println(p.getDesc());
 			assertEquals(String.valueOf(3),p.getDesc());
 			assertTrue(dal.deleteProduct(p));
 		}
