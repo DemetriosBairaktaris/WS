@@ -26,7 +26,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   // TODO make this return more info for the product
   @Override
-  public List<String> searchProduct(String productName) throws SQLException {
+  public List<String> searchProduct(String productName) throws Exception {
     List<String> list = new ArrayList<>();
     for (int i = 0; i < products.getProducts(productName).size(); i++) {
       list.add(products.getProducts(productName).get(i).getName());
@@ -35,7 +35,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean checkAvailability(String productName) throws SQLException {
+  public boolean checkAvailability(String productName) throws Exception {
     long stock = 0;
     for (int i = 0; i < products.getProducts(productName).size(); i++) {
       stock = products.getProducts(productName).get(i).getStock();
@@ -64,7 +64,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   private boolean acceptPayment(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws SQLException {
+      long quantity, int orderId) throws Exception {
     if (customers.getCustomer(customerName).getPayment().getExpiration()
         .compareTo(currentTime) > 0) {
       this.createOrder(companyName, customerName, productName, quantity, orderId);
@@ -75,7 +75,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   //TODO this needs to be fixed
   private boolean createOrder(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws SQLException {
+      long quantity, int orderId) throws Exception {
     if (orderId > 0) {
       orderId = orders.createOrder(customerName);
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
@@ -89,17 +89,17 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean fulfillOrder(int orderId) {
+  public boolean fulfillOrder(int orderId) throws SQLException, Exception {
     return orders.fulfillOrder(orderId);
   }
 
   @Override
-  public boolean cancelOrder(int orderId) {
+  public boolean cancelOrder(int orderId) throws SQLException, Exception {
     return this.refund(orderId);
   }
 
   @Override
-  public boolean refund(int orderId) {
+  public boolean refund(int orderId) throws SQLException, Exception {
     int totalRefund = 0;
     for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
       totalRefund += orders.getOrder(orderId).getDetails().get(i).getProduct().getCost();
@@ -109,12 +109,12 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean shipOrder(int orderId) {
+  public boolean shipOrder(int orderId) throws SQLException, Exception {
     return orders.shipOrder(orderId);
   }
 
   @Override
-  public String getOrderStatus(int orderId) {
+  public String getOrderStatus(int orderId) throws SQLException, Exception {
     return orders.getOrder(orderId).getStatus();
   }
 

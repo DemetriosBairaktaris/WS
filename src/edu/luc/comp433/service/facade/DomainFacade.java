@@ -14,21 +14,21 @@ import java.util.List;
  */
 public interface DomainFacade {
 
-  public List<String> searchProduct(String productName) throws SQLException;
+  public List<String> searchProduct(String productName) throws SQLException, Exception;
 
-  public boolean checkAvailability(String productName) throws SQLException;
+  public boolean checkAvailability(String productName) throws SQLException, Exception;
 
   public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException, Exception;
 
-  public boolean fulfillOrder(int orderId);
+  public boolean fulfillOrder(int orderId) throws SQLException, Exception;
 
-  public boolean cancelOrder(int orderId);
+  public boolean cancelOrder(int orderId) throws SQLException, Exception;
 
-  public boolean refund(int orderId);
+  public boolean refund(int orderId) throws SQLException, Exception;
 
-  public boolean shipOrder(int orderId);
+  public boolean shipOrder(int orderId) throws SQLException, Exception;
 
-  public String getOrderStatus(int orderId);
+  public String getOrderStatus(int orderId) throws SQLException, Exception;
 
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
       String phone, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
