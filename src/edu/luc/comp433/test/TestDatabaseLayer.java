@@ -49,10 +49,10 @@ public class TestDatabaseLayer {
 	private String partnerName2;
 
 	public TestDatabaseLayer() {
-//		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-//				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-//		USER = "evtgoojkjfryzn";
-//		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+				+ "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+		USER = "evtgoojkjfryzn";
+		PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
 
 		try {
 			db = DriverManager.getConnection(DB_URL, USER, PASS);
