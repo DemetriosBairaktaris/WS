@@ -21,7 +21,7 @@ import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
 
-public class testOrderDomain {
+public class TestOrderDomain {
 
   private static ApplicationContext context;
   private OrderManager orders;
