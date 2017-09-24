@@ -72,8 +72,8 @@ public interface Order {
   public void setCustomer(String userName);
 
   public String getCustomer();
-  
+
   public void setOrderId(int orderId);
-  
+
   public int getOrderId();
 }

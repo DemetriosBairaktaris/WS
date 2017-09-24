@@ -68,7 +68,7 @@ public class TestCustomerDomain {
    */
   @After
   public void tearDown() throws Exception {
-   // manager.deleteCustomer(userName);
+    // manager.deleteCustomer(userName);
     manager = null;
     userName = null;
     firstName = null;
@@ -97,8 +97,8 @@ public class TestCustomerDomain {
 
   @Test
   public void testCustomerUpdate() throws SQLException {
-   assertTrue( manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
-        expiration));
+    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, expiration));
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertNotNull(manager.getCustomer(userName));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));

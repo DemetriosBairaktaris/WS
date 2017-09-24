@@ -6,14 +6,15 @@ import edu.luc.comp433.dal.DatabaseAccess;
 import edu.luc.comp433.domain.product.Product;
 
 public interface OrderManager {
-  
+
   public void setDatabase(DatabaseAccess database);
-  
+
   public DatabaseAccess getDatabase();
 
   public int createOrder(String customer) throws SQLException;
 
-  public boolean createOrderDetail(int orderId, Product product, long quantity) throws SQLException, Exception;
+  public boolean createOrderDetail(int orderId, Product product, long quantity)
+      throws SQLException, Exception;
 
   public boolean fulfillOrder(int orderId) throws SQLException, Exception;
 

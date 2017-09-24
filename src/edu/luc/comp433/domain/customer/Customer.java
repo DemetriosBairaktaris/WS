@@ -29,7 +29,6 @@ public interface Customer {
    */
   public String getLastName();
 
-
   /**
    * Retrieves the customer's payment information.
    * 

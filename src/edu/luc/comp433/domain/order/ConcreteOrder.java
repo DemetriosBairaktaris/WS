@@ -13,12 +13,12 @@ public class ConcreteOrder implements Order {
 
   public ConcreteOrder() {
   }
-  
+
   @Override
   public void setOrderId(int orderId) {
     this.orderId = orderId;
   }
-  
+
   @Override
   public int getOrderId() {
     return orderId;
@@ -61,7 +61,7 @@ public class ConcreteOrder implements Order {
 
   @Override
   public void setTimestamp(Date date) {
-    
+
   }
 
   @Override

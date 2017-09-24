@@ -27,7 +27,7 @@ public class TestDomainFacade {
   private PartnerManager partners;
   private ProductManager products;
   private DomainFacade facade;
-  
+
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
@@ -45,7 +45,7 @@ public class TestDomainFacade {
     orders = (OrderManager) context.getBean("orderManager");
     partners = (PartnerManager) context.getBean("partnerManager");
     products = (ProductManager) context.getBean("productManager");
-    
+
   }
 
   @After
@@ -58,10 +58,10 @@ public class TestDomainFacade {
   }
 
   @Test
-  public void testCheckAvailability() throws SQLException {
+  public void testCheckAvailability() throws Exception {
     assertFalse(facade.checkAvailability("no product"));
   }
-  
+
   @Test
   public void testPartnerMethods() throws SQLException, Exception {
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));

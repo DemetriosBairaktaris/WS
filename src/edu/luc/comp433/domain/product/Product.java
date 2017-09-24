@@ -69,9 +69,12 @@ public interface Product {
    *          long
    */
   public void setStock(long stock);
-  
+
   public void setReviews(List<Review> reviews);
+
   public List<Review> getReviews();
+
   public void setCompanyUserName(String companyUserName);
+
   public String getCompanyUserName();
 }

@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
-//TODO add partner update methods
-
 /**
  * This class sets up the facade between the domain layer and the service layer.
  * 
@@ -18,44 +16,55 @@ public interface DomainFacade {
 
   public boolean checkAvailability(String productName) throws SQLException, Exception;
 
-  public boolean buyProduct(String customerName, String productName, long quantity, int orderId) throws SQLException, Exception;
+  public boolean buyProduct(String customerName, String productName, long quantity, int orderId)
+      throws SQLException, Exception;
 
   public boolean fulfillOrder(int orderId) throws SQLException, Exception;
 
   public boolean cancelOrder(int orderId) throws SQLException, Exception;
 
-  public boolean refund(int orderId) throws SQLException, Exception;
+  public int refund(int orderId) throws SQLException, Exception;
 
   public boolean shipOrder(int orderId) throws SQLException, Exception;
 
   public String getOrderStatus(int orderId) throws SQLException, Exception;
 
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
-  
+      String phone, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException;
+
   public boolean checkCustomerStatus(String userName) throws SQLException;
-  
+
   public boolean deleteCustomer(String userName) throws SQLException;
-  
-  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException;
-  
+
+  public boolean updateCustomerName(String userName, String firstName, String lastName)
+      throws SQLException;
+
   public boolean updateCustomerAddress(String userName, String address) throws SQLException;
-  
+
   public boolean updateCustomerPhone(String userName, String phone) throws SQLException;
-  
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
-  
-  public boolean addReview(String userName, String productName, String review, int rating);
-  
-  public boolean addPartner(String userName, String companyName, String address, String phone) throws SQLException, Exception;
-  
+
+  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
+      String expiration) throws SQLException, ParseException;
+
+  public boolean addReview(String userName, String productName, String review, int rating)
+      throws SQLException, Exception;
+
+  public boolean addPartner(String userName, String companyName, String address, String phone)
+      throws SQLException, Exception;
+
   public boolean deletePartner(String userName) throws SQLException, Exception;
-  
-  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock) throws SQLException, Exception;
-  
+
+  public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
+      double cost, long stock) throws SQLException, Exception;
+
+  public boolean updatePartnerName(String userName, String companyName)
+      throws SQLException, Exception;
+
+  public boolean updatePartnerAddress(String userName, String address)
+      throws SQLException, Exception;
+
+  public boolean updatePartnerPhone(String userName, String phone) throws SQLException, Exception;
+
   public String getPartnerSales(String userName);
-  
-  public String generateReport();
-  
-  public boolean settleAccount(String userName);
 }

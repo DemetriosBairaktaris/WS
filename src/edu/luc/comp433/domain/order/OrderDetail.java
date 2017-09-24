@@ -54,8 +54,8 @@ public interface OrderDetail {
    *          String
    */
   public void setStatus(String status);
-  
+
   public void setCompany(String company);
-  
+
   public String getCompany();
 }

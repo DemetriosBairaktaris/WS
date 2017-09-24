@@ -4,7 +4,7 @@ public class ConcreteReview implements Review {
 
   private String review;
   private int rating;
-  
+
   public ConcreteReview() {
   }
 

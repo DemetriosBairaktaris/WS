@@ -24,12 +24,14 @@ public class ConcreteDomainFacade implements DomainFacade {
   public ConcreteDomainFacade() {
   }
 
-  // TODO make this return more info for the product
   @Override
   public List<String> searchProduct(String productName) throws Exception {
     List<String> list = new ArrayList<>();
     for (int i = 0; i < products.getProducts(productName).size(); i++) {
       list.add(products.getProducts(productName).get(i).getName());
+      list.add(products.getProducts(productName).get(i).getDesc());
+      list.add(Double.toString(products.getProducts(productName).get(i).getCost()));
+      list.add(Long.toString(products.getProducts(productName).get(i).getStock()));
     }
     return list;
   }
@@ -73,7 +75,7 @@ public class ConcreteDomainFacade implements DomainFacade {
     return false;
   }
 
-  //TODO this needs to be fixed
+  // TODO this needs to be fixed
   private boolean createOrder(String companyName, String customerName, String productName,
       long quantity, int orderId) throws Exception {
     if (orderId > 0) {
@@ -81,7 +83,8 @@ public class ConcreteDomainFacade implements DomainFacade {
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
         if (products.getProducts(productName).get(i).getName().equals(productName)
             && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
-          return orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
+          return orders.createOrderDetail(orderId, products.getProducts(productName).get(i),
+              quantity);
         }
       }
     }
@@ -95,17 +98,33 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public boolean cancelOrder(int orderId) throws SQLException, Exception {
-    return this.refund(orderId);
+    if (this.refund(orderId) > 0) {
+      for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
+        long quantity = orders.getOrder(orderId).getDetails().get(i).getQuantity();
+        String companyName = orders.getOrder(orderId).getDetails().get(i).getCompany();
+        String name = orders.getOrder(orderId).getDetails().get(i).getProduct().getName();
+        long stock = 0;
+        for (int j = 0; j < products.getProducts(name).size(); j++) {
+          if (products.getProducts(name).get(j).getCompanyUserName().equals(companyName)) {
+            stock = quantity + products.getProducts(name).get(j).getStock();
+          }
+        }
+        orders.cancelOrder(orderId);
+        return products.updateStock(companyName, name, stock);
+      }
+    } else {
+      return false;
+    }
+    return false;
   }
 
   @Override
-  public boolean refund(int orderId) throws SQLException, Exception {
+  public int refund(int orderId) throws SQLException, Exception {
     int totalRefund = 0;
     for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
       totalRefund += orders.getOrder(orderId).getDetails().get(i).getProduct().getCost();
     }
-    // TODO return refund to customer here.
-    return false;
+    return totalRefund;
   }
 
   @Override
@@ -168,9 +187,9 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean addReview(String userName, String productName, String review, int rating) {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean addReview(String companyName, String productName, String desc, int rating)
+      throws SQLException, Exception {
+    return products.addReview(companyName, productName, desc, rating);
   }
 
   @Override
@@ -191,24 +210,27 @@ public class ConcreteDomainFacade implements DomainFacade {
         partners.getPartnerProfile(userName).getName());
   }
 
-  //TODO add partner update methods here
-  
+  @Override
+  public boolean updatePartnerName(String userName, String companyName)
+      throws SQLException, Exception {
+    return partners.updateName(userName, companyName);
+  }
+
+  @Override
+  public boolean updatePartnerAddress(String userName, String address)
+      throws SQLException, Exception {
+    return partners.updateAddress(userName, address);
+  }
+
+  @Override
+  public boolean updatePartnerPhone(String userName, String phone) throws SQLException, Exception {
+    return partners.updatePhone(userName, phone);
+  }
+
   @Override
   public String getPartnerSales(String userName) {
     // TODO needs to be able to iterate through all orders.
     return null;
-  }
-
-  @Override
-  public String generateReport() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public boolean settleAccount(String userName) {
-    // TODO Auto-generated method stub
-    return false;
   }
 
 }

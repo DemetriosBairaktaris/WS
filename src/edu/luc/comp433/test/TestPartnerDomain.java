@@ -72,7 +72,7 @@ public class TestPartnerDomain {
   public void testPartnerCreate() throws SQLException, Exception {
     assertTrue(manager.createPartner(userName, name, address, phone));
   }
-  
+
   @Test
   public void testPartnerDelete() throws SQLException, Exception {
     assertTrue(manager.createPartner(userName, name, address, phone));

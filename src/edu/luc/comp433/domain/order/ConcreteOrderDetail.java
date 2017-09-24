@@ -41,12 +41,12 @@ public class ConcreteOrderDetail implements OrderDetail {
   public void setStatus(String status) {
     this.status = status;
   }
-  
+
   @Override
   public void setCompany(String company) {
     this.company = company;
   }
-  
+
   @Override
   public String getCompany() {
     return company;

@@ -16,19 +16,21 @@ public interface ProductManager {
 
   public boolean deleteProduct(String companyName, String name) throws SQLException, Exception;
 
-  public boolean updateStock(String companyName, String name, long stock) throws SQLException, Exception;
+  public boolean updateStock(String companyName, String name, long stock)
+      throws SQLException, Exception;
 
-  public boolean updateCost(String companyName, String name, double cost) throws SQLException, Exception;
+  public boolean updateCost(String companyName, String name, double cost)
+      throws SQLException, Exception;
 
   public List<Product> getProducts(String name) throws SQLException, Exception;
 
-  public boolean addReview(String companyName, String name, Review review) throws SQLException, Exception;
+  public boolean addReview(String companyName, String name, String review, int rating)
+      throws SQLException, Exception;
 
   public List<Review> getReviews(String companyName, String name) throws SQLException, Exception;
 
   public List<Product> getCompanyProducts(String companyName) throws SQLException, Exception;
 
-Product getProductFromPartner(String name, String partnerUserName) throws SQLException, Exception;
-
+  Product getProductFromPartner(String name, String partnerUserName) throws SQLException, Exception;
 
 }
