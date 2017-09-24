@@ -24,6 +24,38 @@ public class ConcreteDomainFacade implements DomainFacade {
   public ConcreteDomainFacade() {
   }
 
+  public CustomerManager getCustomers() {
+    return customers;
+  }
+
+  public void setCustomers(CustomerManager customers) {
+    this.customers = customers;
+  }
+
+  public PartnerManager getPartners() {
+    return partners;
+  }
+
+  public void setPartners(PartnerManager partners) {
+    this.partners = partners;
+  }
+
+  public OrderManager getOrders() {
+    return orders;
+  }
+
+  public void setOrders(OrderManager orders) {
+    this.orders = orders;
+  }
+
+  public ProductManager getProducts() {
+    return products;
+  }
+
+  public void setProducts(ProductManager products) {
+    this.products = products;
+  }
+
   @Override
   public List<String> searchProduct(String productName) throws Exception {
     List<String> list = new ArrayList<>();
@@ -75,7 +107,6 @@ public class ConcreteDomainFacade implements DomainFacade {
     return false;
   }
 
-  // TODO this needs to be fixed
   private boolean createOrder(String companyName, String customerName, String productName,
       long quantity, int orderId) throws Exception {
     if (orderId > 0) {
@@ -141,16 +172,15 @@ public class ConcreteDomainFacade implements DomainFacade {
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
       String phone, String cardName, String cardNumber, String cvv, String expiration)
       throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat();
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     Date date = format.parse(expiration);
-    customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber,
+    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber,
         cvv, date);
-    return false;
   }
 
   @Override
   public boolean checkCustomerStatus(String userName) throws SQLException {
-    if (!customers.getCustomer(userName).equals(null)) {
+    if (customers.getCustomer(userName) != null) {
       return true;
     } else {
       return false;
@@ -181,7 +211,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
       String expiration) throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat();
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
   }
@@ -207,7 +237,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
       double cost, long stock) throws SQLException, Exception {
     return products.addProduct(productName, productDesc, cost, stock,
-        partners.getPartnerProfile(userName).getName());
+        partners.getPartnerProfile(userName).getUserName());
   }
 
   @Override

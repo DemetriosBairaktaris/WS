@@ -4,6 +4,11 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.domain.order.OrderManager;
+import edu.luc.comp433.domain.partner.PartnerManager;
+import edu.luc.comp433.domain.product.ProductManager;
+
 /**
  * This class sets up the facade between the domain layer and the service layer.
  * 
@@ -12,6 +17,22 @@ import java.util.List;
  */
 public interface DomainFacade {
 
+  public void setCustomers(CustomerManager customers);
+  
+  public CustomerManager getCustomers();
+  
+  public void setPartners(PartnerManager partners);
+  
+  public PartnerManager getPartners();
+  
+  public void setOrders(OrderManager orders);
+  
+  public OrderManager getOrders();
+  
+  public void setProducts(ProductManager products);
+  
+  public ProductManager getProducts();
+  
   public List<String> searchProduct(String productName) throws SQLException, Exception;
 
   public boolean checkAvailability(String productName) throws SQLException, Exception;
