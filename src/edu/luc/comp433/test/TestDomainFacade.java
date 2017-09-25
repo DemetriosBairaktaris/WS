@@ -84,14 +84,55 @@ public class TestDomainFacade {
     assertTrue(facade.updateCustomerAddress("customer@email.com", "address2"));
     assertTrue(facade.updateCustomerPhone("customer@email.com", "98765"));
     assertTrue(
-        facade.updatePaymentInfo("customer@email.com", "Jane Smith", "9999", "007", "2090-09-09"));
+        facade.updatePaymentInfo("customer@email.com", "Jane Smith", "9999", "007", "09-2090"));
     assertTrue(facade.deleteCustomer("customer@email.com"));
     assertFalse(facade.checkCustomerStatus("customer@email.com"));
   }
 
   @Test
-  public void testPurchaseWorkflow() {
-    fail("Not yet implemented.");
+  public void testPurchaseWorkflow() throws Exception {
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
+        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.checkCustomerStatus("customer@email.com"));
+    assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
+    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(facade.buyProduct("customer@email.com", "test", 1L, 0) != -1);
+    //TODO add proper cleanup methods here
+  }
+  
+  @Test
+  public void testFulfillmentWorkflow() throws SQLException, Exception {
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
+        "John Doe", "5555", "123", "2020-01-02"));
+    assertTrue(facade.checkCustomerStatus("customer@email.com"));
+    assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
+    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    int orderId = facade.buyProduct("customer@email.com", "test", 1L, 0);
+    assertTrue(facade.fulfillOrder(orderId));
+    assertTrue(facade.getOrderStatus(orderId).equals("fulfilled"));
+    assertTrue(facade.shipOrder(orderId));
+    assertTrue(facade.getOrderStatus(orderId).equals("shipped"));
+    //TODO add proper cleanup methods here
   }
 
+  @Test
+  public void testProductReview() throws Exception {
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
+        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.checkCustomerStatus("customer@email.com"));
+    assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
+    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(facade.addReview("customer@email.com", "test", "great", 4));
+  }
+  
+  @Test
+  public void testCancelOrder() throws SQLException, Exception {
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
+        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.checkCustomerStatus("customer@email.com"));
+    assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
+    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    int orderId = facade.buyProduct("customer@email.com", "test", 1L, 0);
+    assertTrue(facade.cancelOrder(orderId) != -1);
+  }
 }

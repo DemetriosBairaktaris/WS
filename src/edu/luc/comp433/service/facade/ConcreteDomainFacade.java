@@ -81,7 +81,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean buyProduct(String customerName, String productName, long quantity, int orderId)
+  public int buyProduct(String customerName, String productName, long quantity, int orderId)
       throws Exception {
     long newStock = 0;
     if (this.checkAvailability(productName)) {
@@ -94,32 +94,32 @@ public class ConcreteDomainFacade implements DomainFacade {
         }
       }
     }
-    return false;
+    return -1;
   }
 
-  private boolean acceptPayment(String companyName, String customerName, String productName,
+  private int acceptPayment(String companyName, String customerName, String productName,
       long quantity, int orderId) throws Exception {
     if (customers.getCustomer(customerName).getPayment().getExpiration()
         .compareTo(currentTime) > 0) {
-      this.createOrder(companyName, customerName, productName, quantity, orderId);
-      return true;
+      return this.createOrder(companyName, customerName, productName, quantity, orderId);
     }
-    return false;
+    return -1;
   }
 
-  private boolean createOrder(String companyName, String customerName, String productName,
+  private int createOrder(String companyName, String customerName, String productName,
       long quantity, int orderId) throws Exception {
-    if (orderId > 0) {
+    if (orderId == 0) {
       orderId = orders.createOrder(customerName);
+    }
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
         if (products.getProducts(productName).get(i).getName().equals(productName)
             && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
-          return orders.createOrderDetail(orderId, products.getProducts(productName).get(i),
+          orders.createOrderDetail(orderId, products.getProducts(productName).get(i),
               quantity);
+          return orderId;
         }
       }
-    }
-    return false;
+      return -1;
   }
 
   @Override
@@ -128,7 +128,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean cancelOrder(int orderId) throws SQLException, Exception {
+  public int cancelOrder(int orderId) throws SQLException, Exception {
+    int refund = 0;
     if (this.refund(orderId) > 0) {
       for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
         long quantity = orders.getOrder(orderId).getDetails().get(i).getQuantity();
@@ -140,17 +141,17 @@ public class ConcreteDomainFacade implements DomainFacade {
             stock = quantity + products.getProducts(name).get(j).getStock();
           }
         }
+        refund = this.refund(orderId);
         orders.cancelOrder(orderId);
-        return products.updateStock(companyName, name, stock);
+        products.updateStock(companyName, name, stock);
       }
+      return refund;
     } else {
-      return false;
+      return -1;
     }
-    return false;
   }
 
-  @Override
-  public int refund(int orderId) throws SQLException, Exception {
+  private int refund(int orderId) throws SQLException, Exception {
     int totalRefund = 0;
     for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
       totalRefund += orders.getOrder(orderId).getDetails().get(i).getProduct().getCost();
@@ -172,7 +173,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
       String phone, String cardName, String cardNumber, String cvv, String expiration)
       throws SQLException, ParseException {
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber,
         cvv, date);
@@ -211,7 +212,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
       String expiration) throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    DateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
   }
