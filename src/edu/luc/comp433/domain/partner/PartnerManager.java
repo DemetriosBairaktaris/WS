@@ -107,9 +107,10 @@ public interface PartnerManager {
    * @throws SQLException
    */
   public boolean updatePhone(String userName, String phone) throws SQLException, Exception;
-  
+
   /**
    * Returns all orders that a partner's product was involved with.
+   * 
    * @param userName
    * @return
    * @throws Exception

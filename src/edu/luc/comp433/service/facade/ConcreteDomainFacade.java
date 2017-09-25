@@ -6,10 +6,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
-import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
@@ -112,15 +112,14 @@ public class ConcreteDomainFacade implements DomainFacade {
     if (orderId == 0) {
       orderId = orders.createOrder(customerName);
     }
-      for (int i = 0; i < products.getProducts(productName).size(); i++) {
-        if (products.getProducts(productName).get(i).getName().equals(productName)
-            && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
-          orders.createOrderDetail(orderId, products.getProducts(productName).get(i),
-              quantity);
-          return orderId;
-        }
+    for (int i = 0; i < products.getProducts(productName).size(); i++) {
+      if (products.getProducts(productName).get(i).getName().equals(productName)
+          && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
+        orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
+        return orderId;
       }
-      return -1;
+    }
+    return -1;
   }
 
   @Override
@@ -130,12 +129,13 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public int cancelOrder(int orderId) throws SQLException, Exception {
-	int limit = orders.getOrder(orderId).getDetails().size() ; 
-	//this is weird but the above line was giving me a null pointer when called in loop signature...
-	//here it is fine.....unclear why......
+    int limit = orders.getOrder(orderId).getDetails().size();
+    // this is weird but the above line was giving me a null pointer when called in loop
+    // signature...
+    // here it is fine.....unclear why......
     int refund = 0;
     if (this.refund(orderId) > 0) {
-      for (int i = 0; i < limit ; i++) {
+      for (int i = 0; i < limit; i++) {
         long quantity = orders.getOrder(orderId).getDetails().get(i).getQuantity();
         String companyName = orders.getOrder(orderId).getDetails().get(i).getCompany();
         String name = orders.getOrder(orderId).getDetails().get(i).getProduct().getName();
@@ -179,8 +179,8 @@ public class ConcreteDomainFacade implements DomainFacade {
       throws SQLException, ParseException {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber,
-        cvv, date);
+    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, date);
   }
 
   @Override
@@ -264,15 +264,17 @@ public class ConcreteDomainFacade implements DomainFacade {
 
   @Override
   public String getPartnerSales(String userName) throws Exception {
-    // TODO needs to be able to iterate through all orders.
-	//make a call to partners get orders
-	List<Order> orders = partners.getOrdersFromPartner(userName);
-	for(Order order : orders) {
-		//make sure you check the order details within each to only get
-		//the order details for the userName 
-		//order.getDetails().get(i).getCompany() ;
-	}
-    return orders.toString() ;
+    List<String> partnerOrders = new LinkedList<>();
+    for (int i = 0; i < partners.getOrdersFromPartner(userName).size(); i++) {
+      for (int j = 0; i < partners.getOrdersFromPartner(userName).get(i).getDetails().size(); j++) {
+        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany()
+            .equals(userName)) {
+          partnerOrders
+              .add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
+        }
+      }
+    }
+    return partnerOrders.toString();
   }
 
 }

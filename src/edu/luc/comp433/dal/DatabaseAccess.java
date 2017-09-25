@@ -5,7 +5,6 @@ import java.util.List;
 
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.order.Order;
-import edu.luc.comp433.domain.order.OrderDetail;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.Product;
 
@@ -14,14 +13,15 @@ public interface DatabaseAccess {
   /**
    * Order Related Methods
    */
-  public int insertOrder(Order order) throws SQLException; // don't know what params or return will be, yet
-  
-  public boolean updateOrder(Order order) throws SQLException ; 
-  
+  public int insertOrder(Order order) throws SQLException; // don't know what params or return will
+                                                           // be, yet
+
+  public boolean updateOrder(Order order) throws SQLException;
+
   public Order getOrder(double orderId) throws SQLException, Exception;
-  
-  public boolean deleteOrder(Order order) throws SQLException ;
-  
+
+  public boolean deleteOrder(Order order) throws SQLException;
+
   public List<Order> getOrdersFromPartner(String userName) throws Exception;
 
   /**
@@ -47,13 +47,15 @@ public interface DatabaseAccess {
 
   public boolean updateProduct(Product product) throws SQLException;
 
-  public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException;
-  
-  public List<Product> getProduct(String productName) throws SQLException, Exception ; 
-  
+  public Product getProductFromPartner(String productName, PartnerProfile profile)
+      throws SQLException;
+
+  public List<Product> getProduct(String productName) throws SQLException, Exception;
+
   boolean deleteProduct(Product product) throws SQLException;
-  
-  public List<Product> getAllProductsFromPartner(String companyUserName) throws SQLException, Exception;
+
+  public List<Product> getAllProductsFromPartner(String companyUserName)
+      throws SQLException, Exception;
 
   /**
    * Consumer Methods
@@ -69,7 +71,5 @@ public interface DatabaseAccess {
   public Customer getCustomer(String userName) throws SQLException;
 
   boolean deleteCustomer(String username) throws SQLException;
-
-
 
 }

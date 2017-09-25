@@ -70,10 +70,10 @@ public class ConcretePartnerManager implements PartnerManager {
     profile.setPhone(phone);
     return database.updatePartner(profile);
   }
-  
+
   @Override
-  public List<Order> getOrdersFromPartner(String userName) throws Exception{
-	  return database.getOrdersFromPartner(userName);
+  public List<Order> getOrdersFromPartner(String userName) throws Exception {
+    return database.getOrdersFromPartner(userName);
   }
 
 }

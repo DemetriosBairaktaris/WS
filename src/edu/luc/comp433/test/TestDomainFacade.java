@@ -3,7 +3,6 @@ package edu.luc.comp433.test;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,20 +35,19 @@ public class TestDomainFacade {
   @Before
   public void setUp() throws Exception {
     facade = (DomainFacade) context.getBean("domain");
-    
 
   }
 
   @After
   public void tearDown() throws Exception {
-	 try {
-		facade.deletePartner("test@email.com") ; 
-		facade.deleteCustomer("customer@email.com");
-	  }catch(Exception e) {
-		  System.out.println(e.getMessage());
-	  }
+    try {
+      facade.deletePartner("test@email.com");
+      facade.deleteCustomer("customer@email.com");
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
     facade = null;
-    
+
   }
 
   @Test
@@ -65,7 +63,7 @@ public class TestDomainFacade {
     } else {
       fail();
     }
-    assertTrue(facade.deletePartner("test@email.com")) ; 
+    assertTrue(facade.deletePartner("test@email.com"));
   }
 
   @Test
@@ -106,9 +104,8 @@ public class TestDomainFacade {
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertTrue(facade.buyProduct("customer@email.com", "test", 1L, 0) != -1);
     assertTrue(facade.deleteCustomer("customer@email.com"));
-    //TODO add proper cleanup methods here
   }
-  
+
   @Test
   public void testFulfillmentWorkflow() throws SQLException, Exception {
     assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
@@ -122,7 +119,6 @@ public class TestDomainFacade {
     assertTrue(facade.shipOrder(orderId));
     assertTrue(facade.getOrderStatus(orderId).equals("shipped"));
     assertTrue(facade.deleteCustomer("customer@email.com"));
-    //TODO add proper cleanup methods here
   }
 
   @Test
@@ -134,7 +130,7 @@ public class TestDomainFacade {
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertTrue(facade.addReview("test@email.com", "test", "great", 4));
   }
-  
+
   @Test
   public void testCancelOrder() throws SQLException, Exception {
     assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",

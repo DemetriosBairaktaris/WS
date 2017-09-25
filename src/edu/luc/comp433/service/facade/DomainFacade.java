@@ -18,21 +18,21 @@ import edu.luc.comp433.domain.product.ProductManager;
 public interface DomainFacade {
 
   public void setCustomers(CustomerManager customers);
-  
+
   public CustomerManager getCustomers();
-  
+
   public void setPartners(PartnerManager partners);
-  
+
   public PartnerManager getPartners();
-  
+
   public void setOrders(OrderManager orders);
-  
+
   public OrderManager getOrders();
-  
+
   public void setProducts(ProductManager products);
-  
+
   public ProductManager getProducts();
-  
+
   public List<String> searchProduct(String productName) throws SQLException, Exception;
 
   public boolean checkAvailability(String productName) throws SQLException, Exception;
