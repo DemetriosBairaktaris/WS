@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
@@ -24,18 +25,52 @@ public class ConcreteDomainFacade implements DomainFacade {
   public ConcreteDomainFacade() {
   }
 
-  // TODO make this return more info for the product
+  public CustomerManager getCustomers() {
+    return customers;
+  }
+
+  public void setCustomers(CustomerManager customers) {
+    this.customers = customers;
+  }
+
+  public PartnerManager getPartners() {
+    return partners;
+  }
+
+  public void setPartners(PartnerManager partners) {
+    this.partners = partners;
+  }
+
+  public OrderManager getOrders() {
+    return orders;
+  }
+
+  public void setOrders(OrderManager orders) {
+    this.orders = orders;
+  }
+
+  public ProductManager getProducts() {
+    return products;
+  }
+
+  public void setProducts(ProductManager products) {
+    this.products = products;
+  }
+
   @Override
-  public List<String> searchProduct(String productName) throws SQLException {
+  public List<String> searchProduct(String productName) throws Exception {
     List<String> list = new ArrayList<>();
     for (int i = 0; i < products.getProducts(productName).size(); i++) {
       list.add(products.getProducts(productName).get(i).getName());
+      list.add(products.getProducts(productName).get(i).getDesc());
+      list.add(Double.toString(products.getProducts(productName).get(i).getCost()));
+      list.add(Long.toString(products.getProducts(productName).get(i).getStock()));
     }
     return list;
   }
 
   @Override
-  public boolean checkAvailability(String productName) throws SQLException {
+  public boolean checkAvailability(String productName) throws Exception {
     long stock = 0;
     for (int i = 0; i < products.getProducts(productName).size(); i++) {
       stock = products.getProducts(productName).get(i).getStock();
@@ -47,7 +82,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean buyProduct(String customerName, String productName, long quantity, int orderId)
+  public int buyProduct(String customerName, String productName, long quantity, int orderId)
       throws Exception {
     long newStock = 0;
     if (this.checkAvailability(productName)) {
@@ -60,61 +95,81 @@ public class ConcreteDomainFacade implements DomainFacade {
         }
       }
     }
-    return false;
+    return -1;
   }
 
-  private boolean acceptPayment(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws SQLException {
+  private int acceptPayment(String companyName, String customerName, String productName,
+      long quantity, int orderId) throws Exception {
     if (customers.getCustomer(customerName).getPayment().getExpiration()
         .compareTo(currentTime) > 0) {
-      this.createOrder(companyName, customerName, productName, quantity, orderId);
-      return true;
+      return this.createOrder(companyName, customerName, productName, quantity, orderId);
     }
-    return false;
+    return -1;
   }
 
-  //TODO this needs to be fixed
-  private boolean createOrder(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws SQLException {
-    if (orderId > 0) {
+  private int createOrder(String companyName, String customerName, String productName,
+      long quantity, int orderId) throws Exception {
+    if (orderId == 0) {
       orderId = orders.createOrder(customerName);
-      for (int i = 0; i < products.getProducts(productName).size(); i++) {
-        if (products.getProducts(productName).get(i).getName().equals(productName)
-            && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
-          return orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
-        }
+    }
+    for (int i = 0; i < products.getProducts(productName).size(); i++) {
+      if (products.getProducts(productName).get(i).getName().equals(productName)
+          && products.getProducts(productName).get(i).getCompanyUserName().equals(companyName)) {
+        orders.createOrderDetail(orderId, products.getProducts(productName).get(i), quantity);
+        return orderId;
       }
     }
-    return false;
+    return -1;
   }
 
   @Override
-  public boolean fulfillOrder(int orderId) {
+  public boolean fulfillOrder(int orderId) throws SQLException, Exception {
     return orders.fulfillOrder(orderId);
   }
 
   @Override
-  public boolean cancelOrder(int orderId) {
-    return this.refund(orderId);
+  public int cancelOrder(int orderId) throws SQLException, Exception {
+    int limit = orders.getOrder(orderId).getDetails().size();
+    // this is weird but the above line was giving me a null pointer when called in loop
+    // signature...
+    // here it is fine.....unclear why......
+    int refund = 0;
+    if (this.refund(orderId) > 0) {
+      for (int i = 0; i < limit; i++) {
+        long quantity = orders.getOrder(orderId).getDetails().get(i).getQuantity();
+        String companyName = orders.getOrder(orderId).getDetails().get(i).getCompany();
+        String name = orders.getOrder(orderId).getDetails().get(i).getProduct().getName();
+        long stock = 0;
+        for (int j = 0; j < products.getProducts(name).size(); j++) {
+          if (products.getProducts(name).get(j).getCompanyUserName().equals(companyName)) {
+            stock = quantity + products.getProducts(name).get(j).getStock();
+          }
+        }
+        refund = this.refund(orderId);
+        orders.cancelOrder(orderId);
+        products.updateStock(companyName, name, stock);
+      }
+      return refund;
+    } else {
+      return -1;
+    }
   }
 
-  @Override
-  public boolean refund(int orderId) {
+  private int refund(int orderId) throws SQLException, Exception {
     int totalRefund = 0;
     for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
       totalRefund += orders.getOrder(orderId).getDetails().get(i).getProduct().getCost();
     }
-    // TODO return refund to customer here.
-    return false;
+    return totalRefund;
   }
 
   @Override
-  public boolean shipOrder(int orderId) {
+  public boolean shipOrder(int orderId) throws SQLException, Exception {
     return orders.shipOrder(orderId);
   }
 
   @Override
-  public String getOrderStatus(int orderId) {
+  public String getOrderStatus(int orderId) throws SQLException, Exception {
     return orders.getOrder(orderId).getStatus();
   }
 
@@ -122,16 +177,15 @@ public class ConcreteDomainFacade implements DomainFacade {
   public boolean addCustomer(String userName, String firstName, String lastName, String address,
       String phone, String cardName, String cardNumber, String cvv, String expiration)
       throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat();
+    SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber,
-        cvv, date);
-    return false;
+    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, date);
   }
 
   @Override
   public boolean checkCustomerStatus(String userName) throws SQLException {
-    if (!customers.getCustomer(userName).equals(null)) {
+    if (customers.getCustomer(userName) != null) {
       return true;
     } else {
       return false;
@@ -162,15 +216,15 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
       String expiration) throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat();
+    DateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
   }
 
   @Override
-  public boolean addReview(String userName, String productName, String review, int rating) {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean addReview(String companyName, String productName, String desc, int rating)
+      throws SQLException, Exception {
+    return products.addReview(companyName, productName, desc, rating);
   }
 
   @Override
@@ -188,27 +242,39 @@ public class ConcreteDomainFacade implements DomainFacade {
   public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
       double cost, long stock) throws SQLException, Exception {
     return products.addProduct(productName, productDesc, cost, stock,
-        partners.getPartnerProfile(userName).getName());
-  }
-
-  //TODO add partner update methods here
-  
-  @Override
-  public String getPartnerSales(String userName) {
-    // TODO needs to be able to iterate through all orders.
-    return null;
+        partners.getPartnerProfile(userName).getUserName());
   }
 
   @Override
-  public String generateReport() {
-    // TODO Auto-generated method stub
-    return null;
+  public boolean updatePartnerName(String userName, String companyName)
+      throws SQLException, Exception {
+    return partners.updateName(userName, companyName);
   }
 
   @Override
-  public boolean settleAccount(String userName) {
-    // TODO Auto-generated method stub
-    return false;
+  public boolean updatePartnerAddress(String userName, String address)
+      throws SQLException, Exception {
+    return partners.updateAddress(userName, address);
+  }
+
+  @Override
+  public boolean updatePartnerPhone(String userName, String phone) throws SQLException, Exception {
+    return partners.updatePhone(userName, phone);
+  }
+
+  @Override
+  public String getPartnerSales(String userName) throws Exception {
+    List<String> partnerOrders = new LinkedList<>();
+    for (int i = 0; i < partners.getOrdersFromPartner(userName).size(); i++) {
+      for (int j = 0; i < partners.getOrdersFromPartner(userName).get(i).getDetails().size(); j++) {
+        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany()
+            .equals(userName)) {
+          partnerOrders
+              .add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
+        }
+      }
+    }
+    return partnerOrders.toString();
   }
 
 }

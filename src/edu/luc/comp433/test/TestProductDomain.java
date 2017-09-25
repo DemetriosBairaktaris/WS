@@ -45,7 +45,7 @@ public class TestProductDomain {
     desc = "Awesome Test Product";
     cost = 99d;
     stock = 5L;
-    companyUserName ="BIGDADDY@GMAIL.COM";
+    companyUserName = "BIGDADDY@GMAIL.COM";
   }
 
   @After
@@ -67,14 +67,15 @@ public class TestProductDomain {
   public void testProductDelete() throws Exception {
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     assertTrue(products.deleteProduct(companyUserName, name));
-    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); //so the teardown don't complain
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); // so the teardown
+    // don't complain
   }
 
   @Test
   public void testProductUpdates() throws Exception {
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     assertTrue(products.updateCost(companyUserName, name, 50d));
-    assertTrue(products.getProductFromPartner(name,companyUserName).getCost() == 50d);
+    assertTrue(products.getProductFromPartner(name, companyUserName).getCost() == 50d);
     assertTrue(products.updateStock(companyUserName, name, 2L));
     assertTrue(products.getProducts(name).get(0).getStock() == 2L);
   }
@@ -85,28 +86,30 @@ public class TestProductDomain {
     Review review = (Review) context.getBean("review");
     review.setRating(5);
     review.setReview("Awesome");
-    assertTrue(products.addReview(companyUserName, name, review));
-    assertTrue(products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
+    assertTrue(products.addReview(companyUserName, name, "Awesome", 5));
+    assertTrue(
+        products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
   }
-  
+
   @Test
   public void testGetProductsForCompany() throws NumberFormatException, Exception {
-	 HashMap<Integer, Boolean> map = new HashMap<>();
-     int i = 0 ;
-     while(i < 30) {
-    	 	products.addProduct(String.valueOf(i), "empty", i, i, "plainoldcompany@gmail.com");
-    	 	map.put(i++, true);
-    	 	
-     }
-     
-     for(Product p : products.getCompanyProducts(companyUserName)) {
-    	 	assertTrue(map.get(Integer.parseInt(p.getName()))) ;
-    	 	assertNotNull(p.getCompanyUserName()) ; 
-    	 	assertNotNull(p.getName()) ; 
-    	 	assertTrue(products.deleteProduct(p.getCompanyUserName(),p.getName()));
-    	 
-     }
-     
-     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));  //so the teardown don't complain
+    HashMap<Integer, Boolean> map = new HashMap<>();
+    int i = 0;
+    while (i < 30) {
+      products.addProduct(String.valueOf(i), "empty", i, i, "plainoldcompany@gmail.com");
+      map.put(i++, true);
+
+    }
+
+    for (Product p : products.getCompanyProducts(companyUserName)) {
+      assertTrue(map.get(Integer.parseInt(p.getName())));
+      assertNotNull(p.getCompanyUserName());
+      assertNotNull(p.getName());
+      assertTrue(products.deleteProduct(p.getCompanyUserName(), p.getName()));
+
+    }
+
+    assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); // so the teardown
+    // don't complain
   }
 }

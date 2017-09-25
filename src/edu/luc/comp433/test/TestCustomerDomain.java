@@ -40,12 +40,6 @@ public class TestCustomerDomain {
     ((ConfigurableApplicationContext) context).close();
   }
 
-  /**
-   * Creates the manager and populates the info for a customer.
-   * 
-   * @throws Exception
-   *           thrown if Spring or SQL have errors.
-   */
   @Before
   public void setUp() throws Exception {
     manager = (CustomerManager) context.getBean("customerManager");
@@ -60,15 +54,9 @@ public class TestCustomerDomain {
     expiration = new Date(1589518800000L);
   }
 
-  /**
-   * Removes all configurations.
-   * 
-   * @throws Exception
-   *           thrown if Spring or SQL have errors.
-   */
   @After
   public void tearDown() throws Exception {
-   // manager.deleteCustomer(userName);
+    // manager.deleteCustomer(userName);
     manager = null;
     userName = null;
     firstName = null;
@@ -97,8 +85,8 @@ public class TestCustomerDomain {
 
   @Test
   public void testCustomerUpdate() throws SQLException {
-   assertTrue( manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
-        expiration));
+    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
+        cardNumber, cvv, expiration));
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertNotNull(manager.getCustomer(userName));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));

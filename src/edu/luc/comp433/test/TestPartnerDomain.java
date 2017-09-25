@@ -37,12 +37,6 @@ public class TestPartnerDomain {
 
   private String phone;
 
-  /**
-   * Sets up the manager and populates the attributes for the partner.
-   * 
-   * @throws Exception
-   *           thrown if Spring or SQL do not work.
-   */
   @Before
   public void setUp() throws Exception {
     manager = (PartnerManager) context.getBean("partnerManager");
@@ -52,12 +46,6 @@ public class TestPartnerDomain {
     phone = "555-555-5555";
   }
 
-  /**
-   * Removes all items.
-   * 
-   * @throws Exception
-   *           thrown if Spring or SQL do not work.
-   */
   @After
   public void tearDown() throws Exception {
     manager.deletePartner(userName);
@@ -72,7 +60,7 @@ public class TestPartnerDomain {
   public void testPartnerCreate() throws SQLException, Exception {
     assertTrue(manager.createPartner(userName, name, address, phone));
   }
-  
+
   @Test
   public void testPartnerDelete() throws SQLException, Exception {
     assertTrue(manager.createPartner(userName, name, address, phone));

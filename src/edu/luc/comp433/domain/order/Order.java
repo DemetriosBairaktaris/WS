@@ -65,15 +65,40 @@ public interface Order {
   public void setStatus(String status);
 
   /**
-   * Sets the time stamp when the order is created.
+   * Sets the time stamp for the order.
+   * 
+   * @param date
+   *          Date
    */
   public void setTimestamp(Date date);
 
+  /**
+   * Sets the customer to the applicable user name.
+   * 
+   * @param userName
+   *          String
+   */
   public void setCustomer(String userName);
 
+  /**
+   * Retrieves the customer string.
+   * 
+   * @return String
+   */
   public String getCustomer();
-  
+
+  /**
+   * Sets this order's id. Set in the DB.
+   * 
+   * @param orderId
+   *          integer
+   */
   public void setOrderId(int orderId);
-  
+
+  /**
+   * Retrieves the order id.
+   * 
+   * @return integer
+   */
   public int getOrderId();
 }

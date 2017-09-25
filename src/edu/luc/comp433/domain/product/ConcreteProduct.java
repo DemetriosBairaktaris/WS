@@ -53,22 +53,22 @@ public class ConcreteProduct implements Product {
   public void setStock(long stock) {
     this.stock = stock;
   }
-  
+
   @Override
   public void setCompanyUserName(String companyUserName) {
     this.companyUserName = companyUserName;
   }
-  
+
   @Override
   public String getCompanyUserName() {
     return companyUserName;
   }
-  
+
   @Override
   public void setReviews(List<Review> reviews) {
     this.reviews = reviews;
   }
-  
+
   @Override
   public List<Review> getReviews() {
     return reviews;
