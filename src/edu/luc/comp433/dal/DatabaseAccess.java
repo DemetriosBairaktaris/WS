@@ -72,4 +72,9 @@ public interface DatabaseAccess {
 
   boolean deleteCustomer(String username) throws SQLException;
 
+  
+  /**
+   * General DAL
+   */
+  public void closeConnections();
 }
