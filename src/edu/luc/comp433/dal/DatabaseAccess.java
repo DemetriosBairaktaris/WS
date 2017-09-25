@@ -21,6 +21,8 @@ public interface DatabaseAccess {
   public Order getOrder(double orderId) throws SQLException, Exception;
   
   public boolean deleteOrder(Order order) throws SQLException ;
+  
+  public List<Order> getOrdersFromPartner(String userName) throws Exception;
 
   /**
    * Partner Related Methods

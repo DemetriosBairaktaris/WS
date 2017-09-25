@@ -85,5 +85,5 @@ public interface DomainFacade {
 
   public boolean updatePartnerPhone(String userName, String phone) throws SQLException, Exception;
 
-  public String getPartnerSales(String userName);
+  public String getPartnerSales(String userName) throws Exception;
 }

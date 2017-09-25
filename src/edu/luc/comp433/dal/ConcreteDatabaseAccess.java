@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,7 +89,20 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     	  }
   }
 
-
+  @Override
+  public List<Order> getOrdersFromPartner(String userName) throws Exception{
+	 
+	  String sql = "SELECT ORDERS.ORDER_ID FROM ORDERS, ORDER_DETAILS, PARTNERS, PRODUCTS WHERE PARTNERS.PARTNER_USER_NAME = '%s' "+
+			  " AND ORDER_DETAILS.ORDER_ID = ORDERS.ORDER_ID AND ORDER_DETAILS.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND PRODUCTS.PARTNER_USER_NAME = PARTNERS.PARTNER_USER_NAME ;" ; 
+	  sql = String.format(sql, userName);
+	  Statement newStatement = db.createStatement();
+	  ResultSet rs = newStatement.executeQuery(sql);
+	  List<Order> orders = new LinkedList<>() ;
+	  while(rs.next()) {
+		 orders.add(this.getOrder((double)rs.getInt(1)));
+	  }
+	  return orders ; 
+  }
 
   @Override
   public Order getOrder(double orderId) throws Exception {
@@ -161,14 +175,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 		int productId ;
 		
 		for(OrderDetail od : order.getDetails()) {
-			System.out.println(od.getProduct().getCompanyUserName());
-			System.out.println(od.getProduct().getName());
 			productId = this.getProductId(od.getProduct().getName(), od.getProduct().getCompanyUserName());
 			
 			String reinsertOrderDetailsSql = "INSERT INTO ORDER_DETAILS (ORDER_ID,USER_NAME,PRODUCT_ID,QUANTITY, STATUS) VALUES ("+
 					"%d,'%s',%d,%d,'%s');";
 			reinsertOrderDetailsSql = String.format(reinsertOrderDetailsSql,orderId,userName,productId,od.getQuantity(),od.getStatus()) ;
-			System.out.println(reinsertOrderDetailsSql);
 			stmt.executeUpdate(reinsertOrderDetailsSql) ; 
 		}
 		return true;
@@ -235,7 +246,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException { //good
     String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = "
         + this.wrapSingleQuotes(userName) + " ; ";
-
     ResultSet rs = stmt.executeQuery(sql);
     if (!rs.next()) {
       throw new Exception("Partner does not exist");
@@ -322,10 +332,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public boolean updateProduct(Product product) throws SQLException { //good
     if (this.deleteProduct(product)) {
-    	  System.out.println("here2343");
       return insertProduct(product);
     } else {
-    	System.out.println("here33939");
       return false;
     }
   }
@@ -417,7 +425,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     // String.format("Hello %s, %d", "world", 42);
     String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_NAME = '%s' and 	PARTNER_USER_NAME = '%s'";
     sql = String.format(sql, product.getName(),product.getCompanyUserName());
-    System.out.println(sql);
     if (stmt.executeUpdate(sql) == 0) {
       return false;
     } else {
@@ -443,15 +450,12 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + this.wrapSingleQuotes(customer.getLastName()) + ","
         + this.wrapSingleQuotes(customer.getAddress()) + ","
         + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
-    System.out.println("Here2");
     if (stmt.executeUpdate(sql) == 0) {
-    		System.out.println("here4");
       db.rollback();
       db.setAutoCommit(true);
       return false;
     }
     
-    System.out.println("Here1");
     Payment p = customer.getPayment();
     sql = "INSERT INTO CUSTOMER_PAYMENTS (USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES"
         + "(" + this.wrapSingleQuotes(customer.getUserName()) + ","
@@ -459,7 +463,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + " , " + this.wrapSingleQuotes(p.getCvv()) + ", " + this.wrapSingleQuotes(p.getExpiration().toString()) + ") ; ";
 
     
-    System.out.println(sql);
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
       db.setAutoCommit(true);
@@ -506,16 +509,15 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public Customer getCustomer(String userName) throws SQLException {
-
+	 Statement newStatement = db.createStatement();
     String getConsumerCredSql = "SELECT * FROM CUSTOMERS WHERE USER_NAME = " 
         + this.wrapSingleQuotes(userName) + " ;";
-    System.out.println(getConsumerCredSql);
     String getPaymentSql = "SELECT CUSTOMERS.USER_NAME,CUSTOMERS.CUSTOMER_FIRST_NAME,CUSTOMERS.CUSTOMER_LAST_NAME,"
         + "CUSTOMER_PAYMENTS.CARD_NAME,CUSTOMER_PAYMENTS.CARD_NUMBER, CUSTOMER_PAYMENTS.CVV, CUSTOMER_PAYMENTS.EXPIRATION FROM CUSTOMERS, CUSTOMER_PAYMENTS WHERE"
         + " CUSTOMERS.USER_NAME = CUSTOMER_PAYMENTS.USER_NAME AND CUSTOMERS.USER_NAME = "
         + this.wrapSingleQuotes(userName) + " ;";
 
-    ResultSet rs = stmt.executeQuery(getConsumerCredSql);
+    ResultSet rs = newStatement.executeQuery(getConsumerCredSql);
     Customer c = new ConcreteCustomer();
 
     if (rs.next()) {
@@ -525,11 +527,12 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       c.setAddress(rs.getString(4));
       c.setPhone(rs.getString(5));
     } else {
+    	  newStatement.close();
       return null;
     }
 
     Payment p = new ConcretePayment();
-    rs = stmt.executeQuery(getPaymentSql);
+    rs = newStatement.executeQuery(getPaymentSql);
     if (rs.next()) {
       // c.setUserName(rs.getString(1));
       // c.setFirstName(rs.getString(2));
@@ -544,14 +547,13 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     else {
       c.setPayment(null);
     }
-
+    newStatement.close();
     return c;
   }
   
   private int getProductId(String name, String companyUserName) throws SQLException {
 	String sql = "Select product_id from products where product_name = '%s' and partner_user_name = '%s' ;" ;
 			sql = String.format(sql, name, companyUserName);
-			System.out.println(sql);
 			Statement newStatement = db.createStatement();
 			ResultSet rs = newStatement.executeQuery(sql);
 			

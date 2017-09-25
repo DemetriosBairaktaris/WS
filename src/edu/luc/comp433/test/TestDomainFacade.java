@@ -36,12 +36,20 @@ public class TestDomainFacade {
   @Before
   public void setUp() throws Exception {
     facade = (DomainFacade) context.getBean("domain");
+    
 
   }
 
   @After
   public void tearDown() throws Exception {
+	 try {
+		facade.deletePartner("test@email.com") ; 
+		facade.deleteCustomer("customer@email.com");
+	  }catch(Exception e) {
+		  System.out.println(e.getMessage());
+	  }
     facade = null;
+    
   }
 
   @Test
@@ -57,6 +65,7 @@ public class TestDomainFacade {
     } else {
       fail();
     }
+    assertTrue(facade.deletePartner("test@email.com")) ; 
   }
 
   @Test
@@ -72,11 +81,10 @@ public class TestDomainFacade {
     assertTrue(facade.updatePartnerPhone("test@email.com", "1234"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertNotNull(facade.getPartnerSales("test@email.com"));
-    assertTrue(facade.deletePartner("test@email.com"));
   }
 
   @Test
-  public void testCustomerMethods() throws SQLException, ParseException {
+  public void testCustomerMethods() throws Exception {
     assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
         "John Doe", "5555", "123", "2020-01-02"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
@@ -97,6 +105,7 @@ public class TestDomainFacade {
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertTrue(facade.buyProduct("customer@email.com", "test", 1L, 0) != -1);
+    assertTrue(facade.deleteCustomer("customer@email.com"));
     //TODO add proper cleanup methods here
   }
   
@@ -112,6 +121,7 @@ public class TestDomainFacade {
     assertTrue(facade.getOrderStatus(orderId).equals("fulfilled"));
     assertTrue(facade.shipOrder(orderId));
     assertTrue(facade.getOrderStatus(orderId).equals("shipped"));
+    assertTrue(facade.deleteCustomer("customer@email.com"));
     //TODO add proper cleanup methods here
   }
 
@@ -122,7 +132,7 @@ public class TestDomainFacade {
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
-    assertTrue(facade.addReview("customer@email.com", "test", "great", 4));
+    assertTrue(facade.addReview("test@email.com", "test", "great", 4));
   }
   
   @Test

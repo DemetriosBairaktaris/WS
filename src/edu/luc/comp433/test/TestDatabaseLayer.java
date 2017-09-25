@@ -46,7 +46,6 @@ public class TestDatabaseLayer {
 	private Statement stmt;
 	private DatabaseAccess dal;
 	private String partnerName1;
-	private String partnerName2;
 
 	public TestDatabaseLayer() {
 		DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
@@ -79,13 +78,11 @@ public class TestDatabaseLayer {
 	public void setUp() throws SQLException {
 
 		partnerName1 = "JSHARP@GMAIL.COM";
-		partnerName2 = "JSHARP7@GMAIL.COM";
 	}
 
 	@After
 	public void tearDown() throws SQLException {
 		partnerName1 = null;
-		partnerName2 = null;
 	}
 
 	@Test
@@ -103,6 +100,7 @@ public class TestDatabaseLayer {
 		partner.setAddress("1232 Lolly Way");
 		partner.setPhone("219-292-1111");
 		assertTrue(dal.insertPartner(partner));
+		assertTrue(dal.deletePartner(partner.getUserName()));
 	}
 
 	@Test
@@ -114,7 +112,6 @@ public class TestDatabaseLayer {
 		partner.setUserName(partnerUserName);
 		partner.setAddress("kjadsf");
 		partner.setPhone("lldkfjal");
-		stmt = db.createStatement();
 		assertTrue(dal.insertPartner(partner));
 
 		if (dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
@@ -139,7 +136,6 @@ public class TestDatabaseLayer {
 		partner.setAddress(address);
 		partner.setPhone(phone);
 
-		stmt = db.createStatement();
 		dal.insertPartner(partner);
 
 		partner.setPhone(newPhone);
@@ -150,19 +146,21 @@ public class TestDatabaseLayer {
 	}
 
 	@Test
-	public void testDeletePartner() throws SQLException {
+	public void testDeletePartner() throws Exception {
+		String partnerUserName = "Newbie@gmail.com";
+		String partnerName = "Newbie Co";
+		String address = "funky brats";
+		String phone = "219-222-2222";
 		PartnerProfile partner = new ConcretePartnerProfile();
-		stmt = db.createStatement();
-		String sql = "SELECT PARTNER_USER_NAME FROM PARTNERS WHERE PARTNER_USER_NAME = '" + partnerName1
-				+ "' or PARTNER_USER_NAME = '" + partnerName2 + "' ; ";
-		ResultSet rs = stmt.executeQuery(sql);
-		if (rs.next()) {
-			String partnerUserName = rs.getString(1);
-			partner.setUserName(partnerUserName);
-			assertTrue(dal.deletePartner(partner.getUserName()));
-		} else {
-			assertTrue(false);
-		}
+
+		partner.setName(partnerName);
+		partner.setUserName(partnerUserName);
+		partner.setAddress(address);
+		partner.setPhone(phone);
+
+		assertTrue(dal.insertPartner(partner));
+		assertTrue(dal.deletePartner(partner.getUserName()));
+		
 	}
 
 	@Test
@@ -270,10 +268,8 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ;";
-		stmt.executeUpdate(delete_sql);
 		assertTrue(dal.insertCustomer(c));
-		stmt.executeUpdate(delete_sql);
+		assertTrue(dal.deleteCustomer(c));
 	}
 
 	@Test
@@ -298,7 +294,6 @@ public class TestDatabaseLayer {
 		c.setPhone(phone);
 		c.setPayment(payment);
 
-		String delete_sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = '" + username + "' ; ";
 		assertTrue(dal.insertCustomer(c));
 		Customer gotten = dal.getCustomer(username) ; 
 		assertNotNull(gotten) ; 
@@ -307,7 +302,7 @@ public class TestDatabaseLayer {
 		assertEquals(payment.getCardNumber(),gotten.getPayment().getCardNumber());
 		assertEquals(payment.getCvv(),gotten.getPayment().getCvv());
 		assertEquals(payment.getExpiration(),gotten.getPayment().getExpiration());
-		stmt.executeUpdate(delete_sql);
+		assertTrue(dal.deleteCustomer(c.getUserName()));
 	}
 
 	@Test
@@ -400,12 +395,12 @@ public class TestDatabaseLayer {
 			assertTrue(dal.insertCustomer(c));
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			assertTrue(false) ; 
+			dal.deleteCustomer(c.getUserName());
 		}
 		order.setOrderId(dal.insertOrder(order));
 		assertTrue(order.getOrderId() > 0) ; 
 		assertTrue(dal.deleteOrder(order)) ; 
-		dal.deleteCustomer(c);
+		assertTrue(dal.deleteCustomer(c));
 	}
 	
 	@Test
@@ -518,8 +513,6 @@ public class TestDatabaseLayer {
 		assertEquals(order.getDetails().get(0).getStatus(),d.getStatus()) ;
 		assertEquals(order.getDetails().get(0).getCompany(),d.getCompany()) ;
 		assertEquals(order.getDetails().get(0).getQuantity(),d.getQuantity()) ;
-
-		
 	}
 
 }
