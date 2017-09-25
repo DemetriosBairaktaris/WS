@@ -55,7 +55,18 @@ public interface OrderDetail {
    */
   public void setStatus(String status);
 
+  /**
+   * Sets the company from the product.
+   * 
+   * @param company
+   *          String
+   */
   public void setCompany(String company);
 
+  /**
+   * Retrieves the company name.
+   * 
+   * @return String
+   */
   public String getCompany();
 }

@@ -70,11 +70,33 @@ public interface Product {
    */
   public void setStock(long stock);
 
+  /**
+   * Sets the list of reviews.
+   * 
+   * @param reviews
+   *          List
+   */
   public void setReviews(List<Review> reviews);
 
+  /**
+   * Retrieves all the reviews.
+   * 
+   * @return List
+   */
   public List<Review> getReviews();
 
+  /**
+   * Sets the company owner of the product.
+   * 
+   * @param companyUserName
+   *          String
+   */
   public void setCompanyUserName(String companyUserName);
 
+  /**
+   * Retrieves the owner of the product.
+   * 
+   * @return String
+   */
   public String getCompanyUserName();
 }

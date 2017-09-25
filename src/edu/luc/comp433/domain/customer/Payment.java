@@ -55,7 +55,18 @@ public interface Payment {
    */
   public void setCvv(String cvv);
 
+  /**
+   * Sets the expiration date of the card.
+   * 
+   * @param expiration
+   *          Date
+   */
   public void setExpiration(Date expiration);
 
+  /**
+   * Retrieves the expiration date of the card.
+   * 
+   * @return Date
+   */
   public Date getExpiration();
 }

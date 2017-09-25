@@ -27,7 +27,9 @@ public interface PartnerManager {
    *          String
    * @return true if successful
    * @throws Exception
+   *           thrown by DB
    * @throws SQLException
+   *           thrown by DB
    */
   public boolean createPartner(String userName, String name, String address, String phone)
       throws SQLException, Exception;
@@ -39,7 +41,9 @@ public interface PartnerManager {
    *          String
    * @return true if successful
    * @throws SQLException
+   *           thrown by DB
    * @throws Exception
+   *           thrown by DB
    */
   public boolean deletePartner(String userName) throws SQLException, Exception;
 
@@ -57,7 +61,9 @@ public interface PartnerManager {
    *          String
    * @return PartnerProfile
    * @throws Exception
+   *           thrown by DB
    * @throws SQLException
+   *           thrown by DB
    */
   public PartnerProfile getPartnerProfile(String userName) throws SQLException, Exception;
 
@@ -78,7 +84,9 @@ public interface PartnerManager {
    *          String
    * @return true if successful
    * @throws Exception
+   *           thrown by DB
    * @throws SQLException
+   *           thrown by DB
    */
   public boolean updateAddress(String userName, String address) throws SQLException, Exception;
 
@@ -91,7 +99,9 @@ public interface PartnerManager {
    *          String
    * @return true if successful
    * @throws Exception
+   *           thrown by DB
    * @throws SQLException
+   *           thrown by DB
    */
   public boolean updateName(String userName, String name) throws SQLException, Exception;
 
@@ -104,16 +114,19 @@ public interface PartnerManager {
    *          String
    * @return true if successful
    * @throws Exception
+   *           thrown by DB
    * @throws SQLException
+   *           thrown by DB
    */
   public boolean updatePhone(String userName, String phone) throws SQLException, Exception;
 
   /**
    * Returns all orders that a partner's product was involved with.
    * 
-   * @param userName
-   * @return
+   * @param userName String
+   * @return List
    * @throws Exception
+   *           thrown by DB
    */
   public List<Order> getOrdersFromPartner(String userName) throws Exception;
 }

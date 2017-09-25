@@ -32,6 +32,8 @@ public interface CustomerManager {
    *          String
    * @param cvv
    *          String
+   * @param expiration
+   *          Date
    * @return true if successful
    * @throws SQLException
    *           errors if database not ready
@@ -116,6 +118,8 @@ public interface CustomerManager {
    *          String
    * @param cvv
    *          String
+   * @param expiration
+   *          Date
    * @return true if successful
    * @throws SQLException
    *           errors if database not ready
