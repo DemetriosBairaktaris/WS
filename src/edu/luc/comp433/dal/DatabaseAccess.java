@@ -252,7 +252,6 @@ public interface DatabaseAccess {
    */
   public boolean deleteCustomer(String username) throws SQLException;
 
-  
   /**
    * General DAL
    */

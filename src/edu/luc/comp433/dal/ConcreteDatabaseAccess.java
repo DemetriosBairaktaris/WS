@@ -47,16 +47,16 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     // "/WEB-INF/app-context.xml");
 
   }
-  
+
   @Override
   public void closeConnections() {
-	  try {
-		stmt.close();
-		db.close();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+    try {
+      stmt.close();
+      db.close();
+    } catch (SQLException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
   @Override

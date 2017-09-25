@@ -123,7 +123,8 @@ public interface PartnerManager {
   /**
    * Returns all orders that a partner's product was involved with.
    * 
-   * @param userName String
+   * @param userName
+   *          String
    * @return List
    * @throws Exception
    *           thrown by DB
