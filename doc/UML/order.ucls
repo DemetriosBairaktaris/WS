@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="edu.luc.comp433.domain.order.OrderManager" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/OrderManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="edu.luc.comp433.domain.order.OrderManager" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/OrderManager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="166" y="117"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="2" language="java" name="edu.luc.comp433.domain.order.Order" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/Order.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="2" language="java" name="edu.luc.comp433.domain.order.Order" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/Order.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="462" y="151"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="3" language="java" name="edu.luc.comp433.domain.order.ConcreteOrderManager" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/ConcreteOrderManager.java" binary="false" 
+  <class id="3" language="java" name="edu.luc.comp433.domain.order.ConcreteOrderManager" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/ConcreteOrderManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="152" y="361"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -29,8 +29,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="edu.luc.comp433.domain.order.OrderDetail" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/OrderDetail.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="4" language="java" name="edu.luc.comp433.domain.order.OrderDetail" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/OrderDetail.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="718" y="145"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -38,8 +38,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="edu.luc.comp433.domain.order.ConcreteOrder" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/ConcreteOrder.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="edu.luc.comp433.domain.order.ConcreteOrder" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/ConcreteOrder.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="462" y="417"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -47,8 +47,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="edu.luc.comp433.domain.order.ConcreteOrderDetail" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/order/ConcreteOrderDetail.java" binary="false" 
+  <class id="6" language="java" name="edu.luc.comp433.domain.order.ConcreteOrderDetail" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/order/ConcreteOrderDetail.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="732" y="400"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

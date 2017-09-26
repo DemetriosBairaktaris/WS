@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="edu.luc.comp433.domain.customer.Payment" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/Payment.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="edu.luc.comp433.domain.customer.Payment" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/Payment.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="209" width="176" x="25" y="45"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="2" language="java" name="edu.luc.comp433.domain.customer.CustomerManager" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/CustomerManager.java" binary="false" 
+  <interface id="2" language="java" name="edu.luc.comp433.domain.customer.CustomerManager" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/CustomerManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="775" y="111"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -20,8 +20,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="3" language="java" name="edu.luc.comp433.domain.customer.Customer" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/Customer.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="3" language="java" name="edu.luc.comp433.domain.customer.Customer" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/Customer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="375" y="162"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -29,8 +29,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="4" language="java" name="edu.luc.comp433.domain.customer.ConcretePayment" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/ConcretePayment.java" binary="false" 
+  <class id="4" language="java" name="edu.luc.comp433.domain.customer.ConcretePayment" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/ConcretePayment.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="116" y="424"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -39,8 +39,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="edu.luc.comp433.domain.customer.ConcreteCustomerManager" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/ConcreteCustomerManager.java" binary="false" 
+  <class id="5" language="java" name="edu.luc.comp433.domain.customer.ConcreteCustomerManager" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/ConcreteCustomerManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="772" y="361"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -49,8 +49,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="edu.luc.comp433.domain.customer.ConcreteCustomer" project="comp433project1" 
-    file="/comp433project1/src/edu/luc/comp433/domain/customer/ConcreteCustomer.java" binary="false" 
+  <class id="6" language="java" name="edu.luc.comp433.domain.customer.ConcreteCustomer" project="comp433project" 
+    file="/comp433project/src/edu/luc/comp433/domain/customer/ConcreteCustomer.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="401" y="434"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
