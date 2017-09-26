@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <interface id="1" language="java" name="edu.luc.comp433.domain.partner.PartnerProfile" project="comp433project" 
     file="/comp433project/src/edu/luc/comp433/domain/partner/PartnerProfile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="575" y="214"/>    
@@ -13,7 +13,7 @@
   <class id="2" language="java" name="edu.luc.comp433.domain.partner.ConcretePartnerManager" project="comp433project" 
     file="/comp433project/src/edu/luc/comp433/domain/partner/ConcretePartnerManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="221" y="473"/>    
+    <position height="-1" width="-1" x="225" y="474"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.1" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="edu.luc.comp433.domain.product.ConcreteReview" project="comp433project" 
     file="/comp433project/src/edu/luc/comp433/domain/product/ConcreteReview.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="444" y="493"/>    
+    <position height="-1" width="-1" x="483" y="493"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -13,7 +13,7 @@
   <class id="2" language="java" name="edu.luc.comp433.domain.product.ConcreteProductManager" project="comp433project" 
     file="/comp433project/src/edu/luc/comp433/domain/product/ConcreteProductManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="182" y="500"/>    
+    <position height="-1" width="-1" x="174" y="477"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -49,7 +49,7 @@
   </interface>  
   <class id="6" language="java" name="edu.luc.comp433.domain.product.ConcreteProduct" project="comp433project" 
     file="/comp433project/src/edu/luc/comp433/domain/product/ConcreteProduct.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="699" y="476"/>    
+    <position height="-1" width="-1" x="755" y="476"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,21 +57,25 @@
     </display>  
   </class>  
   <realization id="7">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
-  </realization>  
-  <realization id="8">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="4"/>  
   </realization>  
-  <realization id="9">    
+  <realization id="8">    
     <end type="SOURCE" refId="6"/>    
     <end type="TARGET" refId="5"/>  
   </realization>  
+  <realization id="9">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
   <association id="10">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="11" name="reviews"/>      
-      <multiplicity id="12" minimum="0" maximum="2147483647"/>    
+      <attribute id="11" name="reviews">        
+        <position height="19" width="49" x="515" y="247"/>      
+      </attribute>      
+      <multiplicity id="12" minimum="0" maximum="2147483647">        
+        <position height="17" width="24" x="556" y="220"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
