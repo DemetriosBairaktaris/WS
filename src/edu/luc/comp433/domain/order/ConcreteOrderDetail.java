@@ -51,4 +51,11 @@ public class ConcreteOrderDetail implements OrderDetail {
   public String getCompany() {
     return company;
   }
+
+  @Override
+  public String toString() {
+    String retStr = "Product Name: %s\n" + "Product Cost: %f\n" + "Order Quantity: %f\n"
+        + "Detail Status: %s\n" + "Product Company: %s\n";
+    return String.format(retStr, product.getName(), product.getCost(), quantity, status, company);
+  }
 }
