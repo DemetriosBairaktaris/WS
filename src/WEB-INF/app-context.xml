@@ -5,7 +5,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- database access object class -->
-	<bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess" scope="prototype"/>
+	<bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess"
+		scope="prototype" />
 
 	<!-- customer classes -->
 	<bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager"
@@ -55,5 +56,5 @@
 		scope="prototype" />
 	<bean id="review" class="edu.luc.comp433.domain.product.ConcreteReview"
 		scope="prototype" />
-	<bean id="linkedList" class ="java.util.LinkedList" scope="prototype" />	
+	<bean id="linkedList" class="java.util.LinkedList" scope="prototype" />
 </beans>
