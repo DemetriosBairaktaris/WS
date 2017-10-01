@@ -7,23 +7,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.postgresql.util.PSQLException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.domain.customer.ConcreteCustomer;
-import edu.luc.comp433.domain.customer.ConcretePayment;
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.Payment;
-import edu.luc.comp433.domain.order.ConcreteOrder;
-import edu.luc.comp433.domain.order.ConcreteOrderDetail;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderDetail;
-import edu.luc.comp433.domain.partner.ConcretePartnerProfile;
 import edu.luc.comp433.domain.partner.PartnerProfile;
-import edu.luc.comp433.domain.product.ConcreteProduct;
-import edu.luc.comp433.domain.product.ConcreteReview;
 import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.Review;
 
@@ -35,6 +29,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   private String PASS = "root";
   private Connection db;
   private Statement stmt;
+  private ApplicationContext context;
 
   public ConcreteDatabaseAccess() throws SQLException {
     DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
@@ -43,8 +38,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
     db = DriverManager.getConnection(DB_URL, USER, PASS);
     stmt = db.createStatement();
-    // context = new ClassPathXmlApplicationContext(
-    // "/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
 
   }
 
@@ -54,7 +48,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       stmt.close();
       db.close();
     } catch (SQLException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
@@ -68,7 +61,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public int insertOrder(Order order) throws SQLException {
     if (order.getOrderId() > 0) {
       System.out.println("don't update an order through here, call updateOrder().... ");
-      // This method does not insert the orderDetails!!!! pass those in through updateOrder()
+      // This method does not insert the orderDetails!!!! pass those in through
+      // updateOrder()
       return -1;
 
     }
@@ -97,7 +91,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     sql = String.format(sql, userName);
     Statement newStatement = db.createStatement();
     ResultSet rs = newStatement.executeQuery(sql);
-    List<Order> orders = new LinkedList<>();
+    List<Order> orders = (List<Order>) context.getBean("linkedList");
     while (rs.next()) {
       orders.add(this.getOrder((double) rs.getInt(1)));
     }
@@ -109,27 +103,25 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     int oId = (int) orderId;
     String sql = "SELECT * FROM ORDERS WHERE ORDER_ID = %d";
     sql = String.format(sql, oId);
-    Order o = new ConcreteOrder();
+    Order o = (Order) context.getBean("order");
     Statement newStatement = db.createStatement();
     ResultSet rs = newStatement.executeQuery(sql);
     if (rs.next()) {
       o.setOrderId(rs.getInt(1));
       o.setCustomer(rs.getString(2));
       o.setTimestamp(Date.valueOf(rs.getDate(3).toLocalDate()));
-      // o.setStatus("open");
       o.setStatus(rs.getString(4));
-      // status needs to be added to tables
     } else {
       return null;
     }
     sql = "SELECT * FROM ORDER_DETAILS WHERE ORDER_ID = %d";
     sql = String.format(sql, oId);
-    List<OrderDetail> orderDetails = new LinkedList<>();
+    List<OrderDetail> orderDetails = (List<OrderDetail>) context.getBean("linkedList");
 
     rs = newStatement.executeQuery(sql);
     while (rs.next()) {
-      OrderDetail od = new ConcreteOrderDetail();
-      Product p = new ConcreteProduct();
+      OrderDetail od = (OrderDetail) context.getBean("orderDetail");
+      Product p = (Product) context.getBean("product");
       int productId = rs.getInt(4);
       od.setQuantity(rs.getInt(5));
       od.setStatus(rs.getString(6));
@@ -248,7 +240,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     if (!rs.next()) {
       throw new Exception("Partner does not exist");
     } else {
-      PartnerProfile p = new ConcretePartnerProfile();
+      PartnerProfile p = (PartnerProfile) context.getBean("partner");
       p.setUserName(rs.getString(1));
       p.setName(rs.getString(2));
       p.setAddress(rs.getString(3));
@@ -307,7 +299,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String sql = "select * from products where products.partner_user_name = '%s' order by products.product_name asc;";
 
     sql = String.format(sql, companyUserName);
-    List<Product> products = new LinkedList<>();
+    List<Product> products = (List<Product>) context.getBean("linkedList");
     Statement newStatement = db.createStatement();
 
     ResultSet rs = newStatement.executeQuery(sql);
@@ -342,8 +334,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     ResultSet rs = newStatment.executeQuery(sql);
     int productId;
     if (rs.next()) {
-      // p = (Product) context.getBean("product");
-      p = new ConcreteProduct();
+      p = (Product) context.getBean("product");
       productId = rs.getInt(1);
       p.setName(rs.getString(2));
       p.setDesc(rs.getString(3));
@@ -359,9 +350,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String get_review_sql = "Select * from reviews where product_id = %d";
     get_review_sql = String.format(get_review_sql, productId);
     rs = newStatment.executeQuery(get_review_sql);
-    List<Review> reviews = new LinkedList<>();
+    List<Review> reviews = (List<Review>) context.getBean("linkedList");
     while (rs.next()) {
-      Review r = new ConcreteReview();
+      Review r = (Review) context.getBean("review");
       r.setRating(rs.getInt(3));
       r.setReview(rs.getString(4));
       reviews.add(r);
@@ -399,10 +390,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + " ;";
     Statement newStatement = db.createStatement();
     ResultSet rs = newStatement.executeQuery(sql);
-    List<Product> products = new LinkedList<>();
+    List<Product> products = (List<Product>) context.getBean("linkedList");
     while (rs.next()) {
       // p = (Product) context.getBean("product");
-      p = new ConcreteProduct();
+      p = (Product) context.getBean("product");
       p.setName(rs.getString(2));
       p.setDesc(rs.getString(3));
       p.setCost(rs.getDouble(4));
@@ -510,7 +501,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + this.wrapSingleQuotes(userName) + " ;";
 
     ResultSet rs = newStatement.executeQuery(getConsumerCredSql);
-    Customer c = new ConcreteCustomer();
+    Customer c = (Customer) context.getBean("customer");
 
     if (rs.next()) {
       c.setUserName(rs.getString(1));
@@ -523,13 +514,13 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       return null;
     }
 
-    Payment p = new ConcretePayment();
+    Payment p = (Payment) context.getBean("payment");
     rs = newStatement.executeQuery(getPaymentSql);
     if (rs.next()) {
       // c.setUserName(rs.getString(1));
       // c.setFirstName(rs.getString(2));
       // c.setLastName(rs.getString(3));
-      p = new ConcretePayment();
+      p = (Payment) context.getBean("payment");
       p.setCardName(rs.getString(4));
       p.setCardNumber(rs.getString(5));
       p.setCvv(rs.getString(6));
