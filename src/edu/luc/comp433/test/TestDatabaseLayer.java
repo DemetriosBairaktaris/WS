@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -176,7 +177,8 @@ public class TestDatabaseLayer {
     int i = 0;
     while (i < 2) {
       Product p = new ConcreteProduct();
-      p.setReviews(Arrays.asList());
+      List<Review> r = new LinkedList<>();
+      p.setReviews(r);
       p.setCompanyUserName(partners[i++]);
       p.setCost(3);
       p.setDesc(String.valueOf(3));
@@ -206,11 +208,14 @@ public class TestDatabaseLayer {
     double cost = 500000.00;
     int stock = 30;
     Product product = new ConcreteProduct();
+    
+    List<Review> r = new LinkedList<>();
+    r.add(new ConcreteReview());
     product.setName(productName);
     product.setDesc(desc);
     product.setCost(cost);
     product.setStock(stock);
-    product.setReviews(Arrays.asList(new ConcreteReview()));
+    product.setReviews(r);
 
     PartnerProfile profile = new ConcretePartnerProfile();
     profile.setUserName(partnerUserName);
@@ -340,7 +345,7 @@ public class TestDatabaseLayer {
   @Test
   public void testCreateOrderDelete() throws SQLException {
     Order order = new ConcreteOrder();
-    order.setDetails(new LinkedList<>());
+    order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
     String username = "MHM@gmail.com";
@@ -379,7 +384,7 @@ public class TestDatabaseLayer {
   @Test
   public void testGetOrder() throws Exception {
     Order order = new ConcreteOrder();
-    order.setDetails(new LinkedList<>());
+    order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
     String username = "MHM@gmail.com";
@@ -418,7 +423,7 @@ public class TestDatabaseLayer {
   @Test
   public void testUpdateOrder() throws Exception {
     Order order = new ConcreteOrder();
-    order.setDetails(new LinkedList<>());
+    order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
     String username = "MHM@gmail.com";
