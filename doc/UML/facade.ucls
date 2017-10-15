@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="edu.luc.comp433.service.facade.DomainFacade" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/facade/DomainFacade.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="edu.luc.comp433.service.workflow.DomainFacade" project="comp433project3" 
+    file="/comp433project3/src/edu/luc/comp433/service/workflow/DomainFacade.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="613" y="293"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="edu.luc.comp433.service.facade.ConcreteDomainFacade" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/facade/ConcreteDomainFacade.java" binary="false" 
+  <class id="2" language="java" name="edu.luc.comp433.service.workflow.ConcreteDomainFacade" project="comp433project3" 
+    file="/comp433project3/src/edu/luc/comp433/service/workflow/ConcreteDomainFacade.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="184" y="300"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
