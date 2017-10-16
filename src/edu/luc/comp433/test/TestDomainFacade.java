@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.service.facade.DomainFacade;
+import edu.luc.comp433.service.workflow.DomainFacade;
 
 public class TestDomainFacade {
 
