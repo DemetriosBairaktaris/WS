@@ -5,13 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "partner")
+@XmlRootElement(name = "customer")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class PartnerRepresentation {
+public class CustomerRepresentation {
 
   private String userName;
-  private String name;
+  private String firstName;
+  private String lastName;
   private String address;
   private String phone;
 
@@ -23,12 +24,20 @@ public class PartnerRepresentation {
     this.userName = userName;
   }
 
-  public String getName() {
-    return name;
+  public String getFirstName() {
+    return firstName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
   }
 
   public String getAddress() {
