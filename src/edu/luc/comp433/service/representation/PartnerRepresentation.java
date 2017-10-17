@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "partner")
+@XmlRootElement(name = "Partner")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class PartnerRepresentation {
@@ -14,7 +14,13 @@ public class PartnerRepresentation {
   private String name;
   private String address;
   private String phone;
-
+  
+  public PartnerRepresentation() {
+	  userName = "" ;
+	  name = "" ;
+	  address = "" ; 
+	  phone = "" ; 
+  }
   public String getUserName() {
     return userName;
   }

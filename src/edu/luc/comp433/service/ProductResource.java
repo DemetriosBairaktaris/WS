@@ -23,8 +23,6 @@ public class ProductResource implements ProductService {
   public Set<ProductRepresentation> getProduct(@PathParam("productName") String productName) {
     //
     // TODO: call to activity/workflow and get all products
-
-    //
     return new HashSet<ProductRepresentation>();
   }
 
@@ -33,7 +31,7 @@ public class ProductResource implements ProductService {
   @Consumes({ "application/json", "application/xml" })
   @Override
   public ProductRepresentation insertProduct(ProductRequest request) {
-    if (!hasIntegrity(request)) {
+    if (!isValid(request)) {
       // bad request level 400
       // no reason to waste a DB call if the product aint valid.
       return null;
@@ -50,7 +48,7 @@ public class ProductResource implements ProductService {
 
   }
 
-  private boolean hasIntegrity(ProductRequest request) {
+  private boolean isValid(ProductRequest request) {
     boolean result = true;
     if (request.getName().equals(null) || request.getName().equals("")) {
       result = false;

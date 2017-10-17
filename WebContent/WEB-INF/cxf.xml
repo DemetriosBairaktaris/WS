@@ -14,16 +14,21 @@
 	<jaxrs:server name="ShoppingService" address="http://localhost:8081">
 		<jaxrs:serviceBeans>
 			<ref bean="productResource" />
+			<ref bean="partnerResource" />
 		</jaxrs:serviceBeans>
 		
 	<!-- Representations and Requests objects here  -->
 		<jaxrs:schemaLocations>
 				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRepresentation</jaxrs:schemaLocation>
 				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRequest</jaxrs:schemaLocation>
+				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.PartnerRepresentation</jaxrs:schemaLocation>
+				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.PartnerRequest</jaxrs:schemaLocation>
+				
 				<jaxrs:schemaLocation>java.util.HashSet</jaxrs:schemaLocation>
 		</jaxrs:schemaLocations>
 	</jaxrs:server>
 	<bean id="productResource" class="edu.luc.comp433.service.ProductResource" />
+	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource" />
 	
 
 
