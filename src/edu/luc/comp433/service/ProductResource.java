@@ -21,8 +21,8 @@ public class ProductResource implements ProductService {
 	@Consumes({ "application/json", "application/xml" })
 	@Override
 	public Set<ProductRepresentation> getProduct(@PathParam("productName") String productName) {
-		// TODO: make return type to Set<ProductReprestation>
-		// call to activity/workflow and get all products
+		// 
+		//TODO: call to activity/workflow and get all products
 
 		//
 		return new HashSet<ProductRepresentation>();
