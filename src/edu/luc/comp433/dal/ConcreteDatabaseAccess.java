@@ -83,6 +83,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Order> getOrdersFromPartner(String userName) throws Exception {
 
@@ -98,6 +99,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return orders;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Order getOrder(double orderId) throws Exception {
     int oId = (int) orderId;
@@ -293,6 +295,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return true;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Product> getAllProductsFromPartner(String companyUserName) throws Exception {
 
@@ -323,6 +326,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override // good
   public Product getProductFromPartner(String productName, PartnerProfile profile)
       throws SQLException {
@@ -382,6 +386,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public List<Product> getProduct(String productName) throws Exception {// good{
     String sql;
