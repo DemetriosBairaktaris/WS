@@ -5,29 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "Product")
+@XmlRootElement(name="Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ProductRepresentation {
-	private int id;
+public class ProductRequest {
 	private String desc;
 	private double cost;
 	private long stock;
 	private String companyUserName;
 	private String name;
 
-	public ProductRepresentation() {
-		this.name = "" ; 
-		this.companyUserName = "" ;
-		this.desc = "" ; 
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getId() {
-		return this.id;
+	public ProductRequest() {
 	}
 
 	public String getName() {

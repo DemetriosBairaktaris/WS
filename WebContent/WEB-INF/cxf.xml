@@ -15,8 +15,16 @@
 		<jaxrs:serviceBeans>
 			<ref bean="productResource" />
 		</jaxrs:serviceBeans>
-
+		
+	<!-- Representations and Requests objects here  -->
+		<jaxrs:schemaLocations>
+				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRepresentation</jaxrs:schemaLocation>
+				<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRequest</jaxrs:schemaLocation>
+				<jaxrs:schemaLocation>java.util.HashSet</jaxrs:schemaLocation>
+		</jaxrs:schemaLocations>
 	</jaxrs:server>
 	<bean id="productResource" class="edu.luc.comp433.service.ProductResource" />
+	
+
 
 </beans>
