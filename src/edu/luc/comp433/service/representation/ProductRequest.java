@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "")
 public class ProductRequest {
   private String desc;
-  private double cost;
+  private float cost;
   private long stock;
   private String companyUserName;
   private String name;
@@ -34,11 +34,11 @@ public class ProductRequest {
     this.desc = desc;
   }
 
-  public double getCost() {
+  public float getCost() {
     return cost;
   }
 
-  public void setCost(double cost) {
+  public void setCost(float cost) {
     this.cost = cost;
   }
 

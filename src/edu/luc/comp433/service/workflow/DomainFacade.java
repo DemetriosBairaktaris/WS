@@ -8,6 +8,7 @@ import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.service.representation.ProductRepresentation;
 
 /**
  * This class sets up the facade between the domain layer and the service layer.
@@ -88,7 +89,7 @@ public interface DomainFacade {
    * @throws Exception
    *           thrown by DB
    */
-  public List<String> searchProduct(String productName) throws SQLException, Exception;
+  public List<ProductRepresentation> searchProduct(String productName) throws SQLException, Exception;
 
   /**
    * Checks if a product is available.

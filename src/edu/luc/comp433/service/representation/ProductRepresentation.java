@@ -11,8 +11,8 @@ import javax.xml.bind.annotation.XmlType;
 public class ProductRepresentation {
   private String id;
   private String desc;
-  private String cost;
-  private String stock;
+  private float cost;
+  private long stock;
   private String companyUserName;
   private String name;
 
@@ -46,19 +46,19 @@ public class ProductRepresentation {
     this.desc = desc;
   }
 
-  public String getCost() {
+  public float getCost() {
     return cost;
   }
 
-  public void setCost(String cost) {
+  public void setCost(float cost) {
     this.cost = cost;
   }
 
-  public String getStock() {
+  public long getStock() {
     return stock;
   }
 
-  public void setStock(String stock) {
+  public void setStock(long stock) {
     this.stock = stock;
   }
 
