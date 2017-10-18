@@ -21,7 +21,7 @@
 		scope="prototype" />
 
 	<!-- facade class -->
-	<bean id="domain" class="edu.luc.comp433.service.facade.ConcreteDomainFacade"
+	<bean id="domain" class="edu.luc.comp433.service.workflow.ConcreteDomainFacade"
 		scope="prototype">
 		<property name="customers" ref="customerManager" />
 		<property name="partners" ref="partnerManager" />
