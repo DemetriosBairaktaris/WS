@@ -87,8 +87,7 @@ public class TestProductDomain {
     review.setRating(5);
     review.setReview("Awesome");
     assertTrue(products.addReview(companyUserName, name, "Awesome", 5));
-    assertTrue(
-        products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
+    assertTrue(products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
   }
 
   @Test

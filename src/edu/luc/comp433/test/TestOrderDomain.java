@@ -71,14 +71,13 @@ public class TestOrderDomain {
     product.setDesc("awesome");
     product.setName("Thing");
     product.setStock(2L);
-    productManager.addProduct(product.getName(), product.getDesc(), product.getCost(),
-        product.getStock(), product.getCompanyUserName());
+    productManager.addProduct(product.getName(), product.getDesc(), product.getCost(), product.getStock(),
+        product.getCompanyUserName());
     quantity = 1L;
 
-    customerManager.createCustomer(customer.getUserName(), customer.getFirstName(),
-        customer.getLastName(), customer.getAddress(), customer.getPhone(),
-        customer.getPayment().getCardName(), customer.getPayment().getCardNumber(),
-        customer.getPayment().getCvv(), customer.getPayment().getExpiration());
+    customerManager.createCustomer(customer.getUserName(), customer.getFirstName(), customer.getLastName(),
+        customer.getAddress(), customer.getPhone(), customer.getPayment().getCardName(),
+        customer.getPayment().getCardNumber(), customer.getPayment().getCvv(), customer.getPayment().getExpiration());
   }
 
   @After
@@ -107,8 +106,7 @@ public class TestOrderDomain {
   public void testOrderActions() throws Exception {
     int orderId = orders.createOrder(customerUserName);
     assertTrue(orders.createOrderDetail(orderId, product, quantity));
-    assertTrue(orders.getOrder(orderId).getDetails().get(0).getCompany()
-        .equals(product.getCompanyUserName()));
+    assertTrue(orders.getOrder(orderId).getDetails().get(0).getCompany().equals(product.getCompanyUserName()));
 
     assertTrue(orders.fulfillOrder(orderId));
     assertEquals(orders.getOrder(orderId).getStatus(), status);

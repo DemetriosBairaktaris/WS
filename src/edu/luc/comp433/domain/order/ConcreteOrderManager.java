@@ -10,8 +10,7 @@ import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteOrderManager implements OrderManager {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext(
-      "/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private DatabaseAccess database;
 
   @Override
@@ -34,8 +33,7 @@ public class ConcreteOrderManager implements OrderManager {
   }
 
   @Override
-  public boolean createOrderDetail(int orderId, Product product, long quantity)
-      throws SQLException, Exception {
+  public boolean createOrderDetail(int orderId, Product product, long quantity) throws SQLException, Exception {
     Order order = database.getOrder(orderId);
     OrderDetail orderDetail = (OrderDetail) context.getBean("orderDetail");
     orderDetail.setCompany(product.getCompanyUserName());
@@ -78,8 +76,7 @@ public class ConcreteOrderManager implements OrderManager {
   }
 
   @Override
-  public OrderDetail getOrderDetail(int orderId, String productName)
-      throws SQLException, Exception {
+  public OrderDetail getOrderDetail(int orderId, String productName) throws SQLException, Exception {
     Order order = database.getOrder(orderId);
     for (int i = 0; i < order.getDetails().size(); i++) {
       if (order.getDetails().get(i).getProduct().getName().equals(productName)) {

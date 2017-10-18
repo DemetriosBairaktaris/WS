@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.List;
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
+import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.service.representation.ProductRepresentation;
 
 public class ConcreteDomainFacade implements DomainFacade {
 
@@ -58,15 +61,13 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public List<String> searchProduct(String productName) throws Exception {
-    List<String> list = new ArrayList<>();
-    for (int i = 0; i < products.getProducts(productName).size(); i++) {
-      list.add(products.getProducts(productName).get(i).getName());
-      list.add(products.getProducts(productName).get(i).getDesc());
-      list.add(Double.toString(products.getProducts(productName).get(i).getCost()));
-      list.add(Long.toString(products.getProducts(productName).get(i).getStock()));
+  public List<ProductRepresentation> searchProduct(String productName) throws Exception {
+    List<Product> listOfFoundProducts = products.getProducts(productName);
+    List<ProductRepresentation> representations = new LinkedList<>();
+    for (Product product : listOfFoundProducts) {
+      representations.add(this.assembleProductToRepresentation(product));
     }
-    return list;
+    return representations;
   }
 
   @Override
@@ -82,8 +83,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public int buyProduct(String customerName, String productName, long quantity, int orderId)
-      throws Exception {
+  public int buyProduct(String customerName, String productName, long quantity, int orderId) throws Exception {
     long newStock = 0;
     if (this.checkAvailability(productName)) {
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
@@ -98,17 +98,16 @@ public class ConcreteDomainFacade implements DomainFacade {
     return -1;
   }
 
-  private int acceptPayment(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws Exception {
-    if (customers.getCustomer(customerName).getPayment().getExpiration()
-        .compareTo(currentTime) > 0) {
+  private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId)
+      throws Exception {
+    if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime) > 0) {
       return this.createOrder(companyName, customerName, productName, quantity, orderId);
     }
     return -1;
   }
 
-  private int createOrder(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws Exception {
+  private int createOrder(String companyName, String customerName, String productName, long quantity, int orderId)
+      throws Exception {
     if (orderId == 0) {
       orderId = orders.createOrder(customerName);
     }
@@ -130,9 +129,6 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public int cancelOrder(int orderId) throws SQLException, Exception {
     int limit = orders.getOrder(orderId).getDetails().size();
-    // this is weird but the above line was giving me a null pointer when called in loop
-    // signature...
-    // here it is fine.....unclear why......
     int refund = 0;
     if (this.refund(orderId) > 0) {
       for (int i = 0; i < limit; i++) {
@@ -174,13 +170,11 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean addCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, String expiration)
-      throws SQLException, ParseException {
+  public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName,
-        cardNumber, cvv, date);
+    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
   }
 
   @Override
@@ -198,8 +192,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updateCustomerName(String userName, String firstName, String lastName)
-      throws SQLException {
+  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException {
     return customers.updateName(userName, firstName, lastName);
   }
 
@@ -214,8 +207,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
-      String expiration) throws SQLException, ParseException {
+  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException {
     DateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
@@ -239,21 +232,19 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
-      double cost, long stock) throws SQLException, Exception {
+  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock)
+      throws SQLException, Exception {
     return products.addProduct(productName, productDesc, cost, stock,
         partners.getPartnerProfile(userName).getUserName());
   }
 
   @Override
-  public boolean updatePartnerName(String userName, String companyName)
-      throws SQLException, Exception {
+  public boolean updatePartnerName(String userName, String companyName) throws SQLException, Exception {
     return partners.updateName(userName, companyName);
   }
 
   @Override
-  public boolean updatePartnerAddress(String userName, String address)
-      throws SQLException, Exception {
+  public boolean updatePartnerAddress(String userName, String address) throws SQLException, Exception {
     return partners.updateAddress(userName, address);
   }
 
@@ -267,14 +258,29 @@ public class ConcreteDomainFacade implements DomainFacade {
     List<String> partnerOrders = new LinkedList<>();
     for (int i = 0; i < partners.getOrdersFromPartner(userName).size(); i++) {
       for (int j = 0; i < partners.getOrdersFromPartner(userName).get(i).getDetails().size(); j++) {
-        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany()
-            .equals(userName)) {
-          partnerOrders
-              .add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
+        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany().equals(userName)) {
+          partnerOrders.add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
         }
       }
     }
     return partnerOrders.toString();
+  }
+
+  /**
+   * Method to assemble a product from below.
+   * 
+   * @param product
+   *          Product to be assembled
+   * @return completed ProductRepresentation
+   */
+  private ProductRepresentation assembleProductToRepresentation(Product product) {
+    ProductRepresentation currentProduct = new ProductRepresentation();
+    currentProduct.setName(product.getName());
+    currentProduct.setCompanyUserName(product.getCompanyUserName());
+    currentProduct.setCost((float) product.getCost());
+    currentProduct.setDesc(product.getDesc());
+    currentProduct.setStock(product.getStock());
+    return currentProduct;
   }
 
 }

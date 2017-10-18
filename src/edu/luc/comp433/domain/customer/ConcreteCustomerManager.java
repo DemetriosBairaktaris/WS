@@ -10,17 +10,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ConcreteCustomerManager implements CustomerManager {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext(
-      "/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private DatabaseAccess database;
 
   public ConcreteCustomerManager() {
   }
 
   @Override
-  public boolean createCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, Date expiration)
-      throws SQLException {
+  public boolean createCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, Date expiration) throws SQLException {
     Customer customer = (Customer) context.getBean("customer");
     customer.setUserName(userName);
     customer.setFirstName(firstName);
@@ -64,8 +62,7 @@ public class ConcreteCustomerManager implements CustomerManager {
   }
 
   @Override
-  public boolean updateName(String userName, String firstName, String lastName)
-      throws SQLException {
+  public boolean updateName(String userName, String firstName, String lastName) throws SQLException {
     Customer customer = database.getCustomer(userName);
     customer.setFirstName(firstName);
     customer.setLastName(lastName);
@@ -73,8 +70,8 @@ public class ConcreteCustomerManager implements CustomerManager {
   }
 
   @Override
-  public boolean updatePayment(String userName, String cardName, String cardNumber, String cvv,
-      Date expiration) throws SQLException {
+  public boolean updatePayment(String userName, String cardName, String cardNumber, String cvv, Date expiration)
+      throws SQLException {
     Customer customer = database.getCustomer(userName);
     Payment payment = customer.getPayment();
     payment.setCardName(cardName);

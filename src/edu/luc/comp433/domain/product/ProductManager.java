@@ -45,8 +45,7 @@ public interface ProductManager {
    * @throws SQLException
    *           thrown by DB
    */
-  public boolean addProduct(String name, String desc, double cost, long stock, String companyName)
-      throws SQLException;
+  public boolean addProduct(String name, String desc, double cost, long stock, String companyName) throws SQLException;
 
   /**
    * Deletes the product from the database.
@@ -78,8 +77,7 @@ public interface ProductManager {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean updateStock(String companyName, String name, long stock)
-      throws SQLException, Exception;
+  public boolean updateStock(String companyName, String name, long stock) throws SQLException, Exception;
 
   /**
    * Updates a product's stock for a specific company.
@@ -96,8 +94,7 @@ public interface ProductManager {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean updateCost(String companyName, String name, double cost)
-      throws SQLException, Exception;
+  public boolean updateCost(String companyName, String name, double cost) throws SQLException, Exception;
 
   /**
    * Retrieves all the products of a specific name.
@@ -129,8 +126,7 @@ public interface ProductManager {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean addReview(String companyName, String name, String review, int rating)
-      throws SQLException, Exception;
+  public boolean addReview(String companyName, String name, String review, int rating) throws SQLException, Exception;
 
   /**
    * Retrieves all the reviews for a specific product.
@@ -173,7 +169,6 @@ public interface ProductManager {
    * @throws Exception
    *           thrown by DB
    */
-  public Product getProductFromPartner(String name, String partnerUserName)
-      throws SQLException, Exception;
+  public Product getProductFromPartner(String name, String partnerUserName) throws SQLException, Exception;
 
 }

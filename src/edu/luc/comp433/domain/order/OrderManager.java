@@ -54,8 +54,7 @@ public interface OrderManager {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean createOrderDetail(int orderId, Product product, long quantity)
-      throws SQLException, Exception;
+  public boolean createOrderDetail(int orderId, Product product, long quantity) throws SQLException, Exception;
 
   /**
    * Fulfills the given order.

@@ -8,14 +8,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Partner")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class PartnerRepresentation {
+public class PartnerRequest {
 
   private String userName;
   private String name;
   private String address;
   private String phone;
 
-  public PartnerRepresentation() {
+  public PartnerRequest() {
     userName = "";
     name = "";
     address = "";

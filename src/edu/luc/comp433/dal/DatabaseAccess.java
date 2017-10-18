@@ -156,8 +156,7 @@ public interface DatabaseAccess {
    * @throws SQLException
    *           thrown by DB
    */
-  public Product getProductFromPartner(String productName, PartnerProfile profile)
-      throws SQLException;
+  public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException;
 
   /**
    * Retrieves a product.
@@ -194,8 +193,7 @@ public interface DatabaseAccess {
    * @throws Exception
    *           thrown by DB
    */
-  public List<Product> getAllProductsFromPartner(String companyUserName)
-      throws SQLException, Exception;
+  public List<Product> getAllProductsFromPartner(String companyUserName) throws SQLException, Exception;
 
   /**
    * Inserts a customer profile.

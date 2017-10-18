@@ -83,22 +83,21 @@ public class TestDomainFacade {
 
   @Test
   public void testCustomerMethods() throws Exception {
-    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
-        "John Doe", "5555", "123", "2020-01-02"));
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "John Doe", "5555", "123",
+        "2020-01-02"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.updateCustomerName("customer@email.com", "Jane", "Smith"));
     assertTrue(facade.updateCustomerAddress("customer@email.com", "address2"));
     assertTrue(facade.updateCustomerPhone("customer@email.com", "98765"));
-    assertTrue(
-        facade.updatePaymentInfo("customer@email.com", "Jane Smith", "9999", "007", "09-2090"));
+    assertTrue(facade.updatePaymentInfo("customer@email.com", "Jane Smith", "9999", "007", "09-2090"));
     assertTrue(facade.deleteCustomer("customer@email.com"));
     assertFalse(facade.checkCustomerStatus("customer@email.com"));
   }
 
   @Test
   public void testPurchaseWorkflow() throws Exception {
-    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
-        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "John Doe", "5555", "123",
+        "01-2020"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
@@ -108,8 +107,8 @@ public class TestDomainFacade {
 
   @Test
   public void testFulfillmentWorkflow() throws SQLException, Exception {
-    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
-        "John Doe", "5555", "123", "2020-01-02"));
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "John Doe", "5555", "123",
+        "2020-01-02"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
@@ -123,8 +122,8 @@ public class TestDomainFacade {
 
   @Test
   public void testProductReview() throws Exception {
-    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
-        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "John Doe", "5555", "123",
+        "01-2020"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
@@ -133,8 +132,8 @@ public class TestDomainFacade {
 
   @Test
   public void testCancelOrder() throws SQLException, Exception {
-    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345",
-        "John Doe", "5555", "123", "01-2020"));
+    assertTrue(facade.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "John Doe", "5555", "123",
+        "01-2020"));
     assertTrue(facade.checkCustomerStatus("customer@email.com"));
     assertTrue(facade.addPartner("test@email.com", "test", "address", "5555"));
     assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
