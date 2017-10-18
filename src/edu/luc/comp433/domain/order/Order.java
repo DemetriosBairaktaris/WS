@@ -57,7 +57,8 @@ public interface Order {
   public void setDetails(List<OrderDetail> details);
 
   /**
-   * Sets the order's status. Only can be changed once all OrderDetails are fulfilled.
+   * Sets the order's status. Only can be changed once all OrderDetails are
+   * fulfilled.
    * 
    * @param status
    *          String

@@ -202,9 +202,8 @@ public interface DomainFacade {
    * @throws ParseException
    *           thrown by parsing the expiration
    */
-  public boolean addCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, String expiration)
-      throws SQLException, ParseException;
+  public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 
   /**
    * Checks if a customer profile is active.
@@ -241,8 +240,7 @@ public interface DomainFacade {
    * @throws SQLException
    *           thrown by DB
    */
-  public boolean updateCustomerName(String userName, String firstName, String lastName)
-      throws SQLException;
+  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException;
 
   /**
    * Updates a customer's address.
@@ -289,8 +287,8 @@ public interface DomainFacade {
    * @throws ParseException
    *           thrown by parsing expiration into date
    */
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
-      String expiration) throws SQLException, ParseException;
+  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException;
 
   /**
    * Adds a review to a specific product.
@@ -364,8 +362,8 @@ public interface DomainFacade {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
-      double cost, long stock) throws SQLException, Exception;
+  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock)
+      throws SQLException, Exception;
 
   /**
    * Updates a partner's name.
@@ -380,8 +378,7 @@ public interface DomainFacade {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean updatePartnerName(String userName, String companyName)
-      throws SQLException, Exception;
+  public boolean updatePartnerName(String userName, String companyName) throws SQLException, Exception;
 
   /**
    * Updates a partner's address.
@@ -396,8 +393,7 @@ public interface DomainFacade {
    * @throws Exception
    *           thrown by DB
    */
-  public boolean updatePartnerAddress(String userName, String address)
-      throws SQLException, Exception;
+  public boolean updatePartnerAddress(String userName, String address) throws SQLException, Exception;
 
   /**
    * Update partner's phone.

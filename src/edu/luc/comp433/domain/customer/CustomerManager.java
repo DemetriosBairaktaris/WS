@@ -38,9 +38,8 @@ public interface CustomerManager {
    * @throws SQLException
    *           errors if database not ready
    */
-  public boolean createCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, Date expiration)
-      throws SQLException;
+  public boolean createCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, Date expiration) throws SQLException;
 
   /**
    * Deletes a customer profile.
@@ -124,8 +123,8 @@ public interface CustomerManager {
    * @throws SQLException
    *           errors if database not ready
    */
-  public boolean updatePayment(String userName, String cardName, String cardNumber, String cvv,
-      Date expiration) throws SQLException;
+  public boolean updatePayment(String userName, String cardName, String cardNumber, String cvv, Date expiration)
+      throws SQLException;
 
   /**
    * Updates a customer's phone number.

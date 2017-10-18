@@ -146,8 +146,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     // It looks as if the only logical thing to change in an order is the status
     // all others (order_id, customers_user_name, order_date) are immutable.
     /**
-     * Steps 1. update (SQL) the order by updating all but primary key 2. delete all orderdetails
-     * with ^ pkey 3. insert all order details as new ones
+     * Steps 1. update (SQL) the order by updating all but primary key 2. delete all
+     * orderdetails with ^ pkey 3. insert all order details as new ones
      */
     String sql = "UPDATE ORDERS SET ORDER_STATUS = '%s' WHERE ORDER_ID = %d ; ";
     sql = String.format(sql, order.getStatus(), (int) order.getOrderId());
@@ -165,13 +165,12 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     int productId;
 
     for (OrderDetail od : order.getDetails()) {
-      productId = this.getProductId(od.getProduct().getName(),
-          od.getProduct().getCompanyUserName());
+      productId = this.getProductId(od.getProduct().getName(), od.getProduct().getCompanyUserName());
 
       String reinsertOrderDetailsSql = "INSERT INTO ORDER_DETAILS (ORDER_ID,USER_NAME,PRODUCT_ID,QUANTITY, STATUS) VALUES ("
           + "%d,'%s',%d,%d,'%s');";
-      reinsertOrderDetailsSql = String.format(reinsertOrderDetailsSql, orderId, userName, productId,
-          od.getQuantity(), od.getStatus());
+      reinsertOrderDetailsSql = String.format(reinsertOrderDetailsSql, orderId, userName, productId, od.getQuantity(),
+          od.getStatus());
       stmt.executeUpdate(reinsertOrderDetailsSql);
     }
     return true;
@@ -197,10 +196,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException { // good
 
     String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE) VALUES ( "
-        + this.wrapSingleQuotes(profile.getUserName()) + ","
-        + this.wrapSingleQuotes(profile.getName()) + ","
-        + this.wrapSingleQuotes(profile.getAddress()) + ","
-        + this.wrapSingleQuotes(profile.getPhone()) + " );";
+        + this.wrapSingleQuotes(profile.getUserName()) + "," + this.wrapSingleQuotes(profile.getName()) + ","
+        + this.wrapSingleQuotes(profile.getAddress()) + "," + this.wrapSingleQuotes(profile.getPhone()) + " );";
 
     int success = stmt.executeUpdate(sql);
     if (success == 0) {
@@ -224,8 +221,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean deletePartner(String userName) throws SQLException { // good
 
     String partnerName = userName;
-    String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = "
-        + this.wrapSingleQuotes(partnerName) + " ; ";
+    String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; ";
     int success = stmt.executeUpdate(sql);
     if (success == 0) {
       System.out.println("Unable to delete partner");
@@ -236,8 +232,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException { // good
-    String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = "
-        + this.wrapSingleQuotes(userName) + " ; ";
+    String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(userName) + " ; ";
     ResultSet rs = stmt.executeQuery(sql);
     if (!rs.next()) {
       throw new Exception("Partner does not exist");
@@ -253,10 +248,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean insertProduct(Product product) throws SQLException { // good
-    String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION,"
-        + "COST,STOCK,PARTNER_USER_NAME) VALUES (" + this.wrapSingleQuotes(product.getName()) + ","
-        + this.wrapSingleQuotes(product.getDesc()) + "," + product.getCost() + ", "
-        + product.getStock() + ", " + this.wrapSingleQuotes(product.getCompanyUserName()) + ") ; ";
+    String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION," + "COST,STOCK,PARTNER_USER_NAME) VALUES ("
+        + this.wrapSingleQuotes(product.getName()) + "," + this.wrapSingleQuotes(product.getDesc()) + ","
+        + product.getCost() + ", " + product.getStock() + ", " + this.wrapSingleQuotes(product.getCompanyUserName())
+        + ") ; ";
 
     PreparedStatement statementWithKeys = db.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -279,8 +274,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     ResultSet keys = statementWithKeys.getGeneratedKeys();
     if (keys.next()) {
       productId = keys.getInt(1);
-      reviewSql = "Insert into reviews (Product_id,review_rating,review_content) values ("
-          + "%d, %d, '%s') ; ";
+      reviewSql = "Insert into reviews (Product_id,review_rating,review_content) values (" + "%d, %d, '%s') ; ";
     } else {
       return false;
     }
@@ -328,8 +322,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @SuppressWarnings("unchecked")
   @Override // good
-  public Product getProductFromPartner(String productName, PartnerProfile profile)
-      throws SQLException {
+  public Product getProductFromPartner(String productName, PartnerProfile profile) throws SQLException {
     String sql;
     Product p = null;
     sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName)
@@ -391,8 +384,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public List<Product> getProduct(String productName) throws Exception {// good{
     String sql;
     Product p = null;
-    sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName)
-        + " ;";
+    sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName) + " ;";
     Statement newStatement = db.createStatement();
     ResultSet rs = newStatement.executeQuery(sql);
     List<Product> products = (List<Product>) context.getBean("linkedList");
@@ -434,12 +426,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
      * Steps insert into consumer insert into payment
      */
     String sql = "INSERT INTO CUSTOMERS (USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
-        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE)" + " VALUES ( "
-        + this.wrapSingleQuotes(customer.getUserName()) + ", "
-        + this.wrapSingleQuotes(customer.getFirstName()) + ", "
-        + this.wrapSingleQuotes(customer.getLastName()) + ","
-        + this.wrapSingleQuotes(customer.getAddress()) + ","
-        + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
+        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE)" + " VALUES ( " + this.wrapSingleQuotes(customer.getUserName()) + ", "
+        + this.wrapSingleQuotes(customer.getFirstName()) + ", " + this.wrapSingleQuotes(customer.getLastName()) + ","
+        + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
       db.setAutoCommit(true);
@@ -447,10 +436,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
 
     Payment p = customer.getPayment();
-    sql = "INSERT INTO CUSTOMER_PAYMENTS (USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES"
-        + "(" + this.wrapSingleQuotes(customer.getUserName()) + ","
-        + this.wrapSingleQuotes(p.getCardName()) + " ," + this.wrapSingleQuotes(p.getCardNumber())
-        + " , " + this.wrapSingleQuotes(p.getCvv()) + ", "
+    sql = "INSERT INTO CUSTOMER_PAYMENTS (USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES" + "("
+        + this.wrapSingleQuotes(customer.getUserName()) + "," + this.wrapSingleQuotes(p.getCardName()) + " ,"
+        + this.wrapSingleQuotes(p.getCardNumber()) + " , " + this.wrapSingleQuotes(p.getCvv()) + ", "
         + this.wrapSingleQuotes(p.getExpiration().toString()) + ") ; ";
 
     if (stmt.executeUpdate(sql) == 0) {
@@ -475,8 +463,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean deleteCustomer(String username) throws SQLException {
-    String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = " + this.wrapSingleQuotes(username)
-        + " ;";
+    String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = " + this.wrapSingleQuotes(username) + " ;";
     if (stmt.executeUpdate(sql) > 0) {
       return true;
     } else {
@@ -486,8 +473,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean deleteCustomer(Customer customer) throws SQLException {
-    String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = "
-        + this.wrapSingleQuotes(customer.getUserName()) + " ;";
+    String sql = "DELETE FROM CUSTOMERS WHERE USER_NAME = " + this.wrapSingleQuotes(customer.getUserName()) + " ;";
     if (stmt.executeUpdate(sql) > 0) {
       return true;
     } else {
@@ -498,8 +484,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public Customer getCustomer(String userName) throws SQLException {
     Statement newStatement = db.createStatement();
-    String getConsumerCredSql = "SELECT * FROM CUSTOMERS WHERE USER_NAME = "
-        + this.wrapSingleQuotes(userName) + " ;";
+    String getConsumerCredSql = "SELECT * FROM CUSTOMERS WHERE USER_NAME = " + this.wrapSingleQuotes(userName) + " ;";
     String getPaymentSql = "SELECT CUSTOMERS.USER_NAME,CUSTOMERS.CUSTOMER_FIRST_NAME,CUSTOMERS.CUSTOMER_LAST_NAME,"
         + "CUSTOMER_PAYMENTS.CARD_NAME,CUSTOMER_PAYMENTS.CARD_NUMBER, CUSTOMER_PAYMENTS.CVV, CUSTOMER_PAYMENTS.EXPIRATION FROM CUSTOMERS, CUSTOMER_PAYMENTS WHERE"
         + " CUSTOMERS.USER_NAME = CUSTOMER_PAYMENTS.USER_NAME AND CUSTOMERS.USER_NAME = "

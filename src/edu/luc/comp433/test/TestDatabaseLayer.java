@@ -163,10 +163,8 @@ public class TestDatabaseLayer {
     profile.setUserName("BIGDADDY@GMAIL.COM"); // change to one that does exist
     product.setCompanyUserName(profile.getUserName());
     assertTrue(dal.insertProduct(product)); // should pass :)
-    assertEquals(
-        dal.getProductFromPartner(productName, dal.getPartnerProfile(profile.getUserName()))
-            .getReviews().get(0).getReview(),
-        r.getReview());
+    assertEquals(dal.getProductFromPartner(productName, dal.getPartnerProfile(profile.getUserName())).getReviews()
+        .get(0).getReview(), r.getReview());
     assertTrue(dal.deleteProduct(product));
 
   }
@@ -188,8 +186,7 @@ public class TestDatabaseLayer {
     }
 
     for (Product p : dal.getProduct(String.valueOf(3340304))) {
-      assertTrue(
-          partners[0].equals(p.getCompanyUserName()) || partners[1].equals(p.getCompanyUserName()));
+      assertTrue(partners[0].equals(p.getCompanyUserName()) || partners[1].equals(p.getCompanyUserName()));
       assertEquals(String.valueOf(3340304), p.getName());
       assertEquals(Arrays.asList(), p.getReviews());
       assertEquals(3, p.getCost(), 2);
@@ -208,7 +205,7 @@ public class TestDatabaseLayer {
     double cost = 500000.00;
     int stock = 30;
     Product product = new ConcreteProduct();
-    
+
     List<Review> r = new LinkedList<>();
     r.add(new ConcreteReview());
     product.setName(productName);

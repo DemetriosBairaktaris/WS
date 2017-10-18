@@ -82,8 +82,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public int buyProduct(String customerName, String productName, long quantity, int orderId)
-      throws Exception {
+  public int buyProduct(String customerName, String productName, long quantity, int orderId) throws Exception {
     long newStock = 0;
     if (this.checkAvailability(productName)) {
       for (int i = 0; i < products.getProducts(productName).size(); i++) {
@@ -98,17 +97,16 @@ public class ConcreteDomainFacade implements DomainFacade {
     return -1;
   }
 
-  private int acceptPayment(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws Exception {
-    if (customers.getCustomer(customerName).getPayment().getExpiration()
-        .compareTo(currentTime) > 0) {
+  private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId)
+      throws Exception {
+    if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime) > 0) {
       return this.createOrder(companyName, customerName, productName, quantity, orderId);
     }
     return -1;
   }
 
-  private int createOrder(String companyName, String customerName, String productName,
-      long quantity, int orderId) throws Exception {
+  private int createOrder(String companyName, String customerName, String productName, long quantity, int orderId)
+      throws Exception {
     if (orderId == 0) {
       orderId = orders.createOrder(customerName);
     }
@@ -130,7 +128,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public int cancelOrder(int orderId) throws SQLException, Exception {
     int limit = orders.getOrder(orderId).getDetails().size();
-    // this is weird but the above line was giving me a null pointer when called in loop
+    // this is weird but the above line was giving me a null pointer when called in
+    // loop
     // signature...
     // here it is fine.....unclear why......
     int refund = 0;
@@ -174,13 +173,11 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean addCustomer(String userName, String firstName, String lastName, String address,
-      String phone, String cardName, String cardNumber, String cvv, String expiration)
-      throws SQLException, ParseException {
+  public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName,
-        cardNumber, cvv, date);
+    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
   }
 
   @Override
@@ -198,8 +195,7 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updateCustomerName(String userName, String firstName, String lastName)
-      throws SQLException {
+  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException {
     return customers.updateName(userName, firstName, lastName);
   }
 
@@ -214,8 +210,8 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv,
-      String expiration) throws SQLException, ParseException {
+  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException {
     DateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
@@ -239,21 +235,19 @@ public class ConcreteDomainFacade implements DomainFacade {
   }
 
   @Override
-  public boolean acceptPartnerProduct(String userName, String productName, String productDesc,
-      double cost, long stock) throws SQLException, Exception {
+  public boolean acceptPartnerProduct(String userName, String productName, String productDesc, double cost, long stock)
+      throws SQLException, Exception {
     return products.addProduct(productName, productDesc, cost, stock,
         partners.getPartnerProfile(userName).getUserName());
   }
 
   @Override
-  public boolean updatePartnerName(String userName, String companyName)
-      throws SQLException, Exception {
+  public boolean updatePartnerName(String userName, String companyName) throws SQLException, Exception {
     return partners.updateName(userName, companyName);
   }
 
   @Override
-  public boolean updatePartnerAddress(String userName, String address)
-      throws SQLException, Exception {
+  public boolean updatePartnerAddress(String userName, String address) throws SQLException, Exception {
     return partners.updateAddress(userName, address);
   }
 
@@ -267,10 +261,8 @@ public class ConcreteDomainFacade implements DomainFacade {
     List<String> partnerOrders = new LinkedList<>();
     for (int i = 0; i < partners.getOrdersFromPartner(userName).size(); i++) {
       for (int j = 0; i < partners.getOrdersFromPartner(userName).get(i).getDetails().size(); j++) {
-        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany()
-            .equals(userName)) {
-          partnerOrders
-              .add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
+        if (partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).getCompany().equals(userName)) {
+          partnerOrders.add(partners.getOrdersFromPartner(userName).get(i).getDetails().get(j).toString());
         }
       }
     }

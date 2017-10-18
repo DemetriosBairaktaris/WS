@@ -8,6 +8,6 @@ import edu.luc.comp433.service.representation.PartnerRequest;
 @WebService
 public interface PartnerService {
 
-	PartnerRepresentation insertPartner(PartnerRequest request);
+  PartnerRepresentation insertPartner(PartnerRequest request);
 
 }

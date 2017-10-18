@@ -14,13 +14,14 @@ public class PartnerRepresentation {
   private String name;
   private String address;
   private String phone;
-  
+
   public PartnerRepresentation() {
-	  userName = "" ;
-	  name = "" ;
-	  address = "" ; 
-	  phone = "" ; 
+    userName = "";
+    name = "";
+    address = "";
+    phone = "";
   }
+
   public String getUserName() {
     return userName;
   }

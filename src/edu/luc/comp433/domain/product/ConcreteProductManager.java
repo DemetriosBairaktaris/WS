@@ -11,8 +11,7 @@ import edu.luc.comp433.dal.DatabaseAccess;
 
 public class ConcreteProductManager implements ProductManager {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext(
-      "/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private DatabaseAccess database;
 
   public ConcreteProductManager() {
@@ -29,8 +28,8 @@ public class ConcreteProductManager implements ProductManager {
   }
 
   @Override
-  public boolean addProduct(String name, String desc, double cost, long stock,
-      String companyUserName) throws SQLException {
+  public boolean addProduct(String name, String desc, double cost, long stock, String companyUserName)
+      throws SQLException {
     Product product = (Product) context.getBean("product");
     List<Review> reviews = new ArrayList<>();
     product.setName(name);
@@ -44,22 +43,19 @@ public class ConcreteProductManager implements ProductManager {
 
   @Override
   public boolean deleteProduct(String companyUserName, String name) throws Exception {
-    return database.deleteProduct(
-        database.getProductFromPartner(name, database.getPartnerProfile(companyUserName)));
+    return database.deleteProduct(database.getProductFromPartner(name, database.getPartnerProfile(companyUserName)));
   }
 
   @Override
   public boolean updateStock(String companyUserName, String name, long stock) throws Exception {
-    Product product = database.getProductFromPartner(name,
-        database.getPartnerProfile(companyUserName));
+    Product product = database.getProductFromPartner(name, database.getPartnerProfile(companyUserName));
     product.setStock(stock);
     return database.updateProduct(product);
   }
 
   @Override
   public boolean updateCost(String companyUserName, String name, double cost) throws Exception {
-    Product product = database.getProductFromPartner(name,
-        database.getPartnerProfile(companyUserName));
+    Product product = database.getProductFromPartner(name, database.getPartnerProfile(companyUserName));
     product.setCost(cost);
     return database.updateProduct(product);
   }
@@ -70,16 +66,13 @@ public class ConcreteProductManager implements ProductManager {
   }
 
   @Override
-  public Product getProductFromPartner(String name, String partnerUserName)
-      throws SQLException, Exception {
+  public Product getProductFromPartner(String name, String partnerUserName) throws SQLException, Exception {
     return database.getProductFromPartner(name, database.getPartnerProfile(partnerUserName));
   }
 
   @Override
-  public boolean addReview(String companyUserName, String name, String desc, int rating)
-      throws Exception {
-    Product product = database.getProductFromPartner(name,
-        database.getPartnerProfile(companyUserName));
+  public boolean addReview(String companyUserName, String name, String desc, int rating) throws Exception {
+    Product product = database.getProductFromPartner(name, database.getPartnerProfile(companyUserName));
     Review review = (Review) context.getBean("review");
     review.setRating(rating);
     review.setReview(desc);
@@ -90,8 +83,7 @@ public class ConcreteProductManager implements ProductManager {
 
   @Override
   public List<Review> getReviews(String companyUserName, String name) throws Exception {
-    Product product = database.getProductFromPartner(name,
-        database.getPartnerProfile(companyUserName));
+    Product product = database.getProductFromPartner(name, database.getPartnerProfile(companyUserName));
     List<Review> reviews = product.getReviews();
     return reviews;
   }

@@ -5,77 +5,76 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 @XmlRootElement(name = "Product")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class ProductRepresentation {
-	private int id;
-	private String desc;
-	private double cost;
-	private long stock;
-	private String companyUserName;
-	private String name;
+  private String id;
+  private String desc;
+  private String cost;
+  private String stock;
+  private String companyUserName;
+  private String name;
 
-	public ProductRepresentation() {
-		this.name = "" ; 
-		this.companyUserName = "" ;
-		this.desc = "" ; 
-	}
+  public ProductRepresentation() {
+    this.name = "";
+    this.companyUserName = "";
+    this.desc = "";
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public int getId() {
-		return this.id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getDesc() {
-		return desc;
-	}
+  public String getDesc() {
+    return desc;
+  }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+  public void setDesc(String desc) {
+    this.desc = desc;
+  }
 
-	public double getCost() {
-		return cost;
-	}
+  public String getCost() {
+    return cost;
+  }
 
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
+  public void setCost(String cost) {
+    this.cost = cost;
+  }
 
-	public long getStock() {
-		return stock;
-	}
+  public String getStock() {
+    return stock;
+  }
 
-	public void setStock(long stock) {
-		this.stock = stock;
-	}
+  public void setStock(String stock) {
+    this.stock = stock;
+  }
 
-	public String getCompanyUserName() {
-		return companyUserName;
-	}
+  public String getCompanyUserName() {
+    return companyUserName;
+  }
 
-	public void setCompanyUserName(String companyUserName) {
-		this.companyUserName = companyUserName;
-	}
+  public void setCompanyUserName(String companyUserName) {
+    this.companyUserName = companyUserName;
+  }
 
-	@Override
-	public String toString() {
-		String output = "{name: %s,\n desc: %s,\n companyUserName: %s,\n stock: %d,\n cost: %f }";
-		output = String.format(output, this.getName(), this.getDesc(), this.getCompanyUserName(), this.getStock(),
-				this.getCost());
-		return output;
-	}
+  @Override
+  public String toString() {
+    String output = "{name: %s,\n desc: %s,\n companyUserName: %s,\n stock: %d,\n cost: %f }";
+    output = String.format(output, this.getName(), this.getDesc(), this.getCompanyUserName(), this.getStock(),
+        this.getCost());
+    return output;
+  }
 }

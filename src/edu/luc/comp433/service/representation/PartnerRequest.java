@@ -10,48 +10,48 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "")
 public class PartnerRequest {
 
-	private String userName;
-	private String name;
-	private String address;
-	private String phone;
+  private String userName;
+  private String name;
+  private String address;
+  private String phone;
 
-	public PartnerRequest() {
-		userName = "";
-		name = "";
-		address = "";
-		phone = "";
-	}
+  public PartnerRequest() {
+    userName = "";
+    name = "";
+    address = "";
+    phone = "";
+  }
 
-	public String getUserName() {
-		return userName;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public String getAddress() {
-		return address;
-	}
+  public String getAddress() {
+    return address;
+  }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+  public void setAddress(String address) {
+    this.address = address;
+  }
 
-	public String getPhone() {
-		return phone;
-	}
+  public String getPhone() {
+    return phone;
+  }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
 
 }

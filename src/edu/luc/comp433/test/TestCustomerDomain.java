@@ -71,31 +71,29 @@ public class TestCustomerDomain {
 
   @Test
   public void testCustomerCreate() throws SQLException {
-    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
-        cardNumber, cvv, expiration));
+    assertTrue(
+        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
   public void testCustomerDelete() throws SQLException {
-    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
-        cardNumber, cvv, expiration));
+    assertTrue(
+        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
   public void testCustomerUpdate() throws SQLException {
-    assertTrue(manager.createCustomer(userName, firstName, lastName, address, phone, cardName,
-        cardNumber, cvv, expiration));
+    assertTrue(
+        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertNotNull(manager.getCustomer(userName));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));
     assertTrue(manager.updatePhone(userName, "555 555-5555"));
     assertTrue(manager.getCustomer(userName).getPhone().equals("555 555-5555"));
-    assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000",
-        new Date(1747285200000L)));
-    assertTrue(
-        manager.getCustomer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
+    assertTrue(manager.updatePayment(userName, "John Doe", "5555 5555 5555 5555", "000", new Date(1747285200000L)));
+    assertTrue(manager.getCustomer(userName).getPayment().getCardNumber().equals("5555 5555 5555 5555"));
     assertTrue(manager.deleteCustomer(userName));
   }
 }
