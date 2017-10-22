@@ -40,7 +40,7 @@ public class ProductResource implements ProductService {
     return products;
   }
 
-  // TODO finish this method.
+
   @POST
   @Produces({ "application/json", "application/xml" })
   @Consumes({ "application/json", "application/xml" })
@@ -51,12 +51,22 @@ public class ProductResource implements ProductService {
       // no reason to waste a DB call if the product isn't valid.
       return null;
     }
-    // String name = request.getName();
-    // String companyUserName = request.getCompanyUserName();
-    // String desc = request.getDesc();
-    // long stock = request.getStock();
-    // float cost = (float) request.getCost();
-    return new ProductRepresentation();
+    String name = request.getName();
+    String companyUserName = request.getCompanyUserName();
+    String desc = request.getDesc();
+    long stock = request.getStock();
+    float cost = (float) request.getCost();
+    
+    ProductRepresentation representation = new ProductRepresentation();
+ 
+    try {
+    		facade.getProducts().addProduct(name, desc, cost, stock, companyUserName) ; 
+    		representation = facade.getProductFromPartner(name, companyUserName) ; 
+    }catch (Exception e) {
+    		System.out.println(e.getMessage());
+    }
+    
+    return representation ; 
 
   }
 
