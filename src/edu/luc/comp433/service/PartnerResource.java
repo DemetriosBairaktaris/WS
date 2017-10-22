@@ -33,7 +33,7 @@ public class PartnerResource implements PartnerService {
 	public PartnerRepresentation insertPartner(PartnerRequest request) {
 		response.setContentType("plain/text");
 		if (!isValid(request)) {
-			errorCode = 300; 
+			errorCode = 400; 
 			String message = "Request was not valid.  Make sure partner attributes are formatted correctly.";
 			this.sendError(errorCode,message);
 		}
@@ -49,7 +49,7 @@ public class PartnerResource implements PartnerService {
 			representation = facade.getPartnerByUserName(userName);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			errorCode = 300 ; 
+			errorCode = 400 ; 
 			String message = "Could not insert partner. ";
 			this.sendError(errorCode, message);
 		}
