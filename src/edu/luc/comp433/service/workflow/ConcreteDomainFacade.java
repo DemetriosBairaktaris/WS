@@ -7,15 +7,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 
@@ -98,7 +102,8 @@ public class ConcreteDomainFacade implements DomainFacade {
 		long newStock = 0;
 		if (this.checkAvailability(productName)) {
 			for (int i = 0; i < products.getProducts(productName).size(); i++) {
-				if (products.getProducts(productName).get(i).getStock() > quantity) {
+				if (products.getProducts(productName).get(i).getStock() > quantity) { // i guess you want greater or
+																						// equal?
 					newStock = products.getProducts(productName).get(i).getStock() - quantity;
 					String companyName = products.getProducts(productName).get(i).getCompanyUserName();
 					products.updateStock(companyName, productName, newStock);
@@ -130,6 +135,37 @@ public class ConcreteDomainFacade implements DomainFacade {
 			}
 		}
 		return -1;
+	}
+
+	@Override
+	public OrderRepresentation getOrderById(int orderId) {
+		OrderRepresentation representation;
+		Order order = null;
+		try {
+			order = orders.getOrder(orderId);
+			System.out.println("Pos1: timestamp==" + order.getTimestamp());
+			//at this point it is null
+		} catch (Exception e) {
+
+		}
+		representation = this.assembleOrderToRepresentation(order);
+		return representation;
+	}
+	
+	@Override
+	public List<OrderRepresentation> getOrdersFromPartner(String partnerUserName){
+		List<OrderRepresentation> representations = new LinkedList<>() ; 
+		List<Order> orders = Arrays.asList() ;
+		try {
+			orders = partners.getOrdersFromPartner(partnerUserName) ; 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		for(Order order : orders) {
+			representations.add(this.assembleOrderToRepresentation(order));
+		}
+		
+		return representations ; 
 	}
 
 	@Override
@@ -276,11 +312,32 @@ public class ConcreteDomainFacade implements DomainFacade {
 		}
 		return partnerOrders.toString();
 	}
+
 	@Override
 	public PartnerRepresentation getPartnerByUserName(String userName) throws SQLException, Exception {
-		PartnerProfile partner = partners.getPartnerProfile(userName) ; 
-		PartnerRepresentation representation = this.assemblePartnerToRepresentation(partner) ; 
-		return representation ; 
+		PartnerProfile partner = partners.getPartnerProfile(userName);
+		PartnerRepresentation representation = this.assemblePartnerToRepresentation(partner);
+		return representation;
+	}
+
+	/**
+	 * Method to assemble order from below
+	 * 
+	 * @param order
+	 * @return
+	 */
+	private OrderRepresentation assembleOrderToRepresentation(Order order) {
+		OrderRepresentation representation = new OrderRepresentation();
+		if (order == null) {
+			// if order wasn't found set id to one and the above layer will check
+			representation.setOrderId(-1);
+		} else {
+			representation.setCustomer(order.getCustomer());
+			representation.setOrderId(order.getOrderId());
+			representation.setStatus(order.getStatus());
+			representation.setTimestamp(order.getTimestamp().toString());
+		}
+		return representation;
 	}
 
 	/**
@@ -299,21 +356,22 @@ public class ConcreteDomainFacade implements DomainFacade {
 		currentProduct.setStock(product.getStock());
 		return currentProduct;
 	}
+
 	/**
 	 * 
 	 * @param partner
 	 * @return
 	 */
 	private PartnerRepresentation assemblePartnerToRepresentation(PartnerProfile partner) {
-		PartnerRepresentation representation = new PartnerRepresentation () ; 
-		String userName = partner.getUserName() ;
-		String companyName = partner.getName() ; 
-		String phone = partner.getPhone() ; 
-		String address = partner.getAddress() ; 
+		PartnerRepresentation representation = new PartnerRepresentation();
+		String userName = partner.getUserName();
+		String companyName = partner.getName();
+		String phone = partner.getPhone();
+		String address = partner.getAddress();
 		representation.setUserName(userName);
 		representation.setName(companyName);
 		representation.setPhone(phone);
 		representation.setAddress(address);
-		return representation ; 		
+		return representation;
 	}
 }

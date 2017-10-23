@@ -8,6 +8,7 @@ import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 
@@ -443,4 +444,18 @@ public interface DomainFacade {
 	 * @throws Exception
 	 */
 	public PartnerRepresentation getPartnerByUserName(String userName) throws SQLException, Exception;
+
+	/**
+	 * 
+	 * @param orderId
+	 * @return
+	 */
+	OrderRepresentation getOrderById(int orderId);
+
+	/**
+	 * 
+	 * @param partnerUserName
+	 * @return
+	 */
+	List<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
 }
