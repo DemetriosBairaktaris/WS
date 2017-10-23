@@ -167,6 +167,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 		
 		return representations ; 
 	}
+	
 
 	@Override
 	public boolean fulfillOrder(int orderId) throws SQLException, Exception {

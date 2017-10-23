@@ -10,4 +10,6 @@ public interface OrderService {
 
 	Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
 
+	void deleteOrder(int orderId);
+
 }

@@ -1,10 +1,8 @@
 package edu.luc.comp433.service;
 
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -20,6 +18,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.OrderRepresentation;
+import edu.luc.comp433.service.representation.OrderRequest;
 import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
 import edu.luc.comp433.service.workflow.DomainFacade;
 
@@ -36,9 +35,9 @@ public class OrderResource implements OrderService {
 	@POST
 	@Consumes({ "application/json", "application/xml" })
 	@Produces({ "application/json", "application/xml" })
-	public void insertOrder() {
-		// TODO: update return type to orderRep
-		// Implement method
+	public OrderRepresentation insertOrder(OrderRequest request) throws SQLException {
+		//TODO: finish
+		return null; 
 	}
 
 	@GET
@@ -60,13 +59,21 @@ public class OrderResource implements OrderService {
 	@Path("/{orderId}")
 	@Consumes({ "application/json", "application/xml" })
 	@Produces({ "application/json", "application/xml" })
-	public void deleteOrder() {
-		// TODO: update return type
-		// implement method
+	@Override
+	public void deleteOrder(@PathParam("orderId") int orderId) {
+		try {
+			facade.cancelOrder(orderId);
+		} catch (Exception e) {
+			errorCode = 400 ; 
+			String message = "unable to cancel order with orderId = " + orderId;
+			this.sendError(errorCode, message);
+		} 
+		String message = "Order cancelled" ; 
+		this.sendSuccess(message);
 	}
 
 	@GET
-	@Path("/order/partner/{partnerUserName}")
+	@Path("/partner/{partnerUserName}")
 	@Consumes({ "application/json", "application/xml" })
 	@Produces({ "application/json", "application/xml" })
 	@Override
@@ -76,6 +83,16 @@ public class OrderResource implements OrderService {
 
 	private void sendError(int errorCode, String message) {
 		String fullMessage = "Error: " + errorCode + " " + message;
+		try {
+			response.getOutputStream().print(fullMessage);
+			response.getOutputStream().flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sendSuccess(String message) {
+		String fullMessage = "Success: " + message ; 
 		try {
 			response.getOutputStream().print(fullMessage);
 			response.getOutputStream().flush();
