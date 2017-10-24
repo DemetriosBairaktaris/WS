@@ -16,6 +16,7 @@
 			<ref bean="productResource" />
 			<ref bean="partnerResource" />
 			<ref bean="orderResource" />
+			<ref bean="customerResource" />
 		</jaxrs:serviceBeans>
 
 		<!-- Representations and Requests objects here -->
@@ -25,6 +26,8 @@
 			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.PartnerRepresentation</jaxrs:schemaLocation>
 			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.PartnerRequest</jaxrs:schemaLocation>
 			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.OrderRepresentation</jaxrs:schemaLocation>
+			<jaxrs:schemaLocation>edu.luc.comp443.service.representation.CustomerRepresentation</jaxrs:schemaLocation>
+			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.CustomerRequest</jaxrs:schemaLocation>
 			<jaxrs:schemaLocation>java.util.HashSet</jaxrs:schemaLocation>
 			<jaxrs:schemaLocation>java.sql.Date</jaxrs:schemaLocation>
 		</jaxrs:schemaLocations>
@@ -32,6 +35,7 @@
 	<bean id="productResource" class="edu.luc.comp433.service.ProductResource" />
 	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource" />
 	<bean id="orderResource" class="edu.luc.comp433.service.OrderResource" />
+	<bean id="customerResource" class="edu.luc.comp433.service.CustomerResource" />
 
 
 </beans>
