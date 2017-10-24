@@ -102,8 +102,7 @@ public class ConcreteDomainFacade implements DomainFacade {
 		long newStock = 0;
 		if (this.checkAvailability(productName)) {
 			for (int i = 0; i < products.getProducts(productName).size(); i++) {
-				if (products.getProducts(productName).get(i).getStock() > quantity) { // i guess you want greater or
-																						// equal?
+				if (products.getProducts(productName).get(i).getStock() >= quantity) { 
 					newStock = products.getProducts(productName).get(i).getStock() - quantity;
 					String companyName = products.getProducts(productName).get(i).getCompanyUserName();
 					products.updateStock(companyName, productName, newStock);

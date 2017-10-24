@@ -11,15 +11,47 @@ import javax.xml.bind.annotation.XmlType;
 public class OrderRequest {
 
   private String customer;
+  private String partner; 
+  private String productName;
+  private int quantity ;
   
   public OrderRequest() {
 	  this.customer = null ; 
+	  this.partner = null ; 
+	  this.productName = null ; 
+	  this.quantity = 0 ;
   }
-  public void setCustomer(String customer) {
-	  this.customer = customer ;
-  }
-  
-  public String getCustomer(){
-	  return this.customer ; 
-  }
+
+public String getCustomer() {
+	return customer;
+}
+
+public void setCustomer(String customer) {
+	this.customer = customer;
+}
+
+public String getPartner() {
+	return partner;
+}
+
+public void setPartner(String partner) {
+	this.partner = partner;
+}
+
+public String getProductName() {
+	return productName;
+}
+
+public void setProductName(String productName) {
+	this.productName = productName;
+}
+
+public int getQuantity() {
+	return quantity;
+}
+
+public void setQuantity(int quantity) {
+	this.quantity = quantity;
+}
+
 }
