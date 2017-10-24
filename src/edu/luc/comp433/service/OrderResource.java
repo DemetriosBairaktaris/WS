@@ -45,6 +45,7 @@ public class OrderResource implements OrderService {
 			errorCode = 400;
 			String message = "Invalid order request.";
 			this.sendError(errorCode, message);
+			return null;
 		}
 		int currentOrderId = 0 ; 
 		for (OrderRequest singleRequest : request) {
@@ -54,7 +55,6 @@ public class OrderResource implements OrderService {
 				//each subsequent order after the first should have currentOrderId set to a non-zero value
 				int orderId = facade.buyProduct(singleRequest.getCustomer(), singleRequest.getProductName(),
 						singleRequest.getQuantity(), currentOrderId);
-				System.out.println(singleRequest.getCustomer());
 				if (orderId == -1) {
 					throw new Exception();
 				}
@@ -65,6 +65,7 @@ public class OrderResource implements OrderService {
 				errorCode = 400;
 				String message = "Unable to purchase item " + singleRequest.getProductName();
 				this.sendError(errorCode, message);
+				return null ; 
 			}
 		}
 		
@@ -151,6 +152,7 @@ public class OrderResource implements OrderService {
 		for (OrderRequest request : requests) {
 			if (request.getQuantity() < 1) {
 				result = false;
+				break ; 
 			}
 		}
 		return result;

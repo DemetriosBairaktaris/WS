@@ -100,25 +100,43 @@ public class ConcreteDomainFacade implements DomainFacade {
 	@Override
 	public int buyProduct(String customerName, String productName, long quantity, int orderId) throws Exception {
 		long newStock = 0;
+		int success = -1 ;
 		if (this.checkAvailability(productName)) {
 			for (int i = 0; i < products.getProducts(productName).size(); i++) {
 				if (products.getProducts(productName).get(i).getStock() >= quantity) { 
 					newStock = products.getProducts(productName).get(i).getStock() - quantity;
 					String companyName = products.getProducts(productName).get(i).getCompanyUserName();
 					products.updateStock(companyName, productName, newStock);
-					return this.acceptPayment(companyName, customerName, productName, quantity, orderId);
+					int paymentResult = this.acceptPayment(companyName, customerName, productName, quantity, orderId);
+					if (paymentResult < 1 ) {
+						this.cancelOrder(orderId) ;  //this should handle all the rollback if payment doesnt go through
+						
+						break ; 
+					}
+					else {
+						success = paymentResult ; 
+						break ; 
+					}
+				}
+				else {
+					this.cancelOrder(orderId);
+					success = -1 ; 
 				}
 			}
 		}
-		return -1;
+		return success; 
 	}
 
-	private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId)
-			throws Exception {
-		if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime) > 0) {
-			return this.createOrder(companyName, customerName, productName, quantity, orderId);
+	private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId){
+		int result = -1 ;
+		try {
+			if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime) > 0) {
+				result =  this.createOrder(companyName, customerName, productName, quantity, orderId);
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-		return -1;
+		return result ; 
 	}
 
 	private int createOrder(String companyName, String customerName, String productName, long quantity, int orderId)
@@ -142,8 +160,6 @@ public class ConcreteDomainFacade implements DomainFacade {
 		Order order = null;
 		try {
 			order = orders.getOrder(orderId);
-			System.out.println("Pos1: timestamp==" + order.getTimestamp());
-			//at this point it is null
 		} catch (Exception e) {
 
 		}
@@ -189,9 +205,9 @@ public class ConcreteDomainFacade implements DomainFacade {
 					}
 				}
 				refund = this.refund(orderId);
-				orders.cancelOrder(orderId);
 				products.updateStock(companyName, name, stock);
 			}
+			orders.cancelOrder(orderId);
 			return refund;
 		} else {
 			return -1;

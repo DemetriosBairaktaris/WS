@@ -311,12 +311,24 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean updateProduct(Product product) throws SQLException { // good
-    if (this.deleteProduct(product)) {
-      return insertProduct(product);
-    } else {
-      return false;
-    }
+  public boolean updateProduct(Product product) throws SQLException {
+	  boolean ableToUpdate = true ;
+	  String name = product.getName();
+	  String companyUserName = product.getCompanyUserName();
+	  long stock = product.getStock() ;
+	  double cost = product.getCost();
+	  String desc = product.getDesc() ; 
+	  List<Review> reviews = product.getReviews();
+	  
+	  String sql = "UPDATE PRODUCTS SET STOCK = %d, COST = %f, DESCRIPTION = '%s' "+
+			  "WHERE PRODUCT_NAME = '%s' and PARTNER_USER_NAME = '%s' ; " ;
+	  System.out.println(sql);
+	  sql = String.format(sql, stock,cost,desc,name,companyUserName);
+	  //TODO: update the reviews, for now just ignore, not important. 
+	  Statement newStatement = db.createStatement() ; 
+	  int numberOfRowsChanged = newStatement.executeUpdate(sql) ; 
+	  ableToUpdate = (numberOfRowsChanged == 0) ? false : true ;
+	  return ableToUpdate ; 
   }
 
   @SuppressWarnings("unchecked")
