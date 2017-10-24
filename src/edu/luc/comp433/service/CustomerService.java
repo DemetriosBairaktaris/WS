@@ -6,9 +6,23 @@ import javax.jws.WebService;
 
 import edu.luc.comp433.service.representation.CustomerRequest;
 
+/**
+ * Interface for the customer web service.
+ * 
+ * @author Thaddeus and Demetrios
+ *
+ */
 @WebService
 public interface CustomerService {
 
+  /**
+   * Inserts a customer to the database from an API call.
+   * 
+   * @param request
+   *          CustomerRequest
+   * @throws ParseException
+   *           thrown if parse errors
+   */
   public void insertCustomer(CustomerRequest request) throws ParseException;
 
 }

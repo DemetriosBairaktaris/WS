@@ -15,14 +15,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.CustomerRequest;
-import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
-import edu.luc.comp433.service.workflow.DomainFacade;
+import edu.luc.comp433.service.workflow.ConcreteCustomerActivity;
+import edu.luc.comp433.service.workflow.CustomerActivity;
 
 @Path("/customer/")
 public class CustomerResource implements CustomerService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
+  private CustomerActivity activity = (ConcreteCustomerActivity) context.getBean("customerActivity");
 
   @Context
   private HttpServletResponse response;
@@ -54,7 +54,7 @@ public class CustomerResource implements CustomerService {
     Date date = format.parse(expiration);
 
     try {
-      facade.getCustomers().createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+      activity.getCustomers().createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
           date);
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -85,9 +85,12 @@ public class CustomerResource implements CustomerService {
   }
 
   /**
+   * Sends an error code.
    * 
    * @param errorCode
+   *          error code number
    * @param message
+   *          message to be sent
    */
   private void sendError(int errorCode, String message) {
     String fullMessage = "Error: " + errorCode + " " + message;
@@ -99,6 +102,12 @@ public class CustomerResource implements CustomerService {
     }
   }
 
+  /**
+   * Sends a successful message.
+   * 
+   * @param message
+   *          message to be sent
+   */
   private void sendSuccess(String message) {
     String fullMessage = "Success: " + message;
     try {

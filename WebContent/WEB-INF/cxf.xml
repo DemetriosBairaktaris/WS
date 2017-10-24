@@ -11,6 +11,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 
+	<!-- Service setup -->
 	<jaxrs:server name="ShoppingService" address="http://localhost:8081">
 		<jaxrs:serviceBeans>
 			<ref bean="productResource" />
@@ -19,7 +20,7 @@
 			<ref bean="customerResource" />
 		</jaxrs:serviceBeans>
 
-		<!-- Representations and Requests objects here -->
+		<!-- Schema Representations and Requests objects here -->
 		<jaxrs:schemaLocations>
 			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRepresentation</jaxrs:schemaLocation>
 			<jaxrs:schemaLocation>edu.luc.comp433.service.representation.ProductRequest</jaxrs:schemaLocation>
@@ -32,10 +33,11 @@
 			<jaxrs:schemaLocation>java.sql.Date</jaxrs:schemaLocation>
 		</jaxrs:schemaLocations>
 	</jaxrs:server>
+
+	<!-- Resource object classes -->
 	<bean id="productResource" class="edu.luc.comp433.service.ProductResource" />
 	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource" />
 	<bean id="orderResource" class="edu.luc.comp433.service.OrderResource" />
 	<bean id="customerResource" class="edu.luc.comp433.service.CustomerResource" />
-
 
 </beans>
