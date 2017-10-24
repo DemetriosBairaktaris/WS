@@ -99,6 +99,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     return orders;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Order getOrder(double orderId) throws Exception {
     int oId = (int) orderId;
@@ -110,7 +111,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     if (rs.next()) {
       o.setOrderId(rs.getInt(1));
       o.setCustomer(rs.getString(2));
-      o.setTimestamp(Date.valueOf(rs.getDate(3).toLocalDate())) ; 
+      o.setTimestamp(Date.valueOf(rs.getDate(3).toLocalDate()));
       o.setStatus(rs.getString(4));
     } else {
       return null;
@@ -312,23 +313,23 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updateProduct(Product product) throws SQLException {
-	  boolean ableToUpdate = true ;
-	  String name = product.getName();
-	  String companyUserName = product.getCompanyUserName();
-	  long stock = product.getStock() ;
-	  double cost = product.getCost();
-	  String desc = product.getDesc() ; 
-	  List<Review> reviews = product.getReviews();
-	  
-	  String sql = "UPDATE PRODUCTS SET STOCK = %d, COST = %f, DESCRIPTION = '%s' "+
-			  "WHERE PRODUCT_NAME = '%s' and PARTNER_USER_NAME = '%s' ; " ;
-	  System.out.println(sql);
-	  sql = String.format(sql, stock,cost,desc,name,companyUserName);
-	  //TODO: update the reviews, for now just ignore, not important. 
-	  Statement newStatement = db.createStatement() ; 
-	  int numberOfRowsChanged = newStatement.executeUpdate(sql) ; 
-	  ableToUpdate = (numberOfRowsChanged == 0) ? false : true ;
-	  return ableToUpdate ; 
+    boolean ableToUpdate = true;
+    String name = product.getName();
+    String companyUserName = product.getCompanyUserName();
+    long stock = product.getStock();
+    double cost = product.getCost();
+    String desc = product.getDesc();
+    // List<Review> reviews = product.getReviews();
+
+    String sql = "UPDATE PRODUCTS SET STOCK = %d, COST = %f, DESCRIPTION = '%s' "
+        + "WHERE PRODUCT_NAME = '%s' and PARTNER_USER_NAME = '%s' ; ";
+    System.out.println(sql);
+    sql = String.format(sql, stock, cost, desc, name, companyUserName);
+    // TODO: update the reviews, for now just ignore, not important.
+    Statement newStatement = db.createStatement();
+    int numberOfRowsChanged = newStatement.executeUpdate(sql);
+    ableToUpdate = (numberOfRowsChanged == 0) ? false : true;
+    return ableToUpdate;
   }
 
   @SuppressWarnings("unchecked")

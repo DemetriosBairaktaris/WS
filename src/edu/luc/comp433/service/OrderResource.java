@@ -25,137 +25,140 @@ import edu.luc.comp433.service.workflow.DomainFacade;
 @Path("/order/")
 public class OrderResource implements OrderService {
 
-	private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-	private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
 
-	@Context
-	private HttpServletResponse response;
-	private int errorCode;
+  @Context
+  private HttpServletResponse response;
+  private int errorCode;
 
-	@POST
-	@Consumes({ "application/json", "application/xml" })
-	@Produces({ "application/json", "application/xml" })
-	@Override
-	public OrderRepresentation insertOrder(Set<OrderRequest> request) throws SQLException {
-		OrderRepresentation representation = new OrderRepresentation();
-		/**
-		 * Steps: 3: get the representation and return
-		 */
-		if (!this.isValid(request)) {
-			errorCode = 400;
-			String message = "Invalid order request.";
-			this.sendError(errorCode, message);
-			return null;
-		}
-		int currentOrderId = 0 ; 
-		for (OrderRequest singleRequest : request) {
-			try {
-				//passing in zero for orderId first to guarentee new order creation, otherwise it
-				//updates an existing order
-				//each subsequent order after the first should have currentOrderId set to a non-zero value
-				int orderId = facade.buyProduct(singleRequest.getCustomer(), singleRequest.getProductName(),
-						singleRequest.getQuantity(), currentOrderId);
-				if (orderId == -1) {
-					throw new Exception();
-				}
-				currentOrderId = orderId ; 
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-				errorCode = 400;
-				String message = "Unable to purchase item " + singleRequest.getProductName();
-				this.sendError(errorCode, message);
-				return null ; 
-			}
-		}
-		
-		representation = facade.getOrderById(currentOrderId) ; 
-		return representation ; 
-	}
+  @POST
+  @Consumes({ "application/json", "application/xml" })
+  @Produces({ "application/json", "application/xml" })
+  @Override
+  public OrderRepresentation insertOrder(Set<OrderRequest> request) throws SQLException {
+    OrderRepresentation representation = new OrderRepresentation();
+    /**
+     * Steps: 3: get the representation and return
+     */
+    if (!this.isValid(request)) {
+      errorCode = 400;
+      String message = "Invalid order request.";
+      this.sendError(errorCode, message);
+      return null;
+    }
+    int currentOrderId = 0;
+    for (OrderRequest singleRequest : request) {
+      try {
+        // passing in zero for orderId first to guarantee new order creation, otherwise
+        // it
+        // updates an existing order
+        // each subsequent order after the first should have currentOrderId set to a
+        // non-zero value
+        int orderId = facade.buyProduct(singleRequest.getCustomer(), singleRequest.getProductName(),
+            singleRequest.getQuantity(), currentOrderId);
+        if (orderId == -1) {
+          throw new Exception();
+        }
+        currentOrderId = orderId;
 
-	@GET
-	@Path("/{orderId}")
-	@Produces({ "application/json", "application/xml" })
-	@Override
-	public OrderRepresentation getOrder(@PathParam("orderId") int orderId) {
-		OrderRepresentation representation = facade.getOrderById(orderId);
-		if (representation.getOrderId() == -1) {
-			errorCode = 404;
-			String message = "Could not find resource with orderId = " + orderId;
-			this.sendError(errorCode, message);
-		}
-		return representation;
-		// TODO: update to send back details
-	}
+      } catch (Exception e) {
+        e.printStackTrace();
+        errorCode = 400;
+        String message = "Unable to purchase item " + singleRequest.getProductName();
+        this.sendError(errorCode, message);
+        return null;
+      }
+    }
 
-	@DELETE
-	@Path("/{orderId}")
-	@Consumes({ "application/json", "application/xml" })
-	@Override
-	public void deleteOrder(@PathParam("orderId") int orderId) {
-		try {
-			facade.cancelOrder(orderId);
-		} catch (Exception e) {
-			errorCode = 400;
-			String message = "unable to cancel order with orderId = " + orderId;
-			this.sendError(errorCode, message);
-		}
-		String message = "Order cancelled";
-		this.sendSuccess(message);
-	}
+    representation = facade.getOrderById(currentOrderId);
+    return representation;
+  }
 
-	@GET
-	@Path("/partner/{partnerUserName}")
-	@Produces({ "application/json", "application/xml" })
-	@Override
-	public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
-		return new HashSet<OrderRepresentation>(facade.getOrdersFromPartner(partnerUserName));
-	}
+  @GET
+  @Path("/{orderId}")
+  @Produces({ "application/json", "application/xml" })
+  @Override
+  public OrderRepresentation getOrder(@PathParam("orderId") int orderId) {
+    OrderRepresentation representation = facade.getOrderById(orderId);
+    if (representation.getOrderId() == -1) {
+      errorCode = 404;
+      String message = "Could not find resource with orderId = " + orderId;
+      this.sendError(errorCode, message);
+    }
+    return representation;
+    // TODO: update to send back details
+  }
 
-	private void sendError(int errorCode, String message) {
-		String fullMessage = "Error: " + errorCode + " " + message;
-		try {
-			response.getOutputStream().print(fullMessage);
-			response.getOutputStream().flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+  @DELETE
+  @Path("/{orderId}")
+  @Consumes({ "application/json", "application/xml" })
+  @Override
+  public void deleteOrder(@PathParam("orderId") int orderId) {
+    try {
+      facade.cancelOrder(orderId);
+    } catch (Exception e) {
+      errorCode = 400;
+      String message = "unable to cancel order with orderId = " + orderId;
+      this.sendError(errorCode, message);
+    }
+    String message = "Order cancelled";
+    this.sendSuccess(message);
+  }
 
-		// TODO: update to send back details
-	}
+  @GET
+  @Path("/partner/{partnerUserName}")
+  @Produces({ "application/json", "application/xml" })
+  @Override
+  public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
+    return new HashSet<OrderRepresentation>(facade.getOrdersFromPartner(partnerUserName));
+  }
 
-	private void sendSuccess(String message) {
-		String fullMessage = "Success: " + message;
-		try {
-			response.getOutputStream().print(fullMessage);
-			response.getOutputStream().flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+  private void sendError(int errorCode, String message) {
+    String fullMessage = "Error: " + errorCode + " " + message;
+    try {
+      response.getOutputStream().print(fullMessage);
+      response.getOutputStream().flush();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-	private boolean isValid(OrderRequest request) {
-		boolean result = true;
-		if (request == null) {
-			result = false;
-		} else if (request.getQuantity() < 0) {
-			result = false;
-		}
-		return result;
-	}
+    // TODO: update to send back details
+  }
 
-	private boolean isValid(Set<OrderRequest> requests) {
-		boolean result = true;
-		if (requests == null) {
-			result = false;
-		}
-		for (OrderRequest request : requests) {
-			if (request.getQuantity() < 1) {
-				result = false;
-				break ; 
-			}
-		}
-		return result;
-	}
+  private void sendSuccess(String message) {
+    String fullMessage = "Success: " + message;
+    try {
+      response.getOutputStream().print(fullMessage);
+      response.getOutputStream().flush();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  // TODO add this back when used
+  // private boolean isValid(OrderRequest request) {
+  // boolean result = true;
+  // if (request == null) {
+  // result = false;
+  // } else if (request.getQuantity() < 0) {
+  // result = false;
+  // }
+  // return result;
+  // }
+
+  private boolean isValid(Set<OrderRequest> requests) {
+    boolean result = true;
+    if (requests == null) {
+      result = false;
+    }
+    for (OrderRequest request : requests) {
+      if (request.getQuantity() < 1) {
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
 
 }
