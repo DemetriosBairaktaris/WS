@@ -74,5 +74,8 @@
 		scope="prototype">
 		<property name="customers" ref="customerManager" />
 	</bean>
+	
+	<!-- Representations -->
+	<bean id="customerRepresentation" class="edu.luc.comp433.service.representation.CustomerRepresentation" />
 
 </beans>
