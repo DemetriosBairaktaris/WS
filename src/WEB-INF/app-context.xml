@@ -77,5 +77,6 @@
 	
 	<!-- Representations -->
 	<bean id="customerRepresentation" class="edu.luc.comp433.service.representation.CustomerRepresentation" />
+	<bean id="productRepresentation" class="edu.luc.comp433.service.representation.ProductRepresentation" />
 
 </beans>
