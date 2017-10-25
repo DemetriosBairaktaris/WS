@@ -1,15 +1,10 @@
 package edu.luc.comp433.service.workflow;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
@@ -22,21 +17,11 @@ import edu.luc.comp433.service.representation.ProductRepresentation;
 
 public class ConcreteDomainFacade implements DomainFacade {
 
-  private CustomerManager customers;
   private PartnerManager partners;
   private OrderManager orders;
   private ProductManager products;
-  private Date currentTime = new Date(System.currentTimeMillis());
 
   public ConcreteDomainFacade() {
-  }
-
-  public CustomerManager getCustomers() {
-    return customers;
-  }
-
-  public void setCustomers(CustomerManager customers) {
-    this.customers = customers;
   }
 
   public PartnerManager getPartners() {
@@ -125,9 +110,12 @@ public class ConcreteDomainFacade implements DomainFacade {
   private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId) {
     int result = -1;
     try {
-      if (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime) > 0) {
-        result = this.createOrder(companyName, customerName, productName, quantity, orderId);
-      }
+      // removed to bypass need for customer activity temporarily
+      // if
+      // (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime)
+      // > 0) {
+      result = this.createOrder(companyName, customerName, productName, quantity, orderId);
+      // }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -224,51 +212,6 @@ public class ConcreteDomainFacade implements DomainFacade {
   @Override
   public String getOrderStatus(int orderId) throws SQLException, Exception {
     return orders.getOrder(orderId).getStatus();
-  }
-
-  @Override
-  public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
-    SimpleDateFormat format = new SimpleDateFormat("MM-yy");
-    Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
-  }
-
-  @Override
-  public boolean checkCustomerStatus(String userName) throws SQLException {
-    if (customers.getCustomer(userName) != null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @Override
-  public boolean deleteCustomer(String userName) throws SQLException {
-    return customers.deleteCustomer(userName);
-  }
-
-  @Override
-  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException {
-    return customers.updateName(userName, firstName, lastName);
-  }
-
-  @Override
-  public boolean updateCustomerAddress(String userName, String address) throws SQLException {
-    return customers.updateAddress(userName, address);
-  }
-
-  @Override
-  public boolean updateCustomerPhone(String userName, String phone) throws SQLException {
-    return customers.updatePhone(userName, phone);
-  }
-
-  @Override
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
-      throws SQLException, ParseException {
-    DateFormat format = new SimpleDateFormat("MM-yy");
-    Date date = format.parse(expiration);
-    return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
   }
 
   @Override

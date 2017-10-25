@@ -6,8 +6,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -38,7 +36,7 @@ public class CustomerResource implements CustomerService {
   public Response insertCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
       System.out.println("Invalid input.");
-      return Response.status(Status.BAD_REQUEST).build();
+      return Response.status(Status.BAD_REQUEST).entity("Invalid input formatting.").build();
     }
 
     String userName = request.getUserName();
@@ -50,16 +48,13 @@ public class CustomerResource implements CustomerService {
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
     String expiration = request.getExpiration();
-    SimpleDateFormat format = new SimpleDateFormat("MM-yy");
-    Date date = format.parse(expiration);
 
     try {
       System.out.println("Creating customer...");
-      activity.getCustomers().createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
-          date);
+      activity.addCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
     }
     System.out.println("Customer created successfully.");
     return Response.ok().build();
