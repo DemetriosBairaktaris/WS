@@ -2,6 +2,8 @@ package edu.luc.comp433.service;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,18 +16,15 @@ import javax.ws.rs.POST;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import edu.luc.comp433.service.handler.ServerHandler;
-import edu.luc.comp433.service.handler.ConcreteServerHandler;
 import edu.luc.comp433.service.representation.CustomerRequest;
 import edu.luc.comp433.service.workflow.ConcreteCustomerActivity;
 import edu.luc.comp433.service.workflow.CustomerActivity;
 
-@Path("/customer/")
+@Path("/customers/")
 public class CustomerResource implements CustomerService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private CustomerActivity activity = (ConcreteCustomerActivity) context.getBean("customerActivity");
-  private ServerHandler handler = (ConcreteServerHandler) context.getBean("handler");
 
   @Context
   private HttpServletResponse response;
@@ -36,11 +35,10 @@ public class CustomerResource implements CustomerService {
   @POST
   @Consumes({ "application/json", "application/xml" })
   @Override
-  public void insertCustomer(CustomerRequest request) throws ParseException {
-    if (!handler.isValid(request)) {
+  public Response insertCustomer(CustomerRequest request) throws ParseException {
+    if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
       System.out.println("Invalid input.");
-      String message = "Unable to insert customer; user name or card number invalid.";
-      handler.sendError(message, response);
+      return Response.status(Status.BAD_REQUEST).build();
     }
 
     String userName = request.getUserName();
@@ -61,12 +59,9 @@ public class CustomerResource implements CustomerService {
           date);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      String message = "Can't create customer.";
-      handler.sendError(message, response);
-      return;
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     System.out.println("Customer created successfully.");
-    String message = "Customer created.";
-    handler.sendSuccess(message, response);
+    return Response.ok().build();
   }
 }

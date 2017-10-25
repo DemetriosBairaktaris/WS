@@ -3,6 +3,7 @@ package edu.luc.comp433.service;
 import java.text.ParseException;
 
 import javax.jws.WebService;
+import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.service.representation.CustomerRequest;
 
@@ -23,6 +24,6 @@ public interface CustomerService {
    * @throws ParseException
    *           thrown if parse errors
    */
-  public void insertCustomer(CustomerRequest request) throws ParseException;
+  public Response insertCustomer(CustomerRequest request) throws ParseException;
 
 }

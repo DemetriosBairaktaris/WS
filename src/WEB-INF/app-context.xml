@@ -76,8 +76,4 @@
 		<property name="customers" ref="customerManager" />
 	</bean>
 
-	<!-- Server Handler -->
-	<bean id="handler" class="edu.luc.comp433.service.handler.ConcreteServerHandler"
-		scope="prototype" />
-
 </beans>
