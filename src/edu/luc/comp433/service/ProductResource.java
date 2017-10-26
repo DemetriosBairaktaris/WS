@@ -47,22 +47,13 @@ public class ProductResource implements ProductService {
 	@Path("/{productName}/reviews")
 
 	public Set<ReviewRepresentation> getProductReviews(@PathParam("productName") String productName) {
-		Set<ReviewRepresentation> representations = new HashSet<>();
+		Set<ReviewRepresentation> representations = null;
 		try {
-			List<Product> products = facade.getProducts().getProducts(productName);
-			for (Product p : products) {
-				for (Review review : p.getReviews()) {
-					ReviewRepresentation r = new ReviewRepresentation();
-					r.setRating(review.getRating());
-					r.setReview(review.getReview());
-					representations.add(r);
-				}
-
-			}
+			representations = new HashSet<> (facade.getReviews(productName));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} 
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}	
 		return representations;
 	}
 

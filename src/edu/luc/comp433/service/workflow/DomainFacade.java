@@ -9,6 +9,7 @@ import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
+import edu.luc.comp433.service.representation.ReviewRepresentation;
 
 /**
  * This class sets up the facade between the domain layer and the service layer.
@@ -326,4 +327,13 @@ public interface DomainFacade {
    * @return
    */
   List<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
+
+  /**
+   * 
+   * @param productName
+   * @return
+   * @throws SQLException
+   * @throws Exception
+   */
+   List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
 }
