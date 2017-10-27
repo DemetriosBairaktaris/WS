@@ -67,7 +67,6 @@ public class TestDomainActivities {
     ProductRepresentation retrievedProduct = facade.searchProduct("test").get(0) ; 
     assertFalse(null == retrievedProduct) ;
     assertEquals(product.getName(),retrievedProduct.getName());
-    System.out.println(retrievedProduct.getCompanyUserName()+" yeah");
     assertEquals(product.getCompanyUserName(),retrievedProduct.getCompanyUserName());
     assertEquals(product.getStock(),retrievedProduct.getStock());
     assertEquals(product.getDesc(),retrievedProduct.getDesc());
