@@ -94,21 +94,18 @@ public class TestProductDomain {
   public void testGetProductsForCompany() throws NumberFormatException, Exception {
     HashMap<Integer, Boolean> map = new HashMap<>();
     int i = 0;
-    while (i < 30) {
+    while (i < 5) {
       products.addProduct(String.valueOf(i), "empty", i, i, "plainoldcompany@gmail.com");
       map.put(i++, true);
 
     }
-
-    for (Product p : products.getCompanyProducts(companyUserName)) {
+    System.out.println(products.getCompanyProducts("plainoldcompany@gmail.com").size());
+    for (Product p : products.getCompanyProducts("plainoldcompany@gmail.com")) {
       assertTrue(map.get(Integer.parseInt(p.getName())));
-      assertNotNull(p.getCompanyUserName());
-      assertNotNull(p.getName());
+      System.out.println("Deleting " + p.getName());
       assertTrue(products.deleteProduct(p.getCompanyUserName(), p.getName()));
-
     }
-
+    
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); // so the teardown
-    // don't complain
   }
 }

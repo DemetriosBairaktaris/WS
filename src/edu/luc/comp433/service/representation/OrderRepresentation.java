@@ -1,22 +1,26 @@
 package edu.luc.comp433.service.representation;
 
-import java.sql.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement(name = "order")
+@XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
 public class OrderRepresentation {
 
   private int orderId;
-  private Date timestamp;
+  private String timestamp;
   private String status;
   private String customer;
-
+  
+  public OrderRepresentation() {
+	  this.orderId = -1;
+	  this.timestamp = null;
+	  this.status = null ; 
+	  this.customer = null ; 
+  }
   public int getOrderId() {
     return orderId;
   }
@@ -25,11 +29,11 @@ public class OrderRepresentation {
     this.orderId = orderId;
   }
 
-  public Date getTimestamp() {
+  public String getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(Date timestamp) {
+  public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
   }
 

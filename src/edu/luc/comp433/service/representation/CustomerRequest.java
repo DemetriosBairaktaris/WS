@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "Customer")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class CustomerRepresentation {
+public class CustomerRequest {
 
   private String userName;
   private String firstName;
@@ -91,5 +91,4 @@ public class CustomerRepresentation {
   public void setExpiration(String expiration) {
     this.expiration = expiration;
   }
-
 }

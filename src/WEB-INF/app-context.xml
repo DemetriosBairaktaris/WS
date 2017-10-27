@@ -23,7 +23,6 @@
 	<!-- facade class -->
 	<bean id="domain" class="edu.luc.comp433.service.workflow.ConcreteDomainFacade"
 		scope="prototype">
-		<property name="customers" ref="customerManager" />
 		<property name="partners" ref="partnerManager" />
 		<property name="orders" ref="orderManager" />
 		<property name="products" ref="productManager" />
@@ -57,4 +56,29 @@
 	<bean id="review" class="edu.luc.comp433.domain.product.ConcreteReview"
 		scope="prototype" />
 	<bean id="linkedList" class="java.util.LinkedList" scope="prototype" />
+
+	<!-- Service Layer Classes -->
+	<!-- Resources -->
+	<bean id="customerResource" class="edu.luc.comp433.service.CustomerResource"
+		scope="prototype" />
+	<bean id="productResource" class="edu.luc.comp433.service.ProductResource"
+		scope="prototype" />
+	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource"
+		scope="prototype" />
+	<bean id="orderResource" class="edu.luc.comp433.service.OrderResource"
+		scope="prototype" />
+
+	<!-- Activities -->
+	<bean id="customerActivity"
+		class="edu.luc.comp433.service.workflow.ConcreteCustomerActivity"
+		scope="prototype">
+		<property name="customers" ref="customerManager" />
+	</bean>
+	
+	<!-- Representations -->
+	<bean id="customerRepresentation" class="edu.luc.comp433.service.representation.CustomerRepresentation" />
+	<bean id="productRepresentation" class="edu.luc.comp433.service.representation.ProductRepresentation" />
+	<bean id="partnerRepresentation" class="edu.luc.comp433.service.representation.PartnerRepresentation" />
+	<bean id="orderRepresentation" class="edu.luc.comp433.service.representation.OrderRepresentation" />
+
 </beans>

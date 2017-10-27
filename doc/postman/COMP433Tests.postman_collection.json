@@ -1,0 +1,136 @@
+{
+	"variables": [],
+	"info": {
+		"name": "COMP433Tests",
+		"_postman_id": "27315bd8-2716-1666-d702-d1912280e981",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer Creation Post Successful",
+			"request": {
+				"url": "http://localhost:8081/customers/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Creation Post Failure",
+			"request": {
+				"url": "http://localhost:8081/customers/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Customer\": {\n        \"userName\": \"\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product Test",
+			"request": {
+				"url": "http://localhost:8081/products/XBOX ONE",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order Test",
+			"request": {
+				"url": "http://localhost:8081/orders/3",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Fulfill Order Test",
+			"request": {
+				"url": "http://localhost:8081/orders/3/status",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Ship Order Test",
+			"request": {
+				"url": "http://localhost:8081/orders/3/shipment",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order Status Test",
+			"request": {
+				"url": "http://localhost:8081/orders/3/status",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

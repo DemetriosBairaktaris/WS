@@ -3,33 +3,50 @@ package edu.luc.comp433.service;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
+import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
+import edu.luc.comp433.service.workflow.DomainFacade;
 
-@Path("/partner/")
+@Path("/partners/")
 public class PartnerResource implements PartnerService {
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
 
   @POST
   @Produces({ "application/json", "application/xml" })
   @Consumes({ "application/json", "application/xml" })
   @Override
-  public PartnerRepresentation insertPartner(PartnerRequest request) {
+  public Response insertPartner(PartnerRequest request) {
     if (!isValid(request)) {
-      // TODO probably don't wanna return null, gotta figure out how
-      // to manipulate the header to give error.
-      return null;
+      return Response.status(Status.BAD_REQUEST)
+          .entity("Request was not valid. Make sure partner attributes are formatted correctly.").build();
     }
-    /*
-     * String userName = request.getUserName(); String name = request.getName();
-     * String address = request.getAddress(); String phone = request.getPhone();
-     */
-    // TODO: make call to activity to create partner
-    // TODO: return created partner
-    PartnerRepresentation partner = new PartnerRepresentation();
-    partner.setUserName(request.getUserName());
-    return partner;
+
+    String userName = request.getUserName();
+    String companyName = request.getName();
+    String address = request.getAddress();
+    String phone = request.getPhone();
+    PartnerRepresentation representation = null;
+
+    try {
+      facade.addPartner(userName, companyName, address, phone);
+      representation = facade.getPartnerByUserName(userName);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unable to insert partner.").build();
+    }
+    return Response.ok().entity(representation).build();
 
   }
 

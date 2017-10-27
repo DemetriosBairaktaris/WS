@@ -1,14 +1,15 @@
 package edu.luc.comp433.service.workflow;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.List;
 
-import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.domain.order.OrderManager;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.service.representation.OrderRepresentation;
+import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
+import edu.luc.comp433.service.representation.ReviewRepresentation;
 
 /**
  * This class sets up the facade between the domain layer and the service layer.
@@ -17,21 +18,6 @@ import edu.luc.comp433.service.representation.ProductRepresentation;
  *
  */
 public interface DomainFacade {
-
-  /**
-   * Sets the customer manager.
-   * 
-   * @param customers
-   *          CustomerManager
-   */
-  public void setCustomers(CustomerManager customers);
-
-  /**
-   * Retrieves the customer manager.
-   * 
-   * @return CustomerManager
-   */
-  public CustomerManager getCustomers();
 
   /**
    * Sets the partner manager.
@@ -177,121 +163,6 @@ public interface DomainFacade {
   public String getOrderStatus(int orderId) throws SQLException, Exception;
 
   /**
-   * Adds a customer profile to the system.
-   * 
-   * @param userName
-   *          String
-   * @param firstName
-   *          String
-   * @param lastName
-   *          String
-   * @param address
-   *          String
-   * @param phone
-   *          String
-   * @param cardName
-   *          String
-   * @param cardNumber
-   *          String
-   * @param cvv
-   *          String
-   * @param expiration
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws ParseException
-   *           thrown by parsing the expiration
-   */
-  public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
-
-  /**
-   * Checks if a customer profile is active.
-   * 
-   * @param userName
-   *          String
-   * @return true if profile exists.
-   * @throws SQLException
-   *           thrown by DB
-   */
-  public boolean checkCustomerStatus(String userName) throws SQLException;
-
-  /**
-   * Deletes a customer profile.
-   * 
-   * @param userName
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   */
-  public boolean deleteCustomer(String userName) throws SQLException;
-
-  /**
-   * Updates a customer's name.
-   * 
-   * @param userName
-   *          String
-   * @param firstName
-   *          String
-   * @param lastName
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   */
-  public boolean updateCustomerName(String userName, String firstName, String lastName) throws SQLException;
-
-  /**
-   * Updates a customer's address.
-   * 
-   * @param userName
-   *          String
-   * @param address
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   */
-  public boolean updateCustomerAddress(String userName, String address) throws SQLException;
-
-  /**
-   * Update the customer's phone number.
-   * 
-   * @param userName
-   *          String
-   * @param phone
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   */
-  public boolean updateCustomerPhone(String userName, String phone) throws SQLException;
-
-  /**
-   * Updates the customer's payment info.
-   * 
-   * @param userName
-   *          String
-   * @param cardName
-   *          String
-   * @param cardNumber
-   *          String
-   * @param cvv
-   *          String
-   * @param expiration
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws ParseException
-   *           thrown by parsing expiration into date
-   */
-  public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
-      throws SQLException, ParseException;
-
-  /**
    * Adds a review to a specific product.
    * 
    * @param userName
@@ -421,4 +292,48 @@ public interface DomainFacade {
    *           thrown by DB
    */
   public String getPartnerSales(String userName) throws Exception;
+
+  /**
+   * Gets product from a partner.
+   * 
+   * @param productName
+   * @param partnerUserName
+   * @return
+   * @throws SQLException
+   * @throws Exception
+   */
+  public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
+      throws SQLException, Exception;
+
+  /**
+   * 
+   * @param userName
+   * @return
+   * @throws SQLException
+   * @throws Exception
+   */
+  public PartnerRepresentation getPartnerByUserName(String userName) throws SQLException, Exception;
+
+  /**
+   * 
+   * @param orderId
+   * @return
+   */
+  OrderRepresentation getOrderById(int orderId);
+
+  /**
+   * 
+   * @param partnerUserName
+   * @return
+   */
+  List<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
+
+  /**
+   * 
+   * @param productName
+   * @return
+   * @throws SQLException
+   * @throws Exception
+   */
+   List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
 }
