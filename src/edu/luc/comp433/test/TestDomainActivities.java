@@ -64,10 +64,14 @@ public class TestDomainActivities {
     product.setCost(20);
     product.setStock(2);
     product.setCompanyUserName("test@email.com");
-    if (product.equals(facade.searchProduct("test").get(0))) {
-    } else {
-      fail();
-    }
+    ProductRepresentation retrievedProduct = facade.searchProduct("test").get(0) ; 
+    assertFalse(null == retrievedProduct) ;
+    assertEquals(product.getName(),retrievedProduct.getName());
+    System.out.println(retrievedProduct.getCompanyUserName()+" yeah");
+    assertEquals(product.getCompanyUserName(),retrievedProduct.getCompanyUserName());
+    assertEquals(product.getStock(),retrievedProduct.getStock());
+    assertEquals(product.getDesc(),retrievedProduct.getDesc());
+    assertEquals(product.getCost(),retrievedProduct.getCost(),0.05);
     assertTrue(facade.deletePartner("test@email.com"));
   }
 
