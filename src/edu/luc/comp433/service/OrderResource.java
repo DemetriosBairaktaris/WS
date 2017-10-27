@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -76,6 +77,57 @@ public class OrderResource implements OrderService {
       return Response.status(Status.BAD_REQUEST).entity("Could not find resource").build();
     }
     return Response.ok().entity(representation).build();
+  }
+
+  @GET
+  @Path("/{orderId}/status")
+  @Override
+  public Response checkStatus(@PathParam("orderId") int orderId) {
+    if (facade.getOrderById(orderId).getOrderId() == -1) {
+      return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
+    } else {
+      return Response.ok().entity(facade.getOrderById(orderId).getStatus()).build();
+    }
+  }
+
+  @PUT
+  @Path("/{orderId}/status")
+  @Override
+  public Response fulfillOrder(@PathParam("orderId") int orderId) {
+    if (facade.getOrderById(orderId).getOrderId() == -1) {
+      return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
+    } else {
+      try {
+        facade.fulfillOrder(orderId);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      } catch (Exception e) {
+        e.printStackTrace();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+    }
+    return Response.ok().build();
+  }
+
+  @PUT
+  @Path("/{orderId}/shipment")
+  @Override
+  public Response shipOrder(@PathParam("orderId") int orderId) {
+    if (facade.getOrderById(orderId).getOrderId() == -1) {
+      return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
+    } else {
+      try {
+        facade.shipOrder(orderId);
+      } catch (SQLException e) {
+        e.printStackTrace();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      } catch (Exception e) {
+        e.printStackTrace();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+      }
+      return Response.ok().entity("Order shipped.").build();
+    }
   }
 
   @DELETE

@@ -18,4 +18,10 @@ public interface OrderService {
 
   public Response insertOrder(Set<OrderRequest> request) throws SQLException;
 
+  public Response fulfillOrder(int orderId);
+
+  public Response checkStatus(int orderId);
+
+  public Response shipOrder(int orderId);
+
 }
