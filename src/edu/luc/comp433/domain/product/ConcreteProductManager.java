@@ -91,7 +91,7 @@ public class ConcreteProductManager implements ProductManager {
   @Override
   public List<Product> getCompanyProducts(String companyUserName) throws SQLException, Exception {
     List<Product> products = new ArrayList<>();
-    database.getAllProductsFromPartner(companyUserName);
+    products = database.getAllProductsFromPartner(companyUserName);
     return products;
   }
 
