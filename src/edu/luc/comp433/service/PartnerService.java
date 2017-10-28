@@ -17,4 +17,13 @@ public interface PartnerService {
    */
   public Response insertPartner(PartnerRequest request);
 
+  /**
+   * Deletes a partner profile.
+   * 
+   * @param partnerName
+   *          String
+   * @return HTTP Response
+   */
+  public Response deletePartner(String partnerName);
+
 }
