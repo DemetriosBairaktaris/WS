@@ -1,136 +1,387 @@
 {
-	"variables": [],
 	"info": {
 		"name": "COMP433Tests",
-		"_postman_id": "27315bd8-2716-1666-d702-d1912280e981",
+		"_postman_id": "de87316a-6ffd-ac92-be8d-cfeee001be87",
 		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Customer Creation Post Successful",
-			"request": {
-				"url": "http://localhost:8081/customers/",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+			"name": "Products",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Product Test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8081/products/MacBook",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"products",
+								"MacBook"
+							]
+						}
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Customer Creation Post Failure",
-			"request": {
-				"url": "http://localhost:8081/customers/",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+				{
+					"name": "Get Product Reviews Test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8081/products/SAMSUNG GALAXY 5/reviews",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"products",
+								"SAMSUNG GALAXY 5",
+								"reviews"
+							]
+						},
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"Customer\": {\n        \"userName\": \"\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "Post Product Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Product\": {\n\t\t\"desc\": \"Apple MacBook Laptop Computer\",\n\t\t\"cost\": 1200,\n\t\t\"stock\": 150,\n\t\t\"companyUserName\": \"sjobs@apple.com\",\n\t\t\"name\": \"MacBook\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/products/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"products",
+								""
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Get Product Test",
-			"request": {
-				"url": "http://localhost:8081/products/XBOX ONE",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml",
+			"name": "Customers",
+			"description": "",
+			"item": [
+				{
+					"name": "Customer Creation Post Successful",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8081/customers/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Creation Post Failure",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Customer\": {\n        \"userName\": \"\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:8081/customers/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer Test",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/customers/jdoe@gmail.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customers",
+								"jdoe@gmail.com"
+							]
+						},
 						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Get Order Test",
-			"request": {
-				"url": "http://localhost:8081/orders/3",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml",
+			"name": "Partners",
+			"description": "",
+			"item": [
+				{
+					"name": "Post Partner Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Partner\": {\n\t\t\"userName\": \"sjobs@apple.com\",\n\t\t\"name\": \"Apple\",\n\t\t\"address\": \"1 Infinite Loop\",\n\t\t\"phone\": \"(408) 996–1010\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/partners/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"partners",
+								""
+							]
+						},
 						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Partner Test",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/partners/sjobs@apple.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"partners",
+								"sjobs@apple.com"
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Fulfill Order Test",
-			"request": {
-				"url": "http://localhost:8081/orders/3/status",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Ship Order Test",
-			"request": {
-				"url": "http://localhost:8081/orders/3/shipment",
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "Get Order Status Test",
-			"request": {
-				"url": "http://localhost:8081/orders/3/status",
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/xml",
-						"description": ""
-					}
-				],
-				"body": {},
-				"description": ""
-			},
-			"response": []
+			"name": "Orders",
+			"description": "",
+			"item": [
+				{
+					"name": "Get Order Test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/orders/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"orders",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Status Test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/orders/3/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"orders",
+								"3",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fulfill Order Test",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/orders/3/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"orders",
+								"3",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ship Order Test",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/orders/3/shipment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"orders",
+								"3",
+								"shipment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

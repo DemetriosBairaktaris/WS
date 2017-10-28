@@ -18,13 +18,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
-import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
-import edu.luc.comp433.service.workflow.DomainFacade;
+import edu.luc.comp433.service.workflow.PartnerActivity;
+import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 
 @Path("/partners/")
 public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
+  private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
 
   @POST
   @Produces({ "application/json", "application/xml" })
@@ -43,8 +43,8 @@ public class PartnerResource implements PartnerService {
     PartnerRepresentation representation = null;
 
     try {
-      facade.addPartner(userName, companyName, address, phone);
-      representation = facade.getPartnerByUserName(userName);
+      activity.addPartner(userName, companyName, address, phone);
+      representation = activity.getPartnerByUserName(userName);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unable to insert partner.").build();
@@ -60,7 +60,7 @@ public class PartnerResource implements PartnerService {
       return Response.status(Status.BAD_REQUEST).entity("Invalide user name.").build();
     }
     try {
-      facade.deletePartner(partnerName);
+      activity.deletePartner(partnerName);
     } catch (SQLException e) {
       e.printStackTrace();
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();

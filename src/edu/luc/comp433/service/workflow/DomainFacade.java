@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import edu.luc.comp433.domain.order.OrderManager;
-import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.service.representation.OrderRepresentation;
-import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
 
@@ -18,21 +16,6 @@ import edu.luc.comp433.service.representation.ReviewRepresentation;
  *
  */
 public interface DomainFacade {
-
-  /**
-   * Sets the partner manager.
-   * 
-   * @param partners
-   *          PartnerManager
-   */
-  public void setPartners(PartnerManager partners);
-
-  /**
-   * Retrieves the partner manager.
-   * 
-   * @return PartnerManager
-   */
-  public PartnerManager getPartners();
 
   /**
    * Sets the order manager.
@@ -183,39 +166,6 @@ public interface DomainFacade {
       throws SQLException, Exception;
 
   /**
-   * Adds a partner profile.
-   * 
-   * @param userName
-   *          String
-   * @param companyName
-   *          String
-   * @param address
-   *          String
-   * @param phone
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws Exception
-   *           thrown by DB
-   */
-  public boolean addPartner(String userName, String companyName, String address, String phone)
-      throws SQLException, Exception;
-
-  /**
-   * Deletes a partner profile.
-   * 
-   * @param userName
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws Exception
-   *           thrown by DB
-   */
-  public boolean deletePartner(String userName) throws SQLException, Exception;
-
-  /**
    * Accept a partner's product.
    * 
    * @param userName
@@ -238,62 +188,6 @@ public interface DomainFacade {
       throws SQLException, Exception;
 
   /**
-   * Updates a partner's name.
-   * 
-   * @param userName
-   *          String
-   * @param companyName
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws Exception
-   *           thrown by DB
-   */
-  public boolean updatePartnerName(String userName, String companyName) throws SQLException, Exception;
-
-  /**
-   * Updates a partner's address.
-   * 
-   * @param userName
-   *          String
-   * @param address
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws Exception
-   *           thrown by DB
-   */
-  public boolean updatePartnerAddress(String userName, String address) throws SQLException, Exception;
-
-  /**
-   * Update partner's phone.
-   * 
-   * @param userName
-   *          String
-   * @param phone
-   *          String
-   * @return true if successful
-   * @throws SQLException
-   *           thrown by DB
-   * @throws Exception
-   *           thrown by DB
-   */
-  public boolean updatePartnerPhone(String userName, String phone) throws SQLException, Exception;
-
-  /**
-   * Retrieves all the partner's sales.
-   * 
-   * @param userName
-   *          String
-   * @return String
-   * @throws Exception
-   *           thrown by DB
-   */
-  public String getPartnerSales(String userName) throws Exception;
-
-  /**
    * Gets product from a partner.
    * 
    * @param productName
@@ -304,15 +198,6 @@ public interface DomainFacade {
    */
   public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
       throws SQLException, Exception;
-
-  /**
-   * 
-   * @param userName
-   * @return
-   * @throws SQLException
-   * @throws Exception
-   */
-  public PartnerRepresentation getPartnerByUserName(String userName) throws SQLException, Exception;
 
   /**
    * 
@@ -335,5 +220,5 @@ public interface DomainFacade {
    * @throws SQLException
    * @throws Exception
    */
-   List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
+  List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
 }
