@@ -1,4 +1,4 @@
-package edu.luc.comp433.service;
+package edu.luc.comp433.service.resources;
 
 import java.sql.SQLException;
 import java.util.regex.Matcher;

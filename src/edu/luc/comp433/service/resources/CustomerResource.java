@@ -1,4 +1,4 @@
-package edu.luc.comp433.service;
+package edu.luc.comp433.service.resources;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
