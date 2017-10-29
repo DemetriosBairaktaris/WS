@@ -1,4 +1,4 @@
-package edu.luc.comp433.service.resources;
+package edu.luc.comp433.service.resource;
 
 import javax.jws.WebService;
 import javax.ws.rs.core.Response;
