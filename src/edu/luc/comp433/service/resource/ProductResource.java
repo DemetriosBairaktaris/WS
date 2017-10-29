@@ -48,7 +48,10 @@ public class ProductResource implements ProductService {
     Set<ReviewRepresentation> representations = null;
     try {
       representations = new HashSet<>(facade.getReviews(productName));
+      System.out.println("Retrieving reviews for product: " + productName + ".");
     } catch (Exception e) {
+      System.out.println("Error thrown when retrieving reviews.");
+      System.out.println(e.getMessage());
       e.printStackTrace();
       return null;
     }
@@ -61,6 +64,7 @@ public class ProductResource implements ProductService {
   @Override
   public Response insertProduct(ProductRequest request) {
     if (request.getName().equals(null) || request.getName().isEmpty()) {
+      System.out.println("Bad request to create product received.");
       return Response.status(Status.BAD_REQUEST).entity("Unable to insert product.").build();
     }
     String name = request.getName();
@@ -72,9 +76,12 @@ public class ProductResource implements ProductService {
     try {
       facade.getProducts().addProduct(name, desc, cost, stock, companyUserName);
       representation = facade.getProductFromPartner(name, companyUserName);
+      System.out.println("Product: " + name + " created.");
     } catch (Exception e) {
+      System.out.println("Error thrown when creating a product.");
       System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.ok().entity(representation).build();
   }

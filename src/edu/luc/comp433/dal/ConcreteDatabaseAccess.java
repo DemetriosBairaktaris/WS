@@ -335,7 +335,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
     String sql = "UPDATE PRODUCTS SET STOCK = %d, COST = %f, DESCRIPTION = '%s' "
         + "WHERE PRODUCT_NAME = '%s' and PARTNER_USER_NAME = '%s' ; ";
-    System.out.println(sql);
     sql = String.format(sql, stock, cost, desc, name, companyUserName);
     Statement newStatement = db.createStatement();
     int numberOfRowsChanged = newStatement.executeUpdate(sql);

@@ -37,8 +37,9 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response insertCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
-      System.out.println("Invalid input.");
-      return Response.status(Status.BAD_REQUEST).entity("Invalid input formatting.").build();
+      System.out.println("Invalid input for customer creation.");
+      return Response.status(Status.BAD_REQUEST)
+          .entity("Invalid input formatting. Ensure all fields all filled correctly").build();
     }
 
     String userName = request.getUserName();
@@ -67,8 +68,10 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response getCustomerStatus(@PathParam(value = "userName") String userName) throws SQLException {
     if (activity.checkCustomerStatus(userName)) {
+      System.out.println("Customer query good. User " + userName + " active.");
       return Response.ok().entity("Customer exists and is active.").build();
     }
+    System.out.println("Customer: " + userName + ": No such user.");
     return Response.status(Status.BAD_REQUEST).entity("User does not exist.").build();
   }
 
@@ -78,6 +81,7 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response getCustomer(@PathParam(value = "userName") String userName) throws SQLException {
     if (activity.checkCustomerStatus(userName)) {
+      System.out.println("Customer " + userName + " exists. Building response.");
       CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
       customer.setUserName(activity.getCustomers().getCustomer(userName).getUserName());
       customer.setFirstName(activity.getCustomers().getCustomer(userName).getFirstName());
@@ -90,6 +94,7 @@ public class CustomerResource implements CustomerService {
       customer.setExpiration(activity.getCustomers().getCustomer(userName).getPayment().getExpiration().toString());
       return Response.ok().entity(customer).build();
     }
+    System.out.println("User " + userName + " does not exist.");
     return Response.status(Status.BAD_REQUEST).entity("User not found.").build();
   }
 
@@ -98,8 +103,10 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response deleteCustomer(@PathParam(value = "userName") String userName) throws SQLException {
     if (activity.deleteCustomer(userName)) {
+      System.out.println("Customer " + userName + " deleted.");
       return Response.ok().build();
     }
+    System.out.println("Cannot delete " + userName + ". User may not exist.");
     return Response.status(Status.BAD_REQUEST).entity("Cannot delete customer.").build();
   }
 
@@ -108,7 +115,7 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response updateCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
-      System.out.println("Invalid input.");
+      System.out.println("Invalid update input.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid input formatting.").build();
     }
     String userName = request.getUserName();
