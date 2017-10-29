@@ -36,6 +36,7 @@ public class PartnerResource implements PartnerService {
   @Produces({ "application/json", "application/xml" })
   @Override
   public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
+    System.out.println("Retrieving partner " + partnerUserName + ".");
     return new HashSet<OrderRepresentation>(activity.getOrdersFromPartner(partnerUserName));
   }
 
@@ -45,6 +46,7 @@ public class PartnerResource implements PartnerService {
   @Override
   public Response insertPartner(PartnerRequest request) {
     if (!isValid(request)) {
+      System.out.println("Partner request not valid to create partner.");
       return Response.status(Status.BAD_REQUEST)
           .entity("Request was not valid. Make sure partner attributes are formatted correctly.").build();
     }
@@ -58,7 +60,9 @@ public class PartnerResource implements PartnerService {
     try {
       activity.addPartner(userName, companyName, address, phone);
       representation = activity.getPartnerByUserName(userName);
+      System.out.println("Partner " + userName + " added.");
     } catch (Exception e) {
+      System.out.println("Creating partner threw an error.");
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unable to insert partner.").build();
     }
@@ -71,16 +75,22 @@ public class PartnerResource implements PartnerService {
   public Response updateName(@PathParam(value = "partnerName") String partnerName,
       @PathParam(value = "companyName") String companyName) {
     if (!isValidPartnerUserName(partnerName)) {
+      System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
     }
 
     try {
       activity.updatePartnerName(partnerName, companyName);
+      System.out.println("Updated company name.");
     } catch (SQLException e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     } catch (Exception e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.ok().build();
@@ -92,16 +102,22 @@ public class PartnerResource implements PartnerService {
   public Response updateAddress(@PathParam(value = "partnerName") String partnerName,
       @PathParam(value = "address") String address) {
     if (!isValidPartnerUserName(partnerName)) {
+      System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
     }
 
     try {
       activity.updatePartnerAddress(partnerName, address);
+      System.out.println("Updated company address.");
     } catch (SQLException e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     } catch (Exception e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 
@@ -114,16 +130,22 @@ public class PartnerResource implements PartnerService {
   public Response updatePhone(@PathParam(value = "partnerName") String partnerName,
       @PathParam(value = "phone") String phone) {
     if (!isValidPartnerUserName(partnerName)) {
+      System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
     }
 
     try {
       activity.updatePartnerPhone(partnerName, phone);
+      System.out.println("Updated company phone.");
     } catch (SQLException e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     } catch (Exception e) {
+      System.out.println("Updating partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 
@@ -135,15 +157,21 @@ public class PartnerResource implements PartnerService {
   @Override
   public Response deletePartner(@PathParam(value = "partnerName") String partnerName) {
     if (!isValidPartnerUserName(partnerName)) {
+      System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
     }
     try {
       activity.deletePartner(partnerName);
+      System.out.println("Deleted partner: " + partnerName + ".");
     } catch (SQLException e) {
+      System.out.println("Deleting partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     } catch (Exception e) {
+      System.out.println("Deleting partner threw an error.");
       e.printStackTrace();
+      System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.ok().build();
