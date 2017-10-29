@@ -7,6 +7,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Payment representation for XML and JSON.
+ * 
+ * @author Thaddeus and Demetrios
+ *
+ */
 @XmlRootElement(name = "payment")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")

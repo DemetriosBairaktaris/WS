@@ -5,6 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Order representation for XML and JSON.
+ * 
+ * @author Demetrios and Thaddeus
+ *
+ */
 @XmlRootElement(name = "Order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
@@ -14,13 +20,14 @@ public class OrderRepresentation {
   private String timestamp;
   private String status;
   private String customer;
-  
+
   public OrderRepresentation() {
-	  this.orderId = -1;
-	  this.timestamp = null;
-	  this.status = null ; 
-	  this.customer = null ; 
+    this.orderId = -1;
+    this.timestamp = null;
+    this.status = null;
+    this.customer = null;
   }
+
   public int getOrderId() {
     return orderId;
   }

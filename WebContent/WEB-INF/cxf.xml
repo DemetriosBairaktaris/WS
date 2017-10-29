@@ -35,9 +35,9 @@
 	</jaxrs:server>
 
 	<!-- Resource object classes -->
-	<bean id="productResource" class="edu.luc.comp433.service.ProductResource" />
-	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource" />
-	<bean id="orderResource" class="edu.luc.comp433.service.OrderResource" />
-	<bean id="customerResource" class="edu.luc.comp433.service.CustomerResource" />
+	<bean id="productResource" class="edu.luc.comp433.service.resource.ProductResource" />
+	<bean id="partnerResource" class="edu.luc.comp433.service.resource.PartnerResource" />
+	<bean id="orderResource" class="edu.luc.comp433.service.resource.OrderResource" />
+	<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource" />
 
 </beans>
