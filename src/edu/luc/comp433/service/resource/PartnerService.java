@@ -37,4 +37,37 @@ public interface PartnerService {
 
   public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
 
+  /**
+   * Updates a partner's company name.
+   * 
+   * @param partnerName
+   *          String
+   * @param companyName
+   *          String
+   * @return HTTP response
+   */
+  public Response updateName(String partnerName, String companyName);
+
+  /**
+   * Updates a partners address.
+   * 
+   * @param partnerName
+   *          String
+   * @param address
+   *          String
+   * @return HTTP response
+   */
+  public Response updateAddress(String partnerName, String address);
+
+  /**
+   * Updates a partner's phone number.
+   * 
+   * @param partnerName
+   *          String
+   * @param phone
+   *          String
+   * @return HTTP response
+   */
+  public Response updatePhone(String partnerName, String phone);
+
 }

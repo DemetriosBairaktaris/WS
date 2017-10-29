@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -64,12 +65,77 @@ public class PartnerResource implements PartnerService {
     return Response.ok().entity(representation).build();
   }
 
+  @PUT
+  @Path("/{partnerName}/name/{companyName}")
+  @Override
+  public Response updateName(@PathParam(value = "partnerName") String partnerName,
+      @PathParam(value = "companyName") String companyName) {
+    if (!isValidPartnerUserName(partnerName)) {
+      return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
+    }
+
+    try {
+      activity.updatePartnerName(partnerName, companyName);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
+    return Response.ok().build();
+  }
+
+  @PUT
+  @Path("/{partnerName}/address/{address}")
+  @Override
+  public Response updateAddress(@PathParam(value = "partnerName") String partnerName,
+      @PathParam(value = "address") String address) {
+    if (!isValidPartnerUserName(partnerName)) {
+      return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
+    }
+
+    try {
+      activity.updatePartnerAddress(partnerName, address);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
+
+    return Response.ok().build();
+  }
+
+  @PUT
+  @Path("/{partnerName}/phone/{phone}")
+  @Override
+  public Response updatePhone(@PathParam(value = "partnerName") String partnerName,
+      @PathParam(value = "phone") String phone) {
+    if (!isValidPartnerUserName(partnerName)) {
+      return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
+    }
+
+    try {
+      activity.updatePartnerPhone(partnerName, phone);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+    }
+
+    return Response.ok().build();
+  }
+
   @DELETE
   @Path("/{partnerName}")
   @Override
   public Response deletePartner(@PathParam(value = "partnerName") String partnerName) {
     if (!isValidPartnerUserName(partnerName)) {
-      return Response.status(Status.BAD_REQUEST).entity("Invalide user name.").build();
+      return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
     }
     try {
       activity.deletePartner(partnerName);
