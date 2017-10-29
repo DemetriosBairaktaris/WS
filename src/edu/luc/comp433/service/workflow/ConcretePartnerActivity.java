@@ -67,7 +67,7 @@ public class ConcretePartnerActivity implements PartnerActivity {
 
   @Override
   public PartnerRepresentation assemblePartnerToRepresentation(PartnerProfile partner) {
-    PartnerRepresentation representation = (PartnerRepresentation) context.getBean("PartnerRepresentation");
+    PartnerRepresentation representation = (PartnerRepresentation) context.getBean("partnerRepresentation");
     String userName = partner.getUserName();
     String companyName = partner.getName();
     String phone = partner.getPhone();

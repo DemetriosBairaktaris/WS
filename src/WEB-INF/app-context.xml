@@ -85,6 +85,7 @@
 		class="edu.luc.comp433.service.representation.ProductRepresentation" />
 	<bean id="partnerRepresentation"
 		class="edu.luc.comp433.service.representation.PartnerRepresentation" />
+	<bean id="partnerRequest" class="edu.luc.comp433.service.representation.PartnerRequest" />
 	<bean id="orderRepresentation"
 		class="edu.luc.comp433.service.representation.OrderRepresentation" />
 
