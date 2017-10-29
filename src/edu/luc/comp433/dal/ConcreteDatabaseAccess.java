@@ -210,19 +210,19 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException { // good
-	  boolean updated = true ; 
-	  String address = profile.getAddress();
-	  String name = profile.getName();
-	  String phone = profile.getPhone();
-	  String userName = profile.getUserName();
-	  String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s' where partner_user_name = '%s' ;" ; 
-	  sql = String.format(sql, address,name,phone,userName) ; 
-	  Statement newStatement = db.createStatement();
-	  int results = newStatement.executeUpdate(sql) ; 
-	  if(results == 0) {
-		  updated = false ;
-	  }
-	  return updated ; 
+    boolean updated = true;
+    String address = profile.getAddress();
+    String name = profile.getName();
+    String phone = profile.getPhone();
+    String userName = profile.getUserName();
+    String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s' where partner_user_name = '%s' ;";
+    sql = String.format(sql, address, name, phone, userName);
+    Statement newStatement = db.createStatement();
+    int results = newStatement.executeUpdate(sql);
+    if (results == 0) {
+      updated = false;
+    }
+    return updated;
   }
 
   @Override
@@ -273,28 +273,30 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     if (success == 0) {
       return false;
     }
-    
-    updateProductReviews(product) ; 
-//    /*
-//     * Continue on to insert reviews
-//     */
-//    String reviewSql;
-//    int productId;
-//    ResultSet keys = statementWithKeys.getGeneratedKeys();
-//    if (keys.next()) {
-//      productId = keys.getInt(1);
-//      reviewSql = "Insert into reviews (Product_id,review_rating,review_content) values (" + "%d, %d, '%s') ; ";
-//    } else {
-//      return false;
-//    }
-//
-//    for (Review r : product.getReviews()) {
-//      reviewSql = String.format(reviewSql, productId, r.getRating(), r.getReview());
-//      success = stmt.executeUpdate(reviewSql);
-//      if (success == 0) {
-//        return false;
-//      }
-//    }
+
+    updateProductReviews(product);
+    // /*
+    // * Continue on to insert reviews
+    // */
+    // String reviewSql;
+    // int productId;
+    // ResultSet keys = statementWithKeys.getGeneratedKeys();
+    // if (keys.next()) {
+    // productId = keys.getInt(1);
+    // reviewSql = "Insert into reviews (Product_id,review_rating,review_content)
+    // values (" + "%d, %d, '%s') ; ";
+    // } else {
+    // return false;
+    // }
+    //
+    // for (Review r : product.getReviews()) {
+    // reviewSql = String.format(reviewSql, productId, r.getRating(),
+    // r.getReview());
+    // success = stmt.executeUpdate(reviewSql);
+    // if (success == 0) {
+    // return false;
+    // }
+    // }
     return true;
   }
 
