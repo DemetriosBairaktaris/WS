@@ -168,10 +168,13 @@ public class OrderResource implements OrderService {
   private boolean isValid(Set<OrderRequest> requests) {
     boolean result = true;
     if (requests == null) {
+      System.out.println("Request null.");
       result = false;
     }
     for (OrderRequest request : requests) {
       if (request.getQuantity() < 1) {
+        System.out.println(requests.size());
+        System.out.println("Cannot have 0 quantity.");
         result = false;
         break;
       }
