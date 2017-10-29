@@ -134,6 +134,50 @@ public class TestUserClient {
     System.out.println("Order product test complete.");
 
     // ORDER WORKFLOW TEST
+    System.out.println("Beginning order workflow tests...");
+    getOrderStatus(web, uri, header, response, orderId);
+
+    web.reset();
+    web = web.path("/orders/" + orderId + "/status");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "order", "PUT");
+    try {
+      response = web.put("").toString();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+
+    getOrderStatus(web, uri, header, response, orderId);
+
+    web.reset();
+    web = web.path("/orders/" + orderId + "/shipment");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "order", "PUT");
+    try {
+      response = web.put("").toString();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+
+    getOrderStatus(web, uri, header, response, orderId);
+    System.out.println("Order workflow test complete.");
+
+    // ORDER PUSH TO PARTNER TEST
+    System.out.println("Push orders to partners test starting...");
+    web.reset();
+    web = web.accept("application/xml").path("/partners/management@partners.com/orders");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "partner", "GET");
+    try {
+      response = web.get(String.class);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    System.out.println("Server response: " + response);
+    System.out.println("Push orders to partners test complete.");
 
     // ORDER CANCEL TEST
     System.out.println("Starting order cancel test...");
@@ -184,6 +228,19 @@ public class TestUserClient {
   private static void printDetails(String uri, String header, String area, String method) {
     System.out.println(method + " URI for " + area + ": " + uri);
     System.out.println(method + " header for " + area + ": " + header);
+  }
+
+  private static void getOrderStatus(WebClient web, String uri, String header, String response, int orderId) {
+    web.reset();
+    web = web.path("/orders/" + orderId + "/status");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "order", "GET");
+    try {
+      response = web.get(String.class);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
 }
