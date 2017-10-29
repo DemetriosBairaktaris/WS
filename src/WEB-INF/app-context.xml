@@ -4,11 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- database access object class -->
+	<!-- database access object -->
 	<bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess"
 		scope="prototype" />
 
-	<!-- customer classes -->
+	<!-- Domain Classes -->
+	<!-- customer -->
 	<bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager"
 		scope="prototype">
 		<property name="database" ref="database" />
@@ -20,15 +21,7 @@
 	<bean id="payment" class="edu.luc.comp433.domain.customer.ConcretePayment"
 		scope="prototype" />
 
-	<!-- facade class -->
-	<bean id="domain" class="edu.luc.comp433.service.workflow.ConcreteDomainFacade"
-		scope="prototype">
-		<property name="partners" ref="partnerManager" />
-		<property name="orders" ref="orderManager" />
-		<property name="products" ref="productManager" />
-	</bean>
-
-	<!-- order classes -->
+	<!-- order -->
 	<bean id="orderManager" class="edu.luc.comp433.domain.order.ConcreteOrderManager"
 		scope="prototype">
 		<property name="database" ref="database" />
@@ -38,7 +31,7 @@
 	<bean id="orderDetail" class="edu.luc.comp433.domain.order.ConcreteOrderDetail"
 		scope="prototype" />
 
-	<!-- partner classes -->
+	<!-- partner -->
 	<bean id="partnerManager" class="edu.luc.comp433.domain.partner.ConcretePartnerManager"
 		scope="prototype">
 		<property name="database" ref="database" />
@@ -46,7 +39,7 @@
 	<bean id="partner" class="edu.luc.comp433.domain.partner.ConcretePartnerProfile"
 		scope="prototype" />
 
-	<!-- product class -->
+	<!-- product -->
 	<bean id="productManager" class="edu.luc.comp433.domain.product.ConcreteProductManager"
 		scope="prototype">
 		<property name="database" ref="database" />
@@ -59,13 +52,13 @@
 
 	<!-- Service Layer Classes -->
 	<!-- Resources -->
-	<bean id="customerResource" class="edu.luc.comp433.service.CustomerResource"
+	<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource"
 		scope="prototype" />
-	<bean id="productResource" class="edu.luc.comp433.service.ProductResource"
+	<bean id="productResource" class="edu.luc.comp433.service.resource.ProductResource"
 		scope="prototype" />
-	<bean id="partnerResource" class="edu.luc.comp433.service.PartnerResource"
+	<bean id="partnerResource" class="edu.luc.comp433.service.resource.PartnerResource"
 		scope="prototype" />
-	<bean id="orderResource" class="edu.luc.comp433.service.OrderResource"
+	<bean id="orderResource" class="edu.luc.comp433.service.resource.OrderResource"
 		scope="prototype" />
 
 	<!-- Activities -->
@@ -78,6 +71,11 @@
 		class="edu.luc.comp433.service.workflow.ConcretePartnerActivity"
 		scope="prototype">
 		<property name="partners" ref="partnerManager" />
+	</bean>
+	<bean id="salesActivity" class="edu.luc.comp433.service.workflow.ConcreteSalesActivity"
+		scope="prototype">
+		<property name="orders" ref="orderManager" />
+		<property name="products" ref="productManager" />
 	</bean>
 
 	<!-- Representations -->

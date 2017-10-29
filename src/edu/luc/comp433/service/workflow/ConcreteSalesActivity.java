@@ -1,13 +1,11 @@
 package edu.luc.comp433.service.workflow;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderManager;
-import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.domain.product.Review;
@@ -15,21 +13,12 @@ import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
 
-public class ConcreteDomainFacade implements DomainFacade {
+public class ConcreteSalesActivity implements SalesActivity {
 
-  private PartnerManager partners;
   private OrderManager orders;
   private ProductManager products;
 
-  public ConcreteDomainFacade() {
-  }
-
-  public PartnerManager getPartners() {
-    return partners;
-  }
-
-  public void setPartners(PartnerManager partners) {
-    this.partners = partners;
+  public ConcreteSalesActivity() {
   }
 
   public OrderManager getOrders() {
@@ -148,22 +137,6 @@ public class ConcreteDomainFacade implements DomainFacade {
     }
     representation = this.assembleOrderToRepresentation(order);
     return representation;
-  }
-
-  @Override
-  public List<OrderRepresentation> getOrdersFromPartner(String partnerUserName) {
-    List<OrderRepresentation> representations = new LinkedList<>();
-    List<Order> orders = Arrays.asList();
-    try {
-      orders = partners.getOrdersFromPartner(partnerUserName);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    for (Order order : orders) {
-      representations.add(this.assembleOrderToRepresentation(order));
-    }
-
-    return representations;
   }
 
   @Override

@@ -1,11 +1,14 @@
 package edu.luc.comp433.service.resource;
 
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.Response.Status;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
 import edu.luc.comp433.service.workflow.PartnerActivity;
@@ -26,6 +30,14 @@ public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
 
+  @GET
+  @Path("/partner/{partnerUserName}")
+  @Produces({ "application/json", "application/xml" })
+  @Override
+  public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
+    return new HashSet<OrderRepresentation>(activity.getOrdersFromPartner(partnerUserName));
+  }
+  
   @POST
   @Produces({ "application/json", "application/xml" })
   @Consumes({ "application/json", "application/xml" })

@@ -15,17 +15,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.workflow.CustomerActivity;
-import edu.luc.comp433.service.workflow.DomainFacade;
+import edu.luc.comp433.service.workflow.SalesActivity;
 import edu.luc.comp433.service.workflow.PartnerActivity;
-
-//TODO FIX THIS CLASS FOR ALL ACTIVITIES
 
 public class TestDomainActivities {
 
   private static ApplicationContext context;
   private CustomerActivity customers;
   private PartnerActivity partners;
-  private DomainFacade facade;
+  private SalesActivity activity;
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
@@ -41,7 +39,7 @@ public class TestDomainActivities {
   public void setUp() throws Exception {
     customers = (CustomerActivity) context.getBean("customerActivity");
     partners = (PartnerActivity) context.getBean("partnerActivity");
-    facade = (DomainFacade) context.getBean("domain");
+    activity = (SalesActivity) context.getBean("activity");
   }
 
   @After
@@ -54,20 +52,20 @@ public class TestDomainActivities {
     }
     customers = null;
     partners = null;
-    facade = null;
+    activity = null;
   }
 
   @Test
   public void testSearchProduct() throws SQLException, Exception {
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     ProductRepresentation product = (ProductRepresentation) context.getBean("productRepresentation");
     product.setName("test");
     product.setDesc("awesome");
     product.setCost(20);
     product.setStock(2);
     product.setCompanyUserName("test@email.com");
-    ProductRepresentation retrievedProduct = facade.searchProduct("test").get(0);
+    ProductRepresentation retrievedProduct = activity.searchProduct("test").get(0);
     assertFalse(null == retrievedProduct);
     assertEquals(product.getName(), retrievedProduct.getName());
     assertEquals(product.getCompanyUserName(), retrievedProduct.getCompanyUserName());
@@ -79,7 +77,7 @@ public class TestDomainActivities {
 
   @Test
   public void testCheckAvailability() throws Exception {
-    assertFalse(facade.checkAvailability("no product"));
+    assertFalse(activity.checkAvailability("no product"));
   }
 
   @Test
@@ -88,7 +86,7 @@ public class TestDomainActivities {
     assertTrue(partners.updatePartnerAddress("test@email.com", "address2"));
     assertTrue(partners.updatePartnerName("test@email.com", "test2"));
     assertTrue(partners.updatePartnerPhone("test@email.com", "1234"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertNotNull(partners.getPartnerSales("test@email.com"));
   }
 
@@ -111,8 +109,8 @@ public class TestDomainActivities {
         "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
-    assertTrue(facade.buyProduct("customer@email.com", "test", 1L, 0) != -1);
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(activity.buyProduct("customer@email.com", "test", 1L, 0) != -1);
     assertTrue(customers.deleteCustomer("customer@email.com"));
   }
 
@@ -122,12 +120,12 @@ public class TestDomainActivities {
         "2020-01-02"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
-    int orderId = facade.buyProduct("customer@email.com", "test", 1L, 0);
-    assertTrue(facade.fulfillOrder(orderId));
-    assertTrue(facade.getOrderStatus(orderId).equals("fulfilled"));
-    assertTrue(facade.shipOrder(orderId));
-    assertTrue(facade.getOrderStatus(orderId).equals("shipped"));
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    int orderId = activity.buyProduct("customer@email.com", "test", 1L, 0);
+    assertTrue(activity.fulfillOrder(orderId));
+    assertTrue(activity.getOrderStatus(orderId).equals("fulfilled"));
+    assertTrue(activity.shipOrder(orderId));
+    assertTrue(activity.getOrderStatus(orderId).equals("shipped"));
     assertTrue(customers.deleteCustomer("customer@email.com"));
   }
 
@@ -137,8 +135,8 @@ public class TestDomainActivities {
         "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
-    assertTrue(facade.addReview("test@email.com", "test", "great", 4));
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    assertTrue(activity.addReview("test@email.com", "test", "great", 4));
   }
 
   @Test
@@ -147,8 +145,8 @@ public class TestDomainActivities {
         "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555"));
-    assertTrue(facade.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
-    int orderId = facade.buyProduct("customer@email.com", "test", 1L, 0);
-    assertTrue(facade.cancelOrder(orderId) != -1);
+    assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
+    int orderId = activity.buyProduct("customer@email.com", "test", 1L, 0);
+    assertTrue(activity.cancelOrder(orderId) != -1);
   }
 }

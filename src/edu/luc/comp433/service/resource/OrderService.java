@@ -5,14 +5,11 @@ import java.util.Set;
 
 import javax.ws.rs.core.Response;
 
-import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.OrderRequest;
 
 public interface OrderService {
 
   public Response getOrder(int orderId);
-
-  public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
 
   public Response deleteOrder(int orderId);
 

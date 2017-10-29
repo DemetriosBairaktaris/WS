@@ -1,7 +1,6 @@
 package edu.luc.comp433.service.resource;
 
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
@@ -20,14 +19,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.OrderRequest;
-import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
-import edu.luc.comp433.service.workflow.DomainFacade;
+import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
+import edu.luc.comp433.service.workflow.SalesActivity;
 
 @Path("/orders/")
 public class OrderResource implements OrderService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
+  private SalesActivity facade = (ConcreteSalesActivity) context.getBean("salesActivity");
 
   @POST
   @Consumes({ "application/json", "application/xml" })
@@ -143,25 +142,6 @@ public class OrderResource implements OrderService {
     }
     return Response.ok().build();
   }
-
-  @GET
-  @Path("/partner/{partnerUserName}")
-  @Produces({ "application/json", "application/xml" })
-  @Override
-  public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
-    return new HashSet<OrderRepresentation>(facade.getOrdersFromPartner(partnerUserName));
-  }
-
-  // TODO add this back when used
-  // private boolean isValid(OrderRequest request) {
-  // boolean result = true;
-  // if (request == null) {
-  // result = false;
-  // } else if (request.getQuantity() < 0) {
-  // result = false;
-  // }
-  // return result;
-  // }
 
   private boolean isValid(Set<OrderRequest> requests) {
     boolean result = true;

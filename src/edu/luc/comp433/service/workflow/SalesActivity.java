@@ -15,7 +15,7 @@ import edu.luc.comp433.service.representation.ReviewRepresentation;
  * @author Thaddeus and Demetrios
  *
  */
-public interface DomainFacade {
+public interface SalesActivity {
 
   /**
    * Sets the order manager.
@@ -200,25 +200,24 @@ public interface DomainFacade {
       throws SQLException, Exception;
 
   /**
+   * Retrieves an order by its ID.
    * 
    * @param orderId
-   * @return
+   *          integer
+   * @return OrderRepresentation
    */
-  OrderRepresentation getOrderById(int orderId);
+  public OrderRepresentation getOrderById(int orderId);
 
   /**
-   * 
-   * @param partnerUserName
-   * @return
-   */
-  List<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
-
-  /**
+   * Retrieves reviews for a product.
    * 
    * @param productName
-   * @return
+   *          String
+   * @return List of ReviewRepresentation
    * @throws SQLException
+   *           thrown by DB
    * @throws Exception
+   *           thrown for other
    */
-  List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
+  public List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
 }

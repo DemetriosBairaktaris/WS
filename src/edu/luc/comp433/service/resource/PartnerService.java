@@ -1,8 +1,11 @@
 package edu.luc.comp433.service.resource;
 
+import java.util.Set;
+
 import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
 
 @WebService
@@ -25,5 +28,7 @@ public interface PartnerService {
    * @return HTTP Response
    */
   public Response deletePartner(String partnerName);
+
+  public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
 
 }

@@ -1,11 +1,14 @@
 package edu.luc.comp433.service.workflow;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.partner.PartnerProfile;
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 
 public class ConcretePartnerActivity implements PartnerActivity {
@@ -83,6 +86,37 @@ public class ConcretePartnerActivity implements PartnerActivity {
       }
     }
     return partnerOrders.toString();
+  }
+
+  @Override
+  public List<OrderRepresentation> getOrdersFromPartner(String partnerUserName) {
+    List<OrderRepresentation> representations = new LinkedList<>();
+    List<Order> orders = Arrays.asList();
+    try {
+      orders = partners.getOrdersFromPartner(partnerUserName);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    for (Order order : orders) {
+      representations.add(this.assembleOrderToRepresentation(order));
+    }
+
+    return representations;
+  }
+
+  @Override
+  public OrderRepresentation assembleOrderToRepresentation(Order order) {
+    OrderRepresentation representation = new OrderRepresentation();
+    if (order == null) {
+      // if order wasn't found set id to one and the above layer will check
+      representation.setOrderId(-1);
+    } else {
+      representation.setCustomer(order.getCustomer());
+      representation.setOrderId(order.getOrderId());
+      representation.setStatus(order.getStatus());
+      representation.setTimestamp(order.getTimestamp().toString());
+    }
+    return representation;
   }
 
 }

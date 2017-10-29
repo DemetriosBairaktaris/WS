@@ -20,14 +20,14 @@ import java.util.HashSet;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ProductRequest;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
-import edu.luc.comp433.service.workflow.DomainFacade;
-import edu.luc.comp433.service.workflow.ConcreteDomainFacade;
+import edu.luc.comp433.service.workflow.SalesActivity;
+import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 
 @Path("/products/")
 public class ProductResource implements ProductService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private DomainFacade facade = (ConcreteDomainFacade) context.getBean("domain");
+  private SalesActivity facade = (ConcreteSalesActivity) context.getBean("salesActivity");
 
   @GET
   @Path("/{productName}")
@@ -49,8 +49,8 @@ public class ProductResource implements ProductService {
     try {
       representations = new HashSet<>(facade.getReviews(productName));
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
+      return null;
     }
     return representations;
   }

@@ -1,9 +1,12 @@
 package edu.luc.comp433.service.workflow;
 
 import java.sql.SQLException;
+import java.util.List;
 
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.partner.PartnerProfile;
+import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 
 public interface PartnerActivity {
@@ -133,5 +136,23 @@ public interface PartnerActivity {
    *           thrown if issues
    */
   public String getPartnerSales(String userName) throws Exception;
+
+  /**
+   * Retrieves orders from a partner user name.
+   * 
+   * @param partnerUserName
+   *          String
+   * @return List of order representations
+   */
+  public List<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
+
+  /**
+   * Method to assemble order from below.
+   * 
+   * @param order
+   *          Order
+   * @return OrderRepresentation
+   */
+  public OrderRepresentation assembleOrderToRepresentation(Order order);
 
 }
