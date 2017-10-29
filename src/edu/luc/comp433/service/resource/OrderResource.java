@@ -38,11 +38,13 @@ public class OrderResource implements OrderService {
      * Steps: 3: get the representation and return
      */
     if (!this.isValid(request)) {
+      System.out.println("Bad order request. Cannot create order.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid order request.").build();
     }
     int currentOrderId = 0;
     for (OrderRequest singleRequest : request) {
       try {
+        System.out.println("Creating order...");
         // passing in zero for orderId first to guarantee new order creation, otherwise
         // it
         // updates an existing order
@@ -57,10 +59,13 @@ public class OrderResource implements OrderService {
 
       } catch (Exception e) {
         e.printStackTrace();
+        System.out.println("Exception thrown when creating order.");
+        System.out.println(e.getMessage());
         return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unable to purchase item.").build();
       }
     }
 
+    System.out.println("Order: " + currentOrderId + " created.");
     representation = facade.getOrderById(currentOrderId);
     return Response.ok().entity(representation).build();
   }
@@ -72,8 +77,10 @@ public class OrderResource implements OrderService {
   public Response getOrder(@PathParam("orderId") int orderId) {
     OrderRepresentation representation = facade.getOrderById(orderId);
     if (representation.getOrderId() == -1) {
+      System.out.println("Order: " + orderId + " not found.");
       return Response.status(Status.BAD_REQUEST).entity("Could not find resource").build();
     }
+    System.out.println("Order: " + orderId + " found.");
     return Response.ok().entity(representation).build();
   }
 
@@ -82,8 +89,10 @@ public class OrderResource implements OrderService {
   @Override
   public Response checkStatus(@PathParam("orderId") int orderId) {
     if (facade.getOrderById(orderId).getOrderId() == -1) {
+      System.out.println("Order: " + orderId + " not found. Cannot check status.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
     } else {
+      System.out.println("Order: " + orderId + " found. Returning status...");
       return Response.ok().entity(facade.getOrderById(orderId).getStatus()).build();
     }
   }
@@ -93,14 +102,20 @@ public class OrderResource implements OrderService {
   @Override
   public Response fulfillOrder(@PathParam("orderId") int orderId) {
     if (facade.getOrderById(orderId).getOrderId() == -1) {
+      System.out.println("Order: " + orderId + " not found. Cannot fulfill.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
     } else {
       try {
         facade.fulfillOrder(orderId);
+        System.out.println("Order: " + orderId + " found. Order fulfilled.");
       } catch (SQLException e) {
         e.printStackTrace();
+        System.out.println("Exception thrown when fulfilling order.");
+        System.out.println(e.getMessage());
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       } catch (Exception e) {
+        System.out.println("Exception thrown when fulfilling order.");
+        System.out.println(e.getMessage());
         e.printStackTrace();
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       }
@@ -113,15 +128,21 @@ public class OrderResource implements OrderService {
   @Override
   public Response shipOrder(@PathParam("orderId") int orderId) {
     if (facade.getOrderById(orderId).getOrderId() == -1) {
+      System.out.println("Order: " + orderId + " not found. Cannot ship.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
     } else {
       try {
         facade.shipOrder(orderId);
+        System.out.println("Order: " + orderId + " found. Order shipped.");
       } catch (SQLException e) {
         e.printStackTrace();
+        System.out.println("Exception thrown when shipping order.");
+        System.out.println(e.getMessage());
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       } catch (Exception e) {
         e.printStackTrace();
+        System.out.println("Exception thrown when shipping order.");
+        System.out.println(e.getMessage());
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
       }
       return Response.ok().entity("Order shipped.").build();
@@ -135,7 +156,9 @@ public class OrderResource implements OrderService {
   public Response deleteOrder(@PathParam("orderId") int orderId) {
     try {
       facade.cancelOrder(orderId);
+      System.out.println("Order: " + orderId + " found. Order canceled.");
     } catch (Exception e) {
+      System.out.println("Exception thrown when deleting order.");
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Unable to cancel order.").build();
     }
