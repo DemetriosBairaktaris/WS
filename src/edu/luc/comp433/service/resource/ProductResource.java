@@ -43,7 +43,7 @@ public class ProductResource implements ProductService {
 
   @GET
   @Path("/{productName}/reviews")
-
+  @Override
   public Set<ReviewRepresentation> getProductReviews(@PathParam("productName") String productName) {
     Set<ReviewRepresentation> representations = null;
     try {

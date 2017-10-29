@@ -65,7 +65,6 @@ public class OrderResource implements OrderService {
     return Response.ok().entity(representation).build();
   }
 
-  // TODO: update to send back details
   @GET
   @Path("/{orderId}")
   @Produces({ "application/json", "application/xml" })

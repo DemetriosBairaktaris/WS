@@ -21,18 +21,22 @@ public class ConcreteSalesActivity implements SalesActivity {
   public ConcreteSalesActivity() {
   }
 
+  @Override
   public OrderManager getOrders() {
     return orders;
   }
 
+  @Override
   public void setOrders(OrderManager orders) {
     this.orders = orders;
   }
 
+  @Override
   public ProductManager getProducts() {
     return products;
   }
 
+  @Override
   public void setProducts(ProductManager products) {
     this.products = products;
   }
@@ -96,6 +100,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     return success;
   }
 
+  // Used to accept payment before order can be made.
   private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId) {
     int result = -1;
     try {
@@ -111,6 +116,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     return result;
   }
 
+  // Used to create an order or add additional products to existing order.
   private int createOrder(String companyName, String customerName, String productName, long quantity, int orderId)
       throws Exception {
     if (orderId == 0) {
@@ -169,6 +175,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     }
   }
 
+  // processes the refund when an order is canceled.
   private int refund(int orderId) throws SQLException, Exception {
     int totalRefund = 0;
     for (int i = 0; i < orders.getOrder(orderId).getDetails().size(); i++) {
@@ -212,20 +219,16 @@ public class ConcreteSalesActivity implements SalesActivity {
     return reviews;
   }
 
-  private ReviewRepresentation assembleReviewToRepresentation(Review review) {
+  @Override
+  public ReviewRepresentation assembleReviewToRepresentation(Review review) {
     ReviewRepresentation rep = new ReviewRepresentation();
     rep.setRating(review.getRating());
     rep.setReview(review.getReview());
     return rep;
   }
 
-  /**
-   * Method to assemble order from below
-   * 
-   * @param order
-   * @return
-   */
-  private OrderRepresentation assembleOrderToRepresentation(Order order) {
+  @Override
+  public OrderRepresentation assembleOrderToRepresentation(Order order) {
     OrderRepresentation representation = new OrderRepresentation();
     if (order == null) {
       // if order wasn't found set id to one and the above layer will check
@@ -239,14 +242,8 @@ public class ConcreteSalesActivity implements SalesActivity {
     return representation;
   }
 
-  /**
-   * Method to assemble a product from below.
-   * 
-   * @param product
-   *          Product to be assembled
-   * @return completed ProductRepresentation
-   */
-  private ProductRepresentation assembleProductToRepresentation(Product product) {
+  @Override
+  public ProductRepresentation assembleProductToRepresentation(Product product) {
     ProductRepresentation currentProduct = new ProductRepresentation();
     currentProduct.setName(product.getName());
     currentProduct.setCompanyUserName(product.getCompanyUserName());

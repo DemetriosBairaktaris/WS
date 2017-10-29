@@ -9,6 +9,12 @@ import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 
+/**
+ * Activity for partner methods.
+ * 
+ * @author Thaddeus and Demetrios
+ *
+ */
 public interface PartnerActivity {
 
   /**

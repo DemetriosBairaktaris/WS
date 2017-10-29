@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.partner.PartnerProfile;
@@ -13,6 +16,7 @@ import edu.luc.comp433.service.representation.PartnerRepresentation;
 
 public class ConcretePartnerActivity implements PartnerActivity {
 
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerManager partners;
 
   public ConcretePartnerActivity() {
@@ -63,7 +67,7 @@ public class ConcretePartnerActivity implements PartnerActivity {
 
   @Override
   public PartnerRepresentation assemblePartnerToRepresentation(PartnerProfile partner) {
-    PartnerRepresentation representation = new PartnerRepresentation();
+    PartnerRepresentation representation = (PartnerRepresentation) context.getBean("PartnerRepresentation");
     String userName = partner.getUserName();
     String companyName = partner.getName();
     String phone = partner.getPhone();
@@ -106,7 +110,7 @@ public class ConcretePartnerActivity implements PartnerActivity {
 
   @Override
   public OrderRepresentation assembleOrderToRepresentation(Order order) {
-    OrderRepresentation representation = new OrderRepresentation();
+    OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
     if (order == null) {
       // if order wasn't found set id to one and the above layer will check
       representation.setOrderId(-1);

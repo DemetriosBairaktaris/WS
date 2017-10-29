@@ -1,8 +1,1 @@
-edu.luc.comp433.dal
-edu.luc.comp433.domain.customer
-edu.luc.comp433.domain.order
-edu.luc.comp433.domain.partner
-edu.luc.comp433.domain.product
-edu.luc.comp433.service.facade
-edu.luc.comp433.service.web
-edu.luc.comp433.test
+edu.luc.comp433.service.resource

@@ -37,7 +37,7 @@ public class PartnerResource implements PartnerService {
   public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
     return new HashSet<OrderRepresentation>(activity.getOrdersFromPartner(partnerUserName));
   }
-  
+
   @POST
   @Produces({ "application/json", "application/xml" })
   @Consumes({ "application/json", "application/xml" })
@@ -83,6 +83,7 @@ public class PartnerResource implements PartnerService {
     return Response.ok().build();
   }
 
+  // checks if the request is valid.
   private boolean isValid(PartnerRequest request) {
     boolean result = true;
     if (!isValidPartnerUserName(request.getUserName())) {
@@ -92,6 +93,7 @@ public class PartnerResource implements PartnerService {
     return result;
   }
 
+  // checks if the user name is valid.
   private boolean isValidPartnerUserName(String userName) {
 
     String pattern = "(\\w+)[@](\\w+)[.](\\w+\\S+)";
@@ -99,6 +101,7 @@ public class PartnerResource implements PartnerService {
     return result;
   }
 
+  // matches a string to a regex.
   private boolean matchedStringRegex(String input, String regex) {
     boolean result = true;
     Pattern compiledPattern = Pattern.compile(regex);

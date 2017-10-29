@@ -39,7 +39,7 @@ public class TestDomainActivities {
   public void setUp() throws Exception {
     customers = (CustomerActivity) context.getBean("customerActivity");
     partners = (PartnerActivity) context.getBean("partnerActivity");
-    activity = (SalesActivity) context.getBean("activity");
+    activity = (SalesActivity) context.getBean("salesActivity");
   }
 
   @After

@@ -3,14 +3,17 @@ package edu.luc.comp433.service.workflow;
 import java.sql.SQLException;
 import java.util.List;
 
+import edu.luc.comp433.domain.order.Order;
 import edu.luc.comp433.domain.order.OrderManager;
+import edu.luc.comp433.domain.product.Product;
 import edu.luc.comp433.domain.product.ProductManager;
+import edu.luc.comp433.domain.product.Review;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
 
 /**
- * This class sets up the facade between the domain layer and the service layer.
+ * Activity for both orders and products.
  * 
  * @author Thaddeus and Demetrios
  *
@@ -191,10 +194,14 @@ public interface SalesActivity {
    * Gets product from a partner.
    * 
    * @param productName
+   *          String
    * @param partnerUserName
-   * @return
+   *          String
+   * @return Product Representation
    * @throws SQLException
+   *           thrown by DB
    * @throws Exception
+   *           thrown by other
    */
   public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
       throws SQLException, Exception;
@@ -220,4 +227,31 @@ public interface SalesActivity {
    *           thrown for other
    */
   public List<ReviewRepresentation> getReviews(String productName) throws SQLException, Exception;
+
+  /**
+   * Method to assemble a review from below.
+   * 
+   * @param review
+   *          Review to be assembled
+   * @return completed ReviewRepresentation
+   */
+  public ReviewRepresentation assembleReviewToRepresentation(Review review);
+
+  /**
+   * Method to assemble an order from below.
+   * 
+   * @param order
+   *          Order to be assembled
+   * @return completed OrderRepresentation
+   */
+  public OrderRepresentation assembleOrderToRepresentation(Order order);
+
+  /**
+   * Method to assemble a product from below.
+   * 
+   * @param product
+   *          Product to be assembled
+   * @return completed ProductRepresentation
+   */
+  public ProductRepresentation assembleProductToRepresentation(Product product);
 }

@@ -22,6 +22,7 @@ public interface CustomerService {
    * 
    * @param request
    *          CustomerRequest
+   * @return HTTP response
    * @throws ParseException
    *           thrown if parse errors
    */

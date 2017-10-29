@@ -5,6 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Review representation for XML and JSON.
+ * 
+ * @author Demetrios and Thaddeus
+ *
+ */
 @XmlRootElement(name = "review")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")

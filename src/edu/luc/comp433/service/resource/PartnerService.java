@@ -8,6 +8,12 @@ import javax.ws.rs.core.Response;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
 
+/**
+ * Web service for partners.
+ * 
+ * @author Demetrios and Thaddeus
+ *
+ */
 @WebService
 public interface PartnerService {
 
