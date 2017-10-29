@@ -31,13 +31,6 @@ import edu.luc.comp433.domain.product.Review;
 
 public class TestDatabaseLayer {
 
-  // // private final String JDBC_DRIVER = "";
-  // // format : jdbc:postgresql://host:port/database
-  // private String DB_URL = "jdbc:postgresql:COMP433";
-  // // Database credentials
-  // private String USER = "postgres";
-  // private String PASS = "root";
-
   private DatabaseAccess dal;
   private String partnerName1;
 
@@ -58,7 +51,7 @@ public class TestDatabaseLayer {
   @Before
   public void setUp() throws SQLException {
 
-    partnerName1 = "JSHARP@GMAIL.COM";
+    partnerName1 = "management@johnsonandsons.com";
   }
 
   @After
@@ -71,7 +64,7 @@ public class TestDatabaseLayer {
     PartnerProfile partner = new ConcretePartnerProfile();
     partner.setUserName(partnerName1);
     partner.setName("Johnson and sons");
-    partner.setAddress("1232 Lolly Way");
+    partner.setAddress("1232 Lollypop Way");
     partner.setPhone("219-292-1111");
     assertTrue(dal.insertPartner(partner));
     assertTrue(dal.deletePartner(partner.getUserName()));
@@ -79,13 +72,13 @@ public class TestDatabaseLayer {
 
   @Test
   public void testGetPartnerByName() throws Exception, SQLException {
-    String partnerUserName = "Newbie@Gmail.com";
+    String partnerUserName = "management@newbie.com";
     String partnerName = "Newbie Co";
     PartnerProfile partner = new ConcretePartnerProfile();
     partner.setName(partnerName);
     partner.setUserName(partnerUserName);
-    partner.setAddress("kjadsf");
-    partner.setPhone("lldkfjal");
+    partner.setAddress("900 Walsh st.");
+    partner.setPhone("283-000-987");
     assertTrue(dal.insertPartner(partner));
 
     if (dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
@@ -98,9 +91,9 @@ public class TestDatabaseLayer {
 
   @Test
   public void testUpdatePartner() throws Exception, SQLException {
-    String partnerUserName = "Newbie@gmail.com";
+    String partnerUserName = "management@newbie.com";
     String partnerName = "Newbie Co";
-    String address = "funky brats";
+    String address = "900 Walsh st.";
     String phone = "219-222-2222";
     String newPhone = "219-333-3333";
     PartnerProfile partner = new ConcretePartnerProfile();
@@ -121,9 +114,9 @@ public class TestDatabaseLayer {
 
   @Test
   public void testDeletePartner() throws Exception {
-    String partnerUserName = "Newbie@gmail.com";
+    String partnerUserName = "management@newbie.com";
     String partnerName = "Newbie Co";
-    String address = "funky brats";
+    String address = "900 Walsh St.";
     String phone = "219-222-2222";
     PartnerProfile partner = new ConcretePartnerProfile();
 
@@ -140,7 +133,7 @@ public class TestDatabaseLayer {
   @Test
   public void testInsertProduct() throws Exception {
     String productName = "WaxOn-WaxOff";
-    String desc = "Everyones favorite wax"; // todo fix for apostraphe
+    String desc = "Simple floor wax."; // todo fix for apostraphe
     String partnerUserName = "wonderbread@gmail.com";
     double cost = 500000.00;
     int stock = 30;
@@ -160,7 +153,7 @@ public class TestDatabaseLayer {
     profile.setUserName(partnerUserName);
     product.setCompanyUserName(partnerUserName);
     assertFalse(dal.insertProduct(product)); // should fail/ partner doesn't exist...
-    profile.setUserName("BIGDADDY@GMAIL.COM"); // change to one that does exist
+    profile.setUserName("management@target.com"); // change to one that does exist
     product.setCompanyUserName(profile.getUserName());
     assertTrue(dal.insertProduct(product)); // should pass :)
     assertEquals(dal.getProductFromPartner(productName, dal.getPartnerProfile(profile.getUserName())).getReviews()
@@ -171,7 +164,7 @@ public class TestDatabaseLayer {
 
   @Test
   public void testGetProductList() throws Exception {
-    String[] partners = { "BIGDADDY@GMAIL.COM", "plainoldcompany@gmail.com" };
+    String[] partners = { "management@target.com", "management@jcpenny.com" };
     int i = 0;
     while (i < 2) {
       Product p = new ConcreteProduct();
@@ -201,7 +194,7 @@ public class TestDatabaseLayer {
   public void testDeleteProduct() throws SQLException {
     String productName = "WaxOn-WaxOff";
     String desc = "Everyones favorite wax";
-    String partnerUserName = "BIGDADDY@GMAIL.COM";
+    String partnerUserName = "management@target.com";
     double cost = 500000.00;
     int stock = 30;
     Product product = new ConcreteProduct();
@@ -225,10 +218,10 @@ public class TestDatabaseLayer {
 
   @Test
   public void testInsertConsumer() throws SQLException {
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     Payment payment = new ConcretePayment();
@@ -251,10 +244,10 @@ public class TestDatabaseLayer {
 
   @Test
   public void testGetConsumer() throws SQLException {
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     Payment payment = new ConcretePayment();
@@ -284,10 +277,10 @@ public class TestDatabaseLayer {
 
   @Test
   public void testUpdateConsumer() throws SQLException {
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     Payment payment = new ConcretePayment();
@@ -315,10 +308,10 @@ public class TestDatabaseLayer {
 
   @Test
   public void testDeleteConsumer() throws SQLException {
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     Payment payment = new ConcretePayment();
@@ -345,10 +338,10 @@ public class TestDatabaseLayer {
     order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     order.setCustomer(username);
@@ -384,10 +377,10 @@ public class TestDatabaseLayer {
     order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     order.setCustomer(username);
@@ -423,10 +416,10 @@ public class TestDatabaseLayer {
     order.setDetails(new LinkedList<OrderDetail>());
     order.setStatus("open");
 
-    String username = "MHM@gmail.com";
+    String username = "dougf@gmail.com";
     String firstName = "Doug";
-    String lastName = "Frankenstein";
-    String address = "232 dslakj st";
+    String lastName = "Frank";
+    String address = "232 dafney st";
     String phone = "219-202-2222";
 
     order.setCustomer(username);
@@ -459,7 +452,7 @@ public class TestDatabaseLayer {
 
     String productName = "WaxOn-WaxOff";
     String desc = "Everyones favorite wax"; // todo fix for apostraphe
-    String partnerUserName = "BIGDADDY@GMAIL.COM";
+    String partnerUserName = "management@target.com";
     double cost = 500000.00;
     int stock = 30;
     Product product = new ConcreteProduct();
@@ -471,7 +464,7 @@ public class TestDatabaseLayer {
 
     Review r = new ConcreteReview();
     r.setRating(5);
-    r.setReview("The best wax evaaaaarr");
+    r.setReview("The best wax I have ever used. Hands down.");
     product.setReviews(Arrays.asList(r));
     assertTrue(dal.insertProduct(product));
 

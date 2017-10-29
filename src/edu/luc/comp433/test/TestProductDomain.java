@@ -41,11 +41,11 @@ public class TestProductDomain {
   @Before
   public void setUp() throws Exception {
     products = (ProductManager) context.getBean("productManager");
-    name = "Test Product";
-    desc = "Awesome Test Product";
+    name = "Buzz Killington Action Figure";
+    desc = "Nobody is a bigger buzzkill than Buzz Killington. Batteries not included.";
     cost = 99d;
     stock = 5L;
-    companyUserName = "BIGDADDY@GMAIL.COM";
+    companyUserName = "management@target.com";
   }
 
   @After
@@ -68,7 +68,6 @@ public class TestProductDomain {
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     assertTrue(products.deleteProduct(companyUserName, name));
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); // so the teardown
-    // don't complain
   }
 
   @Test
@@ -85,8 +84,8 @@ public class TestProductDomain {
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName));
     Review review = (Review) context.getBean("review");
     review.setRating(5);
-    review.setReview("Awesome");
-    assertTrue(products.addReview(companyUserName, name, "Awesome", 5));
+    review.setReview("Awesome, I love my new product.  It is really great.  Works well. ");
+    assertTrue(products.addReview(companyUserName, name, review.getReview(), 5));
     assertTrue(products.getReviews(companyUserName, name).get(0).getReview().equals(review.getReview()));
   }
 
@@ -105,7 +104,7 @@ public class TestProductDomain {
       System.out.println("Deleting " + p.getName());
       assertTrue(products.deleteProduct(p.getCompanyUserName(), p.getName()));
     }
-    
+
     assertTrue(products.addProduct(name, desc, cost, stock, companyUserName)); // so the teardown
   }
 }

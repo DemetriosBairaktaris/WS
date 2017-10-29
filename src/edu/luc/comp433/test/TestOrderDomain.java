@@ -66,7 +66,7 @@ public class TestOrderDomain {
     payment.setExpiration(Date.valueOf("2018-2-3"));
     customer.setPayment(payment);
     product = (Product) context.getBean("product");
-    product.setCompanyUserName("BIGDADDY@GMAIL.COM");
+    product.setCompanyUserName("management@target.com");
     product.setCost(50);
     product.setDesc("awesome");
     product.setName("Thing");
