@@ -103,7 +103,7 @@ public class CustomerResource implements CustomerService {
   @Override
   public Response deleteCustomer(@PathParam(value = "userName") String userName) throws SQLException {
     if (activity.deleteCustomer(userName)) {
-      System.out.println("Customer" + userName + " deleted.");
+      System.out.println("Customer " + userName + " deleted.");
       return Response.ok().build();
     }
     System.out.println("Cannot delete " + userName + ". User may not exist.");

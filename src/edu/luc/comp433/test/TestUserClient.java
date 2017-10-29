@@ -4,6 +4,7 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.luc.comp433.service.representation.CustomerRequest;
 import edu.luc.comp433.service.representation.PartnerRequest;
 import edu.luc.comp433.service.representation.ProductRequest;
 
@@ -52,6 +53,37 @@ public class TestUserClient {
     response = web.post(productRequest, String.class);
     System.out.println("Server response: " + response);
     System.out.println("Create product test complete.");
+
+    // CUSTOMER CREATE TEST
+    System.out.println("Starting create customer test...");
+    web.reset();
+    web = web.accept("application/xml").type("application/xml").path("/customers/");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "customer", "POST");
+    CustomerRequest customerRequest = (CustomerRequest) context.getBean("customerRequest");
+    customerRequest.setUserName("testuser@tester.com");
+    customerRequest.setFirstName("Test");
+    customerRequest.setLastName("User");
+    customerRequest.setAddress("987 Fake Street");
+    customerRequest.setPhone("7735555555");
+    customerRequest.setCardName("Test User");
+    customerRequest.setCardNumber("1234432112344321");
+    customerRequest.setCvv("999");
+    customerRequest.setExpiration("10-25");
+    response = web.post(customerRequest, String.class);
+    System.out.println("Server response: " + response);
+    System.out.println("Create customer test complete.");
+
+    // CUSTOMER DELETE TEST
+    System.out.println("Starting delete customer test...");
+    web.reset();
+    web = web.path("/customers/testuser@tester.com");
+    uri = web.getCurrentURI().toString();
+    header = web.getHeaders().toString();
+    printDetails(uri, header, "customer", "DELETE");
+    web.delete();
+    System.out.println("Delete customer test complete.");
 
     // PARTNER DELETE TEST
     System.out.println("Starting delete partner test...");
