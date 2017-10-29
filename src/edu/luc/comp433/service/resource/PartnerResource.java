@@ -32,7 +32,7 @@ public class PartnerResource implements PartnerService {
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
 
   @GET
-  @Path("/partner/{partnerUserName}")
+  @Path("/{partnerUserName}/orders")
   @Produces({ "application/json", "application/xml" })
   @Override
   public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
