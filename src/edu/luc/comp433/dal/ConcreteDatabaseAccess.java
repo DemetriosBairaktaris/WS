@@ -210,11 +210,19 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException { // good
-    if (this.deletePartner(profile.getUserName())) {
-      return this.insertPartner(profile);
-    } else {
-      return false;
-    }
+	  boolean updated = true ; 
+	  String address = profile.getAddress();
+	  String name = profile.getName();
+	  String phone = profile.getPhone();
+	  String userName = profile.getUserName();
+	  String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s' where partner_user_name = '%s' ;" ; 
+	  sql = String.format(sql, address,name,phone,userName) ; 
+	  Statement newStatement = db.createStatement();
+	  int results = newStatement.executeUpdate(sql) ; 
+	  if(results == 0) {
+		  updated = false ;
+	  }
+	  return updated ; 
   }
 
   @Override
