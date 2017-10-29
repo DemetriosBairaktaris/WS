@@ -9,6 +9,7 @@
 		scope="prototype" />
 
 	<!-- Domain Classes -->
+
 	<!-- customer -->
 	<bean id="customerManager" class="edu.luc.comp433.domain.customer.ConcreteCustomerManager"
 		scope="prototype">
@@ -51,27 +52,42 @@
 	<bean id="linkedList" class="java.util.LinkedList" scope="prototype" />
 
 	<!-- Service Layer Classes -->
+
 	<!-- Resources -->
+
+	<!-- customer -->
 	<bean id="customerResource" class="edu.luc.comp433.service.resource.CustomerResource"
 		scope="prototype" />
+
+	<!-- product -->
 	<bean id="productResource" class="edu.luc.comp433.service.resource.ProductResource"
 		scope="prototype" />
+
+	<!-- partner -->
 	<bean id="partnerResource" class="edu.luc.comp433.service.resource.PartnerResource"
 		scope="prototype" />
+
+	<!-- order -->
 	<bean id="orderResource" class="edu.luc.comp433.service.resource.OrderResource"
 		scope="prototype" />
 
 	<!-- Activities -->
+
+	<!-- customer -->
 	<bean id="customerActivity"
 		class="edu.luc.comp433.service.workflow.ConcreteCustomerActivity"
 		scope="prototype">
 		<property name="customers" ref="customerManager" />
 	</bean>
+
+	<!-- partner -->
 	<bean id="partnerActivity"
 		class="edu.luc.comp433.service.workflow.ConcretePartnerActivity"
 		scope="prototype">
 		<property name="partners" ref="partnerManager" />
 	</bean>
+
+	<!-- sales -->
 	<bean id="salesActivity" class="edu.luc.comp433.service.workflow.ConcreteSalesActivity"
 		scope="prototype">
 		<property name="orders" ref="orderManager" />
@@ -79,14 +95,32 @@
 	</bean>
 
 	<!-- Representations -->
+
+	<!-- customers -->
 	<bean id="customerRepresentation"
 		class="edu.luc.comp433.service.representation.CustomerRepresentation" />
+	<bean id="customerRequest" class="edu.luc.comp433.service.representation.CustomerRequest" />
+	<bean id="paymentRepresentation"
+		class="edu.luc.comp433.service.representation.PaymentRepresentation" />
+
+	<!-- products -->
 	<bean id="productRepresentation"
 		class="edu.luc.comp433.service.representation.ProductRepresentation" />
+	<bean id="productRequest" class="edu.luc.comp433.service.representation.ProductRequest" />
+	<bean id="reviewRepresentation"
+		class="edu.luc.comp433.service.representation.ReviewRepresentation" />
+
+	<!-- partners -->
 	<bean id="partnerRepresentation"
 		class="edu.luc.comp433.service.representation.PartnerRepresentation" />
 	<bean id="partnerRequest" class="edu.luc.comp433.service.representation.PartnerRequest" />
+
+	<!-- orders -->
 	<bean id="orderRepresentation"
 		class="edu.luc.comp433.service.representation.OrderRepresentation" />
+	<bean id="orderDetailRepresentation"
+		class="edu.luc.comp433.service.representation.OrderDetailRepresentation" />
+	<bean id="orderRequest" class="edu.luc.comp433.service.representation.OrderRequest" />
+
 
 </beans>
