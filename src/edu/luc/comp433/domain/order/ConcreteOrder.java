@@ -61,7 +61,7 @@ public class ConcreteOrder implements Order {
 
   @Override
   public void setTimestamp(Date date) {
-	  this.timestamp = date ; 
+    this.timestamp = date;
   }
 
   @Override

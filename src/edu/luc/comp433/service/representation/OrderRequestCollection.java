@@ -8,6 +8,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ * Wrapper for order requests.
+ * 
+ * @author Demetrios and Thaddeus
+ *
+ */
 @XmlRootElement(name = "Orders")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")

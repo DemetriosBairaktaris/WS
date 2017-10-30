@@ -37,8 +37,8 @@ public interface OrderService {
   /**
    * Creates and inserts an order to the database.
    * 
-   * @param request
-   *          Set of order requests.
+   * @param requests
+   *          Order Request Collection
    * @return HTTP Response
    * @throws SQLException
    *           thrown by DB
@@ -71,7 +71,5 @@ public interface OrderService {
    * @return HTTP Response
    */
   public Response shipOrder(int orderId);
-
-
 
 }

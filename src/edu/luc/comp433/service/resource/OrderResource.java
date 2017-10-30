@@ -35,8 +35,8 @@ public class OrderResource implements OrderService {
   @Override
   public Response insertOrder(OrderRequestCollection requests) throws SQLException {
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
-    
-    Set<OrderRequest> request = requests.getRequests() ; //added this // changed param from Set<OrderReq>
+
+    Set<OrderRequest> request = requests.getRequests(); // added this // changed param from Set<OrderReq>
     if (!this.isValid(request)) {
       System.out.println("Bad order request. Cannot create order.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid order request.").build();

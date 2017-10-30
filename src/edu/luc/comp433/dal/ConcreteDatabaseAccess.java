@@ -482,16 +482,16 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         + this.wrapSingleQuotes(customer.getFirstName()) + ", " + this.wrapSingleQuotes(customer.getLastName()) + ","
         + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
     try {
-    if (stmt.executeUpdate(sql) == 0) {
+      if (stmt.executeUpdate(sql) == 0) {
+        db.rollback();
+        db.setAutoCommit(true);
+        return false;
+      }
+    } catch (Exception e) {
+      // to handle those weird transaction err
       db.rollback();
       db.setAutoCommit(true);
-      return false;
-    }
-    }catch(Exception e) {
-      //to handle those weird transaction err
-      db.rollback();
-      db.setAutoCommit(true);
-      throw new SQLException() ; 
+      throw new SQLException();
     }
     Payment p = customer.getPayment();
     sql = "INSERT INTO CUSTOMER_PAYMENTS (USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES" + "("
