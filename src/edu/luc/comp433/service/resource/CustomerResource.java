@@ -57,7 +57,7 @@ public class CustomerResource implements CustomerService {
       activity.addCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Database error.").build();
     }
     System.out.println("Customer created successfully.");
     return Response.ok().build();
@@ -67,9 +67,14 @@ public class CustomerResource implements CustomerService {
   @Path("/{userName}/status")
   @Override
   public Response getCustomerStatus(@PathParam(value = "userName") String userName) throws SQLException {
-    if (activity.checkCustomerStatus(userName)) {
-      System.out.println("Customer query good. User " + userName + " active.");
-      return Response.ok().entity("Customer exists and is active.").build();
+    try {
+      if (activity.checkCustomerStatus(userName)) {
+        System.out.println("Customer query good. User " + userName + " active.");
+        return Response.ok().entity("Customer exists and is active.").build();
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot get customer.").build();
     }
     System.out.println("Customer: " + userName + ": No such user.");
     return Response.status(Status.BAD_REQUEST).entity("User does not exist.").build();
@@ -80,19 +85,24 @@ public class CustomerResource implements CustomerService {
   @Produces({ "application/json", "application/xml" })
   @Override
   public Response getCustomer(@PathParam(value = "userName") String userName) throws SQLException {
-    if (activity.checkCustomerStatus(userName)) {
-      System.out.println("Customer " + userName + " exists. Building response.");
-      CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
-      customer.setUserName(activity.getCustomers().getCustomer(userName).getUserName());
-      customer.setFirstName(activity.getCustomers().getCustomer(userName).getFirstName());
-      customer.setLastName(activity.getCustomers().getCustomer(userName).getLastName());
-      customer.setAddress(activity.getCustomers().getCustomer(userName).getAddress());
-      customer.setPhone(activity.getCustomers().getCustomer(userName).getPhone());
-      customer.setCardName(activity.getCustomers().getCustomer(userName).getPayment().getCardName());
-      customer.setCardNumber(activity.getCustomers().getCustomer(userName).getPayment().getCardNumber());
-      customer.setCvv(activity.getCustomers().getCustomer(userName).getPayment().getCvv());
-      customer.setExpiration(activity.getCustomers().getCustomer(userName).getPayment().getExpiration().toString());
-      return Response.ok().entity(customer).build();
+    try {
+      if (activity.checkCustomerStatus(userName)) {
+        System.out.println("Customer " + userName + " exists. Building response.");
+        CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
+        customer.setUserName(activity.getCustomers().getCustomer(userName).getUserName());
+        customer.setFirstName(activity.getCustomers().getCustomer(userName).getFirstName());
+        customer.setLastName(activity.getCustomers().getCustomer(userName).getLastName());
+        customer.setAddress(activity.getCustomers().getCustomer(userName).getAddress());
+        customer.setPhone(activity.getCustomers().getCustomer(userName).getPhone());
+        customer.setCardName(activity.getCustomers().getCustomer(userName).getPayment().getCardName());
+        customer.setCardNumber(activity.getCustomers().getCustomer(userName).getPayment().getCardNumber());
+        customer.setCvv(activity.getCustomers().getCustomer(userName).getPayment().getCvv());
+        customer.setExpiration(activity.getCustomers().getCustomer(userName).getPayment().getExpiration().toString());
+        return Response.ok().entity(customer).build();
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot get customer.").build();
     }
     System.out.println("User " + userName + " does not exist.");
     return Response.status(Status.BAD_REQUEST).entity("User not found.").build();
@@ -102,9 +112,14 @@ public class CustomerResource implements CustomerService {
   @Path("/{userName}")
   @Override
   public Response deleteCustomer(@PathParam(value = "userName") String userName) throws SQLException {
-    if (activity.deleteCustomer(userName)) {
-      System.out.println("Customer " + userName + " deleted.");
-      return Response.ok().build();
+    try {
+      if (activity.deleteCustomer(userName)) {
+        System.out.println("Customer " + userName + " deleted.");
+        return Response.ok().build();
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("User cannot be deleted.").build();
     }
     System.out.println("Cannot delete " + userName + ". User may not exist.");
     return Response.status(Status.BAD_REQUEST).entity("Cannot delete customer.").build();
@@ -135,7 +150,7 @@ public class CustomerResource implements CustomerService {
       activity.updatePaymentInfo(userName, cardName, cardNumber, cvv, expiration);
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot get customer.").build();
     }
     System.out.println("Customer updated successfully.");
     return Response.ok().entity("Customer updated.").build();
