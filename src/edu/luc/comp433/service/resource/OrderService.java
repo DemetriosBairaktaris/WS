@@ -7,6 +7,7 @@ import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
 import edu.luc.comp433.service.representation.OrderRequest;
+import edu.luc.comp433.service.representation.OrderRequestCollection;
 
 /**
  * Web service for orders.
@@ -44,7 +45,7 @@ public interface OrderService {
    * @throws SQLException
    *           thrown by DB
    */
-  public Response insertOrder(Set<OrderRequest> request) throws SQLException;
+  public Response insertOrder(OrderRequestCollection requests) throws SQLException;
 
   /**
    * Sets an order to fulfilled status.
@@ -72,5 +73,7 @@ public interface OrderService {
    * @return HTTP Response
    */
   public Response shipOrder(int orderId);
+
+
 
 }

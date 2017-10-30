@@ -477,22 +477,27 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public boolean insertCustomer(Customer customer) throws SQLException {
     db.setAutoCommit(false);
-    String sql = "INSERT INTO CUSTOMERS (USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
+    String sql = " ; INSERT INTO CUSTOMERS (USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
         + "CUSTOMER_ADDRESS, CUSTOMER_PHONE)" + " VALUES ( " + this.wrapSingleQuotes(customer.getUserName()) + ", "
         + this.wrapSingleQuotes(customer.getFirstName()) + ", " + this.wrapSingleQuotes(customer.getLastName()) + ","
         + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
+    try {
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
       db.setAutoCommit(true);
       return false;
     }
-
+    }catch(Exception e) {
+      //to handle those weird transaction err
+      db.rollback();
+      db.setAutoCommit(true);
+      throw new SQLException() ; 
+    }
     Payment p = customer.getPayment();
     sql = "INSERT INTO CUSTOMER_PAYMENTS (USER_NAME,CARD_NAME,CARD_NUMBER,CVV,EXPIRATION) VALUES" + "("
         + this.wrapSingleQuotes(customer.getUserName()) + "," + this.wrapSingleQuotes(p.getCardName()) + " ,"
         + this.wrapSingleQuotes(p.getCardNumber()) + " , " + this.wrapSingleQuotes(p.getCvv()) + ", "
         + this.wrapSingleQuotes(p.getExpiration().toString()) + ") ; ";
-
     if (stmt.executeUpdate(sql) == 0) {
       db.rollback();
       db.setAutoCommit(true);
