@@ -98,29 +98,40 @@
 
 	<!-- customers -->
 	<bean id="customerRepresentation"
-		class="edu.luc.comp433.service.representation.CustomerRepresentation" />
-	<bean id="customerRequest" class="edu.luc.comp433.service.representation.CustomerRequest" />
+		class="edu.luc.comp433.service.representation.CustomerRepresentation"
+		scope="prototype" />
+	<bean id="customerRequest" class="edu.luc.comp433.service.representation.CustomerRequest"
+		scope="prototype" />
 	<bean id="paymentRepresentation"
-		class="edu.luc.comp433.service.representation.PaymentRepresentation" />
+		class="edu.luc.comp433.service.representation.PaymentRepresentation"
+		scope="prototype" />
 
 	<!-- products -->
 	<bean id="productRepresentation"
-		class="edu.luc.comp433.service.representation.ProductRepresentation" />
-	<bean id="productRequest" class="edu.luc.comp433.service.representation.ProductRequest" />
+		class="edu.luc.comp433.service.representation.ProductRepresentation"
+		scope="prototype" />
+	<bean id="productRequest" class="edu.luc.comp433.service.representation.ProductRequest"
+		scope="prototype" />
 	<bean id="reviewRepresentation"
-		class="edu.luc.comp433.service.representation.ReviewRepresentation" />
+		class="edu.luc.comp433.service.representation.ReviewRepresentation"
+		scope="prototype" />
 
 	<!-- partners -->
 	<bean id="partnerRepresentation"
-		class="edu.luc.comp433.service.representation.PartnerRepresentation" />
-	<bean id="partnerRequest" class="edu.luc.comp433.service.representation.PartnerRequest" />
+		class="edu.luc.comp433.service.representation.PartnerRepresentation"
+		scope="prototype" />
+	<bean id="partnerRequest" class="edu.luc.comp433.service.representation.PartnerRequest"
+		scope="prototype" />
 
 	<!-- orders -->
 	<bean id="orderRepresentation"
-		class="edu.luc.comp433.service.representation.OrderRepresentation" />
+		class="edu.luc.comp433.service.representation.OrderRepresentation"
+		scope="prototype" />
 	<bean id="orderDetailRepresentation"
-		class="edu.luc.comp433.service.representation.OrderDetailRepresentation" />
-	<bean id="orderRequest" class="edu.luc.comp433.service.representation.OrderRequest" />
+		class="edu.luc.comp433.service.representation.OrderDetailRepresentation"
+		scope="prototype" />
+	<bean id="orderRequest" class="edu.luc.comp433.service.representation.OrderRequest"
+		scope="prototype" />
 
 
 </beans>

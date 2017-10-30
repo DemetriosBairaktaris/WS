@@ -8,18 +8,22 @@ public class ConcreteReview implements Review {
   public ConcreteReview() {
   }
 
+  @Override
   public String getReview() {
     return review;
   }
 
+  @Override
   public void setReview(String review) {
     this.review = review;
   }
 
+  @Override
   public int getRating() {
     return rating;
   }
 
+  @Override
   public void setRating(int rating) {
     this.rating = rating;
   }

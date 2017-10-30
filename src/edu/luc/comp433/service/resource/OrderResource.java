@@ -19,6 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.OrderRequest;
+import edu.luc.comp433.service.representation.OrderRequestCollection;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 import edu.luc.comp433.service.workflow.SalesActivity;
 
@@ -32,11 +33,10 @@ public class OrderResource implements OrderService {
   @Consumes({ "application/json", "application/xml" })
   @Produces({ "application/json", "application/xml" })
   @Override
-  public Response insertOrder(Set<OrderRequest> request) throws SQLException {
+  public Response insertOrder(OrderRequestCollection requests) throws SQLException {
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
-    /**
-     * Steps: 3: get the representation and return
-     */
+
+    Set<OrderRequest> request = requests.getRequests(); // added this // changed param from Set<OrderReq>
     if (!this.isValid(request)) {
       System.out.println("Bad order request. Cannot create order.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid order request.").build();
@@ -50,6 +50,8 @@ public class OrderResource implements OrderService {
         // updates an existing order
         // each subsequent order after the first should have currentOrderId set to a
         // non-zero value
+        System.out.println("request == null?:");
+        System.out.println(request == null);
         int orderId = facade.buyProduct(singleRequest.getCustomer(), singleRequest.getProductName(),
             singleRequest.getQuantity(), currentOrderId);
         if (orderId == -1) {
@@ -168,10 +170,13 @@ public class OrderResource implements OrderService {
   private boolean isValid(Set<OrderRequest> requests) {
     boolean result = true;
     if (requests == null) {
+      System.out.println("Request null.");
       result = false;
     }
     for (OrderRequest request : requests) {
       if (request.getQuantity() < 1) {
+        System.out.println(requests.size());
+        System.out.println("Cannot have 0 quantity.");
         result = false;
         break;
       }

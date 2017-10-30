@@ -1,12 +1,11 @@
 package edu.luc.comp433.service.resource;
 
 import java.sql.SQLException;
-import java.util.Set;
 
 import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
-import edu.luc.comp433.service.representation.OrderRequest;
+import edu.luc.comp433.service.representation.OrderRequestCollection;
 
 /**
  * Web service for orders.
@@ -38,13 +37,13 @@ public interface OrderService {
   /**
    * Creates and inserts an order to the database.
    * 
-   * @param request
-   *          Set of order requests.
+   * @param requests
+   *          Order Request Collection
    * @return HTTP Response
    * @throws SQLException
    *           thrown by DB
    */
-  public Response insertOrder(Set<OrderRequest> request) throws SQLException;
+  public Response insertOrder(OrderRequestCollection requests) throws SQLException;
 
   /**
    * Sets an order to fulfilled status.
