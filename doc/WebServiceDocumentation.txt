@@ -1,0 +1,77 @@
+
+Customers Resource:
+
+	1: POST /customers/
+		Send post request to this resource.  Attempts to register a new customer in the system.
+			Parameters needed for request: 
+			Sample JSON request fill in with strings:
+			{
+				Customer:{
+				  userName:
+				  firstName:
+				  lastName:
+				  address:
+				  phone:
+				  cardNumber:
+				  cardName:
+				  cvv:
+				  expiration:
+				}
+			}
+	2: GET /customers/{userName}/status
+		Send a get request with {userName} replaced with a user's email address.
+		If user does exist, response is sent back with status message: "Customer exists and is active."
+		If user does not exist, response is sent back with status message: "User does not exist."
+
+		Sample URI: http://[host]/customers/mariasmith@gmail.com/status
+
+	3: GET /customers/{userName}
+		Send a get request with {userName} replaced with a user's email address.
+		If user does not exist, response is sent back with status message: "User not found"
+		If user does exist, response is sent back containing a customer representation in body.
+
+		Sample customer representation JSON: 
+			{
+				Customer:{
+				  userName: ""
+				  firstName: ""
+				  lastName: ""
+				  address: ""
+				  phone: ""
+				  cardNumber: ""
+				  cardName: ""
+				  cvv: "" 
+				  expiration: ""
+				}
+			}
+
+	4: DELETE /customers/{userName}
+		Send a delete request with {userName} replaced with a user's email address.
+		If user does not exist, response is sent back with status message: "User cannot be deleted"
+		If user does exist and can be deleted a level 200 code is sent back in response
+
+		Sample URI: http://[host]/customers/mariasmith@gmail.com
+
+	5: PUT /customers/ 
+
+		Send a put request to update a particular customer.  
+		Body should contain customer-request-formatted json/xml.
+		All attributes of customer can be updated except for the username.
+		Despite this, the userName attribute is still needed in the request.
+		Simply change update any valid attribute below and send a request. 
+		The service will attempt to update the customer based on the request that 
+		was sent. 
+		Sample customer representation JSON: 
+			{
+				Customer:{
+				  userName: ""
+				  firstName: ""
+				  lastName: ""
+				  address: ""
+				  phone: ""
+				  cardNumber: ""
+				  cardName: ""
+				  cvv: "" 
+				  expiration: ""
+				}
+			}
