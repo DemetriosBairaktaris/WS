@@ -39,7 +39,7 @@ public class CustomerResource implements CustomerService {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
       System.out.println("Invalid input for customer creation.");
       return Response.status(Status.BAD_REQUEST)
-          .entity("Invalid input formatting. Ensure all fields all filled correctly").build();
+          .entity("Invalid input formatting. Ensure all fields are filled correctly").build();
     }
 
     String userName = request.getUserName();
