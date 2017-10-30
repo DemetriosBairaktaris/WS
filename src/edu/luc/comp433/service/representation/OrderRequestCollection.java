@@ -16,7 +16,7 @@ public class OrderRequestCollection {
   private Set<OrderRequest> requests;
 
   public OrderRequestCollection() {
-    requests = new HashSet();
+    requests = new HashSet<>();
   }
 
   public void addRequest(OrderRequest request) {

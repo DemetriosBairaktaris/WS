@@ -1,12 +1,10 @@
 package edu.luc.comp433.service.resource;
 
 import java.sql.SQLException;
-import java.util.Set;
 
 import javax.jws.WebService;
 import javax.ws.rs.core.Response;
 
-import edu.luc.comp433.service.representation.OrderRequest;
 import edu.luc.comp433.service.representation.OrderRequestCollection;
 
 /**

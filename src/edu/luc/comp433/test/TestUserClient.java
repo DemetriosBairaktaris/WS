@@ -22,20 +22,52 @@ import edu.luc.comp433.service.representation.ProductRequest;
  */
 public class TestUserClient {
 
-  private static ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
-  private static WebClient web;
-  private static String companyUserName;
-  private static String uri;
-  private static String header;
-  private static String response;
-  private static int orderId;
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private WebClient web;
+  private String companyUserName;
+  private String uri;
+  private String header;
+  private String response;
+  private int orderId;
 
   public TestUserClient() {
     web = WebClient.create("http://localhost:8081");
     companyUserName = "management@partners.com";
   }
 
-  public static void partnerPost() {
+  public static void main(String args[]) {
+
+    System.out.println("Starting user client test...");
+    TestUserClient client = new TestUserClient();
+    // Comment the functions out if you don't want to test it.
+
+    // PARTNER POST TEST
+    client.partnerPost();
+    // PRODUCT POST TEST
+    client.productPost();
+    // CUSTOMER CREATE TEST
+    client.createCustomer();
+    // PRODUCT SEARCH TEST
+    client.searchProduct();
+    // ORDER PRODUCT TEST
+    client.orderProduct();
+    // ORDER WORKFLOW TEST
+    client.orderWorkflow();
+    // ORDER PUSH TO PARTNER TEST
+    client.pushToPartner();
+    // ORDER CANCEL TEST
+    client.cancelOrder();
+    // CUSTOMER DELETE TEST
+    client.deleteCustomer();
+    // PARTNER DELETE TEST
+    client.deletePartner();
+
+    System.out.println("Client test complete. Closing application.");
+    System.exit(0);
+
+  }
+
+  public void partnerPost() {
     // PARTNER POST TEST
     System.out.println("Starting create partner test...");
     web = web.accept("application/xml").type("application/xml").path("/partners");
@@ -57,7 +89,7 @@ public class TestUserClient {
     System.out.println("Create partner test complete.");
   }
 
-  public static void productPost() {
+  public void productPost() {
     System.out.println("Starting create product test...");
     web.reset();
     web = web.accept("application/xml").type("application/xml").path("/products");
@@ -79,7 +111,7 @@ public class TestUserClient {
     System.out.println("Create product test complete.");
   }
 
-  private static void createCustomer() {
+  public void createCustomer() {
     System.out.println("Starting create customer test...");
     web.reset();
     web = web.accept("application/xml").type("application/xml").path("/customers");
@@ -105,7 +137,7 @@ public class TestUserClient {
     System.out.println("Create customer test complete.");
   }
 
-  private static void searchProduct() {
+  public void searchProduct() {
     System.out.println("Starting product search test...");
     web.reset();
     web = web.path("/products/Test Laptop");
@@ -121,7 +153,7 @@ public class TestUserClient {
     System.out.println("Product search test complete.");
   }
 
-  private static void orderProduct() {
+  public void orderProduct() {
     System.out.println("Starting order product test...");
     web.reset();
     web = web.accept("application/xml").type("application/xml").path("/orders");
@@ -148,7 +180,7 @@ public class TestUserClient {
     System.out.println("Order product test complete.");
   }
 
-  private static void orderWorkflow() {
+  public void orderWorkflow() {
     System.out.println("Beginning order workflow tests...");
     getOrderStatus(web, uri, header, response, orderId);
 
@@ -181,7 +213,7 @@ public class TestUserClient {
 
   }
 
-  public static void pushToPartner() {
+  public void pushToPartner() {
     System.out.println("Push orders to partners test starting...");
     web.reset();
     web = web.accept("application/xml").path("/partners/management@partners.com/orders");
@@ -197,7 +229,7 @@ public class TestUserClient {
     System.out.println("Push orders to partners test complete.");
   }
 
-  public static void cancelOrder() {
+  public void cancelOrder() {
     System.out.println("Starting order cancel test...");
     web.reset();
     web = web.path("/orders/" + orderId);
@@ -212,7 +244,7 @@ public class TestUserClient {
     System.out.println("Order delete test complete.");
   }
 
-  public static void deleteCustomer() {
+  public void deleteCustomer() {
     System.out.println("Starting delete customer test...");
     web.reset();
     web = web.path("/customers/testuser@tester.com");
@@ -227,7 +259,7 @@ public class TestUserClient {
     System.out.println("Delete customer test complete.");
   }
 
-  public static void deletePartner() {
+  public void deletePartner() {
     System.out.println("Starting delete partner test...");
     web.reset();
     web = web.path("/partners/management@partners.com");
@@ -240,45 +272,14 @@ public class TestUserClient {
       System.out.println(e.getMessage());
     }
     System.out.println("Delete partner test complete.");
-
-    System.out.println("Client test complete. Closing application.");
   }
 
-  public static void main(String args[]) {
-
-    System.out.println("Starting user client test...");
-    TestUserClient client = new TestUserClient();
-    // Comment the functions out if you don't want to test it.
-
-    // PARTNER POST TEST
-    client.partnerPost();
-    // PRODUCT POST TEST
-    client.productPost();
-    // CUSTOMER CREATE TEST
-    client.createCustomer();
-    // PRODUCT SEARCH TEST
-    client.searchProduct();
-    // ORDER PRODUCT TEST
-    client.orderProduct();
-    // ORDER WORKFLOW TEST
-    client.orderWorkflow();
-    // ORDER PUSH TO PARTNER TEST
-    client.pushToPartner();
-    // ORDER CANCEL TEST
-    client.cancelOrder();
-    // CUSTOMER DELETE TEST
-    client.deleteCustomer();
-    // PARTNER DELETE TEST
-    client.deletePartner();
-
-  }
-
-  private static void printDetails(String uri, String header, String area, String method) {
+  public void printDetails(String uri, String header, String area, String method) {
     System.out.println(method + " URI for " + area + ": " + uri);
     System.out.println(method + " header for " + area + ": " + header);
   }
 
-  private static void getOrderStatus(WebClient web, String uri, String header, String response, int orderId) {
+  public void getOrderStatus(WebClient web, String uri, String header, String response, int orderId) {
     web.reset();
     web = web.path("/orders/" + orderId + "/status");
     uri = web.getCurrentURI().toString();
