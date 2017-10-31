@@ -75,3 +75,62 @@ Customers Resource:
 				  expiration: ""
 				}
 			}
+			
+			
+			
+
+Products Resource:
+	1:  GET /products/{productName}
+
+		Send a GET request and replace productName in the URI path with the product that
+		you are concerned with.
+		The endpoint responds with a collection of product representations.  This may contain 0 to many products.
+
+		Sample URI: http://[host]/products/SAMSUNG GALAXY S5
+
+		This, for example, can return a json response like:
+
+			{
+				Product:[
+					{
+			 			id: [int]
+  			  			desc: ""
+  			 			cost: [float]
+  			 		    stock: [int]
+  			            companyUserName: ""
+  			            name: ""
+					},
+					{
+			 			id: [int]
+  			  			desc: ""
+  			 			cost: [float]
+  			 		    stock: [int]
+  			            companyUserName: ""
+  			            name: ""
+					}
+				]
+			}
+
+	2: GET products/{productName}/reviews/
+
+		Send a GET request with productName being replaced with a product name query
+		Upon success, it should return all reviews for a given products. If no reviews exist,
+		the collection is returned as empty.
+
+
+		Sample URI: http://[host]/products/SAMSUNG GALAXY S5/reviews
+
+		Upon success, it should return a json in this format:
+
+			{
+				Review:[
+					{
+						review: ""
+						rating: ""
+					},
+					{
+						review: ""
+						rating: ""
+					}
+				]
+			}
