@@ -1,204 +1,264 @@
 
+Explanation of available API resources:
+
 Customers Resource:
 
-	1: POST /customers/
-		Send post request to this resource.  Attempts to register a new customer in the system.
-			Parameters needed for request: 
-			Sample JSON request fill in with strings:
-			{
-				Customer:{
-				  userName:
-				  firstName:
-				  lastName:
-				  address:
-				  phone:
-				  cardNumber:
-				  cardName:
-				  cvv:
-				  expiration:
-				}
-			}
-	2: GET /customers/{userName}/status
-		Send a get request with {userName} replaced with a user's email address.
-		If user does exist, response is sent back with status message: "Customer exists and is active."
-		If user does not exist, response is sent back with status message: "User does not exist."
+  1: POST /customers/
 
-		Sample URI: http://[host]/customers/mariasmith@gmail.com/status
+     Send POST request to this resource. Attempts to register a new customer in the system.
+     Parameters needed for request:
 
-	3: GET /customers/{userName}
-		Send a get request with {userName} replaced with a user's email address.
-		If user does not exist, response is sent back with status message: "User not found"
-		If user does exist, response is sent back containing a customer representation in body.
+     Sample JSON request fill in with strings:
+     {
+       "Customer":{
+           "userName": "",
+           "firstName": "",
+           "lastName": "",
+           "address": "",
+           "phone": "",
+           "cardNumber": "",
+           "cardName": "",
+           "cvv": "",
+           "expiration": ""
+       }
+     }
 
-		Sample customer representation JSON: 
-			{
-				Customer:{
-				  userName: ""
-				  firstName: ""
-				  lastName: ""
-				  address: ""
-				  phone: ""
-				  cardNumber: ""
-				  cardName: ""
-				  cvv: "" 
-				  expiration: ""
-				}
-			}
+  2: GET /customers/{userName}/status
 
-	4: DELETE /customers/{userName}
-		Send a delete request with {userName} replaced with a user's email address.
-		If user does not exist, response is sent back with status message: "User cannot be deleted"
-		If user does exist and can be deleted a level 200 code is sent back in response
+     Send a GET request with {userName} replaced with a user's email address.
+     If user does exist, response is sent back with status message: "Customer exists and is active."
+     If user does not exist, response is sent back with status message: "User does not exist."
 
-		Sample URI: http://[host]/customers/mariasmith@gmail.com
+     Sample URI: http://[host]/customers/mariasmith@gmail.com/status
 
-	5: PUT /customers/ 
+  3: GET /customers/{userName}
 
-		Send a put request to update a particular customer.  
-		Body should contain customer-request-formatted json/xml.
-		All attributes of customer can be updated except for the username.
-		Despite this, the userName attribute is still needed in the request.
-		Simply change update any valid attribute below and send a request. 
-		The service will attempt to update the customer based on the request that 
-		was sent. 
-		Sample customer representation JSON: 
-			{
-				Customer:{
-				  userName: ""
-				  firstName: ""
-				  lastName: ""
-				  address: ""
-				  phone: ""
-				  cardNumber: ""
-				  cardName: ""
-				  cvv: "" 
-				  expiration: ""
-				}
-			}
-			
-			
-			
+     Send a GET request with {userName} replaced with a user's email address.
+     If user does not exist, response is sent back with status message: "User not found."
+     If user does exist, response is sent back containing a customer representation in body.
 
-Products Resource:
-	1:  GET /products/{productName}
+     Sample customer representation JSON:
+     {
+       "Customer":{
+           "userName": "",
+           "firstName": "",
+           "lastName": "",
+           "address": "",
+           "phone": "",
+           "cardNumber": "",
+           "cardName": "",
+           "cvv": "",
+           "expiration": ""
+       }
+     }
 
-		Send a GET request and replace productName in the URI path with the product that
-		you are concerned with.
-		The endpoint responds with a collection of product representations.  This may contain 0 to many products.
+  4: DELETE /customers/{userName}
 
-		Sample URI: http://[host]/products/SAMSUNG GALAXY S5
+     Send a DELETE request with {userName} replaced with a user's email address.
+     If user does not exist, response is sent back with status message: "User cannot be deleted."
+     If user does exist and can be deleted a 200 code is sent back in response.
 
-		This, for example, can return a json response like:
+     Sample URI: http://[host]/customers/mariasmith@gmail.com
 
-			{
-				Product:[
-					{
-			 			id: [int]
-  			  			desc: ""
-  			 			cost: [float]
-  			 		    stock: [int]
-  			            companyUserName: ""
-  			            name: ""
-					},
-					{
-			 			id: [int]
-  			  			desc: ""
-  			 			cost: [float]
-  			 		    stock: [int]
-  			            companyUserName: ""
-  			            name: ""
-					}
-				]
-			}
+  5: PUT /customers/
 
-	2: GET products/{productName}/reviews/
+     Send a PUT request to update a particular customer.
+     Body should contain customer-request-formatted JSON or XML.
+     All attributes of customer can be updated except for the username.
+     Despite this, the userName attribute is still needed in the request.
+     Simply change update any valid attribute below and send a request.
+     The service will attempt to update the customer based on the request that
+     was sent.
 
-		Send a GET request with productName being replaced with a product name query
-		Upon success, it should return all reviews for a given products. If no reviews exist,
-		the collection is returned as empty.
+     Sample customer request JSON:
+      {
+        "Customer":{
+            "userName": "",
+            "firstName": "",
+            "lastName": "",
+            "address": "",
+            "phone": "",
+            "cardNumber": "",
+            "cardName": "",
+            "cvv": "",
+            "expiration": ""
+        }
+      }
 
+Partners Resource:
 
-		Sample URI: http://[host]/products/SAMSUNG GALAXY S5/reviews
+1: GET /partners/{partnerUserName}/orders
+   Send GET request to this resource replacing {partnerUserName} with a partner's user name.
+   Retrieves all orders for a specific partner user name.
+   The set of orders is returned in either XML or JSON format.
 
-		Upon success, it should return a json in this format:
+   Sample order representation JSON:
+    {
+      "Order":{
+         "orderId": "",
+         "timestamp": "",
+         "status": "",
+         "customer": ""
+      }
+    }
 
-			{
-				Review:[
-					{
-						review: ""
-						rating: ""
-					},
-					{
-						review: ""
-						rating: ""
-					}
-				]
-			}
-			
-			
-			
-			
-			
-	Orders Resource:
+2: POST /partners
 
-	1: POST /orders/
+   Send a POST request to this resource to create a new partner. Can accept XML or JSON format.
+   If successful, will return the representation of the partner.
 
-		Send a POST request to this resource to place an order.  Body should contain a collection of orderRequest-formatted objects.
-		A response is sent back with a orderRepresentation-formatted object.  The id should be > 0 if successful, otherwise the value is negative.
+   Sample JSON request fill in with strings:
+  {
+    "Partner":{
+        "userName": "",
+        "companyName": "",
+        "address": "",
+        "phone": ""
+    }
+  }
 
+3: PUT /partners/{partnerName}/name/{companyName}
+   PUT /partners/{partnerName}/address/{address}
+   PUT /partners/{partnerName}/phone/{phone}
 
-		Sample json request body:
+   Send a PUT request using one of the above URI's and it will update the associated attribute
+   for the specified partner. Replace content in {} with actual attributes. Takes partner's user name.
 
-		//Orders in this one should be plural
-		{
-			
-			"Orders":[
-				{
-					"customer": "value"
- 					"partner": "value"
- 					"productName": "value"
-   					"quantity": "value"
-				}
-			]
-		}
+ 4: DELETE /partners/{partnerName}
 
-		Sample json response:
+   Send a DELETE request with the partner user name and the partner will be deleted. This also removes
+   any products associated with the partner in the database.
 
-		{
-				"Order":{
-					"orderId": 0
- 					"timestamp": "value"
-  					"status": "value"
- 					"customer": "value"
+ Products Resource:
 
-				}
+ 1: GET /products/{productName}
 
-			}
+    Send a GET request and replace productName in the URI path with the product that
+    you are concerned with.
+    The endpoint responds with a collection of product representations.  This may contain 0 to many products.
 
-	2: GET /orders/{orderId}
-		Send a GET request to obtain minimal information about particular order.  
-		Sample json response: 
-			{
-				"Order":{
-					"orderId": 0
- 					"timestamp": "value"
-  					"status": "value"
- 					"customer": "value"
+    Sample URI: http://[host]/products/SAMSUNG GALAXY S5
 
-				}
+    This, for example, can return a JSON response like:
 
-			}
-	3: GET /orders/{orderID}
-		Send a GET request and response returns current status of order.
+      {
+        "Product":[{
+                 "id": 0,
+                 "desc": "",
+                 "cost": 0,
+                 "stock": 0,
+                 "companyUserName": "",
+                 "name": ""
+              },
+              {
+                 "id": 0,
+                 "desc": "",
+                 "cost": 0,
+                 "stock": 0,
+                 "companyUserName": "",
+                 "name": ""
+              }
+        ]
+      }
 
-	4: PUT /orders/{orderID}
-		Send a PUT to this resource to "fullfill" the order.
+ 2: GET /products/{productName}/reviews/
 
-	5: PUT /orders/{orderId}/shipment
-		Send a PUT on this resource and order will "ship."
-		
-    6: DELETE /orders/{orderId}
-    	Send a DELETE to this resource and it will cancel a specific order that has id = orderId.
+    Send a GET request with productName being replaced with a product name query
+    Upon success, it should return all reviews for a given products. If no reviews exist,
+    the collection is returned as empty.
 
 
-			
+    Sample URI: http://[host]/products/SAMSUNG GALAXY S5/reviews
+
+    Upon success, it should return a JSON in this format:
+
+      {
+        "Review":[{
+                "review": "",
+                "rating": ""
+              },
+              {
+                "review": "",
+                "rating": ""
+              }
+        ]
+      }
+
+ 3: POST /products
+
+    Send a POST request with either JSON or XML formatted product request in the header to insert
+    a product to the database. Upon success, it will return a representation of the product to confirm.
+
+    Sample JSON Product Request:
+
+    {
+        "Product": {
+            "desc": "",
+            "cost": 0,
+            "stock": 0,
+            "companyUserName": "",
+            "name": ""
+         }
+     }
+
+Orders Resource:
+
+ 1: POST /orders/
+
+    Send a POST request to this resource to place an order.  Body should contain a collection of orderRequest-formatted objects.
+    A response is sent back with a orderRepresentation-formatted object.  The id should be > 0 if successful, otherwise the value is negative.
+
+    Sample JSON request body:
+
+    //Orders in this one should be plural
+    {
+
+      "Orders":[{
+              "customer": "value",
+              "partner": "value",
+              "productName": "value",
+              "quantity": 0
+          }
+      ]
+    }
+
+    Sample JSON response:
+
+    {
+        "Order":{
+           "orderId": 0,
+           "timestamp": "value",
+           "status": "value",
+           "customer": "value"
+        }
+    }
+
+ 2: GET /orders/{orderId}
+
+    Send a GET request to obtain minimal information about particular order.
+    Sample JSON response:
+
+    {
+        "Order":{
+            "orderId": 0,
+            "timestamp": "value",
+            "status": "value",
+            "customer": "value"
+        }
+    }
+
+ 3: GET /orders/{orderID}
+
+    Send a GET request and response returns current status of order.
+
+ 4: PUT /orders/{orderID}
+
+    Send a PUT to this resource to "fulfill" the order.
+
+ 5: PUT /orders/{orderId}/shipment
+
+    Send a PUT on this resource and order will "ship."
+
+ 6: DELETE /orders/{orderId}
+ 
+    Send a DELETE to this resource and it will cancel a specific order that has id = orderId.
