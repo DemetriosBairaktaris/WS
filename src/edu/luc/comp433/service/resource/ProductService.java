@@ -50,7 +50,7 @@ public interface ProductService {
    * @return Set of review representations
    */
   public Set<ReviewRepresentation> getProductReviews(String productName);
-  
+
   /**
    * 
    * @param request
@@ -58,5 +58,13 @@ public interface ProductService {
    * @return
    */
   Response insertReview(ReviewRequest request, String productName);
+
+  /**
+   * 
+   * @param companyUserName
+   * @param productName
+   * @return
+   */
+  Response deleteProduct(String companyUserName, String productName);
 
 }

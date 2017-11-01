@@ -176,6 +176,7 @@ public class PartnerResource implements PartnerService {
     }
     return Response.ok().build();
   }
+ 
 
   // checks if the request is valid.
   private boolean isValid(PartnerRequest request) {
