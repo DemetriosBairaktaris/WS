@@ -101,7 +101,7 @@ public class CustomerResource implements CustomerService {
         return Response.ok().entity(customer).build();
       }
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      e.printStackTrace();
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot get customer.").build();
     }
     System.out.println("User " + userName + " does not exist.");
@@ -144,13 +144,13 @@ public class CustomerResource implements CustomerService {
     String expiration = request.getExpiration();
     try {
       System.out.println("Updating customer...");
-      activity.updateCustomerAddress(userName, address);
-      activity.updateCustomerName(userName, firstName, lastName);
-      activity.updateCustomerPhone(userName, phone);
-      activity.updatePaymentInfo(userName, cardName, cardNumber, cvv, expiration);
+      if(!activity.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration)) {
+        throw new Exception();
+      }
+      
     } catch (Exception e) {
       System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot get customer.").build();
+      return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot update customer.").build();
     }
     System.out.println("Customer updated successfully.");
     return Response.ok().entity("Customer updated.").build();

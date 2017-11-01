@@ -32,6 +32,11 @@ public class ConcreteCustomerActivity implements CustomerActivity {
     Date date = format.parse(expiration);
     return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
   }
+  
+  public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+      return customers.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration);
+  }
 
   @Override
   public boolean checkCustomerStatus(String userName) throws SQLException {
