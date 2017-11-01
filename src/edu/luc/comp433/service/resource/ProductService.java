@@ -9,6 +9,7 @@ import javax.ws.rs.core.Response;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ProductRequest;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
+import edu.luc.comp433.service.representation.ReviewRequest;
 
 /**
  * Web service for products.
@@ -49,5 +50,13 @@ public interface ProductService {
    * @return Set of review representations
    */
   public Set<ReviewRepresentation> getProductReviews(String productName);
+  
+  /**
+   * 
+   * @param request
+   * @param productName
+   * @return
+   */
+  Response insertReview(ReviewRequest request, String productName);
 
 }

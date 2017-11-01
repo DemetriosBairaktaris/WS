@@ -20,6 +20,7 @@ import java.util.HashSet;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ProductRequest;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
+import edu.luc.comp433.service.representation.ReviewRequest;
 import edu.luc.comp433.service.workflow.SalesActivity;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 
@@ -84,5 +85,25 @@ public class ProductResource implements ProductService {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.ok().entity(representation).build();
+  }
+
+  @POST
+  @Path("/{productName}/reviews")
+  @Consumes({ "application/xml", "application/json" })
+  @Override
+  public Response insertReview(ReviewRequest request, @PathParam("productName") String productName) {
+    Response response;
+
+    String content = request.getReview();
+    int rating = request.getRating();
+    
+    try {
+      facade.insertReview(productName, content, rating);
+      response = Response.status(Status.OK).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+      response = Response.status(Status.BAD_REQUEST).entity("Unable to add review.").build();
+    }
+    return response;
   }
 }
