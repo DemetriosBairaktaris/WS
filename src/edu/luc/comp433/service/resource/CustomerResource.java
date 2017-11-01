@@ -89,15 +89,8 @@ public class CustomerResource implements CustomerService {
       if (activity.checkCustomerStatus(userName)) {
         System.out.println("Customer " + userName + " exists. Building response.");
         CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
-        customer.setUserName(activity.getCustomers().getCustomer(userName).getUserName());
-        customer.setFirstName(activity.getCustomers().getCustomer(userName).getFirstName());
-        customer.setLastName(activity.getCustomers().getCustomer(userName).getLastName());
-        customer.setAddress(activity.getCustomers().getCustomer(userName).getAddress());
-        customer.setPhone(activity.getCustomers().getCustomer(userName).getPhone());
-        customer.setCardName(activity.getCustomers().getCustomer(userName).getPayment().getCardName());
-        customer.setCardNumber(activity.getCustomers().getCustomer(userName).getPayment().getCardNumber());
-        customer.setCvv(activity.getCustomers().getCustomer(userName).getPayment().getCvv());
-        customer.setExpiration(activity.getCustomers().getCustomer(userName).getPayment().getExpiration().toString());
+        
+        customer = activity.getCustomer(userName) ; 
         return Response.ok().entity(customer).build();
       }
     } catch (Exception e) {
