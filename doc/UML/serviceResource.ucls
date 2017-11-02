@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="edu.luc.comp433.service.resource.CustomerResource" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/CustomerResource.java" binary="false" 
+  <class id="1" language="java" name="edu.luc.comp433.service.resource.CustomerResource" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/CustomerResource.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="146" y="290"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -11,8 +11,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="2" language="java" name="edu.luc.comp433.service.resource.CustomerService" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/CustomerService.java" binary="false" 
+  <interface id="2" language="java" name="edu.luc.comp433.service.resource.CustomerService" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/CustomerService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="155" width="277" x="6" y="-15"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -21,8 +21,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <interface id="3" language="java" name="edu.luc.comp433.service.resource.OrderService" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/OrderService.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="3" language="java" name="edu.luc.comp433.service.resource.OrderService" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/OrderService.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="472" y="67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -30,8 +30,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="4" language="java" name="edu.luc.comp433.service.resource.OrderResource" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/OrderResource.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="edu.luc.comp433.service.resource.OrderResource" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/OrderResource.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="476" y="314"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -39,8 +39,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="5" language="java" name="edu.luc.comp433.service.resource.PartnerService" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/PartnerService.java" binary="false" 
+  <interface id="5" language="java" name="edu.luc.comp433.service.resource.PartnerService" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/PartnerService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="821" y="66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -49,8 +49,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="6" language="java" name="edu.luc.comp433.service.resource.PartnerResource" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/PartnerResource.java" binary="false" 
+  <class id="6" language="java" name="edu.luc.comp433.service.resource.PartnerResource" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/PartnerResource.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="822" y="331"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -59,8 +59,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="7" language="java" name="edu.luc.comp433.service.resource.ProductService" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/ProductService.java" binary="false" 
+  <interface id="7" language="java" name="edu.luc.comp433.service.resource.ProductService" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/ProductService.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1167" y="42"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -69,8 +69,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="8" language="java" name="edu.luc.comp433.service.resource.ProductResource" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/service/resource/ProductResource.java" binary="false" 
+  <class id="8" language="java" name="edu.luc.comp433.service.resource.ProductResource" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/service/resource/ProductResource.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1181" y="283"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

@@ -11,12 +11,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.CustomerManager;
-import edu.luc.comp433.domain.customer.Payment;
 import edu.luc.comp433.service.representation.CustomerRepresentation;
 
 public class ConcreteCustomerActivity implements CustomerActivity {
 
   private CustomerManager customers;
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
 
   public ConcreteCustomerActivity() {
   }
@@ -92,7 +92,7 @@ public class ConcreteCustomerActivity implements CustomerActivity {
   }
 
   private CustomerRepresentation assembleCustomerToRepresentation(Customer customer) {
-    CustomerRepresentation representation = new CustomerRepresentation();
+    CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
     representation.setUserName(customer.getUserName());
     representation.setFirstName(customer.getFirstName());
     representation.setLastName(customer.getLastName());
