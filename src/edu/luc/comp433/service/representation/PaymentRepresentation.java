@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "payment")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class PaymentRepresentation {
+public class PaymentRepresentation extends AbstractRepresentation {
 
   private String cardNumber;
   private String cardName;

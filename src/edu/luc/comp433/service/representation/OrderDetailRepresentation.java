@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "orderDetail")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class OrderDetailRepresentation {
+public class OrderDetailRepresentation extends AbstractRepresentation {
 
   private long quantity;
   private String status;

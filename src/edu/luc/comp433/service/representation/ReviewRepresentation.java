@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "review")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ReviewRepresentation {
+public class ReviewRepresentation extends AbstractRepresentation {
 
   private String review;
   private int rating;
