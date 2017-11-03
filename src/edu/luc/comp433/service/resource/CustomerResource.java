@@ -89,8 +89,8 @@ public class CustomerResource implements CustomerService {
       if (activity.checkCustomerStatus(userName)) {
         System.out.println("Customer " + userName + " exists. Building response.");
         CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
-        
-        customer = activity.getCustomer(userName) ; 
+
+        customer = activity.getCustomer(userName);
         return Response.ok().entity(customer).build();
       }
     } catch (Exception e) {
@@ -137,10 +137,11 @@ public class CustomerResource implements CustomerService {
     String expiration = request.getExpiration();
     try {
       System.out.println("Updating customer...");
-      if(!activity.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration)) {
+      if (!activity.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+          expiration)) {
         throw new Exception();
       }
-      
+
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot update customer.").build();

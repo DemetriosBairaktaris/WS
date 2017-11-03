@@ -134,7 +134,8 @@
 		scope="prototype" />
 
 	<!-- links -->
-	<bean id="link" class="edu.luc.comp433.service.representation.ProtocolLink" />
+	<bean id="link" class="edu.luc.comp433.service.representation.ProtocolLink"
+		scope="prototype" />
 
 
 </beans>
