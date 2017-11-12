@@ -263,4 +263,11 @@ public interface SalesActivity {
    * @throws Exception
    */
   void insertReview(String productName, String review, int rating) throws Exception;
+
+  /**
+   * 
+   * @param product
+   * @return
+   */
+  public ProductRepresentation assembleProductToRepresentationPartner(Product product);
 }

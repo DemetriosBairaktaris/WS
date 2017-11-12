@@ -59,7 +59,7 @@ public class ConcreteSalesActivity implements SalesActivity {
       throws SQLException, Exception {
     Product product = products.getProductFromPartner(productName, partnerUserName);
     ProductRepresentation representation;
-    representation = this.assembleProductToRepresentation(product);
+    representation = this.assembleProductToRepresentationPartner(product);
     return representation;
   }
 
@@ -274,6 +274,23 @@ public class ConcreteSalesActivity implements SalesActivity {
     link1.setContentType("none");
     link1.setRel("Get product reviews.");
     link1.setUri("/products/" + product.getName() + "/reviews");
+    return currentProduct;
+  }
+  
+  @Override
+  public ProductRepresentation assembleProductToRepresentationPartner(Product product) {
+    ProductRepresentation currentProduct = new ProductRepresentation();
+    ProtocolLink link = new ProtocolLink();
+    currentProduct.setName(product.getName());
+    currentProduct.setCompanyUserName(product.getCompanyUserName());
+    currentProduct.setCost((float) product.getCost());
+    currentProduct.setDesc(product.getDesc());
+    currentProduct.setStock(product.getStock());
+    link.setAction("DElETE");
+    link.setContentType("none");
+    link.setRel("Delete product");
+    link.setUri("/products/" + product.getName());
+    currentProduct.addLink(link);
     return currentProduct;
   }
 }
