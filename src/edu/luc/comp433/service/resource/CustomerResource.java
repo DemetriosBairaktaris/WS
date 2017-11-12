@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.luc.comp433.service.representation.CustomerRepresentation;
 import edu.luc.comp433.service.representation.CustomerRequest;
+import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.ConcreteCustomerActivity;
 import edu.luc.comp433.service.workflow.CustomerActivity;
 
@@ -51,16 +52,30 @@ public class CustomerResource implements CustomerService {
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
     String expiration = request.getExpiration();
+    CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
 
     try {
       System.out.println("Creating customer...");
       activity.addCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration);
+      representation = activity.getCustomer(userName);
+      link.setAction("PUT");
+      link.setContentType("application/xml, application/json");
+      link.setRel("Update customer information.");
+      link.setUri("/customers");
+      link1.setAction("DELETE");
+      link1.setContentType("none");
+      link1.setRel("Delete customer.");
+      link1.setUri("/customers/" + userName);
+      representation.addLink(link);
+      representation.addLink(link1);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Database error.").build();
     }
     System.out.println("Customer created successfully.");
-    return Response.ok().build();
+    return Response.ok().entity(representation).build();
   }
 
   @GET
@@ -85,13 +100,25 @@ public class CustomerResource implements CustomerService {
   @Produces({ "application/json", "application/xml" })
   @Override
   public Response getCustomer(@PathParam(value = "userName") String userName) throws SQLException {
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+    CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
     try {
       if (activity.checkCustomerStatus(userName)) {
         System.out.println("Customer " + userName + " exists. Building response.");
-        CustomerRepresentation customer = (CustomerRepresentation) context.getBean("customerRepresentation");
 
-        customer = activity.getCustomer(userName);
-        return Response.ok().entity(customer).build();
+        representation = activity.getCustomer(userName);
+        link.setAction("PUT");
+        link.setContentType("application/xml, application/json");
+        link.setRel("Update customer information.");
+        link.setUri("/customers");
+        link1.setAction("DELETE");
+        link1.setContentType("none");
+        link1.setRel("Delete customer.");
+        link1.setUri("/customers/" + userName);
+        representation.addLink(link);
+        representation.addLink(link1);
+        return Response.ok().entity(representation).build();
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -135,18 +162,27 @@ public class CustomerResource implements CustomerService {
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
     String expiration = request.getExpiration();
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
+
     try {
       System.out.println("Updating customer...");
       if (!activity.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
           expiration)) {
         throw new Exception();
       }
+      representation = activity.getCustomer(userName);
+      link.setAction("DELETE");
+      link.setContentType("none");
+      link.setRel("Delete customer.");
+      link.setUri("/customers/" + userName);
+      representation.addLink(link);
 
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Cannot update customer.").build();
     }
     System.out.println("Customer updated successfully.");
-    return Response.ok().entity("Customer updated.").build();
+    return Response.ok().entity(representation).build();
   }
 }

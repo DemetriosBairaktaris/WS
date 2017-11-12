@@ -5,8 +5,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -14,7 +12,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.CustomerManager;
 import edu.luc.comp433.service.representation.CustomerRepresentation;
-import edu.luc.comp433.service.representation.ProtocolLink;
 
 public class ConcreteCustomerActivity implements CustomerActivity {
 
@@ -88,21 +85,11 @@ public class ConcreteCustomerActivity implements CustomerActivity {
 
   @Override
   public CustomerRepresentation getCustomer(String userName) throws SQLException {
-
-    List<ProtocolLink> links = new LinkedList<>();
-    ProtocolLink link = (ProtocolLink) context.getBean("link");
-    link.setAction("PUT");
-    link.setContentType("application/p4.customer+JSON");
-    link.setRel("customer");
-    link.setUri("http://localhost:8081/customers/");
-    links.add(link);
-
-    CustomerRepresentation representation = this.assembleCustomerToRepresentation(customers.getCustomer(userName),
-        links);
+    CustomerRepresentation representation = this.assembleCustomerToRepresentation(customers.getCustomer(userName));
     return representation;
   }
 
-  private CustomerRepresentation assembleCustomerToRepresentation(Customer customer, List<ProtocolLink> links) {
+  private CustomerRepresentation assembleCustomerToRepresentation(Customer customer) {
     CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
     representation.setUserName(customer.getUserName());
     representation.setFirstName(customer.getFirstName());
@@ -115,8 +102,6 @@ public class ConcreteCustomerActivity implements CustomerActivity {
       representation.setExpiration(customer.getPayment().getExpiration().toString());
       representation.setCardNumber(customer.getPayment().getCardNumber());
     }
-    representation.setProtocols(links);
-
     return representation;
   }
 
