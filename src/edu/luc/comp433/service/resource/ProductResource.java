@@ -21,6 +21,7 @@ import java.util.HashSet;
 
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ProductRequest;
+import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
 import edu.luc.comp433.service.representation.ReviewRequest;
 import edu.luc.comp433.service.workflow.SalesActivity;
@@ -76,9 +77,14 @@ public class ProductResource implements ProductService {
     long stock = request.getStock();
     float cost = (float) request.getCost();
     ProductRepresentation representation = (ProductRepresentation) context.getBean("productRepresentation");
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
     try {
       facade.getProducts().addProduct(name, desc, cost, stock, companyUserName);
       representation = facade.getProductFromPartner(name, companyUserName);
+      link.setAction("DElETE");
+      link.setContentType("none");
+      link.setRel("Delete product");
+      link.setUri("/products/" + name);
       System.out.println("Product: " + name + " created.");
     } catch (Exception e) {
       System.out.println("Error thrown when creating a product.");

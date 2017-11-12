@@ -259,6 +259,7 @@ public class ConcreteSalesActivity implements SalesActivity {
   public ProductRepresentation assembleProductToRepresentation(Product product) {
     ProductRepresentation currentProduct = new ProductRepresentation();
     ProtocolLink link = new ProtocolLink();
+    ProtocolLink link1 = new ProtocolLink();
     currentProduct.setName(product.getName());
     currentProduct.setCompanyUserName(product.getCompanyUserName());
     currentProduct.setCost((float) product.getCost());
@@ -266,9 +267,13 @@ public class ConcreteSalesActivity implements SalesActivity {
     currentProduct.setStock(product.getStock());
     currentProduct.addLink(link);
     link.setAction("POST");
-    link.setContentType("application/json");
+    link.setContentType("application/json, application/xml");
     link.setRel("Order product");
-    link.setUri("/products");
+    link.setUri("/orders");
+    link1.setAction("GET");
+    link1.setContentType("none");
+    link1.setRel("Get product reviews.");
+    link1.setUri("/products/" + product.getName() + "/reviews");
     return currentProduct;
   }
 }
