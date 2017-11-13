@@ -3,6 +3,8 @@ package edu.luc.comp433.domain.customer;
 import edu.luc.comp433.dal.DatabaseAccess;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
@@ -32,6 +34,30 @@ public class ConcreteCustomerManager implements CustomerManager {
     payment.setExpiration(expiration);
     customer.setPayment(payment);
     return database.insertCustomer(customer);
+  }
+
+  @Override
+  public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+    Customer customer = (Customer) context.getBean("customer");
+    customer.setUserName(userName);
+    customer.setFirstName(firstName);
+    customer.setLastName(lastName);
+    customer.setAddress(address);
+    customer.setPhone(phone);
+
+    Payment payment = (Payment) context.getBean("payment");
+    payment.setCardName(cardName);
+    payment.setCardNumber(cardNumber);
+    payment.setCvv(cvv);
+
+    SimpleDateFormat format = new SimpleDateFormat("MM-yy");
+    Date date = format.parse(expiration);
+    payment.setExpiration(date);
+    customer.setPayment(payment);
+    boolean result = database.updateCustomer(customer);
+
+    return result;
   }
 
   @Override

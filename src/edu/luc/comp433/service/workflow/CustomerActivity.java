@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.service.representation.CustomerRepresentation;
 
 /**
  * Interface for the customer activity methods.
@@ -142,4 +143,30 @@ public interface CustomerActivity {
    */
   public boolean updatePaymentInfo(String userName, String cardName, String cardNumber, String cvv, String expiration)
       throws SQLException, ParseException;
+
+  /**
+   * 
+   * @param userName
+   * @param firstName
+   * @param lastName
+   * @param address
+   * @param phone
+   * @param cardName
+   * @param cardNumber
+   * @param cvv
+   * @param expiration
+   * @return
+   * @throws SQLException
+   * @throws ParseException
+   */
+  boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+
+  /**
+   * 
+   * @param userName
+   * @return
+   * @throws SQLException
+   */
+  CustomerRepresentation getCustomer(String userName) throws SQLException;
 }

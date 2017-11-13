@@ -23,6 +23,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
+import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.PartnerActivity;
 import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 
@@ -60,6 +61,30 @@ public class PartnerResource implements PartnerService {
     try {
       activity.addPartner(userName, companyName, address, phone);
       representation = activity.getPartnerByUserName(userName);
+      ProtocolLink link = (ProtocolLink) context.getBean("link");
+      ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+      ProtocolLink link2 = (ProtocolLink) context.getBean("link");
+      ProtocolLink link3 = (ProtocolLink) context.getBean("link");
+      link.setAction("DELETE");
+      link.setContentType("none");
+      link.setRel("Delete account");
+      link.setUri("/partners/" + userName);
+      link1.setAction("PUT");
+      link1.setContentType("none");
+      link1.setRel("Update name.");
+      link1.setUri("/partners/" +userName + "/{newName}");
+      link2.setAction("PUT");
+      link2.setContentType("none");
+      link2.setRel("Update address.");
+      link2.setUri("/partners/" +userName + "/{newAddress}");
+      link3.setAction("PUT");
+      link3.setContentType("none");
+      link3.setRel("Update phone.");
+      link3.setUri("/partners/" +userName + "/{newPhone}");
+      representation.addLink(link);
+      representation.addLink(link1);
+      representation.addLink(link2);
+      representation.addLink(link3);
       System.out.println("Partner " + userName + " added.");
     } catch (Exception e) {
       System.out.println("Creating partner threw an error.");

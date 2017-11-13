@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="edu.luc.comp433.domain.partner.PartnerProfile" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/domain/partner/PartnerProfile.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="edu.luc.comp433.domain.partner.PartnerProfile" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/domain/partner/PartnerProfile.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="575" y="214"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="edu.luc.comp433.domain.partner.ConcretePartnerManager" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/domain/partner/ConcretePartnerManager.java" binary="false" 
+  <class id="2" language="java" name="edu.luc.comp433.domain.partner.ConcretePartnerManager" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/domain/partner/ConcretePartnerManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="225" y="474"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -20,8 +20,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="edu.luc.comp433.domain.partner.ConcretePartnerProfile" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/domain/partner/ConcretePartnerProfile.java" binary="false" 
+  <class id="3" language="java" name="edu.luc.comp433.domain.partner.ConcretePartnerProfile" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/domain/partner/ConcretePartnerProfile.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="570" y="418"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -30,8 +30,8 @@
       <operations public="false" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="edu.luc.comp433.domain.partner.PartnerManager" project="comp433project3" 
-    file="/comp433project3/src/edu/luc/comp433/domain/partner/PartnerManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="4" language="java" name="edu.luc.comp433.domain.partner.PartnerManager" project="comp433project4" 
+    file="/comp433project4/src/edu/luc/comp433/domain/partner/PartnerManager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="228" y="187"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      

@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.OrderRequest;
 import edu.luc.comp433.service.representation.OrderRequestCollection;
+import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 import edu.luc.comp433.service.workflow.SalesActivity;
 
@@ -69,6 +70,18 @@ public class OrderResource implements OrderService {
 
     System.out.println("Order: " + currentOrderId + " created.");
     representation = facade.getOrderById(currentOrderId);
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+    link.setAction("GET");
+    link.setContentType("none");
+    link.setRel("Check status");
+    link.setUri("/orders/" + currentOrderId + "/status");
+    link1.setAction("DELETE");
+    link1.setContentType("none");
+    link1.setRel("Cancel Order");
+    link1.setUri("/orders/" + currentOrderId);
+    representation.addLink(link);
+    representation.addLink(link1);
     return Response.ok().entity(representation).build();
   }
 
@@ -83,6 +96,24 @@ public class OrderResource implements OrderService {
       return Response.status(Status.BAD_REQUEST).entity("Could not find resource").build();
     }
     System.out.println("Order: " + orderId + " found.");
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+    ProtocolLink link2 = (ProtocolLink) context.getBean("link");
+    link.setAction("PUT");
+    link.setContentType("none");
+    link.setRel("Fulfill order");
+    link.setUri("/orders/" + orderId + "/fulfillment");
+    link1.setAction("PUT");
+    link1.setContentType("none");
+    link1.setRel("Ship order");
+    link1.setUri("/orders/" + orderId + "/shipment");
+    link2.setAction("DELETE");
+    link2.setContentType("none");
+    link2.setRel("Cancel Order");
+    link2.setUri("/orders/" + orderId);
+    representation.addLink(link);
+    representation.addLink(link1);
+    representation.addLink(link2);
     return Response.ok().entity(representation).build();
   }
 
@@ -100,7 +131,7 @@ public class OrderResource implements OrderService {
   }
 
   @PUT
-  @Path("/{orderId}/status")
+  @Path("/{orderId}/fulfillment")
   @Override
   public Response fulfillOrder(@PathParam("orderId") int orderId) {
     if (facade.getOrderById(orderId).getOrderId() == -1) {

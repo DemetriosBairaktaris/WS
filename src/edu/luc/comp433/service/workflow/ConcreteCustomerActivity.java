@@ -6,11 +6,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import edu.luc.comp433.domain.customer.Customer;
 import edu.luc.comp433.domain.customer.CustomerManager;
+import edu.luc.comp433.service.representation.CustomerRepresentation;
 
 public class ConcreteCustomerActivity implements CustomerActivity {
 
   private CustomerManager customers;
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
 
   public ConcreteCustomerActivity() {
   }
@@ -31,6 +37,13 @@ public class ConcreteCustomerActivity implements CustomerActivity {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
+  }
+
+  @Override
+  public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+    return customers.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+        expiration);
   }
 
   @Override
@@ -68,6 +81,28 @@ public class ConcreteCustomerActivity implements CustomerActivity {
     DateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
     return customers.updatePayment(userName, cardName, cardNumber, cvv, date);
+  }
+
+  @Override
+  public CustomerRepresentation getCustomer(String userName) throws SQLException {
+    CustomerRepresentation representation = this.assembleCustomerToRepresentation(customers.getCustomer(userName));
+    return representation;
+  }
+
+  private CustomerRepresentation assembleCustomerToRepresentation(Customer customer) {
+    CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
+    representation.setUserName(customer.getUserName());
+    representation.setFirstName(customer.getFirstName());
+    representation.setLastName(customer.getLastName());
+    representation.setPhone(customer.getPhone());
+    representation.setAddress(customer.getAddress());
+    if (customer.getPayment() != null) {
+      representation.setCardName(customer.getPayment().getCardName());
+      representation.setCvv(customer.getPayment().getCvv());
+      representation.setExpiration(customer.getPayment().getExpiration().toString());
+      representation.setCardNumber(customer.getPayment().getCardNumber());
+    }
+    return representation;
   }
 
 }

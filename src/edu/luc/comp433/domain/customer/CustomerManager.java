@@ -3,6 +3,7 @@ package edu.luc.comp433.domain.customer;
 import edu.luc.comp433.dal.DatabaseAccess;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -138,4 +139,22 @@ public interface CustomerManager {
    *           errors if database not ready
    */
   public boolean updatePhone(String userName, String phone) throws SQLException;
+
+  /**
+   * 
+   * @param userName
+   * @param firstName
+   * @param lastName
+   * @param address
+   * @param phone
+   * @param cardName
+   * @param cardNumber
+   * @param cvv
+   * @param expiration
+   * @return
+   * @throws SQLException
+   * @throws ParseException
+   */
+  boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 }

@@ -11,6 +11,7 @@ import edu.luc.comp433.domain.product.ProductManager;
 import edu.luc.comp433.domain.product.Review;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.ProductRepresentation;
+import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
 
 public class ConcreteSalesActivity implements SalesActivity {
@@ -40,13 +41,25 @@ public class ConcreteSalesActivity implements SalesActivity {
   public void setProducts(ProductManager products) {
     this.products = products;
   }
+  
+  @Override
+  public void insertReview(String productName, String review, int rating) throws Exception {
+      List<Product> listOfProducts = products.getProducts(productName) ;
+      if (listOfProducts.size() < 1) {
+        throw new Exception() ; 
+      }
+      String partnerName = listOfProducts.get(0).getCompanyUserName();
+      products.addReview(partnerName, productName, review, rating) ; 
+     
+  }
+  
 
   @Override
   public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
       throws SQLException, Exception {
     Product product = products.getProductFromPartner(productName, partnerUserName);
     ProductRepresentation representation;
-    representation = this.assembleProductToRepresentation(product);
+    representation = this.assembleProductToRepresentationPartner(product);
     return representation;
   }
 
@@ -245,11 +258,39 @@ public class ConcreteSalesActivity implements SalesActivity {
   @Override
   public ProductRepresentation assembleProductToRepresentation(Product product) {
     ProductRepresentation currentProduct = new ProductRepresentation();
+    ProtocolLink link = new ProtocolLink();
+    ProtocolLink link1 = new ProtocolLink();
     currentProduct.setName(product.getName());
     currentProduct.setCompanyUserName(product.getCompanyUserName());
     currentProduct.setCost((float) product.getCost());
     currentProduct.setDesc(product.getDesc());
     currentProduct.setStock(product.getStock());
+    currentProduct.addLink(link);
+    link.setAction("POST");
+    link.setContentType("application/json, application/xml");
+    link.setRel("Order product");
+    link.setUri("/orders");
+    link1.setAction("GET");
+    link1.setContentType("none");
+    link1.setRel("Get product reviews.");
+    link1.setUri("/products/" + product.getName() + "/reviews");
+    return currentProduct;
+  }
+  
+  @Override
+  public ProductRepresentation assembleProductToRepresentationPartner(Product product) {
+    ProductRepresentation currentProduct = new ProductRepresentation();
+    ProtocolLink link = new ProtocolLink();
+    currentProduct.setName(product.getName());
+    currentProduct.setCompanyUserName(product.getCompanyUserName());
+    currentProduct.setCost((float) product.getCost());
+    currentProduct.setDesc(product.getDesc());
+    currentProduct.setStock(product.getStock());
+    link.setAction("DElETE");
+    link.setContentType("none");
+    link.setRel("Delete product");
+    link.setUri("/products/" + product.getName());
+    currentProduct.addLink(link);
     return currentProduct;
   }
 }

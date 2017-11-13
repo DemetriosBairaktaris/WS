@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * Review representation for XML and JSON.
+ * Review request for XML and JSON.
  * 
  * @author Demetrios and Thaddeus
  *
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "review")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "")
-public class ReviewRepresentation extends AbstractRepresentation {
+public class ReviewRequest {
 
   private String review;
   private int rating;

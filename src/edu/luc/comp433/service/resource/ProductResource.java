@@ -1,11 +1,13 @@
 package edu.luc.comp433.service.resource;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -20,6 +22,7 @@ import java.util.HashSet;
 import edu.luc.comp433.service.representation.ProductRepresentation;
 import edu.luc.comp433.service.representation.ProductRequest;
 import edu.luc.comp433.service.representation.ReviewRepresentation;
+import edu.luc.comp433.service.representation.ReviewRequest;
 import edu.luc.comp433.service.workflow.SalesActivity;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 
@@ -84,5 +87,46 @@ public class ProductResource implements ProductService {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.ok().entity(representation).build();
+  }
+
+  @DELETE
+  @Path("/{productName}")
+  @Override
+  public Response deleteProduct(@QueryParam("companyUserName") String companyUserName,
+      @PathParam("productName") String productName) {
+    Response response;
+    if (companyUserName.isEmpty()) {
+      response = Response.status(Status.BAD_REQUEST).entity("Could not delete product.").build();
+    } else {
+      try {
+        facade.getProducts().deleteProduct(companyUserName, productName);
+        response = Response.status(Status.OK).build();
+      } catch (Exception e) {
+        e.printStackTrace();
+        response = Response.status(Status.BAD_REQUEST).entity("Could not delete product.").build();
+      }
+    }
+
+    return response;
+  }
+
+  @POST
+  @Path("/{productName}/reviews")
+  @Consumes({ "application/xml", "application/json" })
+  @Override
+  public Response insertReview(ReviewRequest request, @PathParam("productName") String productName) {
+    Response response;
+
+    String content = request.getReview();
+    int rating = request.getRating();
+
+    try {
+      facade.insertReview(productName, content, rating);
+      response = Response.status(Status.OK).build();
+    } catch (Exception e) {
+      e.printStackTrace();
+      response = Response.status(Status.BAD_REQUEST).entity("Unable to add review.").build();
+    }
+    return response;
   }
 }
