@@ -49,7 +49,7 @@ public class CustomerResource implements CustomerService {
     String lastName = request.getLastName();
     String address = request.getAddress();
     String phone = request.getPhone();
-    String password = "root" ; 
+    String password = request.getPassword() ; 
     String cardName = request.getCardName();
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
@@ -160,7 +160,7 @@ public class CustomerResource implements CustomerService {
     String lastName = request.getLastName();
     String address = request.getAddress();
     String phone = request.getPhone();
-    String password = "root" ; 
+    String password = request.getPassword() ; 
     String cardName = request.getCardName();
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
