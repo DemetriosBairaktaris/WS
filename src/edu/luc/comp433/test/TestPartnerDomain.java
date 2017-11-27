@@ -32,10 +32,9 @@ public class TestPartnerDomain {
   private PartnerManager manager;
   private String userName;
   private String name;
-
   private String address;
-
   private String phone;
+  private String password ;
 
   @Before
   public void setUp() throws Exception {
@@ -44,6 +43,7 @@ public class TestPartnerDomain {
     name = "TestPartner";
     address = "312 Test St";
     phone = "555-555-5555";
+    password = "root" ; 
   }
 
   @After
@@ -54,22 +54,23 @@ public class TestPartnerDomain {
     name = null;
     address = null;
     phone = null;
+    password = null ;
   }
 
   @Test
   public void testPartnerCreate() throws SQLException, Exception {
-    assertTrue(manager.createPartner(userName, name, address, phone));
+    assertTrue(manager.createPartner(userName, name, address, phone, password));
   }
 
   @Test
   public void testPartnerDelete() throws SQLException, Exception {
-    assertTrue(manager.createPartner(userName, name, address, phone));
+    assertTrue(manager.createPartner(userName, name, address, phone, password));
     assertTrue(manager.deletePartner(userName));
   }
 
   @Test
   public void testPartnerUpdate() throws SQLException, Exception {
-    assertTrue(manager.createPartner(userName, name, address, phone));
+    assertTrue(manager.createPartner(userName, name, address, phone, password));
     assertTrue(manager.updateAddress(userName, "123 Test Rd"));
     assertTrue(manager.getPartnerProfile(userName).getAddress().equals("123 Test Rd"));
     assertTrue(manager.updateName(userName, "Test"));

@@ -32,10 +32,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   private ApplicationContext context;
 
   public ConcreteDatabaseAccess() throws SQLException {
-    DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
-        + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-    USER = "evtgoojkjfryzn";
-    PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+//    DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+//        + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+//    USER = "evtgoojkjfryzn";
+//    PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
     db = DriverManager.getConnection(DB_URL, USER, PASS);
     stmt = db.createStatement();
     context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
@@ -195,9 +195,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException { // good
 
-    String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE) VALUES ( "
+    String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE,PARTNER_PASSWORD) VALUES ( "
         + this.wrapSingleQuotes(profile.getUserName()) + "," + this.wrapSingleQuotes(profile.getName()) + ","
-        + this.wrapSingleQuotes(profile.getAddress()) + "," + this.wrapSingleQuotes(profile.getPhone()) + " );";
+        + this.wrapSingleQuotes(profile.getAddress()) + "," + this.wrapSingleQuotes(profile.getPhone()) + ", "+this.wrapSingleQuotes(profile.getPassword())+");";
 
     int success = stmt.executeUpdate(sql);
     if (success == 0) {
@@ -215,8 +215,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String name = profile.getName();
     String phone = profile.getPhone();
     String userName = profile.getUserName();
-    String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s' where partner_user_name = '%s' ;";
-    sql = String.format(sql, address, name, phone, userName);
+    String password = profile.getPassword() ; 
+    String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s', partner_password = '%s' where partner_user_name = '%s' ;";
+    sql = String.format(sql, address, name, phone, password, userName);
     Statement newStatement = db.createStatement();
     int results = newStatement.executeUpdate(sql);
     if (results == 0) {
@@ -250,6 +251,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       p.setName(rs.getString(2));
       p.setAddress(rs.getString(3));
       p.setPhone(rs.getString(4));
+      p.setPassword(rs.getString(5));
       return p;
     }
   }
@@ -478,9 +480,9 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean insertCustomer(Customer customer) throws SQLException {
     db.setAutoCommit(false);
     String sql = " ; INSERT INTO CUSTOMERS (USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
-        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE)" + " VALUES ( " + this.wrapSingleQuotes(customer.getUserName()) + ", "
+        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE,CUSTOMER_PASSWORD)" + " VALUES ( " + this.wrapSingleQuotes(customer.getUserName()) + ", "
         + this.wrapSingleQuotes(customer.getFirstName()) + ", " + this.wrapSingleQuotes(customer.getLastName()) + ","
-        + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ") ; ";
+        + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ","+this.wrapSingleQuotes(customer.getPassword())+") ; ";
     try {
       if (stmt.executeUpdate(sql) == 0) {
         db.rollback();
@@ -556,6 +558,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
       c.setLastName(rs.getString(3));
       c.setAddress(rs.getString(4));
       c.setPhone(rs.getString(5));
+      c.setPassword(rs.getString(6));
     } else {
       newStatement.close();
       return null;

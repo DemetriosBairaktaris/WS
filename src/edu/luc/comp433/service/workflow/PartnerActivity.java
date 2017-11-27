@@ -43,13 +43,15 @@ public interface PartnerActivity {
    *          String
    * @param phone
    *          String
+   * @param password
+   *          String 
    * @return true if successful
    * @throws SQLException
    *           thrown by DB
    * @throws Exception
    *           thrown by DB
    */
-  public boolean addPartner(String userName, String companyName, String address, String phone)
+  public boolean addPartner(String userName, String companyName, String address, String phone, String password)
       throws SQLException, Exception;
 
   /**

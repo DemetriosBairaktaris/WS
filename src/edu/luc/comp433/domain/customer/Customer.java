@@ -97,4 +97,16 @@ public interface Customer {
    *          String
    */
   public void setUserName(String userName);
+  
+  /**
+   * 
+   * @return
+   */
+  public String getPassword();
+  
+   /**
+    * 
+    * @param password
+    */
+  public void setPassword(String password);
 }

@@ -21,10 +21,15 @@ public class CustomerRequest {
   private String lastName;
   private String address;
   private String phone;
+  private String password ;
   private String cardNumber;
   private String cardName;
   private String cvv;
   private String expiration;
+  
+  public CustomerRequest() {
+    
+  }
 
   public String getUserName() {
     return userName;
@@ -96,5 +101,13 @@ public class CustomerRequest {
 
   public void setExpiration(String expiration) {
     this.expiration = expiration;
+  }
+  
+  public void setPassword(String password) {
+    this.password = password ;
+  }
+  
+  public String getPassword() {
+    return this.password ; 
   }
 }

@@ -18,13 +18,14 @@ public class ConcretePartnerManager implements PartnerManager {
   }
 
   @Override
-  public boolean createPartner(String userName, String name, String address, String phone)
+  public boolean createPartner(String userName, String name, String address, String phone, String password)
       throws SQLException, Exception {
     PartnerProfile profile = (PartnerProfile) context.getBean("partner");
     profile.setUserName(userName);
     profile.setName(name);
     profile.setAddress(address);
     profile.setPhone(phone);
+    profile.setPassword(password);
     return database.insertPartner(profile);
   }
 

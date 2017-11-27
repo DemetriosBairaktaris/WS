@@ -32,6 +32,26 @@ public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
 
+  @POST
+  @Path("/authentication")
+  @Consumes({"application/json","application/xml"})
+  public Response login(PartnerRequest request) {
+    
+    try {
+      if (true /*activity.login(request.getUserName(),request.getPassword())*/) {
+        return Response.status(Status.OK).build() ; 
+      }
+      else {
+        return Response.status(Status.BAD_REQUEST).build() ; 
+      }
+    }  catch (Exception e) {
+      
+      e.printStackTrace();
+    } 
+    
+    return Response.serverError().build() ; 
+  }
+  
   @GET
   @Path("/{partnerUserName}/orders")
   @Produces({ "application/json", "application/xml" })
@@ -56,10 +76,11 @@ public class PartnerResource implements PartnerService {
     String companyName = request.getName();
     String address = request.getAddress();
     String phone = request.getPhone();
+    String password =  request.getPassword() ; 
     PartnerRepresentation representation = null;
 
     try {
-      activity.addPartner(userName, companyName, address, phone);
+      activity.addPartner(userName, companyName, address, phone, password);
       representation = activity.getPartnerByUserName(userName);
       ProtocolLink link = (ProtocolLink) context.getBean("link");
       ProtocolLink link1 = (ProtocolLink) context.getBean("link");
