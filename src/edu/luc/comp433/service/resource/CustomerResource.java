@@ -35,6 +35,7 @@ public class CustomerResource implements CustomerService {
 
   @POST
   @Consumes({ "application/json", "application/xml" })
+  @Produces({ "application/json", "application/xml" })
   @Override
   public Response insertCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
