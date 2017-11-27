@@ -141,20 +141,32 @@ public interface CustomerManager {
   public boolean updatePhone(String userName, String phone) throws SQLException;
 
   /**
+   * Updates a customer.
    * 
    * @param userName
+   *          String
    * @param firstName
+   *          String
    * @param lastName
+   *          String
    * @param address
+   *          String
    * @param phone
+   *          String
    * @param cardName
+   *          String
    * @param cardNumber
+   *          String
    * @param cvv
+   *          String
    * @param expiration
-   * @return
+   *          String
+   * @return true if successful
    * @throws SQLException
+   *           thrown by DB
    * @throws ParseException
+   *           thrown by Date parser
    */
-  boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+  public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
       String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 }

@@ -72,15 +72,15 @@ public class PartnerResource implements PartnerService {
       link1.setAction("PUT");
       link1.setContentType("none");
       link1.setRel("Update name.");
-      link1.setUri("/partners/" +userName + "/{newName}");
+      link1.setUri("/partners/" + userName + "/{newName}");
       link2.setAction("PUT");
       link2.setContentType("none");
       link2.setRel("Update address.");
-      link2.setUri("/partners/" +userName + "/{newAddress}");
+      link2.setUri("/partners/" + userName + "/{newAddress}");
       link3.setAction("PUT");
       link3.setContentType("none");
       link3.setRel("Update phone.");
-      link3.setUri("/partners/" +userName + "/{newPhone}");
+      link3.setUri("/partners/" + userName + "/{newPhone}");
       representation.addLink(link);
       representation.addLink(link1);
       representation.addLink(link2);

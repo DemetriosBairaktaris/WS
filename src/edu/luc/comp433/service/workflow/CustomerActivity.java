@@ -145,28 +145,43 @@ public interface CustomerActivity {
       throws SQLException, ParseException;
 
   /**
+   * Updates a customer.
    * 
    * @param userName
+   *          String
    * @param firstName
+   *          String
    * @param lastName
+   *          String
    * @param address
+   *          String
    * @param phone
+   *          String
    * @param cardName
+   *          String
    * @param cardNumber
+   *          String
    * @param cvv
+   *          String
    * @param expiration
-   * @return
+   *          String
+   * @return true if successful
    * @throws SQLException
+   *           thrown by DB
    * @throws ParseException
+   *           thrown by Date parser
    */
-  boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
+  public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
       String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 
   /**
+   * Retrieves the customer.
    * 
    * @param userName
-   * @return
+   *          String
+   * @return CustomerRepresentation
    * @throws SQLException
+   *           thrown by DB
    */
-  CustomerRepresentation getCustomer(String userName) throws SQLException;
+  public CustomerRepresentation getCustomer(String userName) throws SQLException;
 }

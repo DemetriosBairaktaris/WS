@@ -52,18 +52,24 @@ public interface ProductService {
   public Set<ReviewRepresentation> getProductReviews(String productName);
 
   /**
+   * Inserts a review.
    * 
    * @param request
+   *          ReviewRequest
    * @param productName
-   * @return
+   *          String
+   * @return HTTP Response
    */
-  Response insertReview(ReviewRequest request, String productName);
+  public Response insertReview(ReviewRequest request, String productName);
 
   /**
+   * Deletes a product.
    * 
    * @param companyUserName
+   *          String
    * @param productName
-   * @return
+   *          String
+   * @return HTTP Response
    */
   Response deleteProduct(String companyUserName, String productName);
 

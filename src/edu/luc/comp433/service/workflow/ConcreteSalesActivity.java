@@ -41,18 +41,17 @@ public class ConcreteSalesActivity implements SalesActivity {
   public void setProducts(ProductManager products) {
     this.products = products;
   }
-  
+
   @Override
   public void insertReview(String productName, String review, int rating) throws Exception {
-      List<Product> listOfProducts = products.getProducts(productName) ;
-      if (listOfProducts.size() < 1) {
-        throw new Exception() ; 
-      }
-      String partnerName = listOfProducts.get(0).getCompanyUserName();
-      products.addReview(partnerName, productName, review, rating) ; 
-     
+    List<Product> listOfProducts = products.getProducts(productName);
+    if (listOfProducts.size() < 1) {
+      throw new Exception();
+    }
+    String partnerName = listOfProducts.get(0).getCompanyUserName();
+    products.addReview(partnerName, productName, review, rating);
+
   }
-  
 
   @Override
   public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
@@ -276,7 +275,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     link1.setUri("/products/" + product.getName() + "/reviews");
     return currentProduct;
   }
-  
+
   @Override
   public ProductRepresentation assembleProductToRepresentationPartner(Product product) {
     ProductRepresentation currentProduct = new ProductRepresentation();
