@@ -34,7 +34,7 @@ public class ProductResource implements ProductService {
 
   @GET
   @Path("/{productName}")
-  @Produces({ "application/json", "application/xml" })
+  @Produces({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
   public Set<ProductRepresentation> getProduct(@PathParam("productName") String productName)
       throws SQLException, Exception {
@@ -62,8 +62,8 @@ public class ProductResource implements ProductService {
   }
 
   @POST
-  @Produces({ "application/json", "application/xml" })
-  @Consumes({ "application/json", "application/xml" })
+  @Produces({ "application/luc.products+json", "application/luc.products+xml" })
+  @Consumes({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
   public Response insertProduct(ProductRequest request) {
     if (request.getName().equals(null) || request.getName().isEmpty()) {
@@ -112,7 +112,7 @@ public class ProductResource implements ProductService {
 
   @POST
   @Path("/{productName}/reviews")
-  @Consumes({ "application/xml", "application/json" })
+  @Consumes({ "application/luc.products+xml", "application/luc.products+json" })
   @Override
   public Response insertReview(ReviewRequest request, @PathParam("productName") String productName) {
     Response response;

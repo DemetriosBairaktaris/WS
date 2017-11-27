@@ -266,7 +266,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     currentProduct.setStock(product.getStock());
     currentProduct.addLink(link);
     link.setAction("POST");
-    link.setContentType("application/json, application/xml");
+    link.setContentType("application/luc.products+json, application/luc.products+xml");
     link.setRel("Order product");
     link.setUri("/orders");
     link1.setAction("GET");

@@ -31,8 +31,8 @@ public class OrderResource implements OrderService {
   private SalesActivity facade = (ConcreteSalesActivity) context.getBean("salesActivity");
 
   @POST
-  @Consumes({ "application/json", "application/xml" })
-  @Produces({ "application/json", "application/xml" })
+  @Consumes({ "application/luc.orders+json", "application/luc.orders+xml" })
+  @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
   public Response insertOrder(OrderRequestCollection requests) throws SQLException {
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
@@ -87,7 +87,7 @@ public class OrderResource implements OrderService {
 
   @GET
   @Path("/{orderId}")
-  @Produces({ "application/json", "application/xml" })
+  @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
   public Response getOrder(@PathParam("orderId") int orderId) {
     OrderRepresentation representation = facade.getOrderById(orderId);
@@ -184,7 +184,6 @@ public class OrderResource implements OrderService {
 
   @DELETE
   @Path("/{orderId}")
-  @Consumes({ "application/json", "application/xml" })
   @Override
   public Response deleteOrder(@PathParam("orderId") int orderId) {
     try {

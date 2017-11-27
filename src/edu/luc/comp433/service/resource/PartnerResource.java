@@ -41,9 +41,9 @@ public class PartnerResource implements PartnerService {
       if (true /*activity.login(request.getUserName(),request.getPassword())*/) {
         return Response.status(Status.OK).build() ; 
       }
-      else {
-        return Response.status(Status.BAD_REQUEST).build() ; 
-      }
+//      else {
+//        return Response.status(Status.BAD_REQUEST).build() ; 
+//      }
     }  catch (Exception e) {
       
       e.printStackTrace();
