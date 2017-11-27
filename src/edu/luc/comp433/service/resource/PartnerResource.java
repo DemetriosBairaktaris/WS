@@ -56,10 +56,11 @@ public class PartnerResource implements PartnerService {
     String companyName = request.getName();
     String address = request.getAddress();
     String phone = request.getPhone();
+    String password =  "root" ; 
     PartnerRepresentation representation = null;
 
     try {
-      activity.addPartner(userName, companyName, address, phone);
+      activity.addPartner(userName, companyName, address, phone, password);
       representation = activity.getPartnerByUserName(userName);
       ProtocolLink link = (ProtocolLink) context.getBean("link");
       ProtocolLink link1 = (ProtocolLink) context.getBean("link");

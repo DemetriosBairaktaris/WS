@@ -34,9 +34,9 @@ public class ConcretePartnerActivity implements PartnerActivity {
   }
 
   @Override
-  public boolean addPartner(String userName, String companyName, String address, String phone)
+  public boolean addPartner(String userName, String companyName, String address, String phone, String password)
       throws SQLException, Exception {
-    return partners.createPartner(userName, companyName, address, phone);
+    return partners.createPartner(userName, companyName, address, phone, password);
   }
 
   @Override

@@ -57,7 +57,7 @@ public interface CustomerActivity {
    *           thrown by parsing the expiration
    */
   public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 
   /**
    * Checks if a customer profile is active.
@@ -172,7 +172,7 @@ public interface CustomerActivity {
    *           thrown by Date parser
    */
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 
   /**
    * Retrieves the customer.

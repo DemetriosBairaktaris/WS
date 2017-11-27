@@ -25,13 +25,16 @@ public interface PartnerManager {
    *          String
    * @param phone
    *          String
+   * @param password
+   *          String
+   *          
    * @return true if successful
    * @throws Exception
    *           thrown by DB
    * @throws SQLException
    *           thrown by DB
    */
-  public boolean createPartner(String userName, String name, String address, String phone)
+  public boolean createPartner(String userName, String name, String address, String phone, String password)
       throws SQLException, Exception;
 
   /**
@@ -130,4 +133,6 @@ public interface PartnerManager {
    *           thrown by DB
    */
   public List<Order> getOrdersFromPartner(String userName) throws Exception;
+
+  
 }

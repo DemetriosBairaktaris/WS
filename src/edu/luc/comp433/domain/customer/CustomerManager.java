@@ -40,7 +40,7 @@ public interface CustomerManager {
    *           errors if database not ready
    */
   public boolean createCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, Date expiration) throws SQLException;
+      String password, String cardName, String cardNumber, String cvv, Date expiration) throws SQLException;
 
   /**
    * Deletes a customer profile.
@@ -168,5 +168,5 @@ public interface CustomerManager {
    *           thrown by Date parser
    */
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
 }

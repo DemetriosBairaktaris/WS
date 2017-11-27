@@ -58,6 +58,7 @@ public class TestOrderDomain {
     customer.setFirstName("John");
     customer.setLastName("Manson");
     customer.setPhone("888-909-8758");
+    customer.setPassword("root");
     customer.setAddress("12 parkway st");
     payment = (Payment) context.getBean("payment");
     payment.setCardName("visa");
@@ -76,7 +77,7 @@ public class TestOrderDomain {
     quantity = 1L;
 
     customerManager.createCustomer(customer.getUserName(), customer.getFirstName(), customer.getLastName(),
-        customer.getAddress(), customer.getPhone(), customer.getPayment().getCardName(),
+        customer.getAddress(), customer.getPhone(), customer.getPassword(), customer.getPayment().getCardName(),
         customer.getPayment().getCardNumber(), customer.getPayment().getCvv(), customer.getPayment().getExpiration());
   }
 

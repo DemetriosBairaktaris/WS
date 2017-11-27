@@ -25,6 +25,7 @@ public class TestCustomerDomain {
   private String lastName;
   private String address;
   private String phone;
+  private String password ; 
   private String cardName;
   private String cardNumber;
   private String cvv;
@@ -48,6 +49,7 @@ public class TestCustomerDomain {
     lastName = "Doe";
     address = "123 First St";
     phone = "123 456-7891";
+    password = "password" ; 
     cardName = "Jane Doe";
     cardNumber = "1234 4321 1234 4321";
     cvv = "123";
@@ -63,30 +65,32 @@ public class TestCustomerDomain {
     lastName = null;
     address = null;
     phone = null;
+    password = null;
     cardName = null;
     cardNumber = null;
     cvv = null;
     expiration = null;
+    
   }
 
   @Test
   public void testCustomerCreate() throws SQLException {
     assertTrue(
-        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
+        manager.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
   public void testCustomerDelete() throws SQLException {
     assertTrue(
-        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
+        manager.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.deleteCustomer(userName));
   }
 
   @Test
   public void testCustomerUpdate() throws SQLException {
     assertTrue(
-        manager.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, expiration));
+        manager.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, expiration));
     assertTrue(manager.updateAddress(userName, "123 Second St"));
     assertNotNull(manager.getCustomer(userName));
     assertTrue(manager.getCustomer(userName).getAddress().equals("123 Second St"));

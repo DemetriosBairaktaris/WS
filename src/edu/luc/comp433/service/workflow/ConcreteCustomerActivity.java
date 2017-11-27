@@ -33,16 +33,16 @@ public class ConcreteCustomerActivity implements CustomerActivity {
 
   @Override
   public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv, date);
+    return customers.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, date);
   }
 
   @Override
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
-    return customers.updateCustomer(userName, firstName, lastName, address, phone, cardName, cardNumber, cvv,
+      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+    return customers.updateCustomer(userName, firstName, lastName, address, phone,password, cardName, cardNumber, cvv,
         expiration);
   }
 
