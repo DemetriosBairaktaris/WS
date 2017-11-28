@@ -33,16 +33,19 @@ public class ConcreteCustomerActivity implements CustomerActivity {
 
   @Override
   public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+      String password, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException {
     SimpleDateFormat format = new SimpleDateFormat("MM-yy");
     Date date = format.parse(expiration);
-    return customers.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, date);
+    return customers.createCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv,
+        date);
   }
 
   @Override
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
-    return customers.updateCustomer(userName, firstName, lastName, address, phone,password, cardName, cardNumber, cvv,
+      String password, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException {
+    return customers.updateCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv,
         expiration);
   }
 
@@ -87,6 +90,16 @@ public class ConcreteCustomerActivity implements CustomerActivity {
   public CustomerRepresentation getCustomer(String userName) throws SQLException {
     CustomerRepresentation representation = this.assembleCustomerToRepresentation(customers.getCustomer(userName));
     return representation;
+  }
+
+  @Override
+  public boolean checkLogin(String userName, String password) throws SQLException {
+    if (userName.equals(customers.getCustomer(userName).getUserName())
+        && password.equals(customers.getCustomer(userName).getPassword())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private CustomerRepresentation assembleCustomerToRepresentation(Customer customer) {

@@ -142,4 +142,14 @@ public class ConcretePartnerActivity implements PartnerActivity {
     return representation;
   }
 
+  @Override
+  public boolean checkLogin(String userName, String password) throws Exception {
+    if (userName.equals(partners.getPartnerProfile(userName).getUserName())
+        && password.equals(partners.getPartnerProfile(userName).getPassword())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

@@ -57,7 +57,8 @@ public interface CustomerActivity {
    *           thrown by parsing the expiration
    */
   public boolean addCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+      String password, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException;
 
   /**
    * Checks if a customer profile is active.
@@ -172,7 +173,8 @@ public interface CustomerActivity {
    *           thrown by Date parser
    */
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password, String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException;
+      String password, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException;
 
   /**
    * Retrieves the customer.
@@ -184,4 +186,17 @@ public interface CustomerActivity {
    *           thrown by DB
    */
   public CustomerRepresentation getCustomer(String userName) throws SQLException;
+
+  /**
+   * Checks the customer login.
+   * 
+   * @param userName
+   *          String
+   * @param password
+   *          String
+   * @return true if successful
+   * @throws SQLException
+   *           thrown by DB
+   */
+  public boolean checkLogin(String userName, String password) throws SQLException;
 }

@@ -44,7 +44,7 @@ public interface PartnerActivity {
    * @param phone
    *          String
    * @param password
-   *          String 
+   *          String
    * @return true if successful
    * @throws SQLException
    *           thrown by DB
@@ -163,4 +163,16 @@ public interface PartnerActivity {
    */
   public OrderRepresentation assembleOrderToRepresentation(Order order);
 
+  /**
+   * Checks the partner login.
+   * 
+   * @param userName
+   *          String
+   * @param password
+   *          String
+   * @return true if successful
+   * @throws Exception
+   *           thrown if issues
+   */
+  public boolean checkLogin(String userName, String password) throws Exception;
 }
