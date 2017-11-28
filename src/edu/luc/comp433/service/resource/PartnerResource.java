@@ -34,7 +34,7 @@ public class PartnerResource implements PartnerService {
 
   @GET
   @Path("/{partnerUserName}/orders")
-  @Produces({ "application/json", "application/xml" })
+  @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
   public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
     System.out.println("Retrieving partner " + partnerUserName + ".");
@@ -42,8 +42,8 @@ public class PartnerResource implements PartnerService {
   }
 
   @POST
-  @Produces({ "application/json", "application/xml" })
-  @Consumes({ "application/json", "application/xml" })
+  @Produces({ "application/luc.partners+json", "application/luc.partners+xml" })
+  @Consumes({ "application/luc.partners+json", "application/luc.partners+xml" })
   @Override
   public Response insertPartner(PartnerRequest request) {
     if (!isValid(request)) {

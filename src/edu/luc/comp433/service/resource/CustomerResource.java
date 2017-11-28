@@ -34,8 +34,8 @@ public class CustomerResource implements CustomerService {
   }
 
   @POST
-  @Consumes({ "application/luc.customer+json", "application/luc.customer+xml" })
-  @Produces({ "application/luc.customer+json", "application/luc.customer+xml" })
+  @Consumes({ "application/luc.customers+json", "application/luc.customers+xml" })
+  @Produces({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
   public Response insertCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
@@ -64,7 +64,7 @@ public class CustomerResource implements CustomerService {
       activity.addCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, expiration);
       representation = activity.getCustomer(userName);
       link.setAction("PUT");
-      link.setContentType("application/luc.customer+xml, application/luc.customer+json");
+      link.setContentType("application/luc.customers+xml, application/luc.customers+json");
       link.setRel("Update customer information.");
       link.setUri("/customers");
       link1.setAction("DELETE");
@@ -105,7 +105,7 @@ public class CustomerResource implements CustomerService {
 
   @GET
   @Path("/{userName}")
-  @Produces({ "application/luc.customer+json", "application/luc.customer+xml" })
+  @Produces({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
   public Response getCustomer(@PathParam(value = "userName") String userName) throws SQLException {
     ProtocolLink link = (ProtocolLink) context.getBean("link");
@@ -117,7 +117,7 @@ public class CustomerResource implements CustomerService {
 
         representation = activity.getCustomer(userName);
         link.setAction("PUT");
-        link.setContentType("application/luc.customer+xml, application/luc.customer+json");
+        link.setContentType("application/luc.customers+xml, application/luc.customers+json");
         link.setRel("Update customer information.");
         link.setUri("/customers");
         link1.setAction("DELETE");
@@ -154,7 +154,7 @@ public class CustomerResource implements CustomerService {
   }
 
   @PUT
-  @Consumes({ "application/luc.customer+json", "application/luc.customer+xml" })
+  @Consumes({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
   public Response updateCustomer(CustomerRequest request) throws ParseException {
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
