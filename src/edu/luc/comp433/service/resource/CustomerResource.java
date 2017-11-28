@@ -49,7 +49,7 @@ public class CustomerResource implements CustomerService {
     String lastName = request.getLastName();
     String address = request.getAddress();
     String phone = request.getPhone();
-    String password = request.getPassword() ; 
+    String password = request.getPassword();
     String cardName = request.getCardName();
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();
@@ -61,7 +61,8 @@ public class CustomerResource implements CustomerService {
 
     try {
       System.out.println("Creating customer...");
-      activity.addCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv, expiration);
+      activity.addCustomer(userName, firstName, lastName, address, phone, password, cardName, cardNumber, cvv,
+          expiration);
       representation = activity.getCustomer(userName);
       link.setAction("PUT");
       link.setContentType("application/luc.customers+xml, application/luc.customers+json");
@@ -166,7 +167,7 @@ public class CustomerResource implements CustomerService {
     String lastName = request.getLastName();
     String address = request.getAddress();
     String phone = request.getPhone();
-    String password = request.getPassword() ; 
+    String password = request.getPassword();
     String cardName = request.getCardName();
     String cardNumber = request.getCardNumber();
     String cvv = request.getCvv();

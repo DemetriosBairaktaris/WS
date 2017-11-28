@@ -1,1 +1,9 @@
+edu.luc.comp433.dal
 edu.luc.comp433.domain.customer
+edu.luc.comp433.domain.order
+edu.luc.comp433.domain.partner
+edu.luc.comp433.domain.product
+edu.luc.comp433.service.representation
+edu.luc.comp433.service.resource
+edu.luc.comp433.service.workflow
+edu.luc.comp433.test

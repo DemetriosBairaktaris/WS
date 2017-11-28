@@ -20,7 +20,7 @@ public class ConcreteCustomerManager implements CustomerManager {
 
   @Override
   public boolean createCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password,String cardName, String cardNumber, String cvv, Date expiration) throws SQLException {
+      String password, String cardName, String cardNumber, String cvv, Date expiration) throws SQLException {
     Customer customer = (Customer) context.getBean("customer");
     customer.setUserName(userName);
     customer.setFirstName(firstName);
@@ -39,7 +39,8 @@ public class ConcreteCustomerManager implements CustomerManager {
 
   @Override
   public boolean updateCustomer(String userName, String firstName, String lastName, String address, String phone,
-      String password,String cardName, String cardNumber, String cvv, String expiration) throws SQLException, ParseException {
+      String password, String cardName, String cardNumber, String cvv, String expiration)
+      throws SQLException, ParseException {
     Customer customer = (Customer) context.getBean("customer");
     customer.setUserName(userName);
     customer.setFirstName(firstName);

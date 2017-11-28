@@ -6,7 +6,7 @@ public class ConcretePartnerProfile implements PartnerProfile {
   private String name;
   private String address;
   private String phone;
-  private String password ; 
+  private String password;
 
   public ConcretePartnerProfile() {
   }
@@ -53,12 +53,12 @@ public class ConcretePartnerProfile implements PartnerProfile {
 
   @Override
   public void setPassword(String password) {
-    this.password = password ; 
-    
+    this.password = password;
+
   }
 
   @Override
   public String getPassword() {
-    return this.password ; 
+    return this.password;
   }
 }

@@ -97,16 +97,19 @@ public interface Customer {
    *          String
    */
   public void setUserName(String userName);
-  
+
   /**
+   * Gets the customer password.
    * 
-   * @return
+   * @return String
    */
   public String getPassword();
-  
-   /**
-    * 
-    * @param password
-    */
+
+  /**
+   * Sets the customer password.
+   * 
+   * @param password
+   *          String
+   */
   public void setPassword(String password);
 }

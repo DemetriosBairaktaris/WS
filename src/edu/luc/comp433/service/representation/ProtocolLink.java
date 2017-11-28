@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.luc.comp433.service.representation;
 
 import javax.xml.bind.annotation.XmlRootElement;

@@ -23,10 +23,10 @@ import edu.luc.comp433.domain.product.Review;
 
 public class ConcreteDatabaseAccess implements DatabaseAccess {
   // private final String JDBC_DRIVER = "";
-   private String DB_URL = "jdbc:postgresql:COMP433";
+  private String DB_URL = "jdbc:postgresql:COMP433";
   // Database credentials
-   private String USER = "postgres";
-   private String PASS = "root";
+  private String USER = "postgres";
+  private String PASS = "root";
   private Connection db;
   private Statement stmt;
   private ApplicationContext context;
@@ -197,7 +197,8 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
     String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE,PARTNER_PASSWORD) VALUES ( "
         + this.wrapSingleQuotes(profile.getUserName()) + "," + this.wrapSingleQuotes(profile.getName()) + ","
-        + this.wrapSingleQuotes(profile.getAddress()) + "," + this.wrapSingleQuotes(profile.getPhone()) + ", "+this.wrapSingleQuotes(profile.getPassword())+");";
+        + this.wrapSingleQuotes(profile.getAddress()) + "," + this.wrapSingleQuotes(profile.getPhone()) + ", "
+        + this.wrapSingleQuotes(profile.getPassword()) + ");";
 
     int success = stmt.executeUpdate(sql);
     if (success == 0) {
@@ -215,7 +216,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     String name = profile.getName();
     String phone = profile.getPhone();
     String userName = profile.getUserName();
-    String password = profile.getPassword() ; 
+    String password = profile.getPassword();
     String sql = "update partners set partner_address = '%s', partner_name = '%s', partner_phone = '%s', partner_password = '%s' where partner_user_name = '%s' ;";
     sql = String.format(sql, address, name, phone, password, userName);
     Statement newStatement = db.createStatement();
@@ -480,9 +481,10 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   public boolean insertCustomer(Customer customer) throws SQLException {
     db.setAutoCommit(false);
     String sql = " ; INSERT INTO CUSTOMERS (USER_NAME,CUSTOMER_FIRST_NAME,CUSTOMER_LAST_NAME,"
-        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE,CUSTOMER_PASSWORD)" + " VALUES ( " + this.wrapSingleQuotes(customer.getUserName()) + ", "
-        + this.wrapSingleQuotes(customer.getFirstName()) + ", " + this.wrapSingleQuotes(customer.getLastName()) + ","
-        + this.wrapSingleQuotes(customer.getAddress()) + "," + this.wrapSingleQuotes(customer.getPhone()) + ","+this.wrapSingleQuotes(customer.getPassword())+") ; ";
+        + "CUSTOMER_ADDRESS, CUSTOMER_PHONE,CUSTOMER_PASSWORD)" + " VALUES ( "
+        + this.wrapSingleQuotes(customer.getUserName()) + ", " + this.wrapSingleQuotes(customer.getFirstName()) + ", "
+        + this.wrapSingleQuotes(customer.getLastName()) + "," + this.wrapSingleQuotes(customer.getAddress()) + ","
+        + this.wrapSingleQuotes(customer.getPhone()) + "," + this.wrapSingleQuotes(customer.getPassword()) + ") ; ";
     try {
       if (stmt.executeUpdate(sql) == 0) {
         db.rollback();

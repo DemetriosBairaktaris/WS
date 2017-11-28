@@ -14,6 +14,13 @@ import edu.luc.comp433.service.representation.LoginRequest;
 @WebService
 public interface LoginService {
 
+  /**
+   * Logs in a user and determines if they are partner or customer.
+   * 
+   * @param request
+   *          request
+   * @return HTTP Response
+   */
   public Response login(LoginRequest request);
 
 }

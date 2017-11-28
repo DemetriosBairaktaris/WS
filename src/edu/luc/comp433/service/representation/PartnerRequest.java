@@ -20,14 +20,14 @@ public class PartnerRequest {
   private String name;
   private String address;
   private String phone;
-  private String password ;
+  private String password;
 
   public PartnerRequest() {
     userName = "";
     name = "";
     address = "";
     phone = "";
-    password = "" ; 
+    password = "";
   }
 
   public String getUserName() {
@@ -61,13 +61,13 @@ public class PartnerRequest {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-  
+
   public void setPassword(String password) {
-    this.password = password ; 
+    this.password = password;
   }
-  
+
   public String getPassword() {
-    return this.password ; 
+    return this.password;
   }
 
 }

@@ -50,6 +50,8 @@ public interface CustomerActivity {
    *          String
    * @param expiration
    *          String
+   * @param password
+   *          String
    * @return true if successful
    * @throws SQLException
    *           thrown by DB
@@ -165,6 +167,8 @@ public interface CustomerActivity {
    * @param cvv
    *          String
    * @param expiration
+   *          String
+   * @param password
    *          String
    * @return true if successful
    * @throws SQLException

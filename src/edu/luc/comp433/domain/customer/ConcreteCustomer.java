@@ -8,8 +8,8 @@ public class ConcreteCustomer implements Customer {
   private String address;
   private String phone;
   private Payment payment;
-  
-  private String password ; 
+
+  private String password;
 
   public ConcreteCustomer() {
   }
@@ -76,13 +76,13 @@ public class ConcreteCustomer implements Customer {
 
   @Override
   public String getPassword() {
-    return this.password ; 
-   
+    return this.password;
+
   }
 
   @Override
   public void setPassword(String password) {
-    this.password = password ; 
-    
+    this.password = password;
+
   }
 }

@@ -67,18 +67,19 @@ public interface PartnerProfile {
    *          String
    */
   public void setUserName(String userName);
-  
+
   /**
+   * Set the partner password.
    * 
    * @param password
    *          String
    */
   public void setPassword(String password);
-  
-   /**
-    * 
-    * @return password
-    *           String
-    */
-  public String getPassword() ;
+
+  /**
+   * Get the partner password.
+   * 
+   * @return password String
+   */
+  public String getPassword();
 }
