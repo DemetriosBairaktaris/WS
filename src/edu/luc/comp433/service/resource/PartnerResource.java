@@ -32,26 +32,6 @@ public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
 
-  @POST
-  @Path("/authentication")
-  @Consumes({"application/json","application/xml"})
-  public Response login(PartnerRequest request) {
-    
-    try {
-      if (true /*activity.login(request.getUserName(),request.getPassword())*/) {
-        return Response.status(Status.OK).build() ; 
-      }
-//      else {
-//        return Response.status(Status.BAD_REQUEST).build() ; 
-//      }
-    }  catch (Exception e) {
-      
-      e.printStackTrace();
-    } 
-    
-    return Response.serverError().build() ; 
-  }
-  
   @GET
   @Path("/{partnerUserName}/orders")
   @Produces({ "application/json", "application/xml" })
@@ -76,7 +56,7 @@ public class PartnerResource implements PartnerService {
     String companyName = request.getName();
     String address = request.getAddress();
     String phone = request.getPhone();
-    String password =  request.getPassword() ; 
+    String password = request.getPassword();
     PartnerRepresentation representation = null;
 
     try {
@@ -86,6 +66,7 @@ public class PartnerResource implements PartnerService {
       ProtocolLink link1 = (ProtocolLink) context.getBean("link");
       ProtocolLink link2 = (ProtocolLink) context.getBean("link");
       ProtocolLink link3 = (ProtocolLink) context.getBean("link");
+      ProtocolLink link4 = (ProtocolLink) context.getBean("link");
       link.setAction("DELETE");
       link.setContentType("none");
       link.setRel("Delete account");
@@ -102,10 +83,15 @@ public class PartnerResource implements PartnerService {
       link3.setContentType("none");
       link3.setRel("Update phone.");
       link3.setUri("/partners/" + userName + "/{newPhone}");
+      link4.setAction("POST");
+      link4.setContentType("application/luc.products+xml, application/luc.products+json");
+      link4.setRel("add products");
+      link4.setUri("/products");
       representation.addLink(link);
       representation.addLink(link1);
       representation.addLink(link2);
       representation.addLink(link3);
+      representation.addLink(link4);
       System.out.println("Partner " + userName + " added.");
     } catch (Exception e) {
       System.out.println("Creating partner threw an error.");

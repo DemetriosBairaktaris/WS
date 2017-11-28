@@ -57,6 +57,7 @@ public class CustomerResource implements CustomerService {
     CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
     ProtocolLink link = (ProtocolLink) context.getBean("link");
     ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+    ProtocolLink link2 = (ProtocolLink) context.getBean("link");
 
     try {
       System.out.println("Creating customer...");
@@ -70,8 +71,13 @@ public class CustomerResource implements CustomerService {
       link1.setContentType("none");
       link1.setRel("Delete customer.");
       link1.setUri("/customers/" + userName);
+      link2.setAction("GET");
+      link2.setContentType("none");
+      link2.setRel("search products");
+      link2.setUri("/products/");
       representation.addLink(link);
       representation.addLink(link1);
+      representation.addLink(link2);
     } catch (Exception e) {
       System.out.println(e.getMessage());
       return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Database error.").build();
