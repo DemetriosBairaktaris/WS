@@ -3,6 +3,7 @@ package edu.luc.comp433.service.resource;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -24,11 +25,12 @@ import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.ConcreteCustomerActivity;
 import edu.luc.comp433.service.workflow.CustomerActivity;
 
-@Path("/customers/")
+@Path("/customers")
 public class CustomerResource implements CustomerService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private CustomerActivity activity = (ConcreteCustomerActivity) context.getBean("customerActivity");
+  private int key = 123456789;
 
   public CustomerResource() {
   }
@@ -37,7 +39,11 @@ public class CustomerResource implements CustomerService {
   @Consumes({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Produces({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
-  public Response insertCustomer(CustomerRequest request) throws ParseException {
+  public Response insertCustomer(CustomerRequest request, @QueryParam("key") int api) throws ParseException {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
       System.out.println("Invalid input for customer creation.");
       return Response.status(Status.BAD_REQUEST)
@@ -90,7 +96,12 @@ public class CustomerResource implements CustomerService {
   @GET
   @Path("/{userName}/status")
   @Override
-  public Response getCustomerStatus(@PathParam(value = "userName") String userName) throws SQLException {
+  public Response getCustomerStatus(@PathParam(value = "userName") String userName, @QueryParam("key") int api)
+      throws SQLException {
+    if (!this.checkKey(key)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     try {
       if (activity.checkCustomerStatus(userName)) {
         System.out.println("Customer query good. User " + userName + " active.");
@@ -108,7 +119,12 @@ public class CustomerResource implements CustomerService {
   @Path("/{userName}")
   @Produces({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
-  public Response getCustomer(@PathParam(value = "userName") String userName) throws SQLException {
+  public Response getCustomer(@PathParam(value = "userName") String userName, @QueryParam("key") int api)
+      throws SQLException {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     ProtocolLink link = (ProtocolLink) context.getBean("link");
     ProtocolLink link1 = (ProtocolLink) context.getBean("link");
     CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
@@ -140,7 +156,12 @@ public class CustomerResource implements CustomerService {
   @DELETE
   @Path("/{userName}")
   @Override
-  public Response deleteCustomer(@PathParam(value = "userName") String userName) throws SQLException {
+  public Response deleteCustomer(@PathParam(value = "userName") String userName, @QueryParam("key") int api)
+      throws SQLException {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     try {
       if (activity.deleteCustomer(userName)) {
         System.out.println("Customer " + userName + " deleted.");
@@ -157,7 +178,11 @@ public class CustomerResource implements CustomerService {
   @PUT
   @Consumes({ "application/luc.customers+json", "application/luc.customers+xml" })
   @Override
-  public Response updateCustomer(CustomerRequest request) throws ParseException {
+  public Response updateCustomer(CustomerRequest request, @QueryParam("key") int api) throws ParseException {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     if (request.getUserName().isEmpty() || request.getCardNumber().isEmpty()) {
       System.out.println("Invalid update input.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid input formatting.").build();
@@ -194,5 +219,13 @@ public class CustomerResource implements CustomerService {
     }
     System.out.println("Customer updated successfully.");
     return Response.ok().entity(representation).build();
+  }
+
+  private boolean checkKey(int key) {
+    if (this.key == key) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
