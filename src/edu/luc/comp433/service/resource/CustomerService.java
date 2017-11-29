@@ -26,7 +26,7 @@ public interface CustomerService {
    * @throws ParseException
    *           thrown if parse errors
    */
-  public Response insertCustomer(CustomerRequest request) throws ParseException;
+  public Response insertCustomer(CustomerRequest request, int api) throws ParseException;
 
   /**
    * Retrieves a customer's status.
@@ -37,7 +37,7 @@ public interface CustomerService {
    * @throws SQLException
    *           thrown if database not working
    */
-  public Response getCustomerStatus(String userName) throws SQLException;
+  public Response getCustomerStatus(String userName, int api) throws SQLException;
 
   /**
    * Returns a customer object representation.
@@ -48,7 +48,7 @@ public interface CustomerService {
    * @throws SQLException
    *           thrown if database error
    */
-  public Response getCustomer(String userName) throws SQLException;
+  public Response getCustomer(String userName, int api) throws SQLException;
 
   /**
    * Deletes a customer.
@@ -59,7 +59,7 @@ public interface CustomerService {
    * @throws SQLException
    *           thrown if database error
    */
-  public Response deleteCustomer(String userName) throws SQLException;
+  public Response deleteCustomer(String userName, int api) throws SQLException;
 
   /**
    * Updates a customer.
@@ -70,6 +70,6 @@ public interface CustomerService {
    * @throws ParseException
    *           thrown if can't parse the request.
    */
-  public Response updateCustomer(CustomerRequest request) throws ParseException;
+  public Response updateCustomer(CustomerRequest request, int api) throws ParseException;
 
 }

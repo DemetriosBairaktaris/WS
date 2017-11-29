@@ -256,18 +256,25 @@ public interface SalesActivity {
   public ProductRepresentation assembleProductToRepresentation(Product product);
 
   /**
+   * Inserts a review for a product.
    * 
    * @param productName
+   *          String
    * @param review
+   *          String
    * @param rating
+   *          integer
    * @throws Exception
+   *           thrown by DB
    */
-  void insertReview(String productName, String review, int rating) throws Exception;
+  public void insertReview(String productName, String review, int rating) throws Exception;
 
   /**
+   * Assembles a representation.
    * 
    * @param product
-   * @return
+   *          Product
+   * @return ProductRepresentation
    */
   public ProductRepresentation assembleProductToRepresentationPartner(Product product);
 }

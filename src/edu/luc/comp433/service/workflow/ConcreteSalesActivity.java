@@ -41,18 +41,17 @@ public class ConcreteSalesActivity implements SalesActivity {
   public void setProducts(ProductManager products) {
     this.products = products;
   }
-  
+
   @Override
   public void insertReview(String productName, String review, int rating) throws Exception {
-      List<Product> listOfProducts = products.getProducts(productName) ;
-      if (listOfProducts.size() < 1) {
-        throw new Exception() ; 
-      }
-      String partnerName = listOfProducts.get(0).getCompanyUserName();
-      products.addReview(partnerName, productName, review, rating) ; 
-     
+    List<Product> listOfProducts = products.getProducts(productName);
+    if (listOfProducts.size() < 1) {
+      throw new Exception();
+    }
+    String partnerName = listOfProducts.get(0).getCompanyUserName();
+    products.addReview(partnerName, productName, review, rating);
+
   }
-  
 
   @Override
   public ProductRepresentation getProductFromPartner(String productName, String partnerUserName)
@@ -267,7 +266,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     currentProduct.setStock(product.getStock());
     currentProduct.addLink(link);
     link.setAction("POST");
-    link.setContentType("application/json, application/xml");
+    link.setContentType("application/luc.products+json, application/luc.products+xml");
     link.setRel("Order product");
     link.setUri("/orders");
     link1.setAction("GET");
@@ -276,7 +275,7 @@ public class ConcreteSalesActivity implements SalesActivity {
     link1.setUri("/products/" + product.getName() + "/reviews");
     return currentProduct;
   }
-  
+
   @Override
   public ProductRepresentation assembleProductToRepresentationPartner(Product product) {
     ProductRepresentation currentProduct = new ProductRepresentation();

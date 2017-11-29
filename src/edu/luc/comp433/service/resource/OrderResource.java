@@ -11,6 +11,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -29,12 +30,17 @@ public class OrderResource implements OrderService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private SalesActivity facade = (ConcreteSalesActivity) context.getBean("salesActivity");
+  private int key = 123456789;
 
   @POST
-  @Consumes({ "application/json", "application/xml" })
-  @Produces({ "application/json", "application/xml" })
+  @Consumes({ "application/luc.orders+json", "application/luc.orders+xml" })
+  @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
-  public Response insertOrder(OrderRequestCollection requests) throws SQLException {
+  public Response insertOrder(OrderRequestCollection requests, @QueryParam("key") int api) throws SQLException {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
+
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
 
     Set<OrderRequest> request = requests.getRequests(); // added this // changed param from Set<OrderReq>
@@ -87,9 +93,12 @@ public class OrderResource implements OrderService {
 
   @GET
   @Path("/{orderId}")
-  @Produces({ "application/json", "application/xml" })
+  @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
-  public Response getOrder(@PathParam("orderId") int orderId) {
+  public Response getOrder(@PathParam("orderId") int orderId, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     OrderRepresentation representation = facade.getOrderById(orderId);
     if (representation.getOrderId() == -1) {
       System.out.println("Order: " + orderId + " not found.");
@@ -120,7 +129,10 @@ public class OrderResource implements OrderService {
   @GET
   @Path("/{orderId}/status")
   @Override
-  public Response checkStatus(@PathParam("orderId") int orderId) {
+  public Response checkStatus(@PathParam("orderId") int orderId, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (facade.getOrderById(orderId).getOrderId() == -1) {
       System.out.println("Order: " + orderId + " not found. Cannot check status.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
@@ -133,7 +145,10 @@ public class OrderResource implements OrderService {
   @PUT
   @Path("/{orderId}/fulfillment")
   @Override
-  public Response fulfillOrder(@PathParam("orderId") int orderId) {
+  public Response fulfillOrder(@PathParam("orderId") int orderId, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (facade.getOrderById(orderId).getOrderId() == -1) {
       System.out.println("Order: " + orderId + " not found. Cannot fulfill.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
@@ -159,7 +174,10 @@ public class OrderResource implements OrderService {
   @PUT
   @Path("/{orderId}/shipment")
   @Override
-  public Response shipOrder(@PathParam("orderId") int orderId) {
+  public Response shipOrder(@PathParam("orderId") int orderId, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (facade.getOrderById(orderId).getOrderId() == -1) {
       System.out.println("Order: " + orderId + " not found. Cannot ship.");
       return Response.status(Status.BAD_REQUEST).entity("Order not found.").build();
@@ -184,9 +202,11 @@ public class OrderResource implements OrderService {
 
   @DELETE
   @Path("/{orderId}")
-  @Consumes({ "application/json", "application/xml" })
   @Override
-  public Response deleteOrder(@PathParam("orderId") int orderId) {
+  public Response deleteOrder(@PathParam("orderId") int orderId, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     try {
       facade.cancelOrder(orderId);
       System.out.println("Order: " + orderId + " found. Order canceled.");
@@ -213,6 +233,14 @@ public class OrderResource implements OrderService {
       }
     }
     return result;
+  }
+
+  private boolean checkKey(int api) {
+    if (this.key == api) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

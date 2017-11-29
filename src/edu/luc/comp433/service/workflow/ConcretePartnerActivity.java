@@ -13,6 +13,7 @@ import edu.luc.comp433.domain.partner.PartnerManager;
 import edu.luc.comp433.domain.partner.PartnerProfile;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
+import edu.luc.comp433.service.representation.ProtocolLink;
 
 public class ConcretePartnerActivity implements PartnerActivity {
 
@@ -33,9 +34,9 @@ public class ConcretePartnerActivity implements PartnerActivity {
   }
 
   @Override
-  public boolean addPartner(String userName, String companyName, String address, String phone)
+  public boolean addPartner(String userName, String companyName, String address, String phone, String password)
       throws SQLException, Exception {
-    return partners.createPartner(userName, companyName, address, phone);
+    return partners.createPartner(userName, companyName, address, phone, password);
   }
 
   @Override
@@ -120,7 +121,35 @@ public class ConcretePartnerActivity implements PartnerActivity {
       representation.setStatus(order.getStatus());
       representation.setTimestamp(order.getTimestamp().toString());
     }
+    ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
+    ProtocolLink link2 = (ProtocolLink) context.getBean("link");
+    link.setAction("PUT");
+    link.setContentType("none");
+    link.setRel("Fulfill order");
+    link.setUri("/orders/" + order.getOrderId() + "/fulfillment");
+    link1.setAction("PUT");
+    link1.setContentType("none");
+    link1.setRel("Ship order");
+    link1.setUri("/orders/" + order.getOrderId() + "/shipment");
+    link2.setAction("DELETE");
+    link2.setContentType("none");
+    link2.setRel("Cancel Order");
+    link2.setUri("/orders/" + order.getOrderId());
+    representation.addLink(link);
+    representation.addLink(link1);
+    representation.addLink(link2);
     return representation;
+  }
+
+  @Override
+  public boolean checkLogin(String userName, String password) throws Exception {
+    if (userName.equals(partners.getPartnerProfile(userName).getUserName())
+        && password.equals(partners.getPartnerProfile(userName).getPassword())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }

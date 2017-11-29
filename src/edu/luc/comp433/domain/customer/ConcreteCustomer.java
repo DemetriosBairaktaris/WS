@@ -9,6 +9,8 @@ public class ConcreteCustomer implements Customer {
   private String phone;
   private Payment payment;
 
+  private String password;
+
   public ConcreteCustomer() {
   }
 
@@ -70,5 +72,17 @@ public class ConcreteCustomer implements Customer {
   @Override
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  @Override
+  public String getPassword() {
+    return this.password;
+
+  }
+
+  @Override
+  public void setPassword(String password) {
+    this.password = password;
+
   }
 }

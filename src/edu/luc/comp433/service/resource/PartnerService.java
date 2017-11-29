@@ -24,7 +24,7 @@ public interface PartnerService {
    *          PartnerRequest
    * @return HTTP Response
    */
-  public Response insertPartner(PartnerRequest request);
+  public Response insertPartner(PartnerRequest request, int api);
 
   /**
    * Deletes a partner profile.
@@ -33,9 +33,16 @@ public interface PartnerService {
    *          String
    * @return HTTP Response
    */
-  public Response deletePartner(String partnerName);
+  public Response deletePartner(String partnerName, int api);
 
-  public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName);
+  /**
+   * Retrieves orders for a specific partner.
+   * 
+   * @param partnerUserName
+   *          String
+   * @return set of orders
+   */
+  public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName, int api);
 
   /**
    * Updates a partner's company name.
@@ -46,7 +53,7 @@ public interface PartnerService {
    *          String
    * @return HTTP response
    */
-  public Response updateName(String partnerName, String companyName);
+  public Response updateName(String partnerName, String companyName, int api);
 
   /**
    * Updates a partners address.
@@ -57,7 +64,7 @@ public interface PartnerService {
    *          String
    * @return HTTP response
    */
-  public Response updateAddress(String partnerName, String address);
+  public Response updateAddress(String partnerName, String address, int api);
 
   /**
    * Updates a partner's phone number.
@@ -68,6 +75,6 @@ public interface PartnerService {
    *          String
    * @return HTTP response
    */
-  public Response updatePhone(String partnerName, String phone);
+  public Response updatePhone(String partnerName, String phone, int api);
 
 }

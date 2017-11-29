@@ -23,7 +23,7 @@ public interface OrderService {
    *          integer
    * @return HTTP Response
    */
-  public Response getOrder(int orderId);
+  public Response getOrder(int orderId, int api);
 
   /**
    * Deletes an order.
@@ -32,7 +32,7 @@ public interface OrderService {
    *          integer
    * @return HTTP Response
    */
-  public Response deleteOrder(int orderId);
+  public Response deleteOrder(int orderId, int api);
 
   /**
    * Creates and inserts an order to the database.
@@ -43,7 +43,7 @@ public interface OrderService {
    * @throws SQLException
    *           thrown by DB
    */
-  public Response insertOrder(OrderRequestCollection requests) throws SQLException;
+  public Response insertOrder(OrderRequestCollection requests, int api) throws SQLException;
 
   /**
    * Sets an order to fulfilled status.
@@ -52,7 +52,7 @@ public interface OrderService {
    *          integer
    * @return HTTP Response
    */
-  public Response fulfillOrder(int orderId);
+  public Response fulfillOrder(int orderId, int api);
 
   /**
    * Checks the status of an order.
@@ -61,7 +61,7 @@ public interface OrderService {
    *          integer
    * @return HTTP Response
    */
-  public Response checkStatus(int orderId);
+  public Response checkStatus(int orderId, int api);
 
   /**
    * Sets the status of an order to shipped.
@@ -70,6 +70,6 @@ public interface OrderService {
    *          integer
    * @return HTTP Response
    */
-  public Response shipOrder(int orderId);
+  public Response shipOrder(int orderId, int api);
 
 }
