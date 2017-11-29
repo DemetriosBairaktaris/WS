@@ -31,13 +31,17 @@ public class ProductResource implements ProductService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private SalesActivity facade = (ConcreteSalesActivity) context.getBean("salesActivity");
+  private int key = 123456789;
 
   @GET
   @Path("/{productName}")
   @Produces({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
-  public Set<ProductRepresentation> getProduct(@PathParam("productName") String productName)
+  public Set<ProductRepresentation> getProduct(@PathParam("productName") String productName, @QueryParam("key") int api)
       throws SQLException, Exception {
+    if (!this.checkKey(api)) {
+      return null;
+    }
     System.out.println("Received GET request to search products using parameter \"" + productName + ".\"");
     List<ProductRepresentation> list = facade.searchProduct(productName);
     HashSet<ProductRepresentation> products = new HashSet<ProductRepresentation>(list);
@@ -47,7 +51,11 @@ public class ProductResource implements ProductService {
   @GET
   @Path("/{productName}/reviews")
   @Override
-  public Set<ReviewRepresentation> getProductReviews(@PathParam("productName") String productName) {
+  public Set<ReviewRepresentation> getProductReviews(@PathParam("productName") String productName,
+      @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return null;
+    }
     Set<ReviewRepresentation> representations = null;
     try {
       representations = new HashSet<>(facade.getReviews(productName));
@@ -65,8 +73,11 @@ public class ProductResource implements ProductService {
   @Produces({ "application/luc.products+json", "application/luc.products+xml" })
   @Consumes({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
-  public Response insertProduct(ProductRequest request) {
+  public Response insertProduct(ProductRequest request, @QueryParam("key") int api) {
     if (request.getName().equals(null) || request.getName().isEmpty()) {
+      if (!this.checkKey(api)) {
+        return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+      }
       System.out.println("Bad request to create product received.");
       return Response.status(Status.BAD_REQUEST).entity("Unable to insert product.").build();
     }
@@ -93,7 +104,10 @@ public class ProductResource implements ProductService {
   @Path("/{productName}")
   @Override
   public Response deleteProduct(@QueryParam("companyUserName") String companyUserName,
-      @PathParam("productName") String productName) {
+      @PathParam("productName") String productName, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     Response response;
     if (companyUserName.isEmpty()) {
       response = Response.status(Status.BAD_REQUEST).entity("Could not delete product.").build();
@@ -114,7 +128,11 @@ public class ProductResource implements ProductService {
   @Path("/{productName}/reviews")
   @Consumes({ "application/luc.products+xml", "application/luc.products+json" })
   @Override
-  public Response insertReview(ReviewRequest request, @PathParam("productName") String productName) {
+  public Response insertReview(ReviewRequest request, @PathParam("productName") String productName,
+      @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     Response response;
 
     String content = request.getReview();
@@ -128,5 +146,13 @@ public class ProductResource implements ProductService {
       response = Response.status(Status.BAD_REQUEST).entity("Unable to add review.").build();
     }
     return response;
+  }
+
+  private boolean checkKey(int api) {
+    if (this.key == api) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -31,7 +31,7 @@ public interface ProductService {
    * @throws Exception
    *           thrown if issues
    */
-  public Set<ProductRepresentation> getProduct(String productName) throws SQLException, Exception;
+  public Set<ProductRepresentation> getProduct(String productName, int api) throws SQLException, Exception;
 
   /**
    * Inserts a product from the client.
@@ -40,7 +40,7 @@ public interface ProductService {
    *          Request from client.
    * @return HTTP Response
    */
-  public Response insertProduct(ProductRequest request);
+  public Response insertProduct(ProductRequest request, int api);
 
   /**
    * Gets reviews for a specified product.
@@ -49,7 +49,7 @@ public interface ProductService {
    *          String
    * @return Set of review representations
    */
-  public Set<ReviewRepresentation> getProductReviews(String productName);
+  public Set<ReviewRepresentation> getProductReviews(String productName, int api);
 
   /**
    * Inserts a review.
@@ -60,7 +60,7 @@ public interface ProductService {
    *          String
    * @return HTTP Response
    */
-  public Response insertReview(ReviewRequest request, String productName);
+  public Response insertReview(ReviewRequest request, String productName, int api);
 
   /**
    * Deletes a product.
@@ -71,6 +71,6 @@ public interface ProductService {
    *          String
    * @return HTTP Response
    */
-  Response deleteProduct(String companyUserName, String productName);
+  public Response deleteProduct(String companyUserName, String productName, int api);
 
 }
