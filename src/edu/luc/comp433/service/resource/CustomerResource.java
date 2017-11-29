@@ -221,8 +221,8 @@ public class CustomerResource implements CustomerService {
     return Response.ok().entity(representation).build();
   }
 
-  private boolean checkKey(int key) {
-    if (this.key == key) {
+  private boolean checkKey(int api) {
+    if (this.key == api) {
       return true;
     } else {
       return false;

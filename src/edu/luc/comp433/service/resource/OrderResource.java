@@ -235,8 +235,8 @@ public class OrderResource implements OrderService {
     return result;
   }
 
-  private boolean checkKey(int key) {
-    if (this.key == key) {
+  private boolean checkKey(int api) {
+    if (this.key == api) {
       return true;
     } else {
       return false;

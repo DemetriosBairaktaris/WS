@@ -14,6 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -31,12 +32,17 @@ import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
+  private int key = 123456789;
 
   @GET
   @Path("/{partnerUserName}/orders")
   @Produces({ "application/luc.orders+json", "application/luc.orders+xml" })
   @Override
-  public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName) {
+  public Set<OrderRepresentation> getOrdersFromPartner(@PathParam("partnerUserName") String partnerUserName,
+      @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return null;
+    }
     System.out.println("Retrieving partner " + partnerUserName + ".");
     return new HashSet<OrderRepresentation>(activity.getOrdersFromPartner(partnerUserName));
   }
@@ -45,7 +51,10 @@ public class PartnerResource implements PartnerService {
   @Produces({ "application/luc.partners+json", "application/luc.partners+xml" })
   @Consumes({ "application/luc.partners+json", "application/luc.partners+xml" })
   @Override
-  public Response insertPartner(PartnerRequest request) {
+  public Response insertPartner(PartnerRequest request, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (!isValid(request)) {
       System.out.println("Partner request not valid to create partner.");
       return Response.status(Status.BAD_REQUEST)
@@ -105,7 +114,10 @@ public class PartnerResource implements PartnerService {
   @Path("/{partnerName}/name/{companyName}")
   @Override
   public Response updateName(@PathParam(value = "partnerName") String partnerName,
-      @PathParam(value = "companyName") String companyName) {
+      @PathParam(value = "companyName") String companyName, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (!isValidPartnerUserName(partnerName)) {
       System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
@@ -132,7 +144,10 @@ public class PartnerResource implements PartnerService {
   @Path("/{partnerName}/address/{address}")
   @Override
   public Response updateAddress(@PathParam(value = "partnerName") String partnerName,
-      @PathParam(value = "address") String address) {
+      @PathParam(value = "address") String address, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (!isValidPartnerUserName(partnerName)) {
       System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
@@ -160,7 +175,10 @@ public class PartnerResource implements PartnerService {
   @Path("/{partnerName}/phone/{phone}")
   @Override
   public Response updatePhone(@PathParam(value = "partnerName") String partnerName,
-      @PathParam(value = "phone") String phone) {
+      @PathParam(value = "phone") String phone, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (!isValidPartnerUserName(partnerName)) {
       System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
@@ -187,7 +205,10 @@ public class PartnerResource implements PartnerService {
   @DELETE
   @Path("/{partnerName}")
   @Override
-  public Response deletePartner(@PathParam(value = "partnerName") String partnerName) {
+  public Response deletePartner(@PathParam(value = "partnerName") String partnerName, @QueryParam("key") int api) {
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
     if (!isValidPartnerUserName(partnerName)) {
       System.out.println("Invalid partner user name: " + partnerName);
       return Response.status(Status.BAD_REQUEST).entity("Invalid user name.").build();
@@ -240,5 +261,13 @@ public class PartnerResource implements PartnerService {
       result = false;
     }
     return result;
+  }
+
+  private boolean checkKey(int api) {
+    if (this.key == api) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
