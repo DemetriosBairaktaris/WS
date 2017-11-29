@@ -21,6 +21,6 @@ public interface LoginService {
    *          request
    * @return HTTP Response
    */
-  public Response login(LoginRequest request);
+  public Response login(LoginRequest request, int api);
 
 }

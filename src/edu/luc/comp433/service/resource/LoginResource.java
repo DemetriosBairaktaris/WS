@@ -4,6 +4,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -16,19 +17,23 @@ import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 import edu.luc.comp433.service.workflow.CustomerActivity;
 import edu.luc.comp433.service.workflow.PartnerActivity;
 
-@Path("/credentials")
+@Path("/login")
 public class LoginResource implements LoginService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private CustomerActivity customer = (ConcreteCustomerActivity) context.getBean("customerActivity");
   private PartnerActivity partner = (ConcretePartnerActivity) context.getBean("partnerActivity");
+  private int key = 123456789;
 
   @PUT
-  @Path("/login")
   @Consumes("application/luc.login+xml, application/luc.login+json")
   @Produces("application/luc.partners+xml, application/luc.partners+json, application/luc.customers+xml, application/luc.customers+json")
   @Override
-  public Response login(LoginRequest request) {
+  public Response login(LoginRequest request, @QueryParam("key") int api) {
+
+    if (!this.checkKey(api)) {
+      return Response.status(Status.UNAUTHORIZED).entity("Incorrect API Key").build();
+    }
 
     if (request.getUserName().isEmpty() || request.getPassword().isEmpty()) {
       System.out.println("invalid request");
@@ -48,6 +53,14 @@ public class LoginResource implements LoginService {
       return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
     return Response.status(Status.BAD_REQUEST).entity("User not found.").build();
+  }
+
+  private boolean checkKey(int api) {
+    if (this.key == api) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
 }
