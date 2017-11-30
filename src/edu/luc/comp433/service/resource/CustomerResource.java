@@ -198,6 +198,7 @@ public class CustomerResource implements CustomerService {
     String cvv = request.getCvv();
     String expiration = request.getExpiration();
     ProtocolLink link = (ProtocolLink) context.getBean("link");
+    ProtocolLink link1 = (ProtocolLink) context.getBean("link");
     CustomerRepresentation representation = (CustomerRepresentation) context.getBean("customerRepresentation");
 
     try {
@@ -211,7 +212,12 @@ public class CustomerResource implements CustomerService {
       link.setContentType("none");
       link.setRel("Delete customer.");
       link.setUri("/customers/" + userName);
+      link1.setAction("GET");
+      link1.setContentType("none");
+      link1.setRel("search products");
+      link1.setUri("/products/");
       representation.addLink(link);
+      representation.addLink(link1);
 
     } catch (Exception e) {
       System.out.println(e.getMessage());
