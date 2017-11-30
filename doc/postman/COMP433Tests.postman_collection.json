@@ -107,7 +107,7 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/luc.customers+json"
 							}
 						],
 						"body": {
@@ -115,7 +115,7 @@
 							"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
 						},
 						"url": {
-							"raw": "http://localhost:8081/customers/",
+							"raw": "http://localhost:8081/customers/?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -124,35 +124,13 @@
 							"path": [
 								"customers",
 								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Customer Creation Post Failure",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Customer\": {\n        \"userName\": \"\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
-						},
-						"url": {
-							"raw": "http://localhost:8081/customers/",
-							"protocol": "http",
-							"host": [
-								"localhost"
 							],
-							"port": "8081",
-							"path": [
-								"customers",
-								""
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
 					},
@@ -162,19 +140,13 @@
 					"name": "Delete Customer Test",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8081/customers/jdoe@gmail.com",
+							"raw": "http://localhost:8081/customers/jdoe@gmail.com?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -183,6 +155,55 @@
 							"path": [
 								"customers",
 								"jdoe@gmail.com"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Customer Test",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/luc.customers+xml"
+							},
+							{
+								"key": "Accept",
+								"value": "application/luc.customers+json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8081/customers/mariasmith@gmail.com?key=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"customers",
+								"mariasmith@gmail.com"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						},
 						"description": ""
