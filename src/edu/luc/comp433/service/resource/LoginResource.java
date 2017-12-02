@@ -41,18 +41,31 @@ public class LoginResource implements LoginService {
           .entity("Invalid input formatting. Ensure all fields are filled correctly").build();
     }
 
-    try {
-      if (customer.checkLogin(request.getUserName(), request.getPassword())) {
-        return Response.ok().entity(customer.getCustomer(request.getUserName())).build();
-      } else if (partner.checkLogin(request.getUserName(), request.getPassword())) {
-        return Response.ok().entity(partner.getPartnerByUserName(request.getUserName())).build();
+    if (request.getType().equals("customer")) {
+      try {
+        if (customer.checkLogin(request.getUserName(), request.getPassword())) {
+          return Response.ok().entity(customer.getCustomer(request.getUserName())).build();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println(e.getMessage());
+        return Response.status(Status.BAD_REQUEST).entity("No Such User.").build();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println(e.getMessage());
-      return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
-    return Response.status(Status.BAD_REQUEST).entity("User not found.").build();
+
+    if (request.getType().equals("partner")) {
+      try {
+        if (partner.checkLogin(request.getUserName(), request.getPassword())) {
+          return Response.ok().entity(partner.getPartnerByUserName(request.getUserName())).build();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        System.out.println(e.getMessage());
+        return Response.status(Status.BAD_REQUEST).entity("No Such User.").build();
+      }
+    }
+
+    return Response.status(Status.BAD_REQUEST).build();
   }
 
   private boolean checkKey(int api) {
