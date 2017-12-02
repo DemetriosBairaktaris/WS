@@ -264,7 +264,6 @@ public class ConcreteSalesActivity implements SalesActivity {
     currentProduct.setCost((float) product.getCost());
     currentProduct.setDesc(product.getDesc());
     currentProduct.setStock(product.getStock());
-    currentProduct.addLink(link);
     link.setAction("POST");
     link.setContentType("application/luc.products+json, application/luc.products+xml");
     link.setRel("Order product");
@@ -273,6 +272,8 @@ public class ConcreteSalesActivity implements SalesActivity {
     link1.setContentType("none");
     link1.setRel("Get product reviews.");
     link1.setUri("/products/" + product.getName() + "/reviews");
+    currentProduct.addLink(link);
+    currentProduct.addLink(link1);
     return currentProduct;
   }
 
