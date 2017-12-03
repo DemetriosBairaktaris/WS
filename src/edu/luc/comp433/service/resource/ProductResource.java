@@ -126,7 +126,7 @@ public class ProductResource implements ProductService {
 
   @POST
   @Path("/{productName}/reviews")
-  @Consumes({ "application/luc.products+xml", "application/luc.products+json" })
+  @Consumes({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
   public Response insertReview(ReviewRequest request, @PathParam("productName") String productName,
       @QueryParam("key") int api) {
