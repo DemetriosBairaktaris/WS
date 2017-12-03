@@ -27,7 +27,7 @@ public class LoginResource implements LoginService {
 
   @PUT
   @Consumes("application/luc.login+xml, application/luc.login+json")
-  @Produces("application/luc.partners+xml, application/luc.partners+json, application/luc.customers+xml, application/luc.customers+json")
+  @Produces("application/luc.partners+json, application/luc.customers+json, application/luc.partners+xml, application/luc.customers+xml")
   @Override
   public Response login(LoginRequest request, @QueryParam("key") int api) {
 
