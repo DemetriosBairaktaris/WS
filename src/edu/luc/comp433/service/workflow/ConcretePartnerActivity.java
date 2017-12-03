@@ -90,15 +90,15 @@ public class ConcretePartnerActivity implements PartnerActivity {
     link1.setAction("PUT");
     link1.setContentType("none");
     link1.setRel("Update name.");
-    link1.setUri("/partners/" + userName + "/{newName}");
+    link1.setUri("/partners/" + userName + "/name/{newName}");
     link2.setAction("PUT");
     link2.setContentType("none");
     link2.setRel("Update address.");
-    link2.setUri("/partners/" + userName + "/{newAddress}");
+    link2.setUri("/partners/" + userName + "/address/{newAddress}");
     link3.setAction("PUT");
     link3.setContentType("none");
     link3.setRel("Update phone.");
-    link3.setUri("/partners/" + userName + "/{newPhone}");
+    link3.setUri("/partners/" + userName + "/phone/{newPhone}");
     link4.setAction("POST");
     link4.setContentType("application/luc.products+xml, application/luc.products+json");
     link4.setRel("add products");
