@@ -44,6 +44,7 @@ public class LoginResource implements LoginService {
     if (request.getType().equals("customer")) {
       try {
         if (customer.checkLogin(request.getUserName(), request.getPassword())) {
+          System.out.println("User " + request.getUserName() + " logged in.");
           return Response.ok().entity(customer.getCustomer(request.getUserName())).build();
         }
       } catch (Exception e) {
@@ -56,6 +57,7 @@ public class LoginResource implements LoginService {
     if (request.getType().equals("partner")) {
       try {
         if (partner.checkLogin(request.getUserName(), request.getPassword())) {
+          System.out.println("User " + request.getUserName() + " logged in.");
           return Response.ok().entity(partner.getPartnerByUserName(request.getUserName())).build();
         }
       } catch (Exception e) {
