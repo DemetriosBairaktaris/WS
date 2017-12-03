@@ -25,6 +25,8 @@ public interface ProductService {
    * 
    * @param productName
    *          String
+   * @param api
+   *          integer key
    * @return Set of products
    * @throws SQLException
    *           thrown if database creates an error
@@ -37,7 +39,9 @@ public interface ProductService {
    * Inserts a product from the client.
    * 
    * @param request
-   *          Request from client.
+   *          Request from client
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response insertProduct(ProductRequest request, int api);
@@ -47,6 +51,8 @@ public interface ProductService {
    * 
    * @param productName
    *          String
+   * @param api
+   *          integer key
    * @return Set of review representations
    */
   public Set<ReviewRepresentation> getProductReviews(String productName, int api);
@@ -58,6 +64,8 @@ public interface ProductService {
    *          ReviewRequest
    * @param productName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response insertReview(ReviewRequest request, String productName, int api);
@@ -69,6 +77,8 @@ public interface ProductService {
    *          String
    * @param productName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response deleteProduct(String companyUserName, String productName, int api);

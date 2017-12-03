@@ -21,6 +21,8 @@ public interface OrderService {
    * 
    * @param orderId
    *          integer
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response getOrder(int orderId, int api);
@@ -30,6 +32,8 @@ public interface OrderService {
    * 
    * @param orderId
    *          integer
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response deleteOrder(int orderId, int api);
@@ -39,6 +43,8 @@ public interface OrderService {
    * 
    * @param requests
    *          Order Request Collection
+   * @param api
+   *          integer key
    * @return HTTP Response
    * @throws SQLException
    *           thrown by DB
@@ -50,6 +56,8 @@ public interface OrderService {
    * 
    * @param orderId
    *          integer
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response fulfillOrder(int orderId, int api);
@@ -59,6 +67,8 @@ public interface OrderService {
    * 
    * @param orderId
    *          integer
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response checkStatus(int orderId, int api);
@@ -68,6 +78,8 @@ public interface OrderService {
    * 
    * @param orderId
    *          integer
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response shipOrder(int orderId, int api);

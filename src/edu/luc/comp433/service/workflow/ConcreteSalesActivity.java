@@ -116,12 +116,7 @@ public class ConcreteSalesActivity implements SalesActivity {
   private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId) {
     int result = -1;
     try {
-      // removed to bypass need for customer activity temporarily
-      // if
-      // (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime)
-      // > 0) {
       result = this.createOrder(companyName, customerName, productName, quantity, orderId);
-      // }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -243,7 +238,6 @@ public class ConcreteSalesActivity implements SalesActivity {
   public OrderRepresentation assembleOrderToRepresentation(Order order) {
     OrderRepresentation representation = new OrderRepresentation();
     if (order == null) {
-      // if order wasn't found set id to one and the above layer will check
       representation.setOrderId(-1);
     } else {
       representation.setCustomer(order.getCustomer());

@@ -27,7 +27,7 @@ public interface PartnerManager {
    *          String
    * @param password
    *          String
-   *          
+   * 
    * @return true if successful
    * @throws Exception
    *           thrown by DB
@@ -133,6 +133,4 @@ public interface PartnerManager {
    *           thrown by DB
    */
   public List<Order> getOrdersFromPartner(String userName) throws Exception;
-
-  
 }

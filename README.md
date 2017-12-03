@@ -8,7 +8,7 @@
 
 - Maven
 
-- Spring
+- Spring Core
 
 - JDBC PostgreSQL
 

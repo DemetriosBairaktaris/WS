@@ -22,6 +22,8 @@ public interface CustomerService {
    * 
    * @param request
    *          CustomerRequest
+   * @param api
+   *          integer key
    * @return HTTP response
    * @throws ParseException
    *           thrown if parse errors
@@ -33,6 +35,8 @@ public interface CustomerService {
    * 
    * @param userName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    * @throws SQLException
    *           thrown if database not working
@@ -44,6 +48,8 @@ public interface CustomerService {
    * 
    * @param userName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    * @throws SQLException
    *           thrown if database error
@@ -55,6 +61,8 @@ public interface CustomerService {
    * 
    * @param userName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    * @throws SQLException
    *           thrown if database error
@@ -66,6 +74,8 @@ public interface CustomerService {
    * 
    * @param request
    *          customer request
+   * @param api
+   *          integer key
    * @return HTTP Response
    * @throws ParseException
    *           thrown if can't parse the request.

@@ -26,7 +26,7 @@ import edu.luc.comp433.service.representation.ReviewRequest;
 import edu.luc.comp433.service.workflow.SalesActivity;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 
-@Path("/products/")
+@Path("/products")
 public class ProductResource implements ProductService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");

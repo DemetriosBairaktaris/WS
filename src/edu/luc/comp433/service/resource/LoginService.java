@@ -19,6 +19,8 @@ public interface LoginService {
    * 
    * @param request
    *          request
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response login(LoginRequest request, int api);

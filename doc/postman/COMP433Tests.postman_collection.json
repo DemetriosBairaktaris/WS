@@ -17,12 +17,12 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/xml"
+								"value": "application/luc.products+json"
 							}
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/products/MacBook",
+							"raw": "http://localhost:8081/products/MacBook?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -31,6 +31,13 @@
 							"path": [
 								"products",
 								"MacBook"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
 					},
@@ -43,12 +50,12 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/xml"
+								"value": "application/luc.products+json"
 							}
 						],
 						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/products/SAMSUNG GALAXY 5/reviews",
+							"raw": "http://localhost:8081/products/SAMSUNG GALAXY 5/reviews?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -58,6 +65,13 @@
 								"products",
 								"SAMSUNG GALAXY 5",
 								"reviews"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						},
 						"description": ""
@@ -79,7 +93,7 @@
 							"raw": "{\n\t\"Product\": {\n\t\t\"desc\": \"Apple MacBook Laptop Computer\",\n\t\t\"cost\": 1200,\n\t\t\"stock\": 150,\n\t\t\"companyUserName\": \"sjobs@apple.com\",\n\t\t\"name\": \"MacBook\"\n\t}\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8081/products/",
+							"raw": "http://localhost:8081/products/?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -88,6 +102,13 @@
 							"path": [
 								"products",
 								""
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						},
 						"description": ""
@@ -112,7 +133,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\"\n    }\n}\n"
+							"raw": "{\n    \"Customer\": {\n        \"userName\": \"jdoe@gmail.com\",\n        \"firstName\": \"Jane\",\n        \"lastName\": \"Doe\",\n        \"address\": \"4321 Unreal Ave\",\n        \"phone\": \"3125551234\",\n        \"cardName\": \"Jane Doe\",\n        \"cardNumber\": \"1234123412341234\",\n        \"cvv\": \"123\",\n        \"expiration\": \"12-22\",\n        \"password\": \"paper123\"\n    }\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:8081/customers/?key=123456789",
@@ -223,23 +244,33 @@
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/json"
+								"value": "application/luc.partners+json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/luc.partners+json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"Partner\": {\n\t\t\"userName\": \"sjobs@apple.com\",\n\t\t\"name\": \"Apple\",\n\t\t\"address\": \"1 Infinite Loop\",\n\t\t\"phone\": \"(408) 996–1010\"\n\t}\n}"
+							"raw": "{\n\t\"Partner\": {\n\t\t\"userName\": \"sjobs@apple.com\",\n\t\t\"name\": \"Apple\",\n\t\t\"address\": \"1 Infinite Loop\",\n\t\t\"phone\": \"(408) 996–1010\",\n\t\t\"password\": \"paper123\"\n\t}\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8081/partners/",
+							"raw": "http://localhost:8081/partners?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"partners",
-								""
+								"partners"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						},
 						"description": ""
@@ -250,19 +281,13 @@
 					"name": "Delete Partner Test",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8081/partners/sjobs@apple.com",
+							"raw": "http://localhost:8081/partners/sjobs@apple.com?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -271,6 +296,43 @@
 							"path": [
 								"partners",
 								"sjobs@apple.com"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET Orders for Partner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8081/partners/sjobs@apple.com/orders?key=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"partners",
+								"sjobs@apple.com",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						},
 						"description": ""
@@ -293,12 +355,9 @@
 								"value": "application/xml"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/orders/3",
+							"raw": "http://localhost:8081/orders/3?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -307,6 +366,13 @@
 							"path": [
 								"orders",
 								"3"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
 					},
@@ -322,12 +388,9 @@
 								"value": "application/xml"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/orders/3/status",
+							"raw": "http://localhost:8081/orders/3/status?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -337,6 +400,13 @@
 								"orders",
 								"3",
 								"status"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
 					},
@@ -352,12 +422,9 @@
 								"value": "application/xml"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/orders/3/status",
+							"raw": "http://localhost:8081/orders/3/status?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -367,6 +434,13 @@
 								"orders",
 								"3",
 								"status"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
 					},
@@ -382,12 +456,9 @@
 								"value": "application/xml"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
+						"body": {},
 						"url": {
-							"raw": "http://localhost:8081/orders/3/shipment",
+							"raw": "http://localhost:8081/orders/3/shipment?key=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -397,8 +468,101 @@
 								"orders",
 								"3",
 								"shipment"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
 							]
 						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"description": "",
+			"item": [
+				{
+					"name": "PUT Customer Login",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/luc.login+json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/luc.customers+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Login\": {\n\t\t\"userName\": \"jdoe@gmail.com\",\n\t\t\"password\": \"paper123\",\n\t\t\"type\": \"customer\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/login?key=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Partner Login",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/luc.login+json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/luc.partners+json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Login\": {\n\t\t\"userName\": \"sjobs@apple.com\",\n\t\t\"password\": \"paper123\",\n\t\t\"type\": \"partner\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8081/login?key=123456789",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "123456789",
+									"equals": true
+								}
+							]
+						},
+						"description": ""
 					},
 					"response": []
 				}

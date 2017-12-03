@@ -149,7 +149,6 @@ public class ConcretePartnerActivity implements PartnerActivity {
   public OrderRepresentation assembleOrderToRepresentation(Order order) {
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
     if (order == null) {
-      // if order wasn't found set id to one and the above layer will check
       representation.setOrderId(-1);
     } else {
       representation.setCustomer(order.getCustomer());

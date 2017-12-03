@@ -27,7 +27,7 @@ import edu.luc.comp433.service.representation.PartnerRequest;
 import edu.luc.comp433.service.workflow.PartnerActivity;
 import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 
-@Path("/partners/")
+@Path("/partners")
 public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
