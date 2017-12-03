@@ -96,7 +96,7 @@ public class ConcreteSalesActivity implements SalesActivity {
           products.updateStock(companyName, productName, newStock);
           int paymentResult = this.acceptPayment(companyName, customerName, productName, quantity, orderId);
           if (paymentResult < 1) {
-            this.cancelOrder(orderId); // this should handle all the rollback if payment doesnt go through
+            this.cancelOrder(orderId); // this should handle all the roll back if payment doesn't go through
 
             break;
           } else {

@@ -63,7 +63,7 @@ public class LoginResource implements LoginService {
           link2.setAction("GET");
           link2.setContentType("none");
           link2.setRel("search products");
-          link2.setUri("/products/");
+          link2.setUri("/products");
           representation.addLink(link);
           representation.addLink(link1);
           representation.addLink(link2);

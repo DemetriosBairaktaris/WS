@@ -81,7 +81,7 @@ public class CustomerResource implements CustomerService {
       link2.setAction("GET");
       link2.setContentType("none");
       link2.setRel("search products");
-      link2.setUri("/products/");
+      link2.setUri("/products");
       representation.addLink(link);
       representation.addLink(link1);
       representation.addLink(link2);
@@ -215,7 +215,7 @@ public class CustomerResource implements CustomerService {
       link1.setAction("GET");
       link1.setContentType("none");
       link1.setRel("search products");
-      link1.setUri("/products/");
+      link1.setUri("/products");
       representation.addLink(link);
       representation.addLink(link1);
 
