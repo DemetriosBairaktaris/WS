@@ -94,8 +94,8 @@ public class ConcreteCustomerActivity implements CustomerActivity {
 
   @Override
   public boolean checkLogin(String userName, String password) throws SQLException {
-    if (userName.equals(customers.getCustomer(userName).getUserName())
-        && password.equals(customers.getCustomer(userName).getPassword())) {
+    Customer customer = customers.getCustomer(userName);
+    if (userName.equals(customer.getUserName()) && password.equals(customer.getPassword())) {
       return true;
     } else {
       return false;

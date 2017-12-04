@@ -24,7 +24,7 @@ import edu.luc.comp433.domain.product.Review;
 public class ConcreteDatabaseAccess implements DatabaseAccess {
   // private final String JDBC_DRIVER = "";
   private String DB_URL = "jdbc:postgresql:COMP433";
-  // Database credentials
+  // Local Test Database Credentials
   private String USER = "postgres";
   private String PASS = "root";
   private Connection db;
@@ -32,6 +32,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   private ApplicationContext context;
 
   public ConcreteDatabaseAccess() throws SQLException {
+    // Heroku Production Database Credentials
     DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
         + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
     USER = "evtgoojkjfryzn";
@@ -60,9 +61,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public int insertOrder(Order order) throws SQLException {
     if (order.getOrderId() > 0) {
-      System.out.println("don't update an order through here, call updateOrder().... ");
-      // This method does not insert the orderDetails!!!! pass those in through
-      // updateOrder()
+      System.out.println("Don't update an order through here. Call updateOrder().");
       return -1;
 
     }
@@ -142,13 +141,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @Override
   public boolean updateOrder(Order order) throws SQLException {
-
-    // It looks as if the only logical thing to change in an order is the status
-    // all others (order_id, customers_user_name, order_date) are immutable.
-    /**
-     * Steps 1. update (SQL) the order by updating all but primary key 2. delete all
-     * orderdetails with ^ pkey 3. insert all order details as new ones
-     */
     String sql = "UPDATE ORDERS SET ORDER_STATUS = '%s' WHERE ORDER_ID = %d ; ";
     sql = String.format(sql, order.getStatus(), (int) order.getOrderId());
     if (stmt.executeUpdate(sql) == 0) {
@@ -179,7 +171,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   @Override
   public boolean deleteOrder(Order order) throws SQLException {
     if (order.getOrderId() < 1) {
-      System.out.println("Error:  could not delete the order because your order id is invalid");
+      System.out.println("Error: Could not delete the order because the order ID is invalid.");
       System.out.println("Did you forget to setOrderId?");
       return false;
     }
@@ -193,7 +185,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException { // good
+  public boolean insertPartner(PartnerProfile profile) throws Exception, SQLException {
 
     String sql = "INSERT INTO PARTNERS (PARTNER_USER_NAME,PARTNER_NAME,PARTNER_ADDRESS,PARTNER_PHONE,PARTNER_PASSWORD) VALUES ( "
         + this.wrapSingleQuotes(profile.getUserName()) + "," + this.wrapSingleQuotes(profile.getName()) + ","
@@ -210,7 +202,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException { // good
+  public boolean updatePartner(PartnerProfile profile) throws Exception, SQLException {
     boolean updated = true;
     String address = profile.getAddress();
     String name = profile.getName();
@@ -228,24 +220,24 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean deletePartner(String userName) throws SQLException { // good
+  public boolean deletePartner(String userName) throws SQLException {
 
     String partnerName = userName;
     String sql = "DELETE FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(partnerName) + " ; ";
     int success = stmt.executeUpdate(sql);
     if (success == 0) {
-      System.out.println("Unable to delete partner");
+      System.out.println("Unable to delete partner.");
       return false;
     }
     return true;
   }
 
   @Override
-  public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException { // good
+  public PartnerProfile getPartnerProfile(String userName) throws Exception, SQLException {
     String sql = "SELECT * FROM PARTNERS WHERE PARTNER_USER_NAME = " + this.wrapSingleQuotes(userName) + " ; ";
     ResultSet rs = stmt.executeQuery(sql);
     if (!rs.next()) {
-      throw new Exception("Partner does not exist");
+      throw new Exception("Partner does not exist.");
     } else {
       PartnerProfile p = (PartnerProfile) context.getBean("partner");
       p.setUserName(rs.getString(1));
@@ -258,7 +250,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean insertProduct(Product product) throws SQLException { // good
+  public boolean insertProduct(Product product) throws SQLException {
     String sql = "INSERT INTO PRODUCTS (PRODUCT_NAME,DESCRIPTION," + "COST,STOCK,PARTNER_USER_NAME) VALUES ("
         + this.wrapSingleQuotes(product.getName()) + "," + this.wrapSingleQuotes(product.getDesc()) + ","
         + product.getCost() + ", " + product.getStock() + ", " + this.wrapSingleQuotes(product.getCompanyUserName())
@@ -278,28 +270,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     }
 
     updateProductReviews(product);
-    // /*
-    // * Continue on to insert reviews
-    // */
-    // String reviewSql;
-    // int productId;
-    // ResultSet keys = statementWithKeys.getGeneratedKeys();
-    // if (keys.next()) {
-    // productId = keys.getInt(1);
-    // reviewSql = "Insert into reviews (Product_id,review_rating,review_content)
-    // values (" + "%d, %d, '%s') ; ";
-    // } else {
-    // return false;
-    // }
-    //
-    // for (Review r : product.getReviews()) {
-    // reviewSql = String.format(reviewSql, productId, r.getRating(),
-    // r.getReview());
-    // success = stmt.executeUpdate(reviewSql);
-    // if (success == 0) {
-    // return false;
-    // }
-    // }
     return true;
   }
 
@@ -441,7 +411,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   @SuppressWarnings("unchecked")
   @Override
-  public List<Product> getProduct(String productName) throws Exception {// good{
+  public List<Product> getProduct(String productName) throws Exception {
     String sql;
     Product p = null;
     sql = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = " + this.wrapSingleQuotes(productName) + " ;";
@@ -462,7 +432,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
   }
 
   @Override
-  public boolean deleteProduct(Product product) throws SQLException { // good{
+  public boolean deleteProduct(Product product) throws SQLException {
     String sql = "DELETE FROM PRODUCTS WHERE PRODUCT_NAME = '%s' and 	PARTNER_USER_NAME = '%s'";
     sql = String.format(sql, product.getName(), product.getCompanyUserName());
     if (stmt.executeUpdate(sql) == 0) {
@@ -492,7 +462,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
         return false;
       }
     } catch (Exception e) {
-      // to handle those weird transaction err
       db.rollback();
       db.setAutoCommit(true);
       throw new SQLException();
@@ -569,9 +538,6 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     Payment p = (Payment) context.getBean("payment");
     rs = newStatement.executeQuery(getPaymentSql);
     if (rs.next()) {
-      // c.setUserName(rs.getString(1));
-      // c.setFirstName(rs.getString(2));
-      // c.setLastName(rs.getString(3));
       p = (Payment) context.getBean("payment");
       p.setCardName(rs.getString(4));
       p.setCardNumber(rs.getString(5));

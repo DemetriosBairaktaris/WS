@@ -92,8 +92,8 @@ public class TestDomainActivities {
 
   @Test
   public void testCustomerMethods() throws Exception {
-    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe", "5555", "123",
-        "2020-01-02"));
+    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe",
+        "5555", "123", "2020-01-02"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(customers.updateCustomerName("customer@email.com", "Jane", "Smith"));
     assertTrue(customers.updateCustomerAddress("customer@email.com", "address2"));
@@ -105,10 +105,10 @@ public class TestDomainActivities {
 
   @Test
   public void testPurchaseWorkflow() throws Exception {
-    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345","password", "John Doe", "5555", "123",
-        "01-2020"));
+    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe",
+        "5555", "123", "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
-    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555","root"));
+    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555", "root"));
     assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertTrue(activity.buyProduct("customer@email.com", "test", 1L, 0) != -1);
     assertTrue(customers.deleteCustomer("customer@email.com"));
@@ -116,8 +116,8 @@ public class TestDomainActivities {
 
   @Test
   public void testFulfillmentWorkflow() throws SQLException, Exception {
-    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe", "5555", "123",
-        "2020-01-02"));
+    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe",
+        "5555", "123", "2020-01-02"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
     assertTrue(partners.addPartner("test@email.com", "test", "address", "5555", "root"));
     assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
@@ -131,20 +131,20 @@ public class TestDomainActivities {
 
   @Test
   public void testProductReview() throws Exception {
-    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe", "5555", "123",
-        "01-2020"));
+    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe",
+        "5555", "123", "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
-    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555","root"));
+    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555", "root"));
     assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     assertTrue(activity.addReview("test@email.com", "test", "great", 4));
   }
 
   @Test
   public void testCancelOrder() throws SQLException, Exception {
-    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe", "5555", "123",
-        "01-2020"));
+    assertTrue(customers.addCustomer("customer@email.com", "John", "Doe", "address", "12345", "password", "John Doe",
+        "5555", "123", "01-2020"));
     assertTrue(customers.checkCustomerStatus("customer@email.com"));
-    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555","root"));
+    assertTrue(partners.addPartner("test@email.com", "test", "address", "5555", "root"));
     assertTrue(activity.acceptPartnerProduct("test@email.com", "test", "awesome", 20d, 2L));
     int orderId = activity.buyProduct("customer@email.com", "test", 1L, 0);
     assertTrue(activity.cancelOrder(orderId) != -1);

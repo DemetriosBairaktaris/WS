@@ -66,7 +66,7 @@ public class TestDatabaseLayer {
     partner.setName("Johnson and sons");
     partner.setAddress("1232 Lollypop Way");
     partner.setPhone("219-292-1111");
-    partner.setPassword("root") ; 
+    partner.setPassword("root");
     assertTrue(dal.insertPartner(partner));
     assertTrue(dal.deletePartner(partner.getUserName()));
   }
@@ -80,7 +80,7 @@ public class TestDatabaseLayer {
     partner.setUserName(partnerUserName);
     partner.setAddress("900 Walsh st.");
     partner.setPhone("283-000-987");
-    partner.setPassword("root") ; 
+    partner.setPassword("root");
     assertTrue(dal.insertPartner(partner));
 
     if (dal.getPartnerProfile(partnerUserName).getUserName().equals(partnerUserName)) {
@@ -98,7 +98,7 @@ public class TestDatabaseLayer {
     String address = "900 Walsh st.";
     String phone = "219-222-2222";
     String newPhone = "219-333-3333";
-    String password = "root" ; 
+    String password = "root";
     PartnerProfile partner = new ConcretePartnerProfile();
 
     partner.setName(partnerName);
@@ -122,14 +122,14 @@ public class TestDatabaseLayer {
     String partnerName = "Newbie Co";
     String address = "900 Walsh St.";
     String phone = "219-222-2222";
-    String password = "root" ; 
+    String password = "root";
     PartnerProfile partner = new ConcretePartnerProfile();
 
     partner.setName(partnerName);
     partner.setUserName(partnerUserName);
     partner.setAddress(address);
     partner.setPhone(phone);
-    partner.setPassword(password) ; 
+    partner.setPassword(password);
     assertTrue(dal.insertPartner(partner));
     assertTrue(dal.deletePartner(partner.getUserName()));
 
@@ -228,7 +228,7 @@ public class TestDatabaseLayer {
     String lastName = "Frank";
     String address = "232 dafney st";
     String phone = "219-202-2222";
-    String password = "root" ; 
+    String password = "root";
 
     Payment payment = new ConcretePayment();
     payment.setCardName("visa");
@@ -244,7 +244,6 @@ public class TestDatabaseLayer {
     c.setPhone(phone);
     c.setPayment(payment);
     c.setPassword(password);
-    
 
     assertTrue(dal.insertCustomer(c));
     assertTrue(dal.deleteCustomer(c));
@@ -290,7 +289,7 @@ public class TestDatabaseLayer {
     String lastName = "Frank";
     String address = "232 dafney st";
     String phone = "219-202-2222";
-    String password = "root" ; 
+    String password = "root";
 
     Payment payment = new ConcretePayment();
     payment.setCardName("visa");

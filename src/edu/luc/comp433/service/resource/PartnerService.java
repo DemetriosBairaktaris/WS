@@ -22,6 +22,8 @@ public interface PartnerService {
    * 
    * @param request
    *          PartnerRequest
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response insertPartner(PartnerRequest request, int api);
@@ -31,6 +33,8 @@ public interface PartnerService {
    * 
    * @param partnerName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP Response
    */
   public Response deletePartner(String partnerName, int api);
@@ -40,6 +44,8 @@ public interface PartnerService {
    * 
    * @param partnerUserName
    *          String
+   * @param api
+   *          integer key
    * @return set of orders
    */
   public Set<OrderRepresentation> getOrdersFromPartner(String partnerUserName, int api);
@@ -51,6 +57,8 @@ public interface PartnerService {
    *          String
    * @param companyName
    *          String
+   * @param api
+   *          integer key
    * @return HTTP response
    */
   public Response updateName(String partnerName, String companyName, int api);
@@ -62,6 +70,8 @@ public interface PartnerService {
    *          String
    * @param address
    *          String
+   * @param api
+   *          integer key
    * @return HTTP response
    */
   public Response updateAddress(String partnerName, String address, int api);
@@ -73,6 +83,8 @@ public interface PartnerService {
    *          String
    * @param phone
    *          String
+   * @param api
+   *          integer key
    * @return HTTP response
    */
   public Response updatePhone(String partnerName, String phone, int api);

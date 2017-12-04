@@ -6,7 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * This is for generating links.
+ * Abstract class that enables link additions to all representations.
  * 
  * @author Thaddeus and Demetrios
  *
@@ -20,6 +20,8 @@ public abstract class AbstractRepresentation {
   }
 
   /**
+   * Retrieves the list of protocol links.
+   * 
    * @return the protocols
    */
   @XmlElement(name = "link", namespace = "")
@@ -28,6 +30,8 @@ public abstract class AbstractRepresentation {
   }
 
   /**
+   * Sets the protocol links.
+   * 
    * @param protocols
    *          the protocols to set
    */

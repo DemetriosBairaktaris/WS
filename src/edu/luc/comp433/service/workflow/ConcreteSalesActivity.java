@@ -96,7 +96,7 @@ public class ConcreteSalesActivity implements SalesActivity {
           products.updateStock(companyName, productName, newStock);
           int paymentResult = this.acceptPayment(companyName, customerName, productName, quantity, orderId);
           if (paymentResult < 1) {
-            this.cancelOrder(orderId); // this should handle all the rollback if payment doesnt go through
+            this.cancelOrder(orderId); // this should handle all the roll back if payment doesn't go through
 
             break;
           } else {
@@ -116,12 +116,7 @@ public class ConcreteSalesActivity implements SalesActivity {
   private int acceptPayment(String companyName, String customerName, String productName, long quantity, int orderId) {
     int result = -1;
     try {
-      // removed to bypass need for customer activity temporarily
-      // if
-      // (customers.getCustomer(customerName).getPayment().getExpiration().compareTo(currentTime)
-      // > 0) {
       result = this.createOrder(companyName, customerName, productName, quantity, orderId);
-      // }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -243,7 +238,6 @@ public class ConcreteSalesActivity implements SalesActivity {
   public OrderRepresentation assembleOrderToRepresentation(Order order) {
     OrderRepresentation representation = new OrderRepresentation();
     if (order == null) {
-      // if order wasn't found set id to one and the above layer will check
       representation.setOrderId(-1);
     } else {
       representation.setCustomer(order.getCustomer());
@@ -264,7 +258,6 @@ public class ConcreteSalesActivity implements SalesActivity {
     currentProduct.setCost((float) product.getCost());
     currentProduct.setDesc(product.getDesc());
     currentProduct.setStock(product.getStock());
-    currentProduct.addLink(link);
     link.setAction("POST");
     link.setContentType("application/luc.products+json, application/luc.products+xml");
     link.setRel("Order product");
@@ -273,6 +266,8 @@ public class ConcreteSalesActivity implements SalesActivity {
     link1.setContentType("none");
     link1.setRel("Get product reviews.");
     link1.setUri("/products/" + product.getName() + "/reviews");
+    currentProduct.addLink(link);
+    currentProduct.addLink(link1);
     return currentProduct;
   }
 

@@ -25,7 +25,7 @@ import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 import edu.luc.comp433.service.workflow.SalesActivity;
 
-@Path("/orders/")
+@Path("/orders")
 public class OrderResource implements OrderService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
@@ -43,7 +43,7 @@ public class OrderResource implements OrderService {
 
     OrderRepresentation representation = (OrderRepresentation) context.getBean("orderRepresentation");
 
-    Set<OrderRequest> request = requests.getRequests(); // added this // changed param from Set<OrderReq>
+    Set<OrderRequest> request = requests.getRequests();
     if (!this.isValid(request)) {
       System.out.println("Bad order request. Cannot create order.");
       return Response.status(Status.BAD_REQUEST).entity("Invalid order request.").build();
@@ -52,11 +52,6 @@ public class OrderResource implements OrderService {
     for (OrderRequest singleRequest : request) {
       try {
         System.out.println("Creating order...");
-        // passing in zero for orderId first to guarantee new order creation, otherwise
-        // it
-        // updates an existing order
-        // each subsequent order after the first should have currentOrderId set to a
-        // non-zero value
         System.out.println("request == null?:");
         System.out.println(request == null);
         int orderId = facade.buyProduct(singleRequest.getCustomer(), singleRequest.getProductName(),

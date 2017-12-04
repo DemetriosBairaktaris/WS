@@ -19,62 +19,34 @@ public class ProtocolLink {
   public ProtocolLink() {
   }
 
-  /**
-   * @return the uri
-   */
   public String getUri() {
     return uri;
   }
 
-  /**
-   * @param uri
-   *          the uri to set
-   */
   public void setUri(String uri) {
     this.uri = uri;
   }
 
-  /**
-   * @return the rel
-   */
   public String getRel() {
     return rel;
   }
 
-  /**
-   * @param rel
-   *          the rel to set
-   */
   public void setRel(String rel) {
     this.rel = rel;
   }
 
-  /**
-   * @return the contentType
-   */
   public String getContentType() {
     return contentType;
   }
 
-  /**
-   * @param contentType
-   *          the contentType to set
-   */
   public void setContentType(String contentType) {
     this.contentType = contentType;
   }
 
-  /**
-   * @return the action
-   */
   public String getAction() {
     return action;
   }
 
-  /**
-   * @param action
-   *          the action to set
-   */
   public void setAction(String action) {
     this.action = action;
   }

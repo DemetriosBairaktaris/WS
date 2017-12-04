@@ -24,11 +24,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.luc.comp433.service.representation.OrderRepresentation;
 import edu.luc.comp433.service.representation.PartnerRepresentation;
 import edu.luc.comp433.service.representation.PartnerRequest;
-import edu.luc.comp433.service.representation.ProtocolLink;
 import edu.luc.comp433.service.workflow.PartnerActivity;
 import edu.luc.comp433.service.workflow.ConcretePartnerActivity;
 
-@Path("/partners/")
+@Path("/partners")
 public class PartnerResource implements PartnerService {
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
   private PartnerActivity activity = (ConcretePartnerActivity) context.getBean("partnerActivity");
@@ -71,36 +70,6 @@ public class PartnerResource implements PartnerService {
     try {
       activity.addPartner(userName, companyName, address, phone, password);
       representation = activity.getPartnerByUserName(userName);
-      ProtocolLink link = (ProtocolLink) context.getBean("link");
-      ProtocolLink link1 = (ProtocolLink) context.getBean("link");
-      ProtocolLink link2 = (ProtocolLink) context.getBean("link");
-      ProtocolLink link3 = (ProtocolLink) context.getBean("link");
-      ProtocolLink link4 = (ProtocolLink) context.getBean("link");
-      link.setAction("DELETE");
-      link.setContentType("none");
-      link.setRel("Delete account");
-      link.setUri("/partners/" + userName);
-      link1.setAction("PUT");
-      link1.setContentType("none");
-      link1.setRel("Update name.");
-      link1.setUri("/partners/" + userName + "/{newName}");
-      link2.setAction("PUT");
-      link2.setContentType("none");
-      link2.setRel("Update address.");
-      link2.setUri("/partners/" + userName + "/{newAddress}");
-      link3.setAction("PUT");
-      link3.setContentType("none");
-      link3.setRel("Update phone.");
-      link3.setUri("/partners/" + userName + "/{newPhone}");
-      link4.setAction("POST");
-      link4.setContentType("application/luc.products+xml, application/luc.products+json");
-      link4.setRel("add products");
-      link4.setUri("/products");
-      representation.addLink(link);
-      representation.addLink(link1);
-      representation.addLink(link2);
-      representation.addLink(link3);
-      representation.addLink(link4);
       System.out.println("Partner " + userName + " added.");
     } catch (Exception e) {
       System.out.println("Creating partner threw an error.");

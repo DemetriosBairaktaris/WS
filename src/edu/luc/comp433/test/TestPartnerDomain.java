@@ -34,7 +34,7 @@ public class TestPartnerDomain {
   private String name;
   private String address;
   private String phone;
-  private String password ;
+  private String password;
 
   @Before
   public void setUp() throws Exception {
@@ -43,7 +43,7 @@ public class TestPartnerDomain {
     name = "TestPartner";
     address = "312 Test St";
     phone = "555-555-5555";
-    password = "root" ; 
+    password = "root";
   }
 
   @After
@@ -54,7 +54,7 @@ public class TestPartnerDomain {
     name = null;
     address = null;
     phone = null;
-    password = null ;
+    password = null;
   }
 
   @Test

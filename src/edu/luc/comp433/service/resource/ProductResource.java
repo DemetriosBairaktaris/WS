@@ -26,7 +26,7 @@ import edu.luc.comp433.service.representation.ReviewRequest;
 import edu.luc.comp433.service.workflow.SalesActivity;
 import edu.luc.comp433.service.workflow.ConcreteSalesActivity;
 
-@Path("/products/")
+@Path("/products")
 public class ProductResource implements ProductService {
 
   private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
@@ -126,7 +126,7 @@ public class ProductResource implements ProductService {
 
   @POST
   @Path("/{productName}/reviews")
-  @Consumes({ "application/luc.products+xml", "application/luc.products+json" })
+  @Consumes({ "application/luc.products+json", "application/luc.products+xml" })
   @Override
   public Response insertReview(ReviewRequest request, @PathParam("productName") String productName,
       @QueryParam("key") int api) {
