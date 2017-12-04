@@ -50,6 +50,7 @@ public class ProductResource implements ProductService {
 
   @GET
   @Path("/{productName}/reviews")
+  @Produces({"application/luc.reviews+json","application/luc.reviews+xml"})
   @Override
   public Set<ReviewRepresentation> getProductReviews(@PathParam("productName") String productName,
       @QueryParam("key") int api) {
