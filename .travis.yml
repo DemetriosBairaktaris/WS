@@ -5,6 +5,3 @@ jvm:
 
 sudo: false
 
-script:
-    - mvn clean verify
-
