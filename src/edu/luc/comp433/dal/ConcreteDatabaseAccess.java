@@ -33,10 +33,11 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
 
   public ConcreteDatabaseAccess() throws SQLException {
     // Heroku Production Database Credentials
-    DB_URL = "jdbc:postgresql://ec2-54-163-233-201.compute-1.amazonaws.com:5432/dej2ecm8hpoisr"
+    DB_URL = "jdbc:postgresql://ec2-50-17-234-234.compute-1.amazonaws.com:5432/d1dvnj11ctq6pa" 
         + "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
-    USER = "evtgoojkjfryzn";
-    PASS = "a8c878c4bf9212dcbfe7b1de5f7ff345be7be1a7d5e14bb7407a739ed4223d08";
+    
+    USER = "odljelozeombgo";
+    PASS = "f5d8ea16f2b706923ff1ec806840cedf04a663d8e642cacd2a42172b1aa42377";
     db = DriverManager.getConnection(DB_URL, USER, PASS);
     stmt = db.createStatement();
     context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");

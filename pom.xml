@@ -5,6 +5,7 @@
 	<artifactId>comp433project4</artifactId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>src/edu/luc/comp433/test</testSourceDirectory>		
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -31,7 +32,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>4.3.10.RELEASE</version>
-			<scope>runtime</scope>
+			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
