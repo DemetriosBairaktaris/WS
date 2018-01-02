@@ -33,7 +33,7 @@ public class TestCustomerDomain {
 
   @BeforeClass
   public static void setUpClass() {
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
   }
 
   @AfterClass

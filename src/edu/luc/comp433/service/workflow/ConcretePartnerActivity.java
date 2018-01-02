@@ -17,7 +17,7 @@ import edu.luc.comp433.service.representation.ProtocolLink;
 
 public class ConcretePartnerActivity implements PartnerActivity {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/app-context.xml");
   private PartnerManager partners;
 
   public ConcretePartnerActivity() {

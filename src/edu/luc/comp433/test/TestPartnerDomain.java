@@ -26,7 +26,7 @@ public class TestPartnerDomain {
 
   @BeforeClass
   public static void setUpClass() {
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
   }
 
   private PartnerManager manager;

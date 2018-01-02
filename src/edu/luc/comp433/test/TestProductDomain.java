@@ -30,7 +30,7 @@ public class TestProductDomain {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
   }
 
   @AfterClass

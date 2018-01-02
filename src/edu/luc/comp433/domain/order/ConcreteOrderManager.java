@@ -10,7 +10,7 @@ import edu.luc.comp433.domain.product.Product;
 
 public class ConcreteOrderManager implements OrderManager {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/app-context.xml");
   private DatabaseAccess database;
 
   @Override

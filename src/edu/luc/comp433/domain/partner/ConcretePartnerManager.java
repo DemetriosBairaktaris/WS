@@ -11,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ConcretePartnerManager implements PartnerManager {
 
-  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/app-context.xml");
   private DatabaseAccess database;
 
   public ConcretePartnerManager() {

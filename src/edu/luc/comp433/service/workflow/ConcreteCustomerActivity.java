@@ -16,7 +16,7 @@ import edu.luc.comp433.service.representation.CustomerRepresentation;
 public class ConcreteCustomerActivity implements CustomerActivity {
 
   private CustomerManager customers;
-  private ApplicationContext context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+  private ApplicationContext context = new ClassPathXmlApplicationContext("/app-context.xml");
 
   public ConcreteCustomerActivity() {
   }

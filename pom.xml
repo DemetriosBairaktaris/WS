@@ -4,6 +4,14 @@
 	<groupId>comp433project4</groupId>
 	<artifactId>comp433project4</artifactId>
 	<build>
+		<resources>
+			 <resource>
+	            <directory>src/WEB-INF/</directory>
+	            <includes>
+	                <include>**/*.xml</include>
+	            </includes>
+	       </resource>
+        </resources>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>src/edu/luc/comp433/test</testSourceDirectory>		
 		<plugins>

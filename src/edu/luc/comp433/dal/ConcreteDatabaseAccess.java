@@ -40,7 +40,7 @@ public class ConcreteDatabaseAccess implements DatabaseAccess {
     PASS = "f5d8ea16f2b706923ff1ec806840cedf04a663d8e642cacd2a42172b1aa42377";
     db = DriverManager.getConnection(DB_URL, USER, PASS);
     stmt = db.createStatement();
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
 
   }
 

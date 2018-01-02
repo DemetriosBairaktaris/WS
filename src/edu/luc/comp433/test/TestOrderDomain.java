@@ -36,7 +36,7 @@ public class TestOrderDomain {
 
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
   }
 
   @AfterClass
@@ -46,7 +46,7 @@ public class TestOrderDomain {
 
   @Before
   public void setUp() throws Exception {
-    context = new ClassPathXmlApplicationContext("/WEB-INF/app-context.xml");
+    context = new ClassPathXmlApplicationContext("/app-context.xml");
     orders = (OrderManager) context.getBean("orderManager");
     customerManager = (CustomerManager) context.getBean("customerManager");
     productManager = (ProductManager) context.getBean("productManager");
