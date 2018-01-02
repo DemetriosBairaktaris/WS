@@ -6,7 +6,7 @@
 
 	<!-- database access object -->
 	<bean id="database" class="edu.luc.comp433.dal.ConcreteDatabaseAccess"
-		scope="prototype" />
+		scope="singleton" />
 
 	<!-- Domain Classes -->
 
